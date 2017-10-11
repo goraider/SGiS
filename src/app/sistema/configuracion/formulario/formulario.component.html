@@ -1,0 +1,79 @@
+<formulario #ctrl URL="sisConfiguracion" titulo="Configuración / Sistema" [dato]="dato" ></formulario>
+<sistema-menu menutitulo="Sistema" menuactual="sistema"></sistema-menu>
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+        <sistema-menu-aside menuactual="Sistema"></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+            <!-- formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()" >
+                <section class="hero is-primary">
+                    <div class="hero-body">
+                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>                                        
+                    </div>
+                </section>
+                
+                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">                    
+
+                    
+                    <div class="tabs is-boxed">
+                        <ul>
+                            <li [ngClass]="{ 'is-active' : tab == 1}" >
+                                <a (click)="tab=1">
+                                    <span class="icon ">
+                                        <i class="fa fa-home"></i>
+                                    </span>
+                                    <span>General</span>
+                                </a>
+                            </li>
+
+                            <li [ngClass]="{ 'is-active' : tab == 2}" >
+                                <a (click)="tab=2">
+                                    <span class="icon ">
+                                        <i class="fa fa-building"></i>
+                                    </span>
+                                    <span>clues</span>
+                                </a>
+                            </li>
+
+                            <li [ngClass]="{ 'is-active' : tab == 3}" >
+                                <a (click)="tab=3">
+                                    <span class="icon ">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                    <span>Contacto</span>
+                                </a>
+                            </li>
+
+                            <li [ngClass]="{ 'is-active' : tab == 4}" >
+                                <a (click)="tab=4">
+                                    <span class="icon ">
+                                        <i class="fa fa-cog"></i>
+                                    </span>
+                                    <span>Configuración y ajustes</span>
+                                </a>
+                            </li>
+
+                            <li [ngClass]="{ 'is-active' : tab == 5}" >
+                                <a (click)="tab=5">
+                                    <span class="icon ">
+                                        <i class="fa fa-file"></i>
+                                    </span>
+                                    <span>Facturación</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="columns" >
+                        <div [ngClass]="{ 'is-hidden': tab != i2}" *ngFor="let padre of ctrl.catalogo; let i2 = index;">
+                            
+                        </div>                                                                        
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>

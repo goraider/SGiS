@@ -1,0 +1,30 @@
+.bg {
+    /* Full height */
+    height: 105%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+
+}
+.contenido{
+
+    width: 30%;
+    position: absolute;
+    top: 30% ;
+    left: 47%;
+    flex: 1 1 auto;
+    
+}
+@media only screen and (max-width: 700px) {
+    /* For mobile phones: */
+    [class*="contenido"] {
+        width: 60%;
+        top: 30% ;
+        left: 20%;
+        
+    }
+}
+

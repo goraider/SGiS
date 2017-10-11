@@ -1,0 +1,803 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="sisUsuario" titulo="Usuarios / Sistema" [dato]="dato"></formulario>
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda del modulo enviroment" -->
+        <sistema-menu-aside></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+            <!-- inicio formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+                <section class="hero is-primary">
+                    <div class="hero-body">
+
+                        <!-- Opciones  -->
+                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+                    </div>
+                </section>
+                <div class="is-fullwidth has-text-centered" *ngIf="!ctrl.datosCargados">
+                    <br>
+                    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span>                    &nbsp;<span>Cargando...</span></span>
+                </div>
+
+                <section class="section" style="padding: 2rem 1rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+
+                    <!-- cargar los catalogos que se requieran parametro 1 modelo donde se guarda el catalogo, parametro 2 ruta de la api -->
+                    <a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_derecha('d'); ctrl.iniciar_derecha('r'); ctrl.iniciar_izquierda('g'); ctrl.iniciar_izquierda('d'); ctrl.iniciar_izquierda('r'); ctrl.cargarCatalogo('paises', 'paises'); ctrl.cargarCatalogo('sis_usuarios_grupos', 'sisGrupo', 'initMover'); ctrl.cargarCatalogo('sis_usuarios_dashboards', 'sisDashboard', 'initMoverDashboard'); ctrl.cargarCatalogo('sis_usuarios_reportes', 'sisReporte', 'initMoverReporte'); ctrl.cargarCatalogo('tipos_medios', 'tipo-medio'); "></a>
+                    <div class="contenedor columns">
+                        <div class="column is-one-quarter menu-persona is-hidden-touch">
+                            <div>
+                                <figure class="image is-3by2">
+                                    <img *ngIf="!ctrl.subir[0]" [src]="ctrl.API_PATH+'/adjunto/usuario/'+ctrl.dato.get('foto').value" alt="Foto" />
+                                    <img *ngIf="ctrl.subir[0]" [src]="'data:image/jpg;base64,'+ctrl.dato.get('foto').value" alt="Foto" />
+                                </figure>
+                                <div align="center">
+                                    <strong>{{ctrl.dato.get('nombre').value}}</strong>
+                                    <small>{{ctrl.dato.get('email').value}}</small>
+                                </div>
+                                <hr>
+                                <nav class="panel" *ngIf="ctrl.dato.controls.sis_usuarios_contactos.controls.length > 0">
+                                    <p class="panel-heading">
+                                        Contactos
+                                    </p>
+                                    <div class="panel-block" *ngFor="let medio of ctrl.dato.controls.sis_usuarios_contactos.controls; let suc = index;">
+                                        <span class="panel-icon" *ngIf="ctrl.tipos_medios.length > 0">
+                                        <i [ngClass]="ctrl.tipos_medios[medio.value.tipos_medios_id - 1].icon"></i>
+                                    </span> {{ medio.value.valor }}
+                                    </div>
+                                </nav>
+
+                            </div>
+                        </div>
+                        <div class="column ">
+
+                            <div class="tabs is-boxed" style="margin-top: -10px;">
+
+                                <!-- se crea los tab se debe definir una variable llamada tab en el .ts con un valor por default ejemplo tab=1 -->
+                                <ul>
+                                    <li [ngClass]="{ 'is-active' : tab == 1}">
+                                        <a (click)="tab=1">
+                                        <span class="icon"><i class="fa fa-file"></i></span>
+                                        <span class="is-hidden-touch">General</span>
+                                    </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 2}">
+                                        <a (click)="tab=2">
+                                        <span class="icon"><i class="fa fa-lock"></i></span>
+                                        <span class="is-hidden-touch">Seguridad</span>
+                                    </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 3}">
+                                        <a (click)="tab=3">
+                                        <span class="icon"><i class="fa fa-book"></i></span>
+                                        <span class="is-hidden-touch">Medios de contacto</span>
+                                    </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 4}">
+                                        <a (click)="tab=4">
+                                        <span class="icon"><i class="fa fa-credit-card"></i></span>
+                                        <span class="is-hidden-touch">RFC</span>
+                                    </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 5}">
+                                        <a (click)="tab=5">
+                                        <span class="icon"><i class="fa fa-users"></i></span>
+                                        <span class="is-hidden-touch">Grupos</span>
+                                    </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 6}">
+                                        <a (click)="tab=6">
+                                        <span class="icon"><i class="fa fa-building"></i></span>
+                                        <span  class="is-hidden-touch">clues / Sucursales</span>
+                                    </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 7}">
+                                        <a (click)="tab=7">
+                                        <span class="icon"><i class="fa fa-dashboard"></i></span>
+                                        <span class="is-hidden-touch">Dashboard</span>
+                                    </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 8}">
+                                        <a (click)="tab=8">
+                                        <span class="icon"><i class="fa fa-list-alt"></i></span>
+                                        <span class="is-hidden-touch">Reportes</span>
+                                    </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <!--general -->
+                            <div [ngClass]="{ 'is-hidden': tab != 1}">
+
+                                <div class="field">
+                                    <label class="label">Nombre:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')}"
+                                            placeholder="nombre" formControlName="nombre">
+                                        <span class="icon" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">
+                                        <i class="fa fa-warning"></i>
+                                    </span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">Este campo es requerido.</span>
+                                    </p>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Correo eléctronico:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')}"
+                                            placeholder="Correo eléctronico" formControlName="email">
+                                        <span class="icon" *ngIf="ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')">
+                                        <i class="fa fa-warning"></i>
+                                    </span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')">Este campo es requerido.</span>
+                                    </p>
+                                </div>
+
+                                <div class="columns">
+                                    <div class="column is-4">
+                                        <label class="label">País:</label>
+                                        <select2 name="paises_id" [options]="ctrl.optionSelect" [value]="paises_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.paises_id, 'estados', 'estados'); autovalor_pais();"
+                                            [data]="ctrl.paises"></select2>
+
+                                    </div>
+
+                                    <div class="column is-4">
+                                        <label class="label">Estado:</label>
+                                        <select2 name="estados_id" [options]="ctrl.optionSelect" [value]="estados_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.estados_id, 'municipios', 'municipios'); autovalor_estado()"
+                                            [data]="ctrl.estados"></select2>
+                                    </div>
+
+                                    <div class="column is-4">
+                                        <label class="label">Municipio:</label>
+                                        <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id); autovalor_municipio();"
+                                            [data]="ctrl.municipios"></select2>
+                                    </div>
+                                </div>
+
+                                <div class="columns">
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label class="label">Direccion:</label>
+                                            <p class="control is-expanded  has-icon has-icon-right">
+                                                <input class="input" type="text" placeholder="direccion" formControlName="direccion">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="column is-3">
+                                        <div class="field">
+                                            <label class="label">Num. Exterior:</label>
+                                            <p class="control is-expanded  has-icon has-icon-right">
+                                                <input class="input" type="text" placeholder="Num. Exterior" formControlName="numero_exterior">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="column is-3">
+                                        <div class="field">
+                                            <label class="label">Num. Interior:</label>
+                                            <p class="control is-expanded  has-icon has-icon-right">
+                                                <input class="input" type="text" placeholder="Num. Interior" formControlName="numero_interior">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="columns">
+                                    <div class="column is-6">
+                                        <div class="field">
+                                            <label class="label">Col. / Fracc.:</label>
+                                            <p class="control is-expanded  has-icon has-icon-right">
+                                                <input class="input" type="text" placeholder="Col. / Fracc." formControlName="colonia">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="column is-3">
+                                        <div class="field">
+                                            <label class="label">Codigo Postal:</label>
+                                            <p class="control is-expanded  has-icon has-icon-right">
+                                                <input class="input" type="text" placeholder="CP" formControlName="codigo_postal">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="column is-3">
+                                        <br><br>
+                                        <div class="field">
+                                            <div class="b-checkbox is-info">
+                                                <input id="spam" class="styled" type="checkbox" formControlName="spam">
+                                                <label for="spam">
+                                                Acepta recibir información por correo?
+                                            </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="columns">
+
+                                    <div class="column is-4">
+                                        <div class="field">
+                                            <label class="label">Ultimo acceso:</label>
+                                            <p class="control is-expanded  has-icon has-icon-right">
+                                                <input class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('last_login').hasError('required') && ctrl.dato.get('last_login').hasError('required')}"
+                                                    placeholder="Ultimo acceso" formControlName="last_login">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="column is-4">
+                                        <br><br>
+                                        <div class="field">
+                                            <div class="b-checkbox is-info">
+                                                <input id="activo" class="styled" type="checkbox" formControlName="activo">
+                                                <label for="activo">
+                                                Esta activo?
+                                            </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="column is-4" *ngIf="activar_super">
+                                        <br><br>
+                                        <div class="field">
+                                            <div class="b-checkbox is-info">
+                                                <input id="es_super" class="styled" type="checkbox" formControlName="es_super">
+                                                <label for="es_super">
+                                                Es super?
+                                            </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">Avatar:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" placeholder="Foto" formControlName="avatar">
+                                    </p>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">foto:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right" *ngIf="ctrl.dato.get('foto').value == ''">
+                                        <input type="file" (change)="ctrl.seleccionarImagenBase64($event, ctrl.dato.controls.foto)" accept="image/x-png,image/gif,image/jpeg,image/jpg">
+                                        <input foto type="hidden" formControlName="foto">
+                                    </p>
+
+                                    <button type="button" class="button is-danger" (click)="ctrl.borrarImagen($event, ctrl.dato.controls.foto, 'usuario')" *ngIf="ctrl.dato.get('foto').value != ''">
+                                    
+                                        <span class="icon">
+                                            <i class="fa fa-trash"></i>
+                                        </span>
+                                        &nbsp;  Eliminar la foto
+                                    
+                                </button>
+
+                                </div>
+
+                            </div>
+
+                            <!--seguridad -->
+                            <div [ngClass]="{ 'is-hidden': tab != 2}">
+
+                                <br>
+                                <div class="field">
+                                    <div class="b-checkbox is-info">
+                                        <input id="cambiarPassword" class="styled" type="checkbox" formControlName="cambiarPassword" (click)="toggleCambiarPassword()">
+                                        <label for="cambiarPassword">
+                                        Cambiar contraseña
+                                    </label>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="field">
+                                    <label class="label">Usuario:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" placeholder="Usuario" formControlName="username">
+                                    </p>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Contraseña:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" placeholder="Contraseña" formControlName="password">
+                                    </p>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Repetir Contraseña:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" placeholder="Repetir Contraseña" formControlName="confirmarPassword">
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!--contacto -->
+                            <div [ngClass]="{ 'is-hidden': tab != 3}">
+
+                                <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.dato.get('sis_usuarios_contactos').length > 0">
+                                    <thead>
+                                        <tr>
+                                            <th hide-sm>ID</th>
+                                            <th>Medio de contacto</th>
+                                            <th>Valor</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="sis_usuarios_contactos">
+                                        <tr *ngFor="let medio of ctrl.dato.controls.sis_usuarios_contactos.controls; let suc=index" [formGroupName]="suc">
+                                            <td>{{ suc + 1 }}</td>
+                                            <td>
+                                                <div class="select">
+                                                    <select class="select" name="tipos_medios_id" formControlName="tipos_medios_id">
+                                                    <option *ngFor="let val of ctrl.tipos_medios" value="{{val.id}}" >{{ val.nombre }}</option>
+                                                </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="control has-icon">
+                                                    <input class="input" formControlName="valor" placeholder="Valor" [ngClass]="{'is-danger': !ctrl.dato.controls.sis_usuarios_contactos.controls[suc].controls.valor.valid}"
+                                                        type="text">
+                                                    <span class="icon">
+                                                    <i [ngClass]="ctrl.tipos_medios[ctrl.dato.controls.sis_usuarios_contactos.controls[suc].controls.tipos_medios_id.value - 1].icon"></i>
+                                                </span>
+                                                </p>
+
+                                            </td>
+                                            <td align="right"><button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.sis_usuarios_contactos, suc)"><i class="fa fa-trash-o"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: -20px;">
+                                    <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.sis_usuarios_contactos, form_sis_usuarios_contactos)"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+
+                            <!--rfc -->
+                            <div [ngClass]="{ 'is-hidden': tab != 4}">
+
+                                <span formArrayName="sis_usuarios_rfcs" *ngIf="ctrl.dato.get('sis_usuarios_rfcs').length > 0">
+                                <nav class="panel" *ngFor="let medio of ctrl.dato.controls.sis_usuarios_rfcs.controls; let i=index" [formGroupName]="i">
+                                    <p class="panel-heading">
+                                        RFC # {{ i + 1 }}
+
+                                        <button style="margin-top: -5px; float:right" type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.sis_usuarios_rfcs, i)"><i class="fa fa-trash-o"></i></button>
+                                    </p>
+                                    <div class="panel-block">
+                                        <div style="width:100%">
+                                            <div class="columns">
+                                                <div class="column is-6">
+                                                    <div class="field">
+                                                        <label class="label">Razón Social:</label>
+                                                        <p class="control is-expanded  has-icon has-icon-right">
+                                                            <input class="input" type="text" placeholder="Razón Social" formControlName="razon_social">
+                                                            
+                                                            <span class="help is-danger"  *ngIf="!ctrl.dato.controls.sis_usuarios_rfcs.controls[i].controls.razon_social.valid">Este campo es requerido.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Rfc:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Rfc" formControlName="rfc">
+
+                                    <span class="help is-danger" *ngIf="!ctrl.dato.controls.sis_usuarios_rfcs.controls[i].controls.rfc.valid">Este campo es requerido.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <div class="field">
+                                    <label class="label">Correo eléctronico:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" placeholder="Correo eléctronico" formControlName="email">
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="column is-6">
+                            <br><br>
+                            <div class="field">
+                                <div class="b-checkbox is-info is-circular">
+                                    <input id="tipo_persona_f" name="tipo_persona" value="Fisica" class="styled" type="radio" formControlName="tipo_persona">
+                                    <label for="tipo_persona_f">
+                                                                Fisica
+                                                            </label>
+
+                                    <input id="tipo_persona_m" name="tipo_persona" value="Moral" class="styled" type="radio" formControlName="tipo_persona">
+                                    <label for="tipo_persona_m">
+                                                                Moral
+                                                            </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-4">
+                            <label class="label">País {{paises_id}}:</label>
+                            <select2 name="pais" [options]="ctrl.optionSelect" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.paises_id, 'estados', 'estados')"
+                                [data]="ctrl.paises"></select2>
+
+                        </div>
+
+                        <div class="column is-4">
+                            <label class="label">Estado:</label>
+                            <select2 name="estados" [options]="ctrl.optionSelect" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.estados_id, 'municipios', 'municipios')"
+                                [data]="ctrl.estados"></select2>
+                        </div>
+
+                        <div class="column is-4">
+                            <label class="label">Municipio:</label>
+                            <select2 name="municipios" [options]="ctrl.optionSelect" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id)"
+                                [data]="ctrl.municipios"></select2>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Direccion:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="calle" formControlName="calle">
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="column is-3">
+                            <div class="field">
+                                <label class="label">Num. Exterior:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Num. Exterior" formControlName="numero_exterior">
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="column is-3">
+                            <div class="field">
+                                <label class="label">Num. Interior:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Num. Interior" formControlName="numero_interior">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column is-4">
+                            <div class="field">
+                                <label class="label">Localidad:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Localidad" formControlName="localidad">
+                                </p>
+                            </div>
+                        </div>
+                        <div class="column is-4">
+                            <div class="field">
+                                <label class="label">Col. / Fracc.:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Col. / Fracc." formControlName="colonia">
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="column is-4">
+                            <div class="field">
+                                <label class="label">Codigo Postal:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="CP" formControlName="codigo_postal">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+    </nav>
+    </span>
+
+    <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: 20px;">
+        <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.sis_usuarios_rfcs, form_sis_usuarios_rfcs)"><i class="fa fa-plus"></i></button>
+    </div>
+</div>
+
+<!--grupos -->
+<div [ngClass]="{ 'is-hidden': tab != 5}">
+    <div class="box" *ngIf="ctrl.izquierda['g']">
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                    <div class="column is-5" style="float:left">
+                        <nav class="panel">
+                            <div class="panel-heading">
+                                <div class="field">
+                                    <div class="b-checkbox is-info">
+                                        <input id="sis_usuarios_grupos" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.izquierda" (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['g'], ctrl.sis_usuarios_grupos)">
+                                        <label for="sis_usuarios_grupos">
+                                                                Grupos disponibles
+                                                            </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="panel-block" *ngFor="let val of ctrl.sis_usuarios_grupos; let i=index">          
+                                                        <div class="field">
+                                                            <div class="b-checkbox">
+                                                                <input id="sis_usuarios_grupos{{val.id}}" class="styled" type="checkbox" 
+                                                                [checked]="ctrl.izquierda['g'].indexOf(val) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.izquierda['g'], ctrl.sis_usuarios_grupos, val)">
+                                                                <label for="sis_usuarios_grupos{{val.id}}">
+                                                                    {{val.nombre}} 
+                                                                </label>
+                    </div>
+                </div>
+
+                </label>
+                </nav>
+            </div>
+            <div class="column is-2" style="float:left">
+
+                <p class="control">
+                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}"
+                        [disabled]="ctrl.izquierda['g'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.sis_usuarios_grupos, ctrl.sis_usuarios_grupos, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
+                </p>
+                <p class="control">
+                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}"
+                        [disabled]="ctrl.derecha['g'].length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.sis_usuarios_grupos, ctrl.dato.controls.sis_usuarios_grupos.controls, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
+                </p>
+
+            </div>
+            <div class="column is-5" style="float:left">
+                <nav class="panel" formGroupName="sis_usuarios_grupos">
+                    <div class="panel-heading">
+                        <div class="field">
+                            <div class="b-checkbox is-info">
+                                <input id="Missis_usuarios_grupos" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.derecha" (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['g'], ctrl.dato.controls.sis_usuarios_grupos.controls)">
+                                <label for="Missis_usuarios_grupos">
+                                                                        Mis grupos
+                                                                    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="panel-block" *ngFor="let item of ctrl.dato.controls.sis_usuarios_grupos.controls; let i2=index">          
+                                                        <div class="field" [formGroupName]="i2">
+                                                            <div class="b-checkbox">
+                                                                <input id="Missis_usuarios_grupos{{item.value.id}}" class="styled" type="checkbox"
+                                                                [checked]="ctrl.derecha['g'].indexOf(item) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.derecha['g'], ctrl.dato.controls.sis_usuarios_grupos.controls, item)">
+                                                                <label for="Missis_usuarios_grupos{{item.value.id}}">
+                                                                    {{item.value.nombre}} 
+                                                                </label>
+            </div>
+    </div>
+    </label>
+    </nav>
+</div>
+</div>
+</div>
+</article>
+</div>
+
+<!-- ejecuta el movimiento de los datos que ya existen en el lado derecho, parametro 1 formulario reactivo que se guarda en la BD parametro 2 el catalogo en el evento ngAfterViewInit en el .ts  -->
+<a (click)="ctrl.initMover(ctrl.dato.controls.sis_usuarios_grupos.controls, ctrl.sis_usuarios_grupos); " id="initMover"></a>
+</div>
+
+<!--clues -->
+<div [ngClass]="{ 'is-hidden': tab != 6}">
+
+
+    <ul class="menu-list" style="font-size: 1.3em;">
+        <li *ngFor="let val of usuario.clues; let i = index;" style="margin:2px;">
+            <a class="is-active" (click)="clues_sel[val.id] = !clues_sel[val.id]; ctrl.addInFormArray(val.id, ctrl.dato.controls.sis_usuarios_clues, 'ue', true); limpiar_sucursales(val, ctrl.id * 1)">
+                <div class="b-checkbox is-info ">
+                    <input id="usuario_clues{{val.id}}" class="styled" type="checkbox" [checked]="clues_sel[val.id]">
+                    <label for="usuario_clues{{val.id}}">
+                                                {{ val.nombre }} 
+                                            </label>
+                </div>
+            </a>
+            <ul *ngIf="clues_sel[val.id]">
+                <li *ngFor="let item of val.sucursales; let i2 = index;">
+                    <a (click)="sucursal_sel[item.id] = !sucursal_sel[item.id]; ctrl.addInFormArray(item.id, ctrl.dato.controls.sis_usuarios_sucursales, 'us', true)">
+                        <div class="b-checkbox is-info ">
+                            <input id="usuario_sucursal{{item.id}}" class="styled" type="checkbox" [checked]="sucursal_sel[item.id]">
+                            <label for="usuario_sucursal{{item.id}}">
+                                                        {{item.nombre}}
+                                                    </label>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<!--dashboard -->
+<div [ngClass]="{ 'is-hidden': tab != 7}">
+    <div class="box" *ngIf="ctrl.izquierda['d']">
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                    <div class="column is-5" style="float:left">
+                        <nav class="panel">
+                            <div class="panel-heading">
+                                <div class="field">
+                                    <div class="b-checkbox is-info">
+                                        <input id="sis_usuarios_dashboards" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.izquierda_d" (click)="ctrl.seleccionarTodosMover('izquierda_d', ctrl.izquierda['d'], ctrl.sis_usuarios_dashboards)">
+                                        <label for="sis_usuarios_dashboards">
+                                                                Dashboards disponibles
+                                                            </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="panel-block" *ngFor="let val of ctrl.sis_usuarios_dashboards; let i=index">          
+                                                        <div class="field">
+                                                            <div class="b-checkbox">
+                                                                <input id="dash{{val.id}}" class="styled" type="checkbox" 
+                                                                [checked]="ctrl.izquierda['d'].indexOf(val) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.izquierda['d'], ctrl.sis_usuarios_dashboards, val)">
+                                                                <label for="dash{{val.id}}">
+                                                                    {{val.nombre}} 
+                                                                </label>
+                    </div>
+                </div>
+
+                </label>
+                </nav>
+            </div>
+            <div class="column is-2" style="float:left">
+
+                <p class="control">
+                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['d'].length > 0}"
+                        [disabled]="ctrl.izquierda['d'].length <= 0" (click)="ctrl.iniciarMover('izquierda_d', ctrl.izquierda['d'], ctrl.dato.controls.sis_usuarios_dashboards, ctrl.sis_usuarios_dashboards, true); ctrl.iniciar_izquierda('d');"><i class="fa fa-arrow-right"></i></button>
+                </p>
+                <p class="control">
+                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['d'].length > 0}"
+                        [disabled]="ctrl.derecha['d'].length <= 0" (click)="ctrl.iniciarMover('derecha_d',  ctrl.derecha['d'], ctrl.sis_usuarios_dashboards, ctrl.dato.controls.sis_usuarios_dashboards.controls, false); ctrl.iniciar_derecha('d');"><i class="fa fa-arrow-left"></i></button>
+                </p>
+
+            </div>
+            <div class="column is-5" style="float:left">
+                <nav class="panel" formGroupName="sis_usuarios_dashboards">
+                    <div class="panel-heading">
+                        <div class="field">
+                            <div class="b-checkbox is-info">
+                                <input id="Missis_usuarios_dashboards" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.derecha_d" (click)="ctrl.seleccionarTodosMover('derecha_d',  ctrl.derecha['d'], ctrl.dato.controls.sis_usuarios_dashboards.controls)">
+                                <label for="Missis_usuarios_dashboards">
+                                                                        Mis dashboards
+                                                                    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="panel-block" *ngFor="let item of ctrl.dato.controls.sis_usuarios_dashboards.controls; let i2=index">          
+                                                        <div class="field" [formGroupName]="i2">
+                                                            <div class="b-checkbox">
+                                                                <input id="mdash{{item.value.id}}" class="styled" type="checkbox"
+                                                                [checked]="ctrl.derecha['d'].indexOf(item) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.derecha['d'], ctrl.dato.controls.sis_usuarios_dashboards.controls, item)">
+                                                                <label for="mdash{{item.value.id}}">
+                                                                    {{item.value.nombre}} 
+                                                                </label>
+            </div>
+    </div>
+    </label>
+    </nav>
+</div>
+</div>
+</div>
+</article>
+</div>
+
+<a (click)="ctrl.initMover(ctrl.dato.controls.sis_usuarios_dashboards.controls, ctrl.sis_usuarios_dashboards); " id="initMoverDashboard"></a>
+</div>
+
+<!--reportes -->
+<div [ngClass]="{ 'is-hidden': tab != 8}">
+    <div class="box" *ngIf="ctrl.izquierda['r']">
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                    <div class="column is-5" style="float:left">
+                        <nav class="panel">
+                            <div class="panel-heading">
+                                <div class="field">
+                                    <div class="b-checkbox is-info">
+                                        <input id="sis_usuarios_reportes" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.izquierda_r" (click)="ctrl.seleccionarTodosMover('izquierda_r', ctrl.izquierda['r'], ctrl.sis_usuarios_reportes)">
+                                        <label for="sis_usuarios_reportes">
+                                                                Reportes disponibles
+                                                            </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <label class="panel-block" *ngFor="let val of ctrl.sis_usuarios_reportes; let i=index">          
+                                                        <div class="field">
+                                                            <div class="b-checkbox">
+                                                                <input id="rep{{val.id}}" class="styled" type="checkbox" 
+                                                                [checked]="ctrl.izquierda['r'].indexOf(val) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.izquierda['r'], ctrl.sis_usuarios_reportes, val)">
+                                                                <label for="rep{{val.id}}">
+                                                                    {{val.nombre}} 
+                                                                </label>
+                    </div>
+                </div>
+
+                </label>
+                </nav>
+            </div>
+            <div class="column is-2" style="float:left">
+
+                <p class="control">
+                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['r'].length > 0}"
+                        [disabled]="ctrl.izquierda['r'].length <= 0" (click)="ctrl.iniciarMover('izquierda_r', ctrl.izquierda['r'], ctrl.dato.controls.sis_usuarios_reportes, ctrl.sis_usuarios_reportes, true); ctrl.iniciar_izquierda('r');"><i class="fa fa-arrow-right"></i></button>
+                </p>
+                <p class="control">
+                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['r'].length > 0}"
+                        [disabled]="ctrl.derecha['r'].length <= 0" (click)="ctrl.iniciarMover('derecha_r', ctrl.derecha['r'], ctrl.sis_usuarios_reportes, ctrl.dato.controls.sis_usuarios_reportes.controls, false); ctrl.iniciar_derecha('r');"><i class="fa fa-arrow-left"></i></button>
+                </p>
+
+            </div>
+            <div class="column is-5" style="float:left">
+                <nav class="panel" formGroupName="sis_usuarios_reportes">
+                    <div class="panel-heading">
+                        <div class="field">
+                            <div class="b-checkbox is-info">
+                                <input id="Missis_usuarios_reportes" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.derecha_r" (click)="ctrl.seleccionarTodosMover('derecha_r', ctrl.derecha['r'], ctrl.dato.controls.sis_usuarios_reportes.controls)">
+                                <label for="Missis_usuarios_reportes">
+                                                                        Mis reportes
+                                                                    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="panel-block" *ngFor="let item of ctrl.dato.controls.sis_usuarios_reportes.controls; let i2=index">          
+                                                        <div class="field" [formGroupName]="i2">
+                                                            <div class="b-checkbox">
+                                                                <input id="mrep{{item.value.id}}" class="styled" type="checkbox"
+                                                                [checked]="ctrl.derecha['r'].indexOf(item) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.derecha['r'], ctrl.dato.controls.sis_usuarios_reportes.controls, item)">
+                                                                <label for="mrep{{item.value.id}}">
+                                                                    {{item.value.nombre}} 
+                                                                </label>
+            </div>
+    </div>
+    </label>
+    </nav>
+</div>
+</div>
+</div>
+</article>
+</div>
+
+<a (click)="ctrl.initMover(ctrl.dato.controls.sis_usuarios_reportes.controls, ctrl.sis_usuarios_reportes); " id="initMoverReporte"></a>
+</div>
+
+</div>
+</div>
+
+<!-- fin formulario -->
+</section>
+
+
+</form>
+</div>
+</div>
+</div>

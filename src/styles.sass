@@ -1,0 +1,36 @@
+// 1. Import the initial variables
+
+@import "~bulma/sass/utilities/_all.sass"
+
+// 2. Set your own initial variables
+
+$turquoise: #AA00FF
+$blue: #00B0FF
+$green: #689F38
+$yellow: #FFC107
+$red: #D84315
+$grey-darker: #303F9F
+$grey-dark: #757575
+$primary: #3F51B5
+$white-ter: #ECEFF1
+$accent-color: #FF4081
+$family-serif: arial
+
+// 3. Set the derived variables
+
+$primary: $primary
+$info: $blue
+$success: $green
+$warning: $yellow
+$danger: $red
+$dark: $grey-darker
+$text: $grey-dark
+$background: $white-ter
+$link: $primary
+
+$family-primary: $family-serif
+$accent-invert: findColorInvert($accent-color)
+
+// 4. Import the rest of Bulma
+$colors: (accent: ($accent-color, $accent-invert), dark: ($dark, $dark-invert), primary: ($primary, $primary-invert), info: ($info, $info-invert), success: ($success, $success-invert), warning: ($warning, $warning-invert), danger: ($danger, $danger-invert))
+@import "~bulma"

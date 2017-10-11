@@ -1,0 +1,637 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="articulos" titulo="Artículos / Catalogo" [dato]="dato"></formulario>
+
+<!-- Menu principal  menutitulo="titulo del modulo en el que estamos con el nombre como se encuentra en enviroment" menuactual="nombre del hub donde estamos como se especifico en el routing"-->
+<sistema-menu menutitulo="Catalogo" menuactual="catalago"></sistema-menu>
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+    
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda menutitulo="titulo del modulo enviroment" -->
+        <sistema-menu-aside menuactual="Catalogo"></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+             <!-- inicio formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+            <section class="hero is-primary">
+                <div class="hero-body">
+
+                    <!-- Opciones  -->
+                    <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>                                        
+                </div>
+            </section>
+            <div class="is-fullwidth has-text-centered" *ngIf="!ctrl.datosCargados">
+                <br>
+                <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+            </div>
+            
+            <section class="section" style="padding: 2rem 1rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">               
+                
+                <!-- cargar los catalogos que se requieran parametro 1 modelo donde se guarda el catalogo, parametro 2 ruta de la api -->
+                <a id="catalogos" (click)="ctrl.iniciar_derecha('i'); ctrl.iniciar_izquierda('i'); ctrl.cargarCatalogo('categorias', 'categoria'); ctrl.cargarCatalogo('presentaciones', 'presentacion'); ctrl.cargarCatalogo('unidades_medidas', 'unidad-medida'); ctrl.cargarCatalogo('impuestos', 'impuesto'); "></a>
+                <div class="contenedor columns ">
+
+                    <div class="column">
+
+                        <div class="tabs is-boxed" style="margin-top: -10px;">
+
+                            <!-- se crea los tab se debe definir una variable llamada tab en el .ts con un valor por default ejemplo tab=1 -->
+                            <ul>
+                                <li [ngClass]="{ 'is-active' : tab == 1}">
+                                    <a (click)="tab=1">
+                                        <span class="icon is-small"><i class="fa fa-file"></i></span>
+                                        <span>General</span>
+                                    </a>
+                                </li>
+
+                                <li [ngClass]="{ 'is-active' : tab == 6}">
+                                    <a (click)="tab=6">
+                                        <span class="icon is-small"><i class="fa fa-dollar"></i></span>
+                                        <span>Precios</span>
+                                    </a>
+                                </li>
+
+                                <li [ngClass]="{ 'is-active' : tab == 2}">
+                                    <a (click)="tab=2">
+                                        <span class="icon is-small"><i class="fa fa-percent"></i></span>
+                                        <span>Descuentos</span>
+                                    </a>
+                                </li>
+
+                                <li [ngClass]="{ 'is-active' : tab == 3}">
+                                    <a (click)="tab=3">
+                                        <span class="icon is-small"><i class="fa fa-product-hunt"></i></span>
+                                        <span>Promociones</span>
+                                    </a>
+                                </li>
+
+                                <li [ngClass]="{ 'is-active' : tab == 4}">
+                                    <a (click)="tab=4">
+                                        <span class="icon is-small"><i class="fa fa-tags"></i></span>
+                                        <span>Cupones</span>
+                                    </a>
+                                </li>
+
+                                <li [ngClass]="{ 'is-active' : tab == 7}">
+                                    <a (click)="tab=7">
+                                        <span class="icon is-small"><i class="fa fa-gavel"></i></span>
+                                        <span>Impuestos</span>
+                                    </a>
+                                </li>
+                                
+                                <li [ngClass]="{ 'is-active' : tab == 5}">
+                                    <a (click)="tab=5">
+                                        <span class="icon is-small"><i class="fa fa-file-picture-o"></i></span>
+                                        <span>Imágenes</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 1}">  <!-- GENERAL -->
+
+                            <div class="columns">
+                                <div class="column is-3">
+                                    <label class="label">Clave:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clave').hasError('required') && ctrl.dato.get('clave').hasError('required')}"
+                                            placeholder="Clave" formControlName="clave">
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('clave').hasError('required') && ctrl.dato.get('clave').hasError('required')">
+                                            <i class="fa fa-warning"></i>
+                                        </span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('clave').hasError('required') && ctrl.dato.get('clave').hasError('required')">Este campo es requerido.</span>
+                                    </p>
+                                </div>
+                                <div class="column is-9">
+                                    <label class="label">Nombre:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')}"
+                                            placeholder="nombre" formControlName="nombre">
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">
+                                            <i class="fa fa-warning"></i>
+                                        </span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">Este campo es requerido.</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column is-12">
+                                    <div class="field">
+                                        <label class="label">Descripción:</label>
+                                        <div class="control">
+                                            <textarea class="textarea" maxlength="255"  rows="4" placeholder="Descripción" formControlName="descripcion">
+                                            </textarea>                                    
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column is-4">
+                                    <label class="label">Categoría:</label>
+                                    <div class="select">
+                                        <select class="select" name="categorias_id" formControlName="categorias_id">
+                                            <option *ngFor="let val of ctrl.categorias" value="{{val.id}}" >{{ val.nombre }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="column is-4">
+                                    <label class="label">Presentación:</label>
+                                    <div class="select">
+                                        <select class="select" name="presentaciones_id" formControlName="presentaciones_id">
+                                            <option *ngFor="let val of ctrl.presentaciones" value="{{val.id}}" >{{ val.nombre }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="column is-4">                                    
+                                    <label class="label">Unidad de medida:</label>
+                                    <div class="select">
+                                        <select class="select" name="unidades_medidas_id" formControlName="unidades_medidas_id">
+                                            <option *ngFor="let val of ctrl.unidades_medidas" value="{{val.id}}" >{{ val.nombre }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="columns" >
+                                <div class="column is-2" formGroupName="articulos_maximos_minimos">
+                                    <label class="label">Stock minimo:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="number" min="1" placeholder="Stock minimo" formControlName="minimo" 
+                                        [ngClass]="{'is-danger': ctrl.dato.get('articulos_maximos_minimos').get('minimo').hasError('required') }">
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('articulos_maximos_minimos').get('minimo').hasError('required') ">
+                                            <i class="fa fa-warning"></i>
+                                        </span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('articulos_maximos_minimos').get('minimo').hasError('required') ">Este campo es requerido.</span>                                        
+                                    </p>
+                                </div>
+                                <div class="column is-2" formGroupName="articulos_maximos_minimos">
+                                    <label class="label">Stock maximo:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="number" min="{{ctrl.dato.get('articulos_maximos_minimos').value.minimo + 1}}" placeholder="Stock maximo" formControlName="maximo" 
+                                        [ngClass]="{'is-danger': ctrl.dato.get('articulos_maximos_minimos').get('maximo').hasError('required') }">                                        
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('articulos_maximos_minimos').get('maximo').hasError('required') ">
+                                            <i class="fa fa-warning"></i>
+                                        </span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('articulos_maximos_minimos').get('maximo').hasError('required') ">Este campo es requerido.</span>
+                                    </p>
+                                </div>
+                                <div class="column is-4">
+                                    <label class="label">Cantidad por envase:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="number" [ngClass]="{'is-danger': ctrl.dato.get('cantidad_x_envase').hasError('required') && ctrl.dato.get('cantidad_x_envase').hasError('required')}"
+                                            placeholder="Cantidad por envase" formControlName="cantidad_x_envase">
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('cantidad_x_envase').hasError('required') && ctrl.dato.get('cantidad_x_envase').hasError('required')">
+                                            <i class="fa fa-warning"></i>
+                                        </span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('cantidad_x_envase').hasError('required') && ctrl.dato.get('cantidad_x_envase').hasError('required')">Este campo es requerido.</span>
+                                    </p>
+                                </div>                                
+                                <div class="column is-2">
+                                    <br><br>
+                                    <div class="b-checkbox is-info">
+                                        <input id="es_fraccionable" class="styled" type="checkbox" formControlName="es_fraccionable">
+                                        <label for="es_fraccionable">
+                                            Es fraccionable?
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="columns"> 
+                                <div class="column is-6">
+                                    <label class="label">Código de barras:</label>
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <input class="input" type="text" placeholder="Código de barras" formControlName="codigo_barras">                                        
+                                    </p>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="barcode bcode">
+                                        <pdf417barcode [text]="ctrl.dato.get('codigo_barras').value" [opts]="{ aspect: 4, errlvl: 8, pxw: 1, pxh: 1 }"></pdf417barcode>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 6}">  <!-- PRECIOS -->
+                                                    
+                            <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.dato.get('articulos_precios').length > 0">
+                                <thead>
+                                    <tr>
+                                        <th hide-sm>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Activo</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody formArrayName="articulos_precios">
+                                    <tr *ngFor="let precio of ctrl.dato.controls.articulos_precios.controls; let p=index" [formGroupName]="p">
+                                        <td>{{ p + 1 }}</td>
+                                        <td>
+                                            <p class="control">
+                                                <input class="input" type="text" placeholder="Nombre" formControlName="nombre">                                                
+                                                <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_precios.controls[p].controls.nombre.valid && ctrl.dato.controls.articulos_precios.controls[p].controls.nombre.hasError('required')">Este campo es requerido.</span>
+                                            </p> 
+                                        </td>
+                                        <td>
+                                            <p class="control">
+                                                <input class="input" type="number" placeholder="Precio" formControlName="precio">                                                
+                                                <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_precios.controls[p].controls.precio.valid && ctrl.dato.controls.articulos_precios.controls[p].controls.precio.hasError('required')">Este campo es requerido.</span>
+                                            </p>                                         
+                                        </td>
+                                        <td>
+                                            <br>
+                                            <div class="field">
+                                                <div class="b-checkbox is-circular is-info">
+                                                    <input id="activo-p-{{p}}" value="1" name="activo" [checked]="ctrl.dato.get('articulos_precios').value[p].activo" formControlName="activo" class="styled" type="radio">
+                                                    <label for="activo-p-{{p}}">
+                                                        Activo
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td align="right"><button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.articulos_precios, p)"><i class="fa fa-trash-o"></i></button></td>
+                                    </tr>
+                                </tbody>                                
+                            </table>
+                            
+                            <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: -20px;">
+                                <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.articulos_precios, form_articulos_precios)"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 2}">  <!-- DESCUENTOS -->
+
+                            <span formArrayName="articulos_descuentos" *ngIf="ctrl.dato.get('articulos_descuentos').length > 0">
+                                <nav class="panel" *ngFor="let descuento of ctrl.dato.controls.articulos_descuentos.controls; let d=index" [formGroupName]="d">
+                                    <p class="panel-heading">
+                                        Descuento # {{ d + 1 }}
+
+                                        <button style="margin-top: -5px; float:right" type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.articulos_descuentos, d)"><i class="fa fa-trash-o"></i></button>
+                                    </p>
+                                    <div class="panel-block">
+                                        <div style="width:100%">
+                                            <div class="columns">
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" type="text" placeholder="Nombre" formControlName="nombre">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_descuentos.controls[d].controls.nombre.valid && ctrl.dato.controls.articulos_descuentos.controls[d].controls.nombre.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>
+                                                <div class="column is-4">
+                                                    <p class="control">
+                                                        <input class="input" id="porcentaje_descuento{{d}}" name="porcentaje_descuento-d" type="number" min="1" max="99" placeholder="Porcentaje descuento" formControlName="porcentaje_descuento">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_descuentos.controls[d].controls.porcentaje_descuento.valid && ctrl.dato.controls.articulos_descuentos.controls[d].controls.porcentaje_descuento.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>
+                                                <div class="column is-2">
+                                                    <br>
+                                                    <div class="field">
+                                                        <div class="b-checkbox is-circular is-info">
+                                                            <input id="activo-d-{{d}}" name="activo" value="1" [checked]="ctrl.dato.get('articulos_descuentos').value[p].activo" formControlName="activo" class="styled" type="radio">
+                                                            <label for="activo-d-{{d}}">
+                                                                Activo
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+
+                                            <div class="columns">
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" formControlName="inicio_vigencia" date-only="true" placeholder="Inicio Vigencia(YYYY-MM-DD)" />
+                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.articulos_descuentos.controls[d].controls.inicio_vigencia.valid && ctrl.dato.controls.articulos_descuentos.controls[d].controls.inicio_vigencia.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" formControlName="fin_vigencia" date-only="true" placeholder="Fin Vigencia(YYYY-MM-DD)" />
+                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.articulos_descuentos.controls[d].controls.fin_vigencia.valid && ctrl.dato.controls.articulos_descuentos.controls[d].controls.fin_vigencia.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>                                                   
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </span>
+
+                            <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: 20px;">
+                                <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.articulos_descuentos, form_articulos_descuentos)"><i class="fa fa-plus"></i></button>
+                            </div>   
+
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 3}">  <!-- PROMOCIONES -->
+
+                            <span formArrayName="articulos_promociones" *ngIf="ctrl.dato.get('articulos_promociones').length > 0">
+                                <nav class="panel" *ngFor="let promocion of ctrl.dato.controls.articulos_promociones.controls; let pr=index" [formGroupName]="pr">
+                                    <p class="panel-heading">
+                                        Promoción  {{ pr + 1 }}
+
+                                        <button style="margin-top: -5px; float:right" type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.articulos_promociones, pr)"><i class="fa fa-trash-o"></i></button>
+                                    </p>
+                                    <div class="panel-block">
+                                        <div style="width:100%">
+                                            <div class="columns">
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" type="text" placeholder="Nombre" formControlName="nombre">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_promociones.controls[pr].controls.nombre.valid && ctrl.dato.controls.articulos_promociones.controls[pr].controls.nombre.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>
+                                                <div class="column is-6">
+                                                    <!--<label class="label">Tipo de promoción:</label>
+                                                    --><div class="select">
+                                                        <select class="select" name="tipo_promocion" formControlName="tipo_promocion">
+                                                            <option value="NULL" selected>Seleccionar tipo de promoción</option>
+                                                            <option value="1" >POR # DE ARTICULOS COMPRADOS</option>
+                                                            <option value="2" >POR MONTO DE COMPRA EN UN ARTICULO</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>                                              
+                                            
+                                            <div class="columns" [ngClass]="{ 'is-hidden': ctrl.dato.controls.articulos_promociones.controls[pr].controls.tipo_promocion.value != 1}">
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" type="number" placeholder="Cantidad minima de articulos" formControlName="cantidad_minima">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_promociones.controls[pr].controls.cantidad_minima.valid && ctrl.dato.controls.promociones.controls[pr].controls.cantidad_minima.hasError('required')">Este campo es requerido.</span>
+                                                    </p>
+                                                </div>
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" type="number" placeholder="Cantidad a cobrar por articulo" formControlName="cantidad_cobrar">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_promociones.controls[pr].controls.cantidad_cobrar.valid && ctrl.dato.controls.promociones.controls[pr].controls.cantidad_cobrar.hasError('required')">Este campo es requerido.</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="columns" [ngClass]="{ 'is-hidden': ctrl.dato.controls.articulos_promociones.controls[pr].controls.tipo_promocion.value != 2}">
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" type="number" placeholder="Monto minimo de articulo" formControlName="monto_minimo">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_promociones.controls[pr].controls.monto_minimo.valid && ctrl.dato.controls.promociones.controls[pr].controls.monto_minimo.hasError('required')">Este campo es requerido.</span>
+                                                    </p>
+                                                </div>
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" id="porcentaje_descuento{{pr}}" name="porcentaje_descuento-pr" type="number" placeholder="Porcentaje de descuento" formControlName="porcentaje_descuento">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_promociones.controls[pr].controls.porcentaje_descuento.valid && ctrl.dato.controls.promociones.controls[pr].controls.porcentaje_descuento.hasError('required')">Este campo es requerido.</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="columns">
+                                                <div class="column is-4">
+                                                    <br>
+                                                    <div class="field">
+                                                        <div class="b-checkbox is-info">
+                                                            <input id="es-acumulable-pr{{pr}}" name="es-acumulable-pr" class="styled" type="checkbox" formControlName="es_acumulable">
+                                                            <label for="es-acumulable-pr{{pr}}">
+                                                                Es acumulable
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="column is-4">
+                                                    <br>
+                                                    <div class="field">
+                                                        <div class="b-checkbox is-info">
+                                                            <input id="con-otros-descuentos-pr{{pr}}" name="con-otros-descuentos-pr" class="styled" type="checkbox" formControlName="con_otros_descuentos">
+                                                            <label for="con-otros-descuentos-pr{{pr}}">
+                                                                Aplica con otros descuentos
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                                <div class="column is-4">
+                                                    <br>
+                                                    <div class="field">
+                                                        <div class="b-checkbox is-circular is-info">
+                                                            <input id="activo-pr-{{pr}}" name="activo" value="1" [checked]="ctrl.dato.get('articulos_promociones').value[p].activo" formControlName="activo" class="styled" type="radio">
+                                                            <label for="activo-pr-{{pr}}">
+                                                                Activo
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </span>
+
+                            <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: 20px;">
+                                <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.articulos_promociones, form_articulos_promociones)"><i class="fa fa-plus"></i></button>
+                            </div>  
+
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 4}">  <!-- CUPONES -->
+
+                            <span formArrayName="articulos_cupones" *ngIf="ctrl.dato.get('articulos_cupones').length > 0">
+                                <nav class="panel" *ngFor="let cupon of ctrl.dato.controls.articulos_cupones.controls; let cu=index" [formGroupName]="cu">
+                                    <p class="panel-heading">
+                                        Cupón # {{ cu + 1 }}
+
+                                        <button style="margin-top: -5px; float:right" type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.articulos_cupones, cu)"><i class="fa fa-trash-o"></i></button>
+                                    </p>
+                                    <div class="panel-block">
+                                        <div style="width:100%">
+                                            <div class="columns">
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" type="text" placeholder="Código" formControlName="codigo">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_cupones.controls[cu].controls.codigo.valid && ctrl.dato.controls.articulos_cupones.controls[cu].controls.codigo.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>
+                                                <div class="column is-4">
+                                                    <p class="control">
+                                                        <input class="input" type="number" min="1" max="99" placeholder="Porcentaje descuento" formControlName="porcentaje_descuento">                                                
+                                                        <span class="help is-danger"  *ngIf="!ctrl.dato.controls.articulos_cupones.controls[cu].controls.porcentaje_descuento.valid && ctrl.dato.controls.articulos_cupones.controls[cu].controls.porcentaje_descuento.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>
+                                                <div class="column is-2">
+                                                    <br>
+                                                    <div class="field">
+                                                        <div class="b-checkbox is-info">
+                                                            <input id="con-otros-descuentos-cu{{cu}}" name="con-otros-descuentos-cu" class="styled" type="checkbox" formControlName="con_otros_descuentos">
+                                                            <label for="con-otros-descuentos-cu{{cu}}">
+                                                                Aplica con otros descuentos
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+
+                                            <div class="columns">
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" formControlName="inicio_vigencia" date-only="true" placeholder="Inicio Vigencia(YYYY-MM-DD)" />
+                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.articulos_cupones.controls[cu].controls.inicio_vigencia.valid && ctrl.dato.controls.articulos_cupones.controls[cu].controls.inicio_vigencia.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>
+                                                <div class="column is-6">
+                                                    <p class="control">
+                                                        <input class="input" formControlName="fin_vigencia" date-only="true" placeholder="Fin Vigencia(YYYY-MM-DD)" />
+                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.articulos_cupones.controls[cu].controls.fin_vigencia.valid && ctrl.dato.controls.articulos_cupones.controls[cu].controls.fin_vigencia.hasError('required')">Este campo es requerido.</span>
+                                                    </p> 
+                                                </div>                                                   
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </span>
+
+                            <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: 20px;">
+                                <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.articulos_cupones, form_articulos_cupones)"><i class="fa fa-plus"></i></button>
+                            </div>  
+
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 5}">  <!-- IMAGENES -->
+                           
+                            <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.dato.get('articulos_imagenes').length > 0">
+                                <thead>
+                                    <tr>
+                                        <th hide-sm>#</th>
+                                        <th>Imagen</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody formArrayName="articulos_imagenes">
+                                    <tr *ngFor="let imagen of ctrl.dato.controls.articulos_imagenes.controls; let im=index" [formGroupName]="im">
+                                        <td>{{ im + 1 }}</td>
+                                        <td>
+                                            <!--<p class="control is-expanded  has-icon has-icon-right">
+                                                <input type="file" (change)="ctrl.seleccionarImagenBase64($event, ctrl.dato.controls.articulos_imagenes.controls[im].controls.imagen)" accept="image/x-png,image/gif,image/jpeg,image/jpg">
+                                                <input foto type="hidden" formControlName="imagen" >
+                                            </p>-->
+
+                                            
+                                            <p class="control is-expanded  has-icon has-icon-right" *ngIf="ctrl.dato.controls.articulos_imagenes.controls[im].controls.imagen.value == ''">
+                                                <input type="file" (change)="ctrl.seleccionarImagenBase64($event, ctrl.dato.controls.articulos_imagenes.controls[im].controls.imagen)" accept="image/x-png,image/gif,image/jpeg,image/jpg">
+                                                <input foto type="hidden" formControlName="imagen" >
+                                            </p>
+
+                                            <button type="button" class="button is-danger" (click)="ctrl.borrarImagen($event, ctrl.dato.controls.articulos_imagenes.controls[im].controls.imagen, 'articulos')" *ngIf="ctrl.dato.controls.articulos_imagenes.controls[im].controls.imagen.value != ''">
+                                                
+                                                    <span class="icon">
+                                                        <i class="fa fa-trash"></i>
+                                                    </span>
+                                                    &nbsp;  Eliminar la foto
+                                                
+                                            </button>
+
+                                        </td>
+                                        <td align="right"><button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.articulos_imagenes, im)"><i class="fa fa-trash-o"></i></button></td>
+                                    </tr>
+                                </tbody>                                
+                            </table>
+
+                            <!-- borrarImagen( par1, 'articulos')-->
+                            
+                            <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: -20px;">
+                                <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.articulos_imagenes, form_articulos_imagenes)"><i class="fa fa-plus"></i></button>
+                            </div>
+
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 7}">  <!-- IMPUESTOS -->
+
+                            <div class="box" *ngIf="ctrl.izquierda['i']">
+                                <article class="media">
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <div class="column is-5" style="float:left">
+                                                <nav class="panel">
+                                                    <div class="panel-heading">
+                                                        <div class="field">
+                                                            <div class="b-checkbox is-info">
+                                                                <input id="impuestos" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.izquierda" (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['i'], ctrl.impuestos)">
+                                                                <label for="impuestos">
+                                                                Impuestos disponibles
+                                                            </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <label class="panel-block" *ngFor="let val of ctrl.impuestos; let i=index">          
+                                                        <div class="field">
+                                                            <div class="b-checkbox">
+                                                                <input id="impuestos{{val.id}}" class="styled" type="checkbox" 
+                                                                [checked]="ctrl.izquierda['i'].indexOf(val) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.izquierda['i'], ctrl.impuestos, val)">
+                                                                <label for="impuestos{{val.id}}">
+                                                                    {{val.nombre}} 
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                    </label>
+                                                </nav>
+                                            </div>
+                                            <div class="column is-2" style="float:left">
+
+                                                <p class="control">
+                                                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['i'].length > 0}"
+                                                        [disabled]="ctrl.izquierda['i'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['i'], ctrl.dato.controls.articulos_impuestos, ctrl.impuestos, true); ctrl.iniciar_izquierda('i');"><i class="fa fa-arrow-right"></i></button>
+                                                </p>
+                                                <p class="control">
+                                                    <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['i'].length > 0}" [disabled]="ctrl.derecha['i'].length <= 0"
+                                                        (click)="ctrl.iniciarMover('derecha', ctrl.derecha['i'], ctrl.impuestos, ctrl.dato.controls.articulos_impuestos.controls, false); ctrl.iniciar_derecha('i');"><i class="fa fa-arrow-left"></i></button>
+                                                </p>
+
+                                            </div>
+                                            <div class="column is-5" style="float:left">
+                                                <nav class="panel" formGroupName="articulos_impuestos">
+                                                    <div class="panel-heading">
+                                                        <div class="field">
+                                                            <div class="b-checkbox is-info">
+                                                                <input id="articulos_impuestos" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.derecha" (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['i'], ctrl.dato.controls.articulos_impuestos.controls)">
+                                                                <label for="articulos_impuestos">
+                                                                        Impuestos asignados
+                                                                    </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <label class="panel-block" *ngFor="let item of ctrl.dato.controls.articulos_impuestos.controls; let i2=index">          
+                                                        <div class="field" [formGroupName]="i2">
+                                                            <div class="b-checkbox">
+                                                                <input id="articulos_impuestos{{item.value.id}}" class="styled" type="checkbox"
+                                                                [checked]="ctrl.derecha['i'].indexOf(item) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.derecha['i'], ctrl.dato.controls.articulos_impuestos.controls, item)">
+                                                                <label for="articulos_impuestos{{item.value.id}}">
+                                                                    {{item.value.nombre}} 
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>                           
+
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- fin formulario -->
+            </section>
+            
+  
+        </form>  
+        </div>
+    </div>
+</div>

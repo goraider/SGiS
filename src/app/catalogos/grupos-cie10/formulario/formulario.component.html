@@ -1,0 +1,122 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="grupos-cie10" titulo="Grupos CIE 10 / Catálogo" [dato]="dato"></formulario>
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda del modulo enviroment" -->
+        <sistema-menu-aside></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+            <!-- formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+                <section class="hero is-primary">
+                    <div class="hero-body">
+
+                        <!-- Opciones  -->
+                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+                    </div>
+                </section>
+
+                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+                    
+                        <h2 class="title">Grupos</h2>
+                        <br>
+                        <div class="columns">
+                            <div class="column is-4">
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <label class="label">Código:</label>
+                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('codigo').hasError('required') && ctrl.dato.get('codigo').touched}"
+                                            placeholder="Código" formControlName="codigo">
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('codigo').hasError('required') && ctrl.dato.get('codigo').touched"><i class="fa fa-warning"></i></span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('codigo').hasError('required') && ctrl.dato.get('codigo').touched">Este campo es requerido.</span>
+                                    </p>
+                            </div>
+                            <div class="column is-8">
+                                    <p class="control is-expanded  has-icon has-icon-right">
+                                        <label class="label">Nombre:</label>
+                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched}"
+                                            placeholder="Nombre" formControlName="nombre">
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched"><i class="fa fa-warning"></i></span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched">Este campo es requerido.</span>
+                                    </p>
+                            </div>
+                        </div>
+    
+                        <div formArrayName="categorias_cie10">
+                            <div *ngFor="let item of ctrl.dato.controls.categorias_cie10.controls; let i=index" class="column is-12" style="float:left">
+                                <nav class="panel" [formGroupName]="i">
+    
+                                    <div class="panel-heading column is-12">
+                                        Categoria CIE 10 {{i + 1}}
+                                        <a style="float:right" class="is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.categorias_cie10, i)"><span class="icon is-medium"><i class="fa fa-trash-o"></i></span></a>
+                                    </div>
+    
+                                    <div class="panel-block">
+                                        <div class="column is-4">
+                                            <label class="label">Código:</label>
+                                            <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('codigo').hasError('required') && ctrl.dato.get('codigo').touched}" placeholder="Código del Grupo-CIE10" formControlName="codigo">
+                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.categorias_cie10.controls[i].controls.codigo.valid">Este campo es requerido.</span>
+                                        </div>
+                                        <div class="column is-8">
+                                            <label class="label">Nombre:</label>
+                                            <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched}" placeholder="Nombre del Grupo-CIE10" formControlName="nombre">
+                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.categorias_cie10.controls[i].controls.nombre.valid">Este campo es requerido.</span>
+                                        </div>
+                                    </div>
+    
+    
+                                    <div formArrayName="sub_categorias_cie10">
+                                        <div class="panel-heading">
+                                            Subcategoria CIE 10 {{i + 1}}                                   
+                                            <a style="float:right" class="is-danger" (click)="addSubcategoria(i,j)"><span class="icon is-medium"><i class="fa fa-plus"></i></span></a>
+                                        </div>
+    
+                                        <div *ngFor="let item of ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10.controls; let j=index">
+                                            <nav class="panel" [formGroupName]="j">
+    
+                                                <div class="panel-block">
+                                                    <div class="column is-4">
+                                                        <label class="label">Código:</label>
+                                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10.controls[j].controls.codigo.hasError('required') && ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10.controls[j].controls.codigo.touched}" placeholder="Código de la subcategoria" formControlName="codigo">
+                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10.controls[j].controls.codigo.valid">Este campo es requerido.</span>
+                                                    </div>
+    
+                                                    <div class="column is-8">
+                                                        <label class="label">Nombre:</label>
+                                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10.controls[j].controls.nombre.hasError('required') && ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10.controls[j].controls.nombre.touched}" placeholder="Nombre de la subcategoria" formControlName="nombre">
+                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10.controls[j].controls.nombre.valid">Este campo es requerido.</span>
+                                                    </div>
+    
+                                                    <div class="column is-1">
+                                                        <a style="float:right" class="is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.categorias_cie10.controls[i].controls.sub_categorias_cie10, j)"><span class="icon is-medium"><i class="fa fa-trash-o"></i></span></a>
+                                                    </div>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+    
+                        <div class="block">
+                            <div class="column is-12">
+                                <a class="button is-primary is-outlined is-fullwidth" (click)="addCategoria()">
+                                        <span class="icon">
+                                            <i class="fa fa-plus"> </i> 
+                                        </span> &nbsp; Agregar Categorias CE10
+                                </a>
+                            </div>
+                        </div>
+
+                </section>
+            </form>
+        </div>
+    </div>
+</div>

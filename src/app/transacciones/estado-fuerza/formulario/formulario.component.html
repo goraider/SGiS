@@ -1,0 +1,124 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="estados-fuerza" titulo="Estado de Fuerza / Módulo" [dato]="dato"></formulario>
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda del modulo enviroment" -->
+        <sistema-menu-aside></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+            <!-- formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+                <section class="hero is-primary">
+                    <div class="hero-body">
+
+                        <!-- Opciones  -->
+                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+                    </div>
+                </section>
+
+                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+
+                    <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                Datos del turno
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="field is-grouped">
+                                        <p class="control is-expanded  has-icon has-icon-right">
+                                            <label class="label">Unidad medica</label>
+                                            <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue"
+                                                id="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                                                (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
+                                                min-chars="1" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched}"
+                                                placeholder="Unidad Medica (Clues):" >
+
+                                            <span class="icon is-small" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched"><i class="fa fa-warning"></i></span>
+                                            <span class="help is-danger" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched">Este campo es requerido.</span>
+                                        </p>
+
+                                        <p class="control is-one-quarter has-icon has-icon-right">
+                                            <label class="label">Clues</label>
+                                            <input type="text" class="input" readonly formControlName="clues">
+                                        </p>
+                                    </div>
+                                
+                                    <div class="field is-grouped">
+                                        <p class="control is-expanded  has-icon has-icon-right">
+                                            <label class="label">Trabajador Social</label>
+                                            <input class="input" autofocus type="text" placeholder="Nombre" formControlName="usuario" readonly>                                        
+                                        </p>
+                                    </div>
+                                    <div class="field is-grouped">
+                                        <p class="control is-expanded  has-icon has-icon-right">
+                                            <label class="label">Fecha</label>
+                                            <input class="input" type="text" placeholder="fecha" formControlName="created_at" readonly>
+                                        </p>
+                                        <p class="control is-expanded has-icon has-icon-right">
+                                            <label class="label">Turno: </label>
+                                            <span class="select">
+                                                    <select class="select" name="turnos_id" formControlName="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
+                                                        <option *ngFor="let val of ctrl.turnos_varios" value="{{val.id}}">{{ val.nombre }}</option>
+                                                    </select>
+                                                </span>
+                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.turnos_id.valid && ctrl.dato.controls.turnos_id.touched">Este campo es requerido.</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Servicios
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="content" formArrayName="cartera_servicios">
+                                    <!-- cartera -->
+    
+                                    <div class="card" *ngFor="let item of ctrl.dato.controls.cartera_servicios.controls; let i=index" [formGroupName]="i">
+                                        <header class="card-header">
+                                            <p class="card-header-title">
+                                            {{item.value.nombre}}
+                                            </p>                                        
+                                        </header>
+                                        <div class="card-content"  *ngIf="item.value.items">
+                                            <div class="content" formArrayName="items">
+                                                <div class="control" *ngFor="let val of ctrl.dato.controls.cartera_servicios.controls[i].controls.items.controls; let i2=index"  [formGroupName]="i2">                                              
+                                                    <div class="b-checkbox is-info" *ngIf="val.value.tipos_items_id == 1" style="margin-bottom: 5px;">
+                                                        <input id="respuesta{{i}}{{i2}}" class="styled" type="checkbox" formControlName="respuesta">
+                                                        <label for="respuesta{{i}}{{i2}}">
+                                                            {{ val.value.nombre }} 
+                                                        </label>
+                                                    </div>  
+                                                    <span *ngIf="val.value.tipos_items_id == 2">
+                                                    {{ val.value.nombre }}                                               
+                                                    <input  class="input" type="number" formControlName="respuesta"> 
+                                                    </span> 
+    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                            
+                </section>
+            </form>
+        </div>
+    </div>
+</div>

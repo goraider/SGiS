@@ -1,0 +1,102 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="sisGrupo" titulo="Grupo / Sistema" [dato]="dato" ></formulario>
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda del modulo enviroment" -->
+        <sistema-menu-aside ></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+            <!-- formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()" >
+                <section class="hero is-primary">
+                    <div class="hero-body">
+
+                        <!-- Opciones  -->
+                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>                                        
+                    </div>
+                </section>
+                
+                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">                    
+
+                    <div class="field">
+                        <label class="label">Nombre:</label>
+                        <p class="control is-expanded  has-icon has-icon-right">
+                            <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')}"
+                                placeholder="Nombre" formControlName="nombre">
+                            <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">
+                                <i class="fa fa-warning"></i>
+                            </span>
+                            <span class="help is-danger" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">Este campo es requerido.</span>
+                        </p>
+                    </div>
+                    <br>
+                    <section class="hero is-light">
+                        <div class="hero-body">
+                            <div class="container" style="margin: -18px 18px;">
+                                <h1 class="title">
+                                    <span class="icon is-medium"><i class="fa fa-lock"></i></span> Permisos <a class="button  is-info" id="catalogos" (click)="ctrl.cargarCatalogo('catalogo', 'permiso');"><span class="icon "><i class="fa fa-refresh"></i></span></a> 
+                                </h1>
+                                <h2 class="subtitle">
+                                    Selecciona el o los permisos que estaran disponibles para el grupo
+                                </h2>
+                            </div>
+                        </div>
+                    </section>
+                    <br>
+                    <div class="tabs is-boxed">
+                        <ul>
+                            <li [ngClass]="{ 'is-active' : tab == i}" *ngFor="let padre of ctrl.catalogo; let i = index;">
+                                <a (click)="tab=i">
+                                    <span>{{padre.nombre}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="columns" >
+                        <div [ngClass]="{ 'is-hidden': tab != i2}" *ngFor="let padre of ctrl.catalogo; let i2 = index;" >                            
+                            <span *ngIf="padre.es_super ? activar_super ? true : false : true">
+                                <div class="column is-3" *ngFor="let hijos of padre.hijos" style="float:left; min-width:300px">
+                                    <nav class="panel">
+                                        <div class="panel-heading">
+                                            <div class="field">
+                                                <div class="b-checkbox is-info">
+                                                    <input id="{{hijos.controlador}}" class="styled" type="checkbox" 
+                                                    (click)="todosAccion(hijos.controlador, hijos.accion, ctrl.dato.controls.permisos)">
+                                                    <label for="{{hijos.controlador}}">
+                                                        {{hijos.nombre}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        
+                                        </div>
+                                        <label class="panel-block" *ngFor="let accion of hijos.accion">          
+                                            <div class="field" *ngIf="accion.es_super ? activar_super ? true : false : true">
+                                                <div class="b-checkbox">
+                                                    <input id="{{accion.id}}" class="styled"
+                                                        [checked]="ctrl.dato.controls.permisos.value[hijos.controlador+'.'+accion.recurso] == 1"
+                                                        (click)="agregar_accion(hijos.controlador+'.'+accion.recurso)" type="checkbox">
+                                                    <label for="{{accion.id}}">
+                                                        {{accion.nombre}} 
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </label>                                    
+                                    </nav>
+                                </div>
+                            </span>
+                        </div>                                                                        
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+</div>

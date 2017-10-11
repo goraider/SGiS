@@ -1,0 +1,27 @@
+<a title="Editar" class="button is-primary" routerLink="{{url_editar}}" *ngIf="permisos.indexOf(controlador + '.update') > -1 || permisos.indexOf( 'Sis' + controlador + '.update') > -1">
+    <span class="icon">
+        <i class="fa fa-edit"></i>
+    </span> 
+</a>
+
+<a title="Imprimir" [ngClass]="{'is-loading': ctrl.imprimir_cargando && ctrl.contador == index}" *ngIf="permisos.indexOf(controlador + '.show') > -1 || permisos.indexOf( 'Sis' + controlador + '.show') > -1" class="button is-default"  (click)="ctrl.imprimir(item, index)">
+    <span class="icon">
+        <i class="fa fa-print"></i>
+    </span> 
+</a>
+
+<span class="icon " *ngIf="item.cargando">
+    <i class="fa fa-circle-o-notch fa-spin"></i>
+</span>
+
+<a title="Devolución" *ngIf="!item.cargando && (permisos.indexOf(controlador + '.devolucion') > -1 && (modulo == 'traspaso' || modulo == 'venta' || modulo == 'compra'))" class="button is-warning" routerLink="../devolucion/{{item.id}}">
+    <span class="icon">
+        <i class="fa fa-recycle"></i>
+    </span>
+</a>
+
+<a title="Eliminar" *ngIf="!item.cargando || permisos.indexOf(controlador + '.destroy') > -1 || permisos.indexOf( 'Sis' + controlador + '.destroy') > -1" class="button is-danger" (click)="ctrl.eliminar(item, index)">
+    <span class="icon">
+        <i class="fa fa-trash-o"></i>
+    </span>
+</a>

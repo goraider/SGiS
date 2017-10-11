@@ -1,0 +1,87 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<listar #ctrl URL="sisGrupo" titulo="Grupos / Sistema" ></listar>
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda del modulo enviroment" -->
+        <sistema-menu-aside ></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+            <!-- Opciones y busqueda -->
+            <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
+        
+            
+            <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
+                    
+                <!--Tabla -->
+                <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+                    <thead>
+                        <tr>
+                            <th><abbr>ID</abbr></th>
+                            <th>Nombre</th>                            
+                            <th>Permisos</th>
+                            <th style="text-align:center; width: 20%;">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of ctrl.dato; let i=index">
+                            <th style="vertical-align: middle;">{{ item.id }}</th>
+                            <td style="vertical-align: middle;">{{ item.nombre }} </td>
+                            <td style="vertical-align: middle;">
+
+                                <span *ngFor="let val of item.modulos" class="tag is-success"><i class="fa fa-check"></i> &nbsp; {{ val }}</span>
+
+                            </td>
+                            <td style="vertical-align: middle;" class="has-text-centered">
+                                <!-- acciones -->
+                                <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                            </td>
+
+                        </tr>
+                        <tr *ngIf="ctrl.dato.length == 0">
+                            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <!--Lista -->
+                <span *ngIf="!ctrl.tipo_grid && !ctrl.cargando">
+                    <div class="box" *ngFor="let item of ctrl.dato; let i=index" style="margin-bottom:0.1rem;" [style.background]="i%2 == 0 ? '#fafafa' : '#ffffff'">
+                        <article class="media">
+                            <div class="media-left">
+                            <figure class="image is-64x64">
+                                <img src="./assets/128x128.png" alt="Image">
+                            </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <strong style="font-size:12pt">{{item.nombre}}</strong> <small>{{item.updated_at}}</small>
+                                        <br>
+                                       <span *ngFor="let val of item.modulos" class="tag is-success"><i class="fa fa-check"></i> &nbsp; {{ val }}</span>
+                                    </p>
+                                </div>
+                                <nav class="level is-mobile" style="float:right">
+                                    <div class="level-left">
+
+                                        <!-- acciones -->
+                                        <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                                    </div>
+                                </nav>
+                            </div>
+                        </article>
+                    </div>
+                </span>
+            </span>
+            <!-- Paginación para la lista  -->
+            <paginacion [ctrl]="ctrl"></paginacion>
+            
+        </div>
+    </div>
+</div>

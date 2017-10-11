@@ -1,0 +1,119 @@
+<section class="hero is-primary" style="position: fixed; width: 100%;top:0px; z-index:99">
+    <div class="hero-head">
+        <div class="container is-fluid">
+            <nav class="nav is-info">
+                <div class="nav-left">
+                    <figure class="image">
+                        <img [src]="'./assets/iconos/icono-ugus-512x512.png'" alt="Logo" class="profile" style="width:35px; height: 35px;">
+                    </figure>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="nav-item is-brand" routerLink="/{{menuactual}}" routerLinkActive="active">
+                   
+                     <span class="icon">
+                        <i style="font-size: 1.5em;"></i>
+                    </span> 
+                     <h1 class="title">&nbsp;&nbsp;&nbsp;&nbsp;{{menutitulo}}</h1>
+                    </a>
+                </div>
+
+                <div class="nav-center is-invert" style="background: #1E254B">
+                    <span class="nav-item is-hidden-mobile " style="font-size: 1em;"> 
+                            {{clues.clues}}   &nbsp;
+                        <span class="icon">
+                            <i class="fa fa-caret-right"></i>
+                        </span>
+                        &nbsp;               {{clues.nombre }}       
+                    </span>
+                    <a class="nav-item tooltip" id="cambiar_clues" (click)="toggleCambiarclues()">
+                        <span class="icon">
+                            <i class="fa fa-hospital-o"></i>
+                        </span>
+                        <span class="tooltiptext">Cambiar de clues</span>
+                    </a>
+                </div>
+
+               
+
+                <a class="nav-item is-hidden-tablet tooltip" (click)="toggleMenuAside()">
+                    <span class="icon">
+                        <i class="fa fa-navicon"></i>
+                    </span>
+                    <span class="tooltiptext">Menú Opciones</span>
+                </a>
+                <a class="nav-item tooltip"  (click)="hub.toggle()">
+                    <span class="icon">
+                        <i class="fa fa-th"></i>
+                    </span>
+                    <span class="tooltiptext">Menú Modulos</span>
+                </a>                
+
+                <a class="nav-item is-hidden-mobile tooltip" (click)="perfil.toggle()">
+                    
+                    <figure class="image" style="width:26px;">
+                        <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
+                    </figure>
+                    &nbsp;
+                    <span>{{ usuario.nombre }} {{ usuario.apellidos }}</span>
+                    <span class="tooltiptext">Perfil</span>
+                </a>
+                <a class="nav-item is-hidden-tablet tooltip" (click)="perfil.toggle()">
+                    
+                    <figure class="image" style="width:26px;">
+                        <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
+                    </figure>
+                    <span class="tooltiptext">Perfil</span>
+                </a>
+               
+                
+            </nav>
+        </div>
+    </div>
+</section>
+
+<app-hub #hub></app-hub>
+<app-perfil #perfil></app-perfil>
+
+
+<div class="modal" [ngClass]="{'is-active': mostrarMenuAside}">
+  <div class="modal-background" (click)="toggleMenuAside()"></div>
+  <div class="modal-content">
+    <div class="card" style="width: 100%">
+        <div class="card-content">
+            <sistema-menu-aside ></sistema-menu-aside>
+        </div>
+    </div>
+  </div>
+  <button class="modal-close" (click)="toggleMenuAside()"></button>
+</div>
+
+
+<div class="modal" [ngClass]="{'is-active': mostrarCambiarclues}">
+  <div class="modal-background" (click)="toggleCambiarclues()"></div>
+  <div class="modal-content">
+    <div class="card" style="width: 100%">
+        <div class="card-content">
+            <h1 style="font-size: 3em;">Cambiar clues</h1>
+            <progress class="progress" value="100" max="100"></progress>
+            <div class="notification is-warning" *ngIf="mensaje_cambiar_clues != ''">
+                {{mensaje_cambiar_clues}}
+            </div>
+            
+            <ul class="menu-list" style="font-size: 1.3em;">
+                <li *ngFor="let val of usuario_clues; let i = index;" style="margin:2px;">
+                    <a class="is-active" (click)="cambiar_clues(val)">
+                        <div class="b-checkbox is-info ">
+                            <input id="clues{{val.clues}}" name="clues" class="styled" type="radio"  [checked]="clues == val.clues || mostrar[val.clues]" >
+                            <label for="clues{{val.clues}}">
+                                {{ val.nombre }}
+                            </label>                            
+                        </div>
+                    </a>
+
+                    
+                </li>
+            </ul>
+        </div>
+    </div>
+  </div>
+  <button class="modal-close" (click)="toggleCambiarclues()"></button>
+</div>

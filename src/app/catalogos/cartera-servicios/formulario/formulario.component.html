@@ -1,0 +1,185 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="cartera-servicios" titulo="Cartera de Servicios / Catálogo" [dato]="dato"></formulario>
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda del modulo enviroment" -->
+        <sistema-menu-aside></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+            <!-- formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+                <section class="hero is-primary">
+                    <div class="hero-body">
+
+                        <!-- Opciones  -->
+                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+                    </div>
+                </section>
+
+                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+
+                    <div class="tabs is-boxed">
+                        <ul>
+                            <li [ngClass]="{ 'is-active' : tab == 1}">
+                                <a (click)="tab=1">
+                                    <span class="icon is-small"><i class="fa fa-file"></i></span>
+                                    <span>Datos del Servicio</span>
+                                </a>
+                            </li>
+                            <li [ngClass]="{ 'is-active' : tab == 2}">
+                                <a (click)="tab=2">
+                                    <span class="icon is-small"><i class="fa fa-home"></i></span>
+                                    <span>ítems del Servicios</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div [ngClass]="{ 'is-hidden': tab != 1}">
+                        <div class="field">
+                            <p class="control is-expanded  has-icon has-icon-right">
+                                <label class="label">Nombre del Servicio:</label>
+                                <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched}" placeholder="Servicio" formControlName="nombre">
+                                <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched">
+                                                <i class="fa fa-warning"></i>
+                                            </span>
+                                <span class="help is-danger" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched">Este campo es requerido.</span>
+                            </p>
+                        </div>
+
+                        <br>
+
+                        <h1 class="title">
+                                        <span class="icon is-medium"><i class="fa fa-sort-amount-desc"></i></span> Nivel de Cone <a class="button  is-info" id="catalogos" (click)="ctrl.cargarCatalogo('niveles_cones', 'niveles-cones'); ctrl.cargarCatalogo('tipos_items', 'tipos-items');"><span class="icon "><i class="fa fa-refresh"></i></span></a>
+                                    </h1>
+                        <div class="box">
+                            <article class="media">
+                                <div class="media-content">
+                                    <div class="content">
+                                        <div class="column is-5" style="float:left">
+                                            <nav class="panel">
+                                                <div class="panel-heading">
+                                                    <div class="field">
+                                                        <div class="b-checkbox is-info">
+                                                            <input id="NiveslCones" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.izquierda" (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.niveles_cones)">
+                                                            <label for="NiveslCones">
+                                                                Niveles de CONE Disponible
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <label class="panel-block" *ngFor="let val of ctrl.niveles_cones; let i=index">
+                                                    <div class="field">
+                                                        <div class="b-checkbox">
+                                                            <input id="{{val.id}}" class="styled" type="checkbox" [checked]="ctrl.izquierda.indexOf(val) > -1" (click)="ctrl.agregarMover('izquierda', ctrl.niveles_cones, val)">
+                                                            <label for="{{val.id}}">
+                                                                {{val.nombre}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                </label>
+                                            </nav>
+                                        </div>
+                                        <div class="column is-2" style="float:left">
+
+                                            <p class="control">
+                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda.length > 0}" [disabled]="ctrl.izquierda.length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.dato.controls.niveles_cones.controls, ctrl.niveles_cones, true)">></button>
+                                                <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
+                                            </p>
+                                            <p class="control">
+                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha.length > 0}" [disabled]="ctrl.derecha.length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.niveles_cones, ctrl.dato.controls.niveles_cones.controls, false)"></button>
+                                                        <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
+                                            </p>
+
+                                        </div>
+                                        <div class="column is-5" style="float:left">
+                                            <nav class="panel" formGroupName="niveles_cones">
+                                                <div class="panel-heading">
+                                                    <div class="field">
+                                                        <div class="b-checkbox is-info">
+                                                            <input id="MisNiveles" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.derecha" (click)="ctrl.seleccionarTodosMover('derecha', ctrl.dato.controls.niveles_cones.controls)">
+                                                            <!--ctrl.dato.controls.niveles_cones.controls hace referencia al formsGroupName de la vista-->
+                                                            <label for="MisNiveles">
+                                                                Niveles de CONE Elegidos
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <label class="panel-block" *ngFor="let item of ctrl.dato.controls.niveles_cones.controls; let i2=index">
+                                                    <div class="field" [formGroupName]="i2">
+                                                        <div class="b-checkbox">
+                                                            <input id="{{item.value.id}}" class="styled" type="checkbox" [checked]="ctrl.derecha.indexOf(item) > -1" (click)="ctrl.agregarMover('derecha', ctrl.dato.controls.niveles_cones.controls, item)">
+                                                            <label for="{{item.value.id}}">
+                                                                {{item.value.nombre}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                </label>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <a (click)="ctrl.initMover(ctrl.dato.controls.niveles_cones.controls, ctrl.niveles_cones); " id="initMover"></a>
+
+                    <div [ngClass]="{ 'is-hidden': tab != 2}">
+
+                        <div formArrayName="items">
+                            <div *ngFor="let item of ctrl.dato.controls.items.controls; let i=index" class="column is-12" style="float:left">
+                                <nav class="panel" [formGroupName]="i">
+
+                                    <div class="panel-heading" [ngClass]="{'background: #FFF': (index % 2) == 0 }">
+                                        Tipo de Ítem {{i + 1}}
+                                        <a style="float:right" class="is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.items, i)"><span class="icon is-medium"><i class="fa fa-trash-o"></i></span></a>
+                                    </div>
+                                    <div class="panel-block">
+                                        <div class="column is-6">
+                                            <label class="label">Tipo de Ítem:</label>
+                                            <span class="select">                         
+                                                            <select class="select" name="tipos_items_id" formControlName="tipos_items_id" [ngClass]="{'is-danger': tipos_items_id?.length == 0 }">
+                                                                <option *ngFor="let val of ctrl.tipos_items" value="{{val.id}}" >{{ val.nombre }}</option>
+                                                            </select>
+                                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.items.controls[i].controls.tipos_items_id.valid">Este campo es requerido.</span>
+                                            </span>
+                                        </div>
+
+                                        <div class="column is-6">
+                                            <label class="label">Nombre del Ítem:</label>
+                                            <input class="input" type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.items.controls[i].controls.nombre.valid }" placeholder="Nombre del Item" formControlName="nombre">
+                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.items.controls[i].controls.nombre.valid">Este campo es requerido.</span>
+                                        </div>
+
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="block">
+                            <a class="button is-primary is-outlined is-fullwidth" (click)="ctrl.agregar_form_array(ctrl.dato.controls.items.controls, form_items)">
+                                <span class="icon">
+                                                <i class="fa fa-plus"> </i> 
+                                            </span> &nbsp; Agregar Items al Servicio
+                            </a>
+                        </div>
+                    </div>
+
+                </section>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

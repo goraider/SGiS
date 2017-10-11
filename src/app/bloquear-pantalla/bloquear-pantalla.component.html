@@ -1,0 +1,47 @@
+<div class="modal" [ngClass]="{'is-active': mostrar}">
+  <div class="modal-background" style="background:rgba(0,0,0,0.9)!important;"></div>
+  <div class="modal-content">
+    <div class="card" style=" border-radius:1em; overflow: hidden">
+      <div class="card-image hero is-primary">
+        <div class="banerLogin">
+          <img src="../assets/iconos/logo-ugus.svg" aria-hidden="true">
+          <span>UGUS - SGIS</span>
+        </div>
+        <div class="banerLogin" *ngIf="configuracion">
+          <figure class="image" style="float:left">
+            <i  class="profile icon-logo-ugus" style="width:65px; height: 65px; margin-top: -18px;"></i>
+          </figure>
+          <span style="float:left">{{configuracion.clues.nombre}}</span>
+        </div>
+
+        <button class="button is-primary is-inverted" (click)="logout()" style="position:absolute; top:1em; right:1em;"><span class="icon"><i class="fa fa-sign-out"></i></span> <span>Salir</span></button>
+      </div>
+      <div class="card-content has-text-centered">
+        <form name="form" (ngSubmit)="!loading && login()">
+          <div class="notification is-danger" *ngIf="mostrarMensaje">
+            <a class="delete" (click)="mostrarMensaje = false"></a>
+            <b>Error:</b> {{ mensaje }}
+          </div>
+
+          <figure class="image is-16by9">
+            <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
+            <span class="icon is-large" style="position: absolute; top: 0px; right:0px;"><i class="fa fa-lock"></i></span>
+          </figure>
+
+          <h1 class="title">{{ usuario.nombre }} {{ usuario.apellidos }}</h1>
+          <h2 class="subtitle"><span class="icon"><i class="fa fa-envelope"></i></span> ({{usuario.email}})</h2>
+          <p class="control has-icon">
+            <input class="input is-medium" [ngClass]="{'is-danger': mensaje}" type="password" name="password" id="password" placeholder="Contraseña"
+              [(ngModel)]="credenciales.password">
+            <span class="icon is-small">
+                <i class="fa fa-lock"></i>
+                </span>
+          </p>
+          <button class="button is-primary is-medium is-fullwidth" [ngClass]="{'is-loading': loading}"><span class="icon"><i class="fa fa-unlock"></i></span><span>Desbloquear</span></button>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</div>

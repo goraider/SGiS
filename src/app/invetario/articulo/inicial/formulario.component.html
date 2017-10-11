@@ -1,0 +1,265 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="articulos-stock-inicial" titulo="Artículos / Catalogo" [dato]="dato"></formulario>
+
+<!-- Menu principal  menutitulo="titulo del modulo en el que estamos con el nombre como se encuentra en enviroment" menuactual="nombre del hub donde estamos como se especifico en el routing"-->
+<sistema-menu menutitulo="Catalogo" menuactual="catalago"></sistema-menu>
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; ">
+
+    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda menutitulo="titulo del modulo enviroment" -->
+        <sistema-menu-aside menuactual="Catalogo"></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+            <!-- inicio formulario -->
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="guardarDatos()">
+                <section class="hero is-primary">
+                    <div class="hero-body">
+
+                        <!-- Opciones  -->
+                        <div class="control is-grouped" style="position:absolute; top:4.5em; right:1em;">
+                            <p class="control" >
+                                <a class="button is-primary tooltip" (click)="ctrl.regresar()">
+                                    <span class="icon ">
+                                        <i class="fa fa-arrow-left"> </i>
+                                    </span>
+                                    <span class="tooltiptext">Regresar</span>
+                                </a>
+                            </p>
+                        
+                            <p class="control" >
+                                <a class="button is-primary tooltip"  (click)=" cargarArticulos()" id="cargar_datos_actualizar">
+                                    <span class="icon ">
+                                        <i class="fa fa-refresh"></i>
+                                    </span>
+                                    <span class="tooltiptext">Actualizar</span>
+                                </a>
+                            </p>
+
+                            <p class="control" >
+                                <button class="button is-primary tooltip" type="submit" [ngClass]="{'is-loading': cargando}" [disabled]="dato.invalid">
+                                    <span class="icon ">
+                                        <i class="fa fa-save"> </i>
+                                    </span>
+                                    <span class="tooltiptext">Guardar</span>
+                                </button>
+
+                            </p>
+                        </div>
+                        <div class="container is-fluid">
+                            <h1 class="title">
+                                <span *ngIf="!ctrl.cargando || !cargando" class="icon is-medium"><i class="fa fa-list-alt"></i></span>
+                                <span *ngIf="ctrl.cargando || cargando" class="icon is-medium"><i class="fa fa-refresh fa-spin"></i></span>
+                                Inicializar inventarios
+                            </h1>
+                        </div>
+                    </div>
+                </section>
+                <div class="is-fullwidth has-text-centered" *ngIf="cargando">
+                    <br>
+                    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+                </div>
+
+                <section class="section" style="padding: 2rem 1rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+
+                    <div formArrayName="movimientos_articulos">
+                        <div class="notification is-warning" *ngIf="!ctrl.guardado">
+                            ¡Atención! <strong>En esta lista solo se cargan los productos que aun no tienen inventario</strong>
+                                
+                            <strong><br><br>Si necesita que se carguen todos los articulos y reestablecer el inventario de click acá <a class="button is-small" 
+                                (click)="ctrl.abrirModal('confirmarReestablecer')">Resetear inventario</a></strong>
+                            
+                        </div>
+                        <div class="notification is-success" *ngIf="ctrl.guardado">
+                            ¡La carga se realizo correctamente! <strong>Puede regresar a listado para comprobarlo</strong> 
+                            <a class="button is-small" routerLink="../lista">Listado</a>
+                        </div>
+
+                        <div class="notification is-danger" *ngIf="error">
+                            ¡No se completo la inicialización! <strong>Intente de nuevo</strong>, Si no contacte con soporte
+                        </div>
+                        
+                        <article class="media" *ngFor="let val of json_articulos | groupBy:'categorias.nombre'; let c = index;">
+                            <figure class="media-left">
+                                <p class="image is-64x64">
+                                    <img [src]="val.value[0].categorias.foto ? ctrl.API_PATH+'/adjunto/categoria/'+val.value[0].categorias.foto : './assets/128x128.png'">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <div class="content">                                    
+                                    <blockquote>
+                                        <span >Categoria: {{val.key}}</span>
+                                        <a class="button" (click)="cat[c] = !cat[c]" style="float:right">
+                                            <span class="icon">
+                                                <i class="fa fa-plus" *ngIf="!cat[c]"></i>
+                                                <i class="fa fa-minus" *ngIf="cat[c]"></i>
+                                            </span>
+                                        </a>
+                                    </blockquote>                                    
+                                </div>
+
+                                <article class="media" *ngFor="let item of val.value; let i=index" [style.display]="cat[c] ? 'block' : 'none'">
+                                    <figure class="media-left">
+                                        <p class="image is-48x48">
+                                            <img [src]="item.articulos_imagenes.length > 0 ? ctrl.API_PATH+'/adjunto/articulos/'+item.articulos_imagenes[0].imagen : './assets/128x128.png'">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content" [formGroupName]="item.contador">
+                                        <div class="content">
+                                            <p>
+                                                <strong>{{item.nombre}} <small *ngIf="item.unidades_medidas">( {{ item.unidades_medidas.nombre }} )</small></strong>
+                                                <strong class="tag is-dark is-medium"><span class="icon"><i class="fa fa-barcode"></i></span> &nbsp; {{ item.codigo_barras }}</strong>
+                                                <strong class="tag is-warning is-medium">Clave: {{ item.clave }}</strong>
+                                                <strong class="tag is-primary is-medium">Categoria: <span *ngIf="item.categorias">{{ item.categorias.nombre }}</span></strong>
+                                                <strong class="tag is-primary is-medium">Presentación: <span *ngIf="item.presentaciones">{{ item.presentaciones.nombre }}</span></strong>
+                                            </p>
+                                        </div>
+
+                                        <article class="media">
+                                            <div class="control is-grouped">
+
+                                                <a class="button is-success" (click)="agregar_lote(i)">
+                                                        <span class="icon">
+                                                            <i class="fa fa-plus"></i>                                                        
+                                                        </span> 
+                                                        &nbsp;
+                                                        Agregar nuevo lote
+                                                    </a>
+                                                <input *ngIf="!item.tiene_precio" class="input has-text-centered" type="text" placeholder="Precio de venta" formControlName="precio_venta">
+                                                <strong *ngIf="item.tiene_precio" class="tag is-info is-medium">{{item.precios}}</strong>
+                                            </div>
+                                        </article>
+
+                                        <article class="media">
+                                            <table class="table is-narrow is-bordered is-striped" *ngIf="ctrl.dato.controls.movimientos_articulos.controls[i].controls.lotes">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Lote</th>
+                                                        <th>Caducidad</th>
+                                                        <th>Existencia</th>
+                                                        <th>Costo</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody formArrayName="lotes">
+                                                    <tr *ngFor="let val of ctrl.dato.controls.movimientos_articulos.controls[i].controls.lotes.controls;  let i2 = index;" [formGroupName]="i2">
+                                                        <td><input class="input has-text-centered" type="text" placeholder="Lote"
+                                                                formControlName="lote"></td>
+                                                        <td><input class="input has-text-centered" type="date" placeholder="Caducidad"
+                                                                formControlName="fecha_caducidad"></td>
+                                                        <td><input class="input has-text-centered" type="number" placeholder="Existencia"
+                                                                formControlName="existencia"></td>
+                                                        <td><input class="input has-text-centered" type="number" placeholder="Costo"
+                                                                formControlName="precio_unitario"></td>
+                                                        <td>
+                                                            <a class="is-danger" title="Quitar este lote" (click)="quitar_lote(i, i2)">
+                                                                <span class="icon">
+                                                                    <i class="fa fa-trash-o"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </article>
+                                    </div>
+                                </article>
+
+                            </div>
+                        </article>
+                        <!--<span >
+                            <div class="box" *ngFor="let item of ctrl.dato.controls.movimientos_articulos.controls; let i=index" style="margin-bottom:0.1rem;" [style.background]="i%2 == 0 ? '#fafafa' : '#ffffff'">
+                                <article class="media" [formGroupName]="i">
+                                    <div class="media-left">
+
+                                        <figure class="image is-64x64">
+                                            <img [src]="item.value.articulos_imagenes ? ctrl.API_PATH+'/adjunto/articulos/'+item.value.articulos_imagenes[0].imagen : './assets/128x128.png'"
+                                                alt="Image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p>
+                                                <strong style="font-size:12pt">{{item.value.nombre}}</strong> <small *ngIf="item.value.unidades_medidas">( {{ item.value.unidades_medidas.nombre }} )</small>
+                                                <strong class="tag is-dark is-medium"><span class="icon"><i class="fa fa-barcode"></i></span> &nbsp; {{ item.value.codigo_barras }}</strong>
+                                                <strong class="tag is-warning is-medium">Clave: {{ item.value.clave }}</strong>
+                                                <strong class="tag is-primary is-medium">Categoria: <span *ngIf="item.value.categorias">{{ item.value.categorias.nombre }}</span></strong>
+                                                <strong class="tag is-primary is-medium">Presentación: <span *ngIf="item.value.presentaciones">{{ item.value.presentaciones.nombre }}</span></strong>
+                                            </p>
+                                            <hr>
+                                            <div class="control is-grouped">
+                                               
+                                                <a class="button is-success" (click)="agregar_lote(i)">
+                                                    <span class="icon">
+                                                        <i class="fa fa-plus"></i>                                                        
+                                                    </span> 
+                                                    &nbsp;
+                                                    Agregar nuevo lote
+                                                </a>
+                                                <input class="input has-text-centered"  type="text" placeholder="Precio de venta" formControlName="precio_venta">
+                                                
+                                            </div>
+                                            <table class="table is-narrow is-bordered is-striped" *ngIf="ctrl.dato.controls.movimientos_articulos.controls[i].controls.lotes">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Lote</th>
+                                                        <th>Caducidad</th>
+                                                        <th>Existencia</th>
+                                                        <th>Costo</th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody formArrayName="lotes">
+                                                    <tr *ngFor="let val of ctrl.dato.controls.movimientos_articulos.controls[i].controls.lotes.controls;  let i2 = index;"  [formGroupName]="i2">
+                                                        <td><input  class="input has-text-centered"  type="text" placeholder="Lote" formControlName="lote"></td>
+                                                        <td><input  class="input has-text-centered"  type="date" placeholder="Caducidad" formControlName="fecha_caducidad"></td>
+                                                        <td><input  class="input has-text-centered"  type="number" placeholder="Existencia" formControlName="existencia"></td>
+                                                        <td><input  class="input has-text-centered"  type="number" placeholder="Costo" formControlName="precio_unitario"></td>
+                                                        <td >
+                                                            <a class="is-danger" title="Quitar este lote" (click)="quitar_lote(i, i2)">
+                                                                <span class="icon">
+                                                                    <i class="fa fa-trash-o"></i>
+                                                                </span>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </span>-->
+                    </div>
+
+                    <!-- fin formulario -->
+                </section>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="confirmarReestablecer">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+        <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
+        <button class="delete" (click)="ctrl.cancelarModal('confirmarReestablecer')"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="content">
+                <h1>¿Esta seguro de resetear el inventario?</h1>
+                <p>esta acción cargaratodos los productos que tienen inventario para susutituirlo, es necesario llenar y guardar la inicialización de inventario para que se refleje en el stock</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+        <a class="button is-success" (click)="cargarArticulos('iniciar')" >Continuar</a>
+        <a class="button" (click)="ctrl.cancelarModal('confirmarReestablecer')" id="cerra_restablecer">Cancelar</a>
+        </footer>
+    </div>
+</div>

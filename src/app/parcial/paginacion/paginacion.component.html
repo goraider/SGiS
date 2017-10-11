@@ -1,0 +1,75 @@
+<div style="padding:1em;" >
+    
+    <p class="control" style="float:right; margin-left: 16px;">
+        <span class="select">
+        <select #totalPorPagina (change)="ctrl.cambiar_filas_pagina(totalPorPagina)" style="height: 27px;">
+            <option value="15">Filas por página: 15</option>
+            <option value="30">Filas por página: 30</option>
+            <option value="50">Filas por página: 50</option>
+            <option value="100">Filas por página: 100</option>
+            <option value="500">Filas por página: 500</option>
+            <option value="all">Ver Todo</option>
+        </select>
+        </span>
+    </p>
+    <nav class="pagination is-centered" >
+        
+        <a class="pagination-previous" [ngClass]="{'is-disabled': 1 == ctrl.paginaActual }" (click)="ctrl.paginaAnterior()">Anterior</a>
+        <a class="pagination-next"  [ngClass]="{'is-disabled': ctrl.paginasTotales <= ctrl.paginaActual }" (click)="ctrl.paginaSiguiente()">Siguiente</a>
+
+
+        <ul class="pagination-list" *ngIf="ctrl.paginasTotales<=7">
+            <li *ngFor="let i of ctrl.indicePaginas">
+            <a class="pagination-link" [ngClass]="{'is-current': i == ctrl.paginaActual }" (click)="ctrl.mostrarLista(i)">{{ i }}</a>
+            </li>
+        </ul>
+
+        <ul class="pagination-list" *ngIf="ctrl.paginaActual < 4 && ctrl.paginasTotales > 7">
+            <li>
+                <a class="pagination-link" [ngClass]="{'is-current': 1 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(1)">1</a>
+            </li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': 2== ctrl.paginaActual }" (click)="ctrl.mostrarLista(2)">2</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': 3== ctrl.paginaActual }" (click)="ctrl.mostrarLista(3)">3</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': 4== ctrl.paginaActual }" (click)="ctrl.mostrarLista(4)">4</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotales == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginasTotales)">{{ ctrl.paginasTotales }}</a>
+            </li>
+        </ul>
+
+        <ul class="pagination-list" *ngIf="ctrl.paginaActual > ctrl.paginasTotales - 4 && ctrl.paginasTotales > 7">
+            <li>
+                <a class="pagination-link" [ngClass]="{'is-current': 1 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(1)">1</a>
+            </li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotales - 3 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginasTotales - 3)">{{ ctrl.paginasTotales - 3 }}</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotales - 2 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginasTotales - 2)">{{ ctrl.paginasTotales - 2 }}</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotales - 1 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginasTotales - 1)">{{ ctrl.paginasTotales - 1 }}</a></li>
+        
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotales == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginasTotales)">{{ ctrl.paginasTotales }}</a>
+            </li>
+        </ul>
+
+        <ul class="pagination-list" *ngIf="ctrl.paginaActual >= 4 && ctrl.paginaActual <= ctrl.paginasTotales - 4 && ctrl.paginasTotales > 7">
+            <li>
+            <a class="pagination-link" [ngClass]="{'is-current': 1 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(1)">1</a>
+            </li>
+            <li><span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            <li>
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginaActual-1 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginaActual-1)">{{ ctrl.paginaActual-1 }}</a>
+            </li>
+            <li>
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginaActual == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginaActual)">{{ ctrl.paginaActual }}</a>
+            </li>
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginaActual+1 == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginaActual+1)">{{ ctrl.paginaActual+1 }}</a>
+            </li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotales == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginasTotales)">{{ ctrl.paginasTotales }}</a>
+            </li>
+        </ul>
+    </nav>
+</div>

@@ -1,0 +1,62 @@
+
+<div class="profile-menu is-hidden-mobile" [style.background]="'url(' + fondo + ')'">
+    <a (click)="toggle = !toggle">
+        <div class="profile-pic">
+            <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
+        </div>
+
+        <div class="profile-info ng-binding">
+            {{usuario.username}}
+
+            <i class="fa fa-caret-{{toggle ? 'up' : 'down'}}"></i>
+        </div>
+    </a>    
+</div>
+<div class="is-hidden-mobile sub-menu-perfil" [ngStyle]="{'display': toggle ? 'block' : 'none'}">
+    <ul class="main-menu" >
+        <li>
+            <a [routerLink]="['/perfil']" routerLinkActive="is-active"><i class="fa fa-user"></i> Ver perfil</a>
+        </li>
+        
+        <li>
+            <a (click)="logout()"><i class="fa fa-sign-out"></i> Salir</a>
+        </li>
+    </ul>
+</div>
+
+<aside class="menu" style="overflow:auto;" [style.maxHeight.px]="tamano-235">
+    <div *ngFor="let item of menu">
+        <p class="menu-label">&nbsp;{{item.titulo}}</p>
+        <ul class="menu-list">
+            <li *ngFor="let modulo of item.lista; let i = index" (click)="openmenu[i] = !openmenu[i]">
+                <a *ngIf="modulo.path != ''" routerLink="{{ modulo.path }}" routerLinkActive="{{modulo.path != '' ? 'is-active' : ''}}">
+                    <span class="icon" ><i class="{{ modulo.icono }}"></i></span>&nbsp;&nbsp;<span>{{ modulo.titulo }}</span>
+
+                    <ul *ngIf="modulo.lista && openmenu[i]">
+                        <li *ngFor="let mod of modulo.lista">
+                            <a routerLink="{{ mod.path }}" routerLinkActive="is-active">
+                                <span class="icon" ><i class="{{ mod.icono }}"></i></span>&nbsp;&nbsp;<span>{{ mod.titulo }}</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </a>
+
+                <a *ngIf="modulo.path == ''" style="margin-top:1px; box-shadow: 1px 1px 1px #DDD; background: rgb(250, 250, 250);">
+                    <span class="icon" ><i class="{{ modulo.icono }}"></i></span>&nbsp;&nbsp;<span>{{ modulo.titulo }}</span>
+
+                    <ul *ngIf="modulo.lista && openmenu[i]">
+                        <li *ngFor="let mod of modulo.lista">
+                            <a routerLink="{{ mod.path }}" routerLinkActive="is-active">
+                                <span class="icon" ><i class="{{ mod.icono }}"></i></span>&nbsp;&nbsp;<span>{{ mod.titulo }}</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                </a>
+                <i class="fa fa-caret-{{openmenu[i] ? 'up' : 'down'}}" *ngIf="modulo.lista" style="float:right; margin-top:-28px; margin-right:12px; "></i>
+            </li>    
+        </ul>
+    </div> 
+    <hr>       
+</aside>

@@ -1,0 +1,214 @@
+<listar #ctrl URL="incidencias" titulo="Seguimiento / Transacciones" ></listar>
+    <menu-principal-incidencias></menu-principal-incidencias>
+<div style="height:50px;"></div>
+
+<div class="tabs is-toggle is-fullwidth">
+  <ul>
+    <li [ngClass]="{ 'is-active' : tab == 1}">
+      <a (click)="tab=1">
+        <span class="icon is-small"><i class="fa fa-list-ol"></i></span>
+        <span>Seguimiento</span>
+      </a>
+    </li>
+    <li>
+      <a>
+        <span class="icon is-small"><i class="fa fa-ambulance"></i></span>
+        <span>Referencia</span>
+      </a>
+    </li>
+    <li>
+      <a>
+        <span class="icon is-small"><i class="fa fa-line-chart"></i></span>
+        <span>Escalar</span>
+      </a>
+    </li>
+    <li>
+      <a>
+        <span class="icon is-small"><i class="fa fa-weixin"></i></span>
+        <span>Notificar</span>
+      </a>
+    </li>
+    <li>
+      <a>
+        <span class="icon is-small"><i class="fa fa-heart"></i></span>
+        <span>Alta</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="contenedor columns" style="height:100%;">
+    <div class="column is-8" style="padding:1em;" [ngClass]="{ 'is-hidden': tab != 1}">
+        <div style="background: #FFF; border-radius: 1em; overflow: hidden;">
+            <section class="hero" [ngClass] = " {'is-dark': ctrl.busquedaActivada, 'is-primary': !ctrl.busquedaActivada } " >
+                
+                <div class="hero-body" style="position:relative;">
+                    <a class="button  is-dark" *ngIf="ctrl.busquedaActivada" style="position:absolute; top:1em; right:1em;" (click)="ctrl.busquedaActivada=false;searchBox.value=''; ctrl.resultadosBusqueda=[]"><span class="icon "><i class="fa fa-close"></i></span></a>
+                    <a class="button  is-dark" *ngIf="ctrl.busquedaActivada" style="position:absolute; top:1em; right:3.5em;" (click)="ctrl.listarBusqueda(searchBox.value,1)"><span class="icon "><i class="fa fa-refresh"></i></span></a>
+                    <a class="button  is-primary" *ngIf="!ctrl.busquedaActivada" style="position:absolute; top:1em; right:1em;" (click)="ctrl.listar(1)"><span class="icon "><i class="fa fa-refresh"></i></span></a>
+                    <div class="container is-fluid">
+                        
+                        <h1 class="title" *ngIf="!ctrl.busquedaActivada">
+                            <span class="icon is-medium"><i class="fa fa-list-alt"></i></span> Seguimientos
+                        </h1>
+                        <h1 class="title" *ngIf="ctrl.busquedaActivada">
+                            <span class="icon is-medium"><i class="fa fa-search"></i></span> Búsqueda 
+                        </h1>
+                        <div class="control is-grouped">
+                        <p class="control is-expanded">
+                            <input class="input is-medium" type="text" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value)">
+                        </p>
+                        <p class="control">
+                            <a class="button is-medium is-primary is-inverted " routerLink="/seguimiento/nuevo">
+                            <span class="icon"><i class="fa fa-plus"></i></span><span>Nuevo</span>
+                            </a>
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="is-fullwidth has-text-centered" *ngIf="ctrl.cargando">
+                <br>
+                <span class="tag is-info is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+                <br>
+                <br>
+            </div>
+        
+            <table class="table" *ngIf="!ctrl.cargando">
+                <thead>
+                    <tr>
+                    <th>No.</th>
+                    <th>Estado del Paciente</th>
+                    <th>Antiguedad</th>
+                    <th>Triage</th>
+                    <th>Medico quien Reporta</th>
+                    <th>Turno</th>
+                    
+                    <th style="text-align:center;">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody  *ngIf="!ctrl.busquedaActivada && ctrl.dato">
+                    <tr *ngFor="let item of ctrl.dato; let i=index">
+                        <th style="vertical-align: middle;"><a routerLink="/seguimiento/editar/{{item.id}}">{{ item.id }}</a></th>
+                        <td style="vertical-align: middle;"><a routerLink="/seguimientos/editar/{{item.id}}">{{ item.motivo_ingreso }}</a></td>
+                        
+                        <td style="vertical-align: middle;" class="has-text-centered"><span class="icon " *ngIf="item.cargando"><i class="fa fa-circle-o-notch fa-spin"></i></span><a *ngIf="!item.cargando" class="is-danger" (click)="ctrl.eliminar(item, i)"><span class="icon"><i class="fa fa-trash-o"></i></span></a></td>
+                    </tr>
+                    <tr *ngIf="ctrl.dato.length == 0">
+                        <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>                    
+                    </tr>
+                </tbody>
+                <tbody *ngIf="ctrl.busquedaActivada">
+                  <tr *ngFor="let item of ctrl.resultadosBusqueda; let i=index">
+                    <th style="vertical-align: middle;"><a routerLink="/catalogos/turnos/editar/{{item.id}}">{{ item.id }}</a></th>
+                    <td style="vertical-align: middle;"><a routerLink="/catalogos/turnos/editar/{{item.id}}">{{ item.nombre }}</a></td>
+                    
+                    <td style="vertical-align: middle;" class="has-text-centered"><span class="icon " *ngIf="item.cargando"><i class="fa fa-circle-o-notch fa-spin"></i></span><a *ngIf="!item.cargando" class="is-danger" (click)="ctrl.eliminar(item, i)"><span class="icon"><i class="fa fa-trash-o"></i></span></a></td>
+                  </tr>
+
+                    <tr *ngIf="ctrl.resultadosBusqueda.length == 0 && ctrl.busquedaActivada">
+                        <td colspan="5" style="vertical-align: middle; color:#888;">No se encontraron resultados.</td>                    
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Paginación para la lista  -->
+            <paginacion 
+                [total]="ctrl.total" 
+                [paginasTotales]="ctrl.paginasTotales" 
+                [resultadosPorPagina]="ctrl.resultadosPorPagina" 
+                [paginaActual]="ctrl.paginaActual" 
+                [indicePaginas]="ctrl.indicePaginas"
+                (onSiguiente)="ctrl.paginaSiguiente()" 
+                (onAnterior)="ctrl.paginaAnterior()" 
+                (onListar)="ctrl.listar($event)" 
+                *ngIf="ctrl.total>0 && ctrl.total > ctrl.resultadosPorPagina && !ctrl.busquedaActivada"></paginacion>
+            <!-- Paginación para la búsqueda  -->
+            <paginacion 
+                [total]="ctrl.totalBusqueda" 
+                [paginasTotales]="ctrl.paginasTotalesBusqueda" 
+                [resultadosPorPagina]="ctrl.resultadosPorPaginaBusqueda" 
+                [paginaActual]="ctrl.paginaActualBusqueda" 
+                [indicePaginas]="ctrl.indicePaginasBusqueda"
+                (onSiguiente)="ctrl.paginaSiguienteBusqueda(searchBox.value)" 
+                (onAnterior)="ctrl.paginaAnteriorBusqueda(searchBox.value)" 
+                (onListar)="ctrl.listarBusqueda(searchBox.value,$event)" 
+                *ngIf="ctrl.totalBusqueda > 0 && ctrl.totalBusqueda > ctrl.resultadosPorPaginaBusqueda && ctrl.busquedaActivada"></paginacion>
+        </div>
+        
+    </div>
+
+
+    <br>
+<div  style="padding:1em;">
+    <div class="card"  style="border-radius:3%" >
+        <div class="card-content">
+            <div class="media">
+            <div class="media-left">
+                <figure class="image is-48x48">
+                <img src="./assets/icono-clues.svg" alt="Image">
+                </figure>
+            </div>
+            <div class="media-content">
+                <p class="title is-4">
+                    <strong>Paciente: </strong>
+                     MARIA PEREZ ESTRADA
+                </p>
+
+                <p class="subtitle is-6">
+                    <strong>CURP: </strong>
+                    MAPE900202MCSRRS09
+                </p>
+            </div>
+            </div>
+            <div class="card-content">
+                <p class="content">
+                    <strong>Fecha de Nacimiento: </strong>
+                    20/08/1990
+                    <br>
+                    <strong>Telefono: </strong>
+                    9678062030
+                    <br>
+                    <strong>Domicilio: </strong>
+                    Conocido
+                </p>
+                <p class="content">
+                    <strong>Municipio: </strong>
+                    San Cristobal
+                    <br>
+                    <strong>Localidad: </strong>
+                    Teopisca
+                </p>
+            </div>
+        </div>
+        </div>
+    <br>
+        <div class="card"  style="border-radius:3%" >
+        <div class="card-content">
+            <div class="media">
+            <div class="media-left">
+                <figure class="image is-48x48">
+                <img src="./assets/icono-clues.svg" alt="Image">
+                </figure>
+            </div>
+            <div class="media-content">
+                <p class="title is-4">
+                    <strong>Acompañante: </strong>
+                     JUAN ESTRADA LOPEZ
+                </p>
+
+            </div>
+            </div>
+            <div class="card-content">
+                <p class="content">
+                    <strong>Telefono: </strong>
+                    9678062030
+                    <br>
+                    <strong>Domicilio: </strong>
+                    Conocido
+                </p>
+
+            </div>
+        </div>
+        </div>
+</div>
+
+</div>

@@ -1,0 +1,34 @@
+<div class="modal" [ngClass]="{'is-active': mostrar}">
+    <div class="modal-background" (click)="toggle()"></div>
+    <div class="modal-content">
+
+        <header class="modal-card-head" style="background: white !important;">
+            <p class="modal-card-title"><span class="icon"><i class="fa fa-user-circle"></i></span> Mi cuenta</p>
+            <button class="delete" (click)="toggle()"></button>
+        </header>
+        <section class="modal-card-body has-text-centered">
+            
+            <figure class="image is-16by9" style="position:relative;">
+                <img src="{{ usuario.avatar }}" alt="avatar">                       
+            </figure>
+
+                
+            <h1 class="title">{{ usuario.nombre }} {{ usuario.apellidos }}</h1>
+            <h2 class="subtitle"><span class="icon"><i class="fa fa-envelope"></i></span> {{usuario.email}}</h2>
+
+           
+            <a [routerLink]="['/perfil']">
+                <span class="icon">
+                    <i class="fa fa-edit"></i>
+                </span>
+                Editar
+            </a>
+        
+
+        </section>
+        <footer class="modal-card-foot">
+            <a class="button  is-medium is-fullwidth " (click)="bloquear()"><span class="icon"><i class="fa fa-lock"></i></span><span>Bloquear aplicación</span></a>
+            <a class="button is-danger is-medium is-fullwidth is-outlined" (click)="logout()"><span class="icon"><i class="fa fa-sign-out"></i></span><span>Cerrar sesión</span></a><br>
+        </footer>
+    </div>
+</div>

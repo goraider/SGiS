@@ -1,0 +1,40 @@
+.bulma-select-multiple {
+    width:100%; font-size: 1em; border-color: #ddd; border-radius: 0.15em;box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+}
+.bulma-select-multiple:focus {
+    border-color: #00d1b2;
+    outline: none;
+}
+
+.bulma-select-multiple.is-warning {
+    width:100%; font-size: 1em; border-color: #ffdd57; border-radius: 0.15em;box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);
+}
+
+.table tr.is-selected {
+    background: #00d1b2!important;
+    color: white!important;
+}
+
+
+.table tr .icon {
+    color: #00d1b2;
+}
+
+.table tr.is-selected a .icon {
+    color: white!important;
+}
+
+.rojo {
+    background-color: #B40404;
+   	color: #ffffff;
+}
+
+.verde {
+    background-color: #31B404;
+    color: #ffffff;
+}
+
+.amarillo {
+    background-color: #FFFF00;
+    color: #000000;
+}

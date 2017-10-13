@@ -10,6 +10,10 @@ export const environment = {
   "OAUTH_CLIENTE": "http://192.168.1.24/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
+  "pusher_key": "d4b5aa9ca50d851e5250",
+  "pusher_cluster": "us2",
+  "pusher_channel": "private-notificacion-ugus",
+  "pusher_event": "App\Events\NotificacionEvent",
   "MENU": [
     {
       "titulo": "Dashboard",

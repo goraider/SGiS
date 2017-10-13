@@ -73,6 +73,10 @@ import { TriageColoresModule } from './catalogos/triage-colores/triage-colores.m
 //rutas
 import { RutasModule } from './catalogos/rutas/rutas.module';
 
+//notificaciones
+import { EscalamientosNotificacionesModule } from './sistema/escalamientos-notificaciones/escalamientos-notificaciones.module';
+// import { TiposNotificacionesModule } from './catalogos/tipos-notificaciones/tipos-notificaciones.module';
+
 //estados de incidencia
 import { EstadosIncidenciasModule } from './catalogos/estados-incidencias/estados-incidencias.module';
 
@@ -87,6 +91,9 @@ import { ArticuloModule } from './invetario/articulo/articulo.module';
 //reportes
 import { ReporteVentaModule } from './reporte/resumen/reporte-venta.module';
 import { ReporteArticuloModule } from './reporte/inventario/reporte-articulo.module';
+
+//Notificacion Pusher
+import { NotificacionPusherModule } from './notificacion/notificacion-pusher.module';
 
 // Asegurarase que en imports "WildcardRoutingModule" vaya al ÚLTIMO
 // Esto nos sirve para redireccionar a una página 404 en lugar de que se genere un error
@@ -156,6 +163,9 @@ import { ReporteArticuloModule } from './reporte/inventario/reporte-articulo.mod
     
     ReporteVentaModule,
     ReporteArticuloModule,
+
+    NotificacionPusherModule,
+    
     WildcardRoutingModule, // Este siempre debe ir al final para que no haga conflicto con otras rutas    
   ],
   providers: [ Title, AuthGuard, AuthService,JwtHelper, JwtRequestService],

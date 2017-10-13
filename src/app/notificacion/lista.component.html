@@ -1,0 +1,112 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<listar #ctrl URL="notificacion" titulo="Notificaciones"></listar>
+
+<!-- Menu principal  menutitulo="titulo del modulo en el que estamos con el nombre como se encuentra en enviroment" menuactual="nombre del hub donde estamos como se especifico en el routing"-->
+<sistema-menu menutitulo="Catalogo" menuactual="catalogo"></sistema-menu>
+<div style="height:50px;"></div>
+<div class="contenedor columns " style="height:100%; " >
+    <div class="column"></div>
+    <div class="column is-three-quarters" style="padding:1em; ">
+        <div style="background: #FFF; border-radius: 1em; ">
+            
+            <!-- Opciones y busqueda -->
+            <section class="hero" [ngClass]=" {'is-dark': ctrl.busquedaActivada, 'is-primary': !ctrl.busquedaActivada } ">
+                <div class="hero-body" style="position:relative;">
+            
+                    <div class="control is-grouped" style="position:absolute; top:0.5em; right:0em;">                        
+                        <p class="control" *ngIf="!ctrl.busquedaActivada">
+                            <a class="button is-primary tooltip"  (click)="ctrl.listar(1)">
+                                <span class="icon ">
+                                    <i class="fa fa-refresh"></i>
+                                </span>
+                                <span class="tooltiptext">Actualizar</span>
+                            </a>
+                        </p>
+            
+                        <p class="control" *ngIf="ctrl.busquedaActivada">
+                            <a class="button is-dark tooltip"  (click)="ctrl.listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar">
+                                <span class="icon ">
+                                    <i class="fa fa-refresh"></i>
+                                </span>
+                                <span class="tooltiptext">Actualizar</span>
+                            </a>
+                        </p>
+                        <p class="control">
+                            <a class="button  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
+                                <span class="icon ">
+                                    <i class="fa fa-close"></i>
+                                </span>
+                                <span class="tooltiptext">Cerrar Busqueda</span>
+                            </a>
+                        </p>
+                    </div>
+            
+                    <div class="container is-fluid">
+            
+                        <h1 class="title" *ngIf="!ctrl.busquedaActivada">
+                            <span class="icon is-medium"><i class="{{icono}}"></i></span>&nbsp; Notificaciones
+                        </h1>
+                        <h1 class="title" *ngIf="ctrl.busquedaActivada">
+                            <span class="icon is-medium"><i class="fa fa-search"></i></span> Búsqueda
+                        </h1>
+                        <div class="control is-grouped">
+                            <p class="control is-expanded">
+                                <input class="input is-medium" type="text" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value)">
+                            </p>
+                            
+                        </div>
+                    </div>
+            
+                </div>
+            </section>
+            
+            <div class="is-fullwidth has-text-centered" *ngIf="ctrl.cargando">
+                <br>
+                <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+                <br>
+                <br>
+            </div>
+                
+            <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
+                    
+                <!--Lista -->
+                <span *ngIf="!ctrl.cargando">
+                    <div class="box" *ngFor="let item of ctrl.dato; let i=index" style="margin-bottom:0.1rem;" [style.background]="i%2 == 0 ? '#fafafa' : '#ffffff'">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-64x64">
+                                    <img [src]="item.user.foto ? ctrl.API_PATH+'/adjunto/usuario/' + item.user.foto : item.user.avatar">
+                                </figure>
+                            </div>
+                            <div class="media-content">
+                                <div class="content">
+                                <p>
+                                    <strong>{{item.mensaje.titulo}}</strong>  
+                                    
+                                    <br>
+                                    {{item.mensaje.mensaje}}
+                                </p>
+                                </div> 
+                                <nav class="level is-mobile" style="color: #000; font-weight: bold;">
+                                <div class="level-left">
+                                    <a class="level-item button is-small" *ngIf="!item.mensaje.leido" (click)="leer_notificacion(ctrl.dato, item.mensaje.id, i)" style="cursor:default" title="Marcar como leido">
+                                    <span class="icon is-small"><i class="fa fa-envelope-open-o"></i></span>
+                                    </a>
+                                    
+                                    <a class="level-item">
+                                    <small><i class="fa fa-clock-o"></i> {{item.mensaje.created_at | transcurrido}}</small>
+                                    </a>
+                                </div>
+                                </nav>           
+                            </div>
+                        </article>
+                    </div>
+                </span>
+            </span>
+            <!-- Paginación para la lista  -->
+            <paginacion [ctrl]="ctrl"></paginacion>
+
+        </div>
+    </div>
+    <div class="column"></div>
+</div>

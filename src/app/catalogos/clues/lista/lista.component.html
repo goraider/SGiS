@@ -32,10 +32,10 @@
 
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
-                            <th style="vertical-align: middle;"><a (click)="detalle_clue(item)"></a>{{ item.clues }}</th>
-                            <td style="vertical-align: middle;"><a (click)="detalle_clue(item)"></a>{{ item.nombre }}</td>
-                            <td style="vertical-align: middle;"><a (click)="detalle_clue(item)"></a>{{ item.jurisdicciones.nombre }}</td>
-                            <td style="vertical-align: middle;"><a (click)="detalle_clue(item)"></a>{{ item.institucion }}</td>
+                            <th style="vertical-align: middle;"><a (click)="detalle_clue(item)">{{ item.clues }}</a></th>
+                            <td style="vertical-align: middle;"><a (click)="detalle_clue(item)">{{ item.nombre }}</a></td>
+                            <td style="vertical-align: middle;"><a (click)="detalle_clue(item)">{{ item.jurisdicciones.nombre }}</a></td>
+                            <td style="vertical-align: middle;"><a (click)="detalle_clue(item)">{{ item.institucion }}</a></td>
                             <td style="vertical-align: middle;" class="has-text-centered">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>

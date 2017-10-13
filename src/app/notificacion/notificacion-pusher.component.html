@@ -1,0 +1,46 @@
+<a class="nav-item tooltip" (click)="toggleNotificaciones()" style="height: 48px;" >
+  <span class="icon">
+      <i class="fa fa-bell"></i>
+  </span>
+  <span class="tag is-danger" style="position:absolute; top:0px; right:0px;" *ngIf="numero_notif > 0">{{ numero_notif }}</span>
+  <span class="tooltiptext">Notificaciones</span>
+</a>
+<section *ngIf="mostrar_notificacion" class="pusher-notificacion">
+    <div class="box" *ngFor="let mensaje of mensajes; let i = index;" style="margin-bottom: 0.2rem;" [style.background]="mensaje.mensaje.leido ? '' : 'aliceblue'">
+        <article class="media">
+          <div class="media-left">
+            <figure class="image is-64x64">
+                <img [src]="mensaje.user.foto ? API_PATH+'/adjunto/usuario/' + mensaje.user.foto : mensaje.user.avatar">
+            </figure>
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>{{mensaje.mensaje.titulo}}</strong>  
+                
+                <br>
+                {{mensaje.mensaje.mensaje}}
+              </p>
+            </div> 
+            <nav class="level is-mobile" style="color: #000; font-weight: bold;">
+              <div class="level-left">
+                <a class="level-item button is-small" *ngIf="!mensaje.mensaje.leido" (click)="leer_notificacion(mensaje.mensaje.id, i)" style="cursor:default" title="Marcar como leido">
+                  <span class="icon is-small"><i class="fa fa-envelope-open-o"></i></span>
+                </a>
+                
+                <a class="level-item">
+                  <small><i class="fa fa-clock-o"></i> {{mensaje.mensaje.created_at | transcurrido}}</small>
+                </a>
+              </div>
+            </nav>           
+          </div>
+        </article>
+      </div>
+      <footer *ngIf="numero_notif > 5">
+          <a class="button is-info is-fullwidth" routerLink="{{ruta_notificacion}}">
+            Ver todo
+          </a>
+      </footer>
+
+</section>
+<simple-notifications [options]="options"></simple-notifications>

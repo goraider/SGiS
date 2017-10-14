@@ -33,7 +33,7 @@
                     <div class="columns">
                         <div class="column is-6">
                             <label class="label">Nombre: </label>
-                            <p class="control is-expanded  has-icon has-icon-right">
+                            <p class="field is-expanded  has-icon has-icon-right">
                                 <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')}"
                                     placeholder="nombre" formControlName="nombre" >
                                 <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">
@@ -44,7 +44,7 @@
                         </div>
                         <div class="column is-6">
                             <label class="label">Controlador: </label>
-                            <p class="control is-expanded  has-icon has-icon-right">
+                            <p class="field is-expanded  has-icon has-icon-right">
                                 <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('controlador').hasError('required') && ctrl.dato.get('controlador').hasError('required')}"
                                     placeholder="controlador" formControlName="controlador" >
                                 <span class="icon is-small" *ngIf="ctrl.dato.get('controlador').hasError('required') && ctrl.dato.get('controlador').hasError('required')">
@@ -93,7 +93,7 @@
                             Metodos del controlador 
                         </p>
 
-                        <div class="control is-grouped" style="margin-right: 10px;margin-top: -3%;float: right;">
+                        <div class="field is-grouped" style="margin-right: 10px;margin-top: -3%;float: right;">
                             <p class="control" >
                                 <a class="button is-primary tooltip" (click)="ctrl.agregar_form_array(ctrl.dato.controls.metodos.controls, form_metodos)">
                                     <span class="icon ">

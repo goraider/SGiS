@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'turnos-formulario',
+  selector: 'cargo-formulario',
   templateUrl: './formulario.component.html',
   styleUrls:["./formulario.component.css"]
 })

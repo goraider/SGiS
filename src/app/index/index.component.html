@@ -2,7 +2,7 @@
 
 <div style="height:50px;"></div>
 <section style="padding: 1em;">
-  <div class="control is-grouped">
+  <div class="field is-grouped">
     <p class="control is-expanded">
         <input class="input is-medium" type="text" placeholder="Buscar" [(ngModel)] = "busqueda" id="search-box">
     </p>
@@ -14,6 +14,7 @@
   </div>
 </section>
 <section style="padding: 1em; overflow:auto;" [style.maxHeight.px]="tamano-130">
+    
     <section class="contenedor columns is-multiline is-mobile" *ngFor="let val of menu">
         <div *ngFor="let item of val.lista | buscarModulo: busqueda"  [class]="item.lista ? 'column is-12' : val.lista.length > 7 ? '' : 'column is-2-desktop is-4-tablet is-6-mobile'" >
             <a *ngIf="!item.lista" href="#" title="{{ item.titulo}}" style="position: relative;" class="item menu-index menu-index-a {{val.lista.length > 6 ? 'menu-index-a-tamanio' : ''}}"  routerLink="{{item.path}}" routerLinkActive="active">

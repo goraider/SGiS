@@ -7,9 +7,9 @@ import { AuthGuard } from '../../auth-guard.service';
 
 
 const routes: Routes = [
-  { path: 'catalogos/niveles-cones', redirectTo: '/catalogos/niveles-cones/lista', pathMatch: 'full' },
+  { path: 'catalogos/nivel-cone', redirectTo: '/catalogos/nivel-cone/lista', pathMatch: 'full' },
   {
-    path: 'catalogos/niveles-cones',
+    path: 'catalogos/nivel-cone',
     children: [
        { path: 'lista', component: ListaComponent},
        { path: 'nuevo', component: FormularioComponent },

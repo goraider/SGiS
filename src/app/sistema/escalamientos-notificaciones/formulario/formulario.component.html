@@ -56,7 +56,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Nombre</th>
-                                <th>Teléfono</th>
+                                <th>Email</th>
                                 <th style="text-align:center;">Opciones</th>
                             </tr>
                         </thead>
@@ -64,7 +64,7 @@
                             <tr *ngFor="let item of ctrl.dato.controls.usuarios_id.controls; let i=index">
                                 <th style="vertical-align: middle;">{{ item.controls.id.value }}</th>
                                 <td style="vertical-align: middle;">{{ item.controls.nombre.value }}</td>
-                                <td style="vertical-align: middle;">{{ item.controls.telefono.value}}</td>
+                                <td style="vertical-align: middle;">{{ item.controls.email.value}}</td>
                                 <td style="vertical-align: middle;" class="has-text-centered">
                                     <a id="quitar{{i}}" class="is-danger" (click)="quitar_form_array(ctrl.dato.controls.usuarios_id.controls,i)"><span class="icon"><i class="fa fa-trash-o"></i></span></a>
                                 </td>

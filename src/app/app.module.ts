@@ -165,6 +165,8 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     ReporteArticuloModule,
 
     NotificacionPusherModule,
+
+    EscalamientosNotificacionesModule,
     
     WildcardRoutingModule, // Este siempre debe ir al final para que no haga conflicto con otras rutas    
   ],

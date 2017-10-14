@@ -6,9 +6,9 @@ import { FormularioComponent } from './formulario/formulario.component';
 import { AuthGuard } from '../../auth-guard.service';
 
 const routes: Routes = [
-  { path: 'sistema', redirectTo: '/sistema/escalamientos-notificaciones/lista', pathMatch: 'full' },
+  { path: 'sistema', redirectTo: '/sistema/escalamiento-notificacion/lista', pathMatch: 'full' },
   {
-    path: 'sistema/escalamientos-notificaciones',
+    path: 'sistema/escalamiento-notificacion',
     children: [
        { path: 'lista', component: ListaComponent},
        { path: 'nuevo', component: FormularioComponent },

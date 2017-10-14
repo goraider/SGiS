@@ -6,9 +6,9 @@ import { FormularioComponent } from './formulario/formulario.component';
 import { AuthGuard } from  '../../auth-guard.service';
 
 const routes: Routes = [
-  { path: 'catalogos/cartera-servicios', redirectTo: '/catalogos/cartera-servicios/lista', pathMatch: 'full' },
+  { path: 'catalogos/cartera-servicio', redirectTo: '/catalogos/cartera-servicio/lista', pathMatch: 'full' },
   {
-    path: 'catalogos/cartera-servicios',
+    path: 'catalogos/cartera-servicio',
     children: [
        { path: 'lista', component: ListaComponent},
        { path: 'nuevo', component: FormularioComponent },

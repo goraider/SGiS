@@ -35,12 +35,12 @@ export class FormularioComponent {
 
   autocompleListFormatter = (data: any) => {
 
-    let html = `<span>(${data.id}) - ${data.nombre} - ${data.paterno} - ${data.materno} - ${data.telefono}</span>`;
+    let html = `<span>${data.nombre} - ${data.email} - ${data.celular}</span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   }
 
   valorFormato_usuario(data: any) {
-    let html = `(${data.id}) - ${data.nombre} - ${data.paterno} - ${data.materno} - ${data.telefono}`;
+    let html = `${data.nombre} - ${data.email} - ${data.celular}`;
     return html;
   }
   select_usuario_autocomplete(modelo, data) {

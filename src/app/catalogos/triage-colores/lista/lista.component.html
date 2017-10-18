@@ -33,7 +33,7 @@
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
                             <th style="vertical-align: middle;">{{ item.id }}</th>
-                            <th style="vertical-align: middle;">{{ item.nombre }}</th>
+                            <th style="vertical-align: middle;"><a class="tag is-medium" [ngClass]="{'is-success' : item.nombre == 'Verde', 'is-warning' : item.nombre == 'Amarillo', 'is-danger' : item.nombre == 'Rojo'}">{{ item.nombre }}</a></th>
                             <td style="vertical-align: middle;">{{ item.tiempo_minimo }}</td>
                             <td style="vertical-align: middle;">{{ item.tiempo_maximo }}</td>
                             <td style="vertical-align: middle;" class="has-text-centered">
@@ -61,7 +61,9 @@
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <strong class="tag is-medium" [ngClass]="{'is-success' : item.nombre == 'Verde', 'is-warning' : item.nombre == 'Amarillo', 'is-danger' : item.nombre == 'Rojo'}"> ID: {{item.id}} Nombre: {{item.nombre}} </strong>
+                                        <strong>ID: {{item.id}}</strong>
+                                        <br>
+                                        <strong class="tag is-medium" [ngClass]="{'is-success' : item.nombre == 'Verde', 'is-warning' : item.nombre == 'Amarillo', 'is-danger' : item.nombre == 'Rojo'}"> {{item.nombre}} </strong>
                                         <br>
                                         <strong class="tag" >Tiempo Minimo: {{ item.tiempo_minimo }} Tiempo Maximo: {{tiempo_maximo}}</strong>
 

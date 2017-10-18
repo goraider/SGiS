@@ -446,7 +446,7 @@ input[type="checkbox"] .styled:checked + label::after {
   float: left;
     text-align: -webkit-center;
     margin-left: 25px;
-    height: 138px;
+    height: 153px;
     margin-top: -5px;
     padding: 7px 36px;
 }

@@ -2,7 +2,7 @@
     <div class="contenido ">
     <form name="form" (ngSubmit)="!loading && login()">
             <h1 class="title has-text-centered">Bienvenido</h1>
-            <h2 class="subtitle has-text-centered">Esta app esta diseñada especialmente para ti.</h2>
+            <h2 class="subtitle has-text-centered" style="color:white;">Esta app esta diseñada especialmente para ti.</h2>
             <div class="notification is-danger" *ngIf="mostrarMensaje">
                 <a class="delete" (click)="mostrarMensaje = false"></a>
                 <b>Error:</b> {{ mensaje }}
@@ -13,18 +13,21 @@
                 <i class="fa fa-user"></i>
                 </span>
             </p>
+            <br>
             <p class="control has-icon">
                 <input class="input is-medium" [ngClass]="{'is-danger': mensaje}" type="password" name="password" id="password" placeholder="Contraseña" [(ngModel)]="credenciales.password">
                 <span class="icon is-small">
                 <i class="fa fa-lock"></i>
                 </span>
             </p>
+            <br>
             <p class="control" >
                 <button class="button is-primary is-large is-fullwidth" [ngClass]="{'is-loading': loading}" >Iniciar sesión</button>
             </p>
             <p class="control" *ngIf="saludIdDisponible">
                 <button class="button is-primary is-large is-fullwidth">Conectar con Salud ID</button>
             </p>
+            <br>
             <p class="control">
                 <a class="button is-white is-fullwidth" >Olvidé mi contraseña</a>
             </p>

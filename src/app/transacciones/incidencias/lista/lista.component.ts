@@ -180,48 +180,46 @@ export class ListaComponent {
             var i =  0;
             resultado.movimientos_incidencias.forEach(seguimientos => {
 
-  
-  
-                // pdf.setFontSize(12)
-                // pdf.setFont('times')
-                // pdf.setFontType('bold')
-                // pdf.text(20, 60 + (i * 10), 'N°:');
-                // pdf.setFontType('normal')
-                // pdf.text(45, 60 + (i * 10), seguimientos.incremento);
-            
-                
-                pdf.setFontSize(12)
-                pdf.setFont('times')
-                pdf.setFontType('bold')
-                pdf.text(20, 60 + (i * 10), 'Antigüedad:');
-                pdf.setFontType('normal')
-                pdf.text(45, 60 + (i * 10), seguimientos.antiguedad);
-
-
-                try {
-                  pdf.setFontSize(12)
-                  pdf.setFont('times')
-                  pdf.setFontType('bold')
-                  pdf.text(75, 60 + (i * 10), 'Medico:');
-                  pdf.setFontType('normal')
-                  pdf.text(90, 60 + (i * 10), seguimientos.medico_reporta_id);
-                  
-                } catch (error) {
-                  
-                }
-                
-                pdf.setFontSize(12)
-                pdf.setFont('times')
-                pdf.setFontType('bold')
-                pdf.text(145, 60 + (i * 10), 'Triage:');
-                pdf.setFontType('normal')
-                pdf.text(165, 60 + (i * 10), seguimientos.triage_colores.nombre);
-
-
-
-
-
-                
+              pdf.setFontSize(12)
+              pdf.setFont('times')
+              pdf.setFontType('bold')
+              pdf.text(8, 55 + (i * 10), 'N°:');
+              pdf.setFontType('normal')
+              pdf.text(15, 55 + (i * 10), seguimientos.incremento);
+    
+    
+              pdf.setFontSize(12)
+              pdf.setFont('times')
+              pdf.setFontType('bold')
+              pdf.text(20, 55 + (i * 10), 'Fecha:');
+              pdf.setFontType('normal')
+              pdf.text(35, 55 + (i * 10), seguimientos.created_at);
+    
+    
+              pdf.setFontSize(12)
+              pdf.setFont('times')
+              pdf.setFontType('bold')
+              pdf.text(75, 55 + (i * 10), 'Turno:');
+              pdf.setFontType('normal')
+              pdf.text(90, 55 + (i * 10), seguimientos.turnos.nombre);
+    
+    
+    
+              pdf.setFontSize(12)
+              pdf.setFont('times')
+              pdf.setFontType('bold')
+              pdf.text(115, 55 + (i * 10), 'Triage:');
+              pdf.setFontType('normal')
+              pdf.text(130, 55 + (i * 10), seguimientos.triage_colores.nombre);
+    
+    
+              pdf.setFontSize(12)
+              pdf.setFont('times')
+              pdf.setFontType('bold')
+              pdf.text(150, 55 + (i * 10), 'Valoración:');
+              pdf.setFontType('normal')
+              pdf.text(175, 55 + (i * 10), seguimientos.valoraciones_pacientes.nombre);
+              
                 i++;
               console.log('aca', seguimientos);
             });

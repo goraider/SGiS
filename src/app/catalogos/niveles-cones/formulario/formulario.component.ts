@@ -21,7 +21,7 @@ export class FormularioComponent {
   clues_select: any;
   nombre_select: any;
   juris_select: any;
-  jurisdiccion: any;
+  jurisdicciones: any;
 
   cargando: boolean = false;
 
@@ -31,7 +31,7 @@ export class FormularioComponent {
 
   ngOnInit() {
     this.dato = this.fb.group({
-      nombre: [''],
+      nombre: ['', [Validators.required]],
       clues: this.fb.array([]),
       jurisdicciones: this.fb.array([])
     });
@@ -44,12 +44,12 @@ export class FormularioComponent {
 
   autocompleListFormatter = (data: any) => {
 
-    let html = `<span>(${data.clues}) - ${data.nombre} - ${data.jurisdiccion.nombre}</span>`;
+    let html = `<span>(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}</span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   }
 
   valorFormato_clue(data: any) {
-    let html = `(${data.clues}) - ${data.nombre} - ${data.jurisdiccion.nombre}`;
+    let html = `(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}`;
     return html;
   }
   select_clue_autocomplete(modelo, data) {
@@ -67,20 +67,25 @@ export class FormularioComponent {
         i++;
       });
       
-      const j =<FormArray> this.dato.controls.jurisdicciones;
+      const j = <FormArray> this.dato.controls.jurisdicciones;
       j.push(this.fb.group(catalogo[c]));
-      
+
       catalogo.splice(c, 1);
       (<HTMLInputElement>document.getElementById('jurisdiccion_busqueda')).value = "";
       var url: string = `jurisdiccion-clues?term=` + index;
       this.cargando = true;
       this.crudService.lista(0, 0, url).subscribe(
         resultado => {
-          resultado.forEach(element => {
-            //modelo_clues.push(this.fb.group(element));
-            const um =<FormArray> this.dato.controls.clues;
-            um.push(this.fb.group(element));
-          });
+          const um =<FormArray> this.dato.controls.clues;
+          
+          for (var key of resultado.data) {
+               um.push(this.fb.group(key));
+          }
+          // resultado.forEach(element => {
+          //   //modelo_clues.push(this.fb.group(element));
+          //   const um =<FormArray> this.dato.controls.clues;
+          //   um.push(this.fb.group(element));
+          // });
           this.cargando = false;
         },
         error => {
@@ -94,21 +99,19 @@ export class FormularioComponent {
   }
   quitar_clues_jurisdiccion(modelo, data, catalogo) {
     var i = 0;
-    catalogo.push(data);
-    const ctrl = <FormArray>this.dato.controls.clues;
+    catalogo.push(data.value);    
     const modelo_temporal = [];
+    this.dato.controls.clues = this.fb.array([]);
+    const um =<FormArray> this.dato.controls.clues;    
     modelo.forEach(element => {
-      if (element.controls.jurisdiccion.value.nombre == data.nombre || element.controls.jurisdiccion.value.id == data.id) {
+      if (element.controls.jurisdicciones.value.nombre == data.value.nombre || element.controls.jurisdicciones.value.id == data.value.id) {        
       }
-      else
-        modelo_temporal.push(element);
+      else{
+        um.controls.push(element);
+      }
       i++;
     });
-
-    this.dato.controls.clues = this.fb.array([]);
-    const clues = <FormArray>this.dato.controls.clues;
-    modelo_temporal.forEach(element => {
-      clues.controls.push(this.fb.group(element));
-    });
+    
+    
   }
 }

@@ -59,9 +59,9 @@ export class FormularioComponent {
       sis_usuarios_contactos: this.fb.array([]),
       sis_usuarios_rfcs: this.fb.array([]),
       sis_usuarios_clues: this.fb.array([]),
-      sis_usuarios_sucursales: this.fb.array([]),
-      sis_usuarios_dashboards: this.fb.array([]),
-      sis_usuarios_reportes: this.fb.array([]),
+      // sis_usuarios_sucursales: this.fb.array([]),
+      // sis_usuarios_dashboards: this.fb.array([]),
+      // sis_usuarios_reportes: this.fb.array([]),
       sis_usuarios_grupos: this.fb.array([])
     });
 

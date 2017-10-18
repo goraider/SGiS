@@ -5,19 +5,20 @@
 
 export const environment = {
   "production": true,
-  "API_URL": "http://192.168.1.24:8000/api/v1",
-  "API_PATH": "http://192.168.1.24:8000",
-  "OAUTH_CLIENTE": "http://192.168.1.24/api/sync",
+  "API_URL": "http://api.sgis.ismchiapas.org/api/v1",
+  "API_PATH": "http://api.sgis.ismchiapas.org",
+  "OAUTH_CLIENTE": "http://api.sgis.ismchiapas.org/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
+
   "pusher_key": "d4b5aa9ca50d851e5250",
   "pusher_cluster": "us2",
-  "pusher_channel": "private-notificacion-ugus",
-  "pusher_event": "App\Events\NotificacionEvent",
+  "pusher_channel": "notificacion-ugus",
+  "pusher_event": "my-event",
   "MENU": [
     {
       "titulo": "Dashboard",
-      "key": "",
+      "key": "DashboardController.index",
       "path": "/dashboard",
       "icono": "fa fa-dashboard",
       "lista": []
@@ -26,11 +27,11 @@ export const environment = {
       "titulo": "Catalogos",
       "key": "",
       "path": "/catalogos",
-      "icono": "fa fa-folder",
+      "icono": "fa fa-folder-open",
       "lista": [
         {
           "titulo": "Unidades Medicas",
-          "key": "",
+          "key": "CluesController.index",
           "path": "",
           "icono": "fa fa-hospital-o",
           "lista": [
@@ -43,166 +44,244 @@ export const environment = {
             {
               "titulo": "Nivel de CONE",
               "key": "NivelConeController.index",
-              "path": "/catalogos/niveles-cones/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/nivel-cone/lista",
+              "icono": "fa fa-sort-amount-asc"
             },
             {
               "titulo": "Turnos",
               "key": "TurnoController.index",
-              "path": "/catalogos/turnos/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/turno/lista",
+              "icono": "fa fa-clock-o"
+            },
+            {
+              "titulo": "Cargos",
+              "key": "CargoController.index",
+              "path": "/catalogos/cargo/lista",
+              "icono": "fa fa-user-plus"
             },
             {
               "titulo": "Tipos de Ítems",
               "key": "TipoItemController.index",
-              "path": "/catalogos/tipos-items/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/tipo-item/lista",
+              "icono": "fa fa-indent"
             },
             {
               "titulo": "Cartera de Servicios",
               "key": "CarteraServicioController.index",
-              "path": "/catalogos/cartera-servicios/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/cartera-servicio/lista",
+              "icono": "fa fa-newspaper-o"
             },
           ]
         },
         {
           "titulo": "Pacientes",
-          "key": "",
+          "key": "DerechohabienteController.index",
           "path": "",
-          "icono": "fa fa-globe",
+          "icono": "fa fa-bed",
           "lista": [
+            {
+              "titulo": "Derechohabientes",
+              "key": "DerechohabienteController.index",
+              "path": "/catalogos/derechohabiente/lista",
+              "icono": "fa fa-address-card-o"
+            },
             {
               "titulo": "Estado de Pacientes",
               "key": "EstadoPacienteController.index",
-              "path": "/catalogos/estados-pacientes/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/estado-paciente/lista",
+              "icono": "fa fa-hourglass-half"
             },
             {
               "titulo": "Valoración de Pacientes",
               "key": "ValoracionPacienteController.index",
-              "path": "/catalogos/valoraciones-pacientes/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/valoracion-paciente/lista",
+              "icono": "fa fa-heartbeat"
             },
             {
               "titulo": "Parentescos",
               "key": "ParentescoController.index",
-              "path": "/catalogos/parentescos/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/parentesco/lista",
+              "icono": "fa fa-users"
             },
             {
               "titulo": "Metodós de Planificación",
               "key": "MetodoPlanificacionController.index",
-              "path": "/catalogos/metodos-planificacion/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/metodo-planificacion/lista",
+              "icono": "fa fa-venus"
             },
             {
-              "titulo": "Estados de Embarazos",
+              "titulo": "Estado de Embarazos",
               "key": "EstadoEmbarazoController.index",
-              "path": "/catalogos/estados-embarazos/lista",
-              "icono": "fa fa-globe" 
-            },
-            {
-              "titulo": "Derechohabientes",
-              "key": "MetodoPlanificacionController.index",
-              "path": "/catalogos/derechohabientes/lista",
-              "icono": "fa fa-globe"
-            },
-          ]
-        },
-        {
-          "titulo": "Rutas",
-          "key": "RutaController.index",
-          "path": "/catalogos/rutas/lista",
-          "icono": "fa fa-location-arrow",
-          "lista": []
-        },
-        {
-        "titulo": "Estados de Incidencias",
-        "key": "EstadoIncidenciaController.index",
-        "path": "/catalogos/estados-incidencias/lista",
-        "icono": "fa fa-globe",
-        "lista": []
-        },
-        {
-          "titulo": "Modelo de Reacción",
-          "key": "",
-          "path": "",
-          "icono": "fa fa-globe",
-          "lista": [
-            {
-              "titulo": "Apoyos",
-              "key": "ApoyoController.index",
-              "path": "/catalogos/apoyos/lista",
-              "icono": "fa fa-globe"
-            },
-            {
-              "titulo": "Municipio",
-              "key": "MunicipioController.index",
-              "path": "/catalogos/municipio/lista",
-              "icono": "fa fa-globe"
-            },
-            {
-              "titulo": "Localidades",
-              "key": "LocalidadController.index",
-              "path": "/catalogos/localidades/lista",
-              "icono": "fa fa-globe"
-            },
-          ]
-        },
-        {
-          "titulo": "CIE 10",
-          "key": "PaisController.index",
-          "path": "",
-          "icono": "fa fa-globe",
-          "lista": [
-            {
-              "titulo": "Grupos CIE 10",
-              "key": "GrupoCie10Controller.index",
-              "path": "/catalogos/grupos-cie10/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/estado-embarazo/lista",
+              "icono": "fa fa-female" 
             },
           ]
         },
         {
           "titulo": "Triage",
-          "key": "",
+          "key": "TriageColorController.show",
           "path": "",
-          "icono": "fa fa-globe",
+          "icono": "fa fa-history",
           "lista": [
             {
               "titulo": "Colores Triage",
               "key": "TriageColorController.index",
-              "path": "/catalogos/triage-colores/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/triage-color/lista",
+              "icono": "fa fa-tasks"
             },
             {
               "titulo": "Código Triage",
               "key": "TriageController.index",
-              "path": "/catalogos/triage-colores/lista",
-              "icono": "fa fa-globe"
+              "path": "/catalogos/triage/lista",
+              "icono": "fa fa-lightbulb-o"
             },
           ]
-        }
+        },
+        {
+          "titulo": "Modelo de Reacción",
+          "key": "ApoyoController.index",
+          "path": "",
+          "icono": "fa fa-cubes",
+          "lista": [
+            {
+              "titulo": "Apoyos",
+              "key": "ApoyoController.index",
+              "path": "/catalogos/apoyo/lista",
+              "icono": "fa fa-handshake-o"
+            },
+            {
+              "titulo": "Municipio",
+              "key": "MunicipioController.index",
+              "path": "/catalogos/municipio/lista",
+              "icono": "fa fa-map"
+            },
+            {
+              "titulo": "Localidades",
+              "key": "LocalidadController.index",
+              "path": "/catalogos/localidades/lista",
+              "icono": "fa fa-map-o"
+            },
+          ]
+        },
+        {
+          "titulo": "Estados de Incidencias",
+          "key": "EstadoIncidenciaController.show",
+          "path": "/catalogos/estado-incidencia/lista",
+          "icono": "fa fa-globe",
+        },
+        {
+          "titulo": "Tipo de Notificaciones",
+          "key": "TipoNotificacionController.index",
+          "path": "/catalogos/tipo-notificacion/lista",
+          "icono": "fa fa-globe",
+        },
+        {
+          "titulo": "CIE 10",
+          "key": "GrupoCie10Controller.show",
+          "path": "/catalogos/grupo-cie10/lista",
+          "icono": "fa fa-globe",
+        },
+        {
+          "titulo": "Rutas",
+          "key": "RutaController.show",
+          "path": "/catalogos/ruta/lista",
+          "icono": "fa fa-location-arrow",
+        },
       ]
    },
 
+   {
+    "titulo": "Transacciones",
+    "key": "IncidenciaController.index",
+    "path": "",
+    "icono": "fa fa-user-md",
+    "lista": [
+      {
+        "titulo": "Incidencias",
+        "key": "IncidenciaController.index",
+        "path": "/transacciones/incidencias/lista",
+        "icono": "fa fa-volume-control-phone",
+        "lista": []
+      },
+      {
+        "titulo": "Estado de Fuerza",
+        "key": "EstadoFuerzaController.index",
+        "path": "/transacciones/estado-fuerza/lista",
+        "icono": "fa fa-medkit",
+        "lista": []
+      },
+      {
+        "titulo": "Directorio",
+        "key": "DirectorioController.index",
+        "path": "/transacciones/directorio/lista",
+        "icono": "fa fa-address-book",
+        "lista": []
+      },
+      {
+        "titulo": "Censo de Mujeres",
+        "key": "CensoPersonaController.index",
+        "path": "/transacciones/censo-persona/lista",
+        "icono": "fa fa-odnoklassniki",
+        "lista": []
+      },
+      {
+        "titulo": "Directorio de Apoyos",
+        "key": "DirectorioApoyoController.index",
+        "path": "/transacciones/directorio-apoyo/lista",
+        "icono": "fa fa-book",
+        "lista": []
+      },
+      {
+        "titulo": "Base de Conocimiento",
+        "key": "BaseConocimientoController.index",
+        "path": "/transacciones/base-conocimiento/lista",
+        "icono": "fa fa-connectdevelo",
+        "lista": []
+      },
+    ]
+   },
     {
       "titulo": "Incidencias",
-      "key": "IncidenciaController.show",
-      "path": "/transacciones/incidencias/lista",
-      "icono": "fa fa-android",
+      "key": "IncidenciaController.index",
+      "path": "/transacciones/incidencia/lista",
+      "icono": "fa fa-volume-control-phone",
       "lista": []
     },
     {
       "titulo": "Estado de Fuerza",
-      "key": "EstadoFuerzaController.show",
+      "key": "EstadoFuerzaController.index",
       "path": "/transacciones/estado-fuerza/lista",
       "icono": "fa fa-medkit",
       "lista": []
     },
-
-
+    {
+      "titulo": "Directorio",
+      "key": "DirectorioController.index",
+      "path": "/transacciones/directorio/lista",
+      "icono": "fa fa-address-book",
+      "lista": []
+    },
+    {
+      "titulo": "Censo de Mujeres",
+      "key": "CensoPersonaController.index",
+      "path": "/transacciones/censo-persona/lista",
+      "icono": "fa fa-odnoklassniki",
+      "lista": []
+    },
+    {
+      "titulo": "Directorio de Apoyos",
+      "key": "DirectorioApoyoController.index",
+      "path": "/transacciones/directorio-apoyo/lista",
+      "icono": "fa fa-book",
+      "lista": []
+    },
+    {
+      "titulo": "Base de Conocimiento",
+      "key": "BaseConocimientoController.index",
+      "path": "/transacciones/base-conocimiento/lista",
+      "icono": "fa fa-book",
+      "lista": []
+    },
     {
       "titulo": "Sistema",
       "key": "UsuarioController.index",
@@ -237,17 +316,22 @@ export const environment = {
           "titulo": "Dashboards",
           "key": "SisDashboardController.index",
           "path": "/sistema/dashboard/lista",
-          "icono": "fa fa-dashboard"
+          "icono": "fa fa-dashboard" 
         },
         {
           "titulo": "Reportes",
           "key": "SisReporteController.index",
           "path": "/sistema/reporte/lista",
           "icono": "fa fa-list-alt"
-        }
+        },
+        {
+          "titulo": "Escalamiento de Notificaciones",
+          "key": "EscalamientoNotificacionController.index",
+          "path": "/sistema/escalamiento-notificacion/lista",
+          "icono": "fa fa-list-alt"
+        },
       ]
     },
-
     {
       "titulo": "Descargar APP",
       "key": "VersionAppController.descargar",
@@ -261,9 +345,7 @@ export const environment = {
       "key": "ReporteController.index",
       "path": "/reporte",
       "icono": "fa fa-list-alt",
-      "lista": [
-        
-      ]
+      "lista": []
     },
   ]
 };

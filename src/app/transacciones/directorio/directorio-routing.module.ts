@@ -5,11 +5,11 @@ import { ListaComponent } from './lista/lista.component';
 import { FormularioComponent } from './formulario/formulario.component';
 import { AuthGuard } from '../../auth-guard.service';
 
-
 const routes: Routes = [
-  { path: 'directorio', redirectTo: '/directorio/lista', pathMatch: 'full' },
+
+  { path: 'transacciones/directorio', redirectTo: '/transacciones/directorio/lista', pathMatch: 'full' },
   {
-    path: 'directorio',
+    path: 'transacciones/directorio',
     children: [
        { path: 'lista', component: ListaComponent},
        { path: 'nuevo', component: FormularioComponent },

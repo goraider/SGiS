@@ -5,11 +5,10 @@ import { ListaComponent } from './lista/lista.component';
 import { FormularioComponent } from './formulario/formulario.component';
 import { AuthGuard } from '../../auth-guard.service';
 
-
 const routes: Routes = [
-  { path: 'catalogos/tipos-notificaciones', redirectTo: '/catalogos/tipos-notificaciones/lista', pathMatch: 'full' },
+  { path: 'catalogos/tipo-notificacion', redirectTo: '/catalogos/tipo-notificacion/lista', pathMatch: 'full' },
   {
-    path: 'catalogos/tipos-notificaciones',
+    path: 'catalogos/tipo-notificacion',
     children: [
        { path: 'lista', component: ListaComponent},
        { path: 'nuevo', component: FormularioComponent },

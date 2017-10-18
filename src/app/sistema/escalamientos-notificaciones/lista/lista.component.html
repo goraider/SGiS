@@ -23,8 +23,8 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
+                            <th>Usuario</th>
+                            <th>Teléfono</th>
                             <th style="text-align:center; width: 20%;">Opciones</th>
                         </tr>
                     </thead>
@@ -32,8 +32,8 @@
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
                             <th style="vertical-align: middle;">{{ item.id }}</th>
-                            <td style="vertical-align: middle;">{{ item.nombre }}</td>
-                            <td style="vertical-align: middle;">{{ item.descripcion }}</td>
+                            <td style="vertical-align: middle;">{{ item.usuarios_id }}</td>
+                            <td style="vertical-align: middle;">{{ item.telefono }}</td>
                             <td style="vertical-align: middle;" class="has-text-centered">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
@@ -59,9 +59,9 @@
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <strong class="tag is-medium"> ID: {{item.id}} Nombre: {{ item.nombre }} </strong>
+                                        <strong class="tag is-medium"> ID: {{item.id}} Usuario: {{ item.usuarios_id }} </strong>
                                         <br>
-                                        <strong >{{ item.descripcion }}</strong>
+                                        <strong >Teléfono: {{ item.telefono }}</strong>
 
                                     </p>
                                 </div>

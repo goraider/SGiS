@@ -6,11 +6,12 @@ import { FormularioComponent } from './formulario/formulario.component';
 import { AuthGuard } from '../../auth-guard.service';
 
 const routes: Routes = [
-  { path: 'transacciones', redirectTo: '/transacciones/estado-fuerza/lista', pathMatch: 'full' },
+
+  { path: 'transacciones/estado-fuerza', redirectTo: '/transacciones/estado-fuerza/lista', pathMatch: 'full' },
   {
-    path: 'transacciones',
+    path: 'transacciones/estado-fuerza',
     children: [
-       { path: '', component: ListaComponent},
+       { path: 'lista', component: ListaComponent},
        { path: 'nuevo', component: FormularioComponent },
        { path: 'editar/:id', component: FormularioComponent},
     ],

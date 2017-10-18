@@ -75,14 +75,18 @@ import { RutasModule } from './catalogos/rutas/rutas.module';
 
 //notificaciones
 import { EscalamientosNotificacionesModule } from './sistema/escalamientos-notificaciones/escalamientos-notificaciones.module';
-// import { TiposNotificacionesModule } from './catalogos/tipos-notificaciones/tipos-notificaciones.module';
+import { TiposNotificacionesModule } from './catalogos/tipos-notificaciones/tipos-notificaciones.module';
 
 //estados de incidencia
 import { EstadosIncidenciasModule } from './catalogos/estados-incidencias/estados-incidencias.module';
 
-//transacciones
+//operaciones
 import { IncidenciasModule } from './transacciones/incidencias/incidencias.module';
 import { EstadoFuerzaModule } from './transacciones/estado-fuerza/estado-fuerza.module';
+import { DirectorioModule } from './transacciones/directorio/directorio.module';
+import { DirectorioApoyosModule } from './transacciones/directorio-apoyos/directorio-apoyos.module';
+import { CensoPersonasModule } from './transacciones/censo-personas/censo-personas.module';
+import { BaseConocimientosModule } from './transacciones/base-conocimientos/base-conocimientos.module';
 //import { CajaModule } from './transaccion/caja/caja.module';
 
 //Inventario
@@ -160,12 +164,17 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
 
     IncidenciasModule,
     EstadoFuerzaModule,
+    DirectorioModule,
+    DirectorioApoyosModule,
+    CensoPersonasModule,
+    BaseConocimientosModule,
     
     ReporteVentaModule,
     ReporteArticuloModule,
 
     NotificacionPusherModule,
-
+    
+    TiposNotificacionesModule,
     EscalamientosNotificacionesModule,
     
     WildcardRoutingModule, // Este siempre debe ir al final para que no haga conflicto con otras rutas    

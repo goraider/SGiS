@@ -50,7 +50,7 @@ export class ListaComponent{
         let infowindow = new google.maps.InfoWindow({
           content: this.nombre +" "+ this.localidad
         });
-        let image = "./assets/icono-clues.svg";
+        let image = "./assets/iconos/icono-clues.svg";
         let marker = new google.maps.Marker({
           draggable: true,
           animation: google.maps.Animation.DROP,

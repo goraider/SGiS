@@ -15,6 +15,20 @@
             
             <!-- Opciones y busqueda -->
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
+
+            <div class="field is-grouped">
+                    <div class="control is-expanded" *ngIf="!ctrl.cargando && ctrl.dato">
+                        <div class="field">
+                            <label class="title is-small">Estados de Incidencia:</label>
+                            <div class="select is-medium ">
+                                <select class="select is-medium" [(ngModel)]="edo_incidencia">
+                                    <option value="">Todos</option>
+                                    <option *ngFor="let val of ctrl.dato[ctrl.dato.length-1].estados_incidencias" value="{{val.id}}">{{ val.nombre }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
             <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
                     
@@ -26,16 +40,25 @@
                             <th>Paciente</th>
                             <th>Triage</th>
                             <th>Antiguedad</th>
+                            <th>Seguimiento</th>
                             <th style="text-align:center; width: 20%;">Opciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
-                            <th *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;">{{ item.id }}</th>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag" *ngFor="let val of item.pacientes">{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</div></td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}">{{ item.movimientos_incidencias[0].triage_colores.nombre }}</div></td>
-                            <th *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;">{{ item.antiguedad }}</th>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">{{ item.id }}</td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag" *ngFor="let val of item.pacientes">{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</div></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}">{{ item.movimientos_incidencias[0].triage_colores.nombre }}</div></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">{{ item.antiguedad }}</td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">
+                                
+                                    <a class="is-danger" (click)="download($event, item.id)"><span class="icon"><i class="fa fa-file-pdf-o"></i></span></a>
+                                    
+                                    <a class="is-danger" routerLink="/transacciones/seguimiento/editar/{{item.id}}"><span class="icon"><i class="fa fa-exchange"></i></span></a>
+
+                            </td>
+
                             <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;" class="has-text-centered">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
@@ -72,6 +95,11 @@
                                 </div>
                                 <nav class="level is-mobile" style="float:right">
                                     <div class="level-left">
+
+
+                                            <a class="is-danger" (click)="download($event, item.id)"><span class="icon"><i class="fa fa-file-pdf-o"></i></span></a>
+                                            
+                                            <a class="is-danger" routerLink="/transacciones/seguimiento/editar/{{item.id}}"><span class="icon"><i class="fa fa-exchange"></i></span></a>
 
                                         <!-- acciones -->
                                         <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ListarComponent } from '../../../crud/listar.component';
 
 @Component({
-  selector: 'grupos-cie10-lista',
+  selector: 'triage-lista',
   templateUrl: './lista.component.html'
 })
 

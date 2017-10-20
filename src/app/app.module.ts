@@ -48,7 +48,7 @@ import { CarteraServiciosModule } from './catalogos/cartera-servicios/cartera-se
 
 //pacientes
 import { EstadosPacientesModule } from './catalogos/estados-pacientes/estados-pacientes.module';
-import { ValoracionesPacientesModule } from './catalogos/valoraciones-pacientes/valoraciones-pacientes.module';
+import { UbicacionesPacientesModule } from './catalogos/ubicaciones-pacientes/ubicaciones-pacientes.module';
 import { ParentescosModule } from './catalogos/parentescos/parentescos.module';
 import { MetodosPlanificacionModule } from './catalogos/metodos-planificacion/metodos-planificacion.module';
 import { EstadosEmbarazosModule } from './catalogos/estados-embarazos/estados-embarazos.module';
@@ -82,6 +82,7 @@ import { EstadosIncidenciasModule } from './catalogos/estados-incidencias/estado
 
 //operaciones
 import { IncidenciasModule } from './transacciones/incidencias/incidencias.module';
+import { SeguimientosModule } from './transacciones/incidencias/seguimiento/seguimientos.module';
 import { EstadoFuerzaModule } from './transacciones/estado-fuerza/estado-fuerza.module';
 import { DirectorioModule } from './transacciones/directorio/directorio.module';
 import { DirectorioApoyosModule } from './transacciones/directorio-apoyos/directorio-apoyos.module';
@@ -140,7 +141,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     CarteraServiciosModule,
 
     EstadosPacientesModule,
-    ValoracionesPacientesModule,
+    UbicacionesPacientesModule,
     ParentescosModule,
     MetodosPlanificacionModule,
     EstadosEmbarazosModule,
@@ -161,7 +162,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     
     RutasModule,
     EstadosIncidenciasModule,
-
+    SeguimientosModule,
     IncidenciasModule,
     EstadoFuerzaModule,
     DirectorioModule,

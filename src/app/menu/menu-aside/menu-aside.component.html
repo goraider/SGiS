@@ -1,8 +1,8 @@
 
-<div class="profile-menu is-hidden-mobile" [style.background]="'url(' + fondo + ')'">
+<div class="profile-menu is-hidden-mobile" style="background-image: url('../assets/iconos/aside.jpg');">
     <a (click)="toggle = !toggle">
         <div class="profile-pic">
-            <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
+            <!-- <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile"> -->
         </div>
 
         <div class="profile-info ng-binding">

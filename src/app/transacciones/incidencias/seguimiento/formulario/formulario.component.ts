@@ -53,7 +53,7 @@ export class FormularioComponent {
   metodos_planificacion_id;
   estados_incidencias_id;
   
-  valoraciones_pacientes_id;
+  ubicaciones_pacientes_id;
   estados_pacientes_id;
   triage_colores_id;
   subcategorias_cie10_id;
@@ -62,7 +62,7 @@ export class FormularioComponent {
   metodos_planificacion;
   estados_incidencias;
   estados_pacientes;
-  valoraciones_pacientes;
+  ubicaciones_pacientes;
   triage_colores;
   subcategorias_cie10;
   turnos;
@@ -78,7 +78,7 @@ export class FormularioComponent {
   sub_cie10;
   color;
   turno;
-  valoracion_paciente;
+  ubicacion_paciente;
 
   //referencia
   img = "";
@@ -126,7 +126,7 @@ export class FormularioComponent {
 
 
 //AUN LE APUNTA A SUVCATEGORIAS, AUN FALTA LA DE MEDICOS
-  public medicos_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
+  //public medicos_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
 
   public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
 
@@ -205,7 +205,7 @@ export class FormularioComponent {
               reporte_medico:[''],
               subcategorias_cie10_id:[''],
               triage_colores_id:[''],
-              valoraciones_pacientes_id:[''],
+              ubicaciones_pacientes_id:[''],
               turnos_id:[''],
               
           }),
@@ -263,13 +263,13 @@ export class FormularioComponent {
     this.sub_cie10 = data.subcategorias_cie10.nombre;
     this.color = data.triage_colores.nombre;
     this.turno = data.turnos.nombre;
-    this.valoracion_paciente = data.valoraciones_pacientes.nombre;
+    this.ubicacion_paciente = data.ubicaciones_pacientes.nombre;
     this.medico = data.medico_reporta_id;
     this.tur = data.turnos.nombre;
     this.cie10 = data.subcategorias_cie10.nombre;
     this.cie10_codigo = data.subcategorias_cie10.codigo;
     
-    console.log(data);
+  
     
 
     document.getElementById("detalle_seguimiento").classList.add('is-active');
@@ -287,6 +287,7 @@ export class FormularioComponent {
   
   agregarSeguimiento(){
 
+    
     var tcp = 0;
     for(let item of this.triage_colores){
       if(this.triage_colores_id == item.id)
@@ -301,18 +302,18 @@ export class FormularioComponent {
       ep++;
     };
 
-    var vp = 0;
-    for(let item of this.valoraciones_pacientes){
-      if(this.valoraciones_pacientes_id == item.id)
+    var up = 0;
+    for(let item of this.ubicaciones_pacientes){
+      if(this.ubicaciones_pacientes_id == item.id)
         break;
-      vp++;
+      up++;
 
     };
 
     var tur = 0;
     if(this.turnos)
     for(let item of this.turnos){
-      if(this.turnos_id == item.id)
+      if(this.turnos_id == item.id) 
         break;
       tur++;
     };
@@ -328,13 +329,14 @@ export class FormularioComponent {
 
 
     var datomodal = {
+
       nuevo: [1, [Validators.required]],
 
       turnos:[this.turnos[tur],[Validators.required]],
       turnos_id:[this.turnos_id, [Validators.required]],
 
-      valoraciones_pacientes: [this.valoraciones_pacientes[vp], [Validators.required]],
-      valoraciones_pacientes_id: [this.valoraciones_pacientes_id, [Validators.required]],
+      ubicaciones_pacientes: [this.ubicaciones_pacientes[up], [Validators.required]],
+      ubicaciones_pacientes_id: [this.ubicaciones_pacientes_id, [Validators.required]],
       
       estados_pacientes: [this.estados_pacientes[ep], [Validators.required]],
       estados_pacientes_id: [this.estados_pacientes_id, [Validators.required]],
@@ -344,43 +346,20 @@ export class FormularioComponent {
       
       medico_reporta_id: [this.medico_reporta_id, [Validators.required]],
       
-      subcategorias_cie10_id: [this.subcategorias_cie10_id.id, [Validators.required]],
+      subcategorias_cie10_id: [this.subcategorias_cie10_id, [Validators.required]],
       subcategorias_cie10: [this.subcategorias_cie10[sci10], [Validators.required]],
       
       indicaciones: [this.indicaciones, [Validators.required]],
       reporte_medico: [this.reporte_medico, [Validators.required]],
       
-      
-      
-      //diagnostico_egreso:[this.diagnostico_egreso,[Validators.required]],
-      //observacion_trabajo_social:[this.observacion_trabajo_social,[Validators.required]],
-      //metodos_planificacion_id:[this.metodos_planificacion_id,[Validators.required]],
-      
-      
-      
-      
-
-
-//asignaciones a las variables que recorren el objeto para obtener sus valores
-      
-      
-      
-      //turnos: [this.turnos[tur], [Validators.required]],
-
-      // triage_colores: this.triage_colores[tcp],
-      // estados_pacientes: this.estados_pacientes[ep],
-      // valoraciones_pacientes: this.valoraciones_pacientes[vp],
-      //estados_incidencias: [this.estados_incidencias[ei], [Validators.required]],
-      
-      
+      //asignaciones a las variables que recorren el objeto para obtener sus valores        
     };
 
-    console.log(datomodal.subcategorias_cie10);
 
      if(this.subcategorias_cie10)
          datomodal["subcategorias_cie10"] = this.subcategorias_cie10[sci10];
-    //  if(this.turnos)
-    //    datomodal["turnos"] = this.turnos[tur];
+    if(this.turnos)
+      datomodal["turnos"] = this.turnos[tur];
 
     // if(this.estados_incidencias)      
     //   datomodal["estados_incidencias"] = this.estados_incidencias[ei];
@@ -398,7 +377,7 @@ export class FormularioComponent {
 
   
     
-    this.valoraciones_pacientes_id = '';
+    this.ubicaciones_pacientes_id = '';
     this.estados_pacientes_id = '';
     this.triage_colores_id = '';
     this.indicaciones = '';
@@ -414,7 +393,7 @@ export class FormularioComponent {
   cargarCatalogo(item, url) {
         this.crudService.lista(0, 0, url).subscribe(            
             resultado => {
-                this[item] = resultado;              
+                this[item] = resultado.data;            
             },
             error => {
             }
@@ -474,7 +453,6 @@ detalle_referencia(data): void {
       this.resumen_clinico_referencia = data.resumen_clinico;
 
       
-      console.log(data);
       
   
       document.getElementById("detalle_referencia").classList.add('is-active');
@@ -768,12 +746,6 @@ agregarAlta(){
     this.cerrarModalAlta();
     
   }
-
-  notificar (){
-
-  }
-
-
 
     
 }

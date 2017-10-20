@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { ValoracionesPacientesRoutingModule } from '../valoraciones-pacientes/valoraciones-pacientes-routing.module';
+import { UbicacionesPacientesRoutingModule } from '../ubicaciones-pacientes/ubicaciones-pacientes-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
 
 import { PipesModule }             from '../../pipes/pipes.module';
@@ -30,7 +30,7 @@ import { CrudModule } from '../../crud/crud.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ValoracionesPacientesRoutingModule,
+    UbicacionesPacientesRoutingModule,
     HubModule,
     PerfilModule,
     BloquearPantallaModule,
@@ -46,4 +46,4 @@ import { CrudModule } from '../../crud/crud.module';
   ],
   providers: [ AuthService, CrudService ]
 })
-export class ValoracionesPacientesModule { }
+export class UbicacionesPacientesModule { }

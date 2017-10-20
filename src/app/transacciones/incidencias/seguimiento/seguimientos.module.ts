@@ -9,7 +9,6 @@ import { HubModule } from '../../../hub/hub.module';
 import { PerfilModule } from '../../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../../bloquear-pantalla/bloquear-pantalla.module';
 import { SeguimientosRoutingModule } from '../seguimiento/seguimientos-routing.module';
-//import { DirectorioApoyosModule } from '../../directorio-apoyos/directorio-apoyos.module';
 import { PaginacionModule } from '../../../parcial/paginacion/paginacion.module';
 
 
@@ -37,7 +36,6 @@ import { CrudModule }  from '../../../crud/crud.module';
     FormsModule,
     ReactiveFormsModule,
     SeguimientosRoutingModule,
-    //DirectorioApoyosModule,
     HubModule,
     PerfilModule,
     BloquearPantallaModule,
@@ -45,7 +43,8 @@ import { CrudModule }  from '../../../crud/crud.module';
     PipesModule,
     MenuModule,
     ParcialModule,
-    CrudModule
+    CrudModule,
+    NguiAutoCompleteModule
   ],
   declarations: [
     ListaComponent,

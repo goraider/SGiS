@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'valoraciones-pacientes-formulario',
+  selector: 'ubicaciones-pacientes-formulario',
   templateUrl: './formulario.component.html',
   styleUrls:["./formulario.component.css"]
 })

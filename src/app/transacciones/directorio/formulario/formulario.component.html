@@ -32,11 +32,11 @@
                                     <label class="label">Unidad Médica (Clues):</label>
                                     <input ngui-auto-complete autofocus [source]="clues_term"  [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue_usuario" id="directorio_clue"
                                             path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
-                                            min-chars="1" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched}"
+                                            min-chars="1" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required')}"
                                             placeholder="Unidad Medica">
                                     
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('clues').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('clues').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                         </div>
@@ -45,29 +45,29 @@
                             <div class="column is-4">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label">Nombre</label>
-                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched}"
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required')}"
                                         placeholder="Nombre" formControlName="nombre">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('nombre').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
             
                             <div class="column is-4">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label is-hidden-mobile">Apellido Paterno</label>
-                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('paterno').hasError('required') && ctrl.dato.get('paterno').touched}"
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('paterno').hasError('required')}"
                                         placeholder="Apellido Paterno" formControlName="paterno">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('paterno').hasError('required') && ctrl.dato.get('paterno').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('paterno').hasError('required') && ctrl.dato.get('paterno').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('paterno').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('paterno').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                             <div class="column is-4">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label is-hidden-mobile">Apellido Materno</label>
-                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('materno').hasError('required') && ctrl.dato.get('materno').touched}"
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('materno').hasError('required')}"
                                         placeholder="Apellido Materno" formControlName="materno">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('materno').hasError('required') && ctrl.dato.get('materno').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('materno').hasError('required') && ctrl.dato.get('materno').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('materno').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('materno').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                         </div>
@@ -78,10 +78,10 @@
                             <div class="column is-6">
                                 <p class="control is-expanded has-icon has-icon-right">
                                     <label class="label">Email (Correo Electrónico)</label>
-                                    <input class="input" type="text" placeholder="Correo Electrónico" [ngClass]="{'is-danger': ctrl.dato.get('id').hasError('required') && ctrl.dato.get('id').touched}"
+                                    <input class="input" type="text" placeholder="Correo Electrónico" [ngClass]="{'is-danger': ctrl.dato.get('id').hasError('required')}"
                                         formControlName="id">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('id').hasError('required') && ctrl.dato.get('id').touched && ctrl.dato.get('id').pattern"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('id').hasError('required') && ctrl.dato.get('id').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('id').hasError('required') && ctrl.dato.get('id').pattern"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('id').hasError('required')">Este campo es requerido.</span>
                                     <span class="help is-danger" *ngIf="ctrl.dato.get('id').hasError('pattern')">Este campo debe tener un formato de Correo Electrónico, Ejemplo: <b>maria10@gmail.com</b></span>
 
                                 </p>
@@ -89,10 +89,10 @@
                                 <div class="column is-6">
                                     <p class="control is-expanded has-icon has-icon-right">
                                         <label class="label">Número de Celular</label>
-                                        <input class="input" type="text" placeholder="Número de Celular" [ngClass]="{'is-danger': ctrl.dato.get('celular').hasError('required') && ctrl.dato.get('celular').touched}"
+                                        <input class="input" type="text" placeholder="Número de Celular" [ngClass]="{'is-danger': ctrl.dato.get('celular').hasError('required')}"
                                             formControlName="celular">
-                                        <span class="icon is-small" *ngIf="ctrl.dato.get('celular').hasError('required') && ctrl.dato.get('celular').touched"><i class="fa fa-warning"></i></span>
-                                        <span class="help is-danger" *ngIf="ctrl.dato.get('celular').hasError('required') && ctrl.dato.get('celular').touched">Este campo es requerido.</span>
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('celular').hasError('required') && ctrl.dato.get('celular').pattern"><i class="fa fa-warning"></i></span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('celular').hasError('required')">Este campo es requerido.</span>
                                         <span class="help is-danger" *ngIf="ctrl.dato.get('celular').hasError('pattern')">Este campo debe contener un número celular, Ejemplo: <b>9671012030</b></span>
                                     </p>
                                 </div>
@@ -106,8 +106,8 @@
                                     <select class="select" name="cargos_id" formControlName="cargos_id" [ngClass]="{'is-warning': cargos_id?.length ==0 }">
                                         <option *ngFor="let val of ctrl.cargos" value="{{val.id}}" >{{ val.nombre }}</option>
                                     </select>
+                                    <span class="help is-danger" *ngIf="!ctrl.dato.controls.cargos_id.valid">Este campo es requerido.</span>
                                 </span>
-                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.cargos_id.valid">Este campo es requerido.</span>
                             </p>
                         </div>
 

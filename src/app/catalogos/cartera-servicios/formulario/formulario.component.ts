@@ -41,6 +41,7 @@ export class FormularioComponent {
       document.getElementById("initMover").click();
     }, 4000);
 
+
   }
 
 }

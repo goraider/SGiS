@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router'
 import { Router } from '@angular/router';
+
+import { environment } from '../../../../environments/environment';
+import { CrudService } from '../../../crud/crud.service';
+
 
 @Component({
   selector: 'usuarios-formulario',
@@ -31,7 +36,12 @@ export class FormularioComponent {
 
   private clues_sel = [];
   private sucursal_sel = [];
-  constructor(private fb: FormBuilder, private route: ActivatedRoute) { }
+
+  cargando: boolean = false;
+
+  public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
+
+  constructor(private crudService: CrudService, private _sanitizer: DomSanitizer, private fb: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.dato = this.fb.group({
@@ -195,4 +205,24 @@ export class FormularioComponent {
         this.clues_sel[element.id] = false;
     });
   }
+
+
+  autocompleListFormatter = (data: any) => {
+    let html = `<span>(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}</span>`;
+    return this._sanitizer.bypassSecurityTrustHtml(html);
+  }
+  
+  valorFormato_clue(data: any) {
+    let html = `(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}`;
+    return html;
+  }
+  select_clue_autocomplete(modelo, data) {
+    const um =<FormArray> this.dato.controls.sis_usuarios_clues;
+    um.push(this.fb.group(data));
+    (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
+  }
+  quitar_form_array(modelo, i) {
+    modelo.splice(i, 1);
+  }
+  
 }

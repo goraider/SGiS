@@ -19,7 +19,7 @@ export class FormularioComponent {
       paterno: ['', [Validators.required]],
       materno: ['', [Validators.required]],
       domicilio: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
+      telefono: ['', [Validators.required, Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]],
       fecha_nacimiento: ['', [Validators.required]],
       estados_embarazos_id: ['', [Validators.required]],
       derechohabientes_id: ['', [Validators.required]]

@@ -24,7 +24,7 @@ export class FormularioComponent {
     this.dato = this.fb.group({
       clues: ['', [Validators.required]],
       usuarios_id: [this.usuario.id, [Validators.required]],
-      usuario: [this.usuario.nombre + ' ' + this.usuario.paterno + ' ' + this.usuario.materno],
+      usuario: [this.usuario.nombre],
       turnos_id: ['', [Validators.required]],
       created_at: [this.fecha.getFullYear() + '-' + (this.fecha.getMonth() + 1) + '-' + this.fecha.getDate(), [Validators.required]],
       cartera_servicios: this.fb.array([
@@ -49,7 +49,7 @@ export class FormularioComponent {
     setTimeout(()=> {
       if(this.dato.get("usuarios_id").value == ""){
         this.dato.controls.usuarios_id.patchValue(this.usuario.id);
-        this.dato.controls.usuario.patchValue(this.usuario.nombre + ' ' + this.usuario.paterno + ' ' + this.usuario.materno);
+        this.dato.controls.usuario.patchValue(this.usuario.nombre);
       }
     }, 3000);
   }

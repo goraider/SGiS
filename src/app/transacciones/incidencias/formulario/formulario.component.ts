@@ -108,7 +108,7 @@ export class FormularioComponent {
             movimientos_incidencias: this.fb.array([
                 this.fb.group({
                     turnos_id: ['', [Validators.required]],
-                    valoraciones_pacientes_id: ['', [Validators.required]],
+                    ubicaciones_pacientes_id: ['', [Validators.required]],
                     estados_pacientes_id: [1],
                     triage_colores_id: ['', [Validators.required]],
                     subcategorias_cie10_id: [1],
@@ -187,11 +187,6 @@ export class FormularioComponent {
             const po0 = <FormGroup>pos.controls[0];
             po0.controls.esResponsable.patchValue(0);
 
-            console.log("indice", pos.value);
-
-            console.log("validar", po1.valid);
-
-            console.log("form", pos);
         }
 
 

@@ -18,9 +18,9 @@ export class FormularioComponent {
       institucion: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
       responsable: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
-      correo: ['', [Validators.required]],
-      municipios_id: [[""], [Validators.required]],
+      telefono: ['', [Validators.required, Validators.pattern("[0-9]*")]],
+      correo: ['', [Validators.required, Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]],
+      municipios_id: ['', [Validators.required]],
       apoyos: this.fb.array([])
     });
 

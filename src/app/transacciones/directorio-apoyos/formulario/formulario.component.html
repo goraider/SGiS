@@ -25,15 +25,17 @@
                 </section>
 
                 <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+                    
+                    <a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.cargarCatalogo('tipos_apoyos', 'apoyos', 'initMover'); ctrl.cargarCatalogo('municipios', 'municipios');"></a>
 
                     <div class="columns">
                             <div class="column is-12">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label">Institución:</label>
-                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('institucion').hasError('required') && ctrl.dato.get('institucion').touched}"
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('institucion').hasError('required') }"
                                         placeholder="Institución" formControlName="institucion">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('institucion').hasError('required') && ctrl.dato.get('institucion').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('institucion').hasError('required') && ctrl.dato.get('institucion').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('institucion').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('institucion').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                         </div>
@@ -41,19 +43,19 @@
                             <div class="column is-6">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label is-hidden-mobile">Dirección:</label>
-                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('direccion').hasError('required') && ctrl.dato.get('direccion').touched}"
+                                    <input class="input" autofocus type="text" [ngClass]="{ 'is-danger': ctrl.dato.get('direccion').hasError('required') }"
                                         placeholder="Dirección" formControlName="direccion">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('direccion').hasError('required') && ctrl.dato.get('direccion').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('direccion').hasError('required') && ctrl.dato.get('direccion').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('direccion').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('direccion').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                             <div class="column is-6">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label is-hidden-mobile">Responsable:</label>
-                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('responsable').hasError('required') && ctrl.dato.get('responsable').touched}"
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('responsable').hasError('required') }"
                                         placeholder="Responsable" formControlName="responsable">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('responsable').hasError('required') && ctrl.dato.get('responsable').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('responsable').hasError('required') && ctrl.dato.get('responsable').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('responsable').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('responsable').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                         </div>
@@ -63,20 +65,22 @@
                         <div class="columns">
                             <div class="column is-6">
                                 <p class="control is-expanded has-icon has-icon-right">
-                                    <label class="label">Telefono:</label>
-                                    <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': ctrl.dato.get('telefono').hasError('required') && ctrl.dato.get('telefono').touched}"
+                                    <label class="label">Teléfono (Celular ó Fijo):</label>
+                                    <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': ctrl.dato.get('telefono').hasError('required') }"
                                         formControlName="telefono">
-                                    <span class="icon is-small" *ngIf="ctrl.dato.get('telefono').hasError('required') && ctrl.dato.get('telefono').touched"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('telefono').hasError('required') && ctrl.dato.get('telefono').touched">Este campo es requerido.</span>
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('telefono').hasError('required')"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('telefono').hasError('required')">Este campo es requerido.</span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('telefono').hasError('pattern')">Este campo debe contener por Ejemplo: un Teléfono Fijo: <b>6785021</b> ó un Número celular: <b>9671012030</b></span>
                                 </p>
                             </div>
                                 <div class="column is-6">
                                     <p class="control is-expanded has-icon has-icon-right">
                                         <label class="label">Email (Correo Electrónico):</label>
-                                        <input class="input" type="text" placeholder="Email (Correo Electrónico)" [ngClass]="{'is-danger': ctrl.dato.get('correo').hasError('required') && ctrl.dato.get('correo').touched}"
+                                        <input class="input" type="text" placeholder="Email (Correo Electrónico)" [ngClass]="{'is-danger': ctrl.dato.get('correo').hasError('required')}"
                                             formControlName="correo">
-                                        <span class="icon is-small" *ngIf="ctrl.dato.get('correo').hasError('required') && ctrl.dato.get('correo').touched"><i class="fa fa-warning"></i></span>
-                                        <span class="help is-danger" *ngIf="ctrl.dato.get('correo').hasError('required') && ctrl.dato.get('correo').touched">Este campo es requerido.</span>
+                                        <span class="icon is-small" *ngIf="ctrl.dato.get('correo').hasError('required')"><i class="fa fa-warning"></i></span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('correo').hasError('required')">Este campo es requerido.</span>
+                                        <span class="help is-danger" *ngIf="ctrl.dato.get('correo').hasError('pattern')">Este campo debe tener un formato de Correo Electrónico, Ejemplo: <b>maria10@gmail.com</b></span>
                                     </p>
                                 </div>
 
@@ -99,7 +103,7 @@
                             <h1 class="title">
                                 <span class="icon is-medium"><i class="fa fa-life-ring"></i></span> Apoyos <a class="button  is-info" (click)="ctrl.cargarDatos();"><span class="icon "><i class="fa fa-refresh"></i></span></a>
                             </h1>
-                            <div class="box" >
+                            <div class="box" *ngIf="ctrl.izquierda['g']">
                                 <article class="media">
                                     <div class="media-content">
                                         <div class="content">
@@ -110,7 +114,7 @@
                                                             <div class="b-checkbox is-info">
                                                                 <input id="Apoyos" class="styled" type="checkbox" 
                                                                 [checked]="ctrl.todosSeleccionados.izquierda"
-                                                                (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.tipos_apoyos)">
+                                                                (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['g'], ctrl.tipos_apoyos)">
                                                                 <label for="Apoyos">
                                                                 Apoyos Disponibles
                                                             </label>
@@ -120,10 +124,10 @@
                                                     <label class="panel-block" *ngFor="let val of ctrl.tipos_apoyos; let i=index">          
                                                         <div class="field">
                                                             <div class="b-checkbox">
-                                                                <input id="{{val.id}}" class="styled" type="checkbox" 
-                                                                [checked]="ctrl.izquierda.indexOf(val) > -1"
-                                                                (click)="ctrl.agregarMover('izquierda', ctrl.tipos_apoyos, val)">
-                                                                <label for="{{val.id}}">
+                                                                <input id="Apoyos{{val.id}}" class="styled" type="checkbox" 
+                                                                [checked]="ctrl.izquierda['g'].indexOf(val) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.izquierda['g'], ctrl.tipos_apoyos, val)">
+                                                                <label for="Apoyos{{val.id}}">
                                                                     {{val.nombre}} 
                                                                 </label>
                                                             </div>
@@ -136,16 +140,16 @@
                                                 
                                                 <p class="control">
                                                     <button class="button is-default" type="button" style="width:100%" 
-                                                    [ngClass]="{'is-success': ctrl.izquierda.length > 0}" 
-                                                    [disabled]="ctrl.izquierda.length <= 0"
-                                                    (click)="ctrl.iniciarMover('izquierda', ctrl.dato.controls.apoyos.controls, ctrl.tipos_apoyos, true)">></button>
+                                                    [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}" 
+                                                    [disabled]="ctrl.izquierda['g'].length <= 0"
+                                                    (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.apoyos.controls, ctrl.tipos_apoyos, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
                                                     <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
                                                 </p>
                                                 <p class="control">
                                                     <button class="button is-default" type="button" style="width:100%" 
-                                                    [ngClass]="{'is-success': ctrl.derecha.length > 0}" 
-                                                    [disabled]="ctrl.derecha.length <= 0"
-                                                    (click)="ctrl.iniciarMover('derecha', ctrl.tipos_apoyos, ctrl.dato.controls.apoyos.controls, false)"><</button>
+                                                    [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}" 
+                                                    [disabled]="ctrl.derecha['g'].length <= 0"
+                                                    (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.tipos_apoyos, ctrl.dato.controls.apoyos.controls, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
                                                     <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
                                                 </p>
                                                 
@@ -157,7 +161,7 @@
                                                             <div class="b-checkbox is-info">
                                                                 <input id="MisApoyos" class="styled" type="checkbox" 
                                                                 [checked]="ctrl.todosSeleccionados.derecha"
-                                                                (click)="ctrl.seleccionarTodosMover('derecha', ctrl.dato.controls.apoyos.controls)">
+                                                                (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['g'], ctrl.dato.controls.apoyos.controls)">
                                                                 <!--ctrl.dato.controls.niveles_cones.controls hace referencia al formsGroupName de la vista-->
                                                                 <label for="MisApoyos">
                                                                 Apoyos Elegidos
@@ -168,10 +172,10 @@
                                                     <label class="panel-block" *ngFor="let item of ctrl.dato.controls.apoyos.controls; let i2=index">          
                                                         <div class="field" [formGroupName]="i2">
                                                             <div class="b-checkbox">
-                                                                <input id="{{item.value.id}}" class="styled" type="checkbox"
-                                                                [checked]="ctrl.derecha.indexOf(item) > -1"
-                                                                (click)="ctrl.agregarMover('derecha', ctrl.dato.controls.apoyos.controls, item)">
-                                                                <label for="{{item.value.id}}">
+                                                                <input id="MisApoyos{{item.value.id}}" class="styled" type="checkbox"
+                                                                [checked]="ctrl.derecha['g'].indexOf(item) > -1"
+                                                                (click)="ctrl.agregarMover(ctrl.derecha['g'], ctrl.dato.controls.apoyos.controls, item)">
+                                                                <label for="MisApoyos{{item.value.id}}">
                                                                     {{item.value.nombre}} 
                                                                 </label>
                                                             </div>
@@ -184,9 +188,8 @@
                                     </div>
                                 </article>
                             </div>
-                                <a (click)="ctrl.initMover(ctrl.dato.controls.apoyos.controls, ctrl.apoyos); " id="initMover"></a>
-
                 </section>
+                <a (click)="ctrl.initMover(ctrl.dato.controls.apoyos.controls, ctrl.apoyos); " id="initMover"></a>
             </form>
         </div>
     </div>

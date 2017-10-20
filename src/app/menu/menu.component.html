@@ -50,7 +50,7 @@
                 <a class="nav-item is-hidden-mobile tooltip" (click)="perfil.toggle()">
                     
                     <figure class="image" style="width:26px;">
-                        <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
+                        <img src="{{ usuario.avatar }}" alt="Image" class="profile">
                     </figure>
                     &nbsp;
                     <span>{{ usuario.nombre }} {{ usuario.apellidos }}</span>
@@ -59,7 +59,7 @@
                 <a class="nav-item is-hidden-tablet tooltip" (click)="perfil.toggle()">
                     
                     <figure class="image" style="width:26px;">
-                        <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
+                        <img src="{{ usuario.avatar }}" alt="Image" class="profile">
                     </figure>
                     <span class="tooltiptext">Perfil</span>
                 </a>

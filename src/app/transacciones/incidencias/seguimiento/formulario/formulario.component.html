@@ -6,649 +6,708 @@
 
 <div style="height:50px;"></div>
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+  <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
-        <!-- Menu izquierda del modulo enviroment" -->
-        <sistema-menu-aside></sistema-menu-aside>
+    <!-- Menu izquierda del modulo enviroment" -->
+    <sistema-menu-aside></sistema-menu-aside>
+  </div>
+  <div class="column" style="padding:1em;">
+    <div style="background: #FFF; border-radius: 1em; ">
+
+      <!-- formulario -->
+      <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+        <section class="hero is-primary">
+          <div class="hero-body">
+
+            <!-- Opciones  -->
+            <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+          </div>
+        </section>
+
+        <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+          
+          <a id="catalogos" (click)="cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('metodos_planificacion','metodos-planificacion'); cargarCatalogo('subcategorias_cie10','grupos-cie10'); cargarCatalogo('turnos','turnos'); cargarCatalogo('estados_incidencias', 'estados-incidencias'); cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); cargarCatalogo('estados_pacientes', 'estados-pacientes'); cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('grupos_cie10', 'grupos-cie10');"></a>
+
+          <div class="tabs is-toggle is-fullwidth">
+            <ul>
+              <li [ngClass]="{ 'is-active' : tab == 1}">
+                <a (click)="tab=1">
+                  <span class="icon is-small">
+                    <i class="fa fa-list-ol"></i>
+                  </span>
+                  <span>Seguimiento</span>
+                </a>
+              </li>
+              <li [ngClass]="{ 'is-active' : tab == 2}">
+                <a (click)="tab=2">
+                  <span class="icon is-small">
+                    <i class="fa fa-ambulance"></i>
+                  </span>
+                  <span>Referencia</span>
+                </a>
+              </li>
+
+              <li [ngClass]="{ 'is-active' : tab == 3}">
+                <a (click)="tab=3">
+                  <span class="icon is-small">
+                    <i class="fa fa-heart"></i>
+                  </span>
+                  <span>Alta</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div [ngClass]="{ 'is-hidden': tab != 1}">
+
+            <a class="button is-success" (click)="nuevo_seguimiento()">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>&nbsp; Agregar Nuevo Seguimiento</a>
+
+            <table class="table" *ngIf="!ctrl.cargando">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Estado del Paciente</th>
+                  <th>Turno</th>
+                  <th>Antiguedad</th>
+                  <th>Triage</th>
+                  <th>Ubicación del Paciente</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="ctrl.dato">
+                <tr *ngFor="let item of ctrl.dato.controls.movimientos_incidencias.controls; let i=index">
+                  <th style="vertical-align: middle;"><a>{{ i+1 }}</a>
+                  </th>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.estados_pacientes.nombre }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.turnos.nombre }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.antiguedad }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>
+                      <div class="tag" [ngClass]="{'is-success' : item.value.triage_colores.nombre == 'Verde', 'is-warning' : item.value.triage_colores.nombre == 'Amarillo', 'is-danger' : item.value.triage_colores.nombre == 'Rojo'}">{{ item.value.triage_colores.nombre }}</div>
+                    </a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.ubicaciones_pacientes.nombre }}</a>
+                  </td>
+                  <td>
+                    <a *ngIf="item.value.nuevo" type="button" (click)="ctrl.quitar_form_array(ctrl.dato.controls.movimientos_incidencias, i);">
+                      <span class="icon">
+                        <i class="fa fa-trash-o"></i>
+                      </span>
+                    </a>
+
+                    <a *ngIf="!item.value.nuevo" class=" is-large modal-button" (click)="detalle_seguimiento(item.value)">
+                      <span class="icon">
+                        <i class="fa fa-file-text-o"></i>
+                      </span>
+                    </a>
+
+                  </td>
+
+                </tr>
+                <tr *ngIf="ctrl.dato.get('movimientos_incidencias').length == 0">
+                  <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div [ngClass]="{ 'is-hidden': tab != 2}">
+            <a class="button is-success" (click)="nueva_referencia(); cargarMapa();">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>&nbsp; Agregar nueva referencia</a>
+            <table class="table" *ngIf="!ctrl.cargando">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Medico que refiere</th>
+                  <th>Diagnostico</th>
+                  <th>Resumen Clinico</th>
+                  <th>Unidad Medica de Origen</th>
+                  <th>Unidad Medica de Destino</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="ctrl.dato">
+                <tr *ngFor="let item of ctrl.dato.controls.referencias.controls; let i=index">
+                  <th style="vertical-align: middle;">
+                    <a>{{ i+1 }}</a>
+                  </th>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.medico_refiere_id }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.diagnostico }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.resumen_clinico }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.clues_origen }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.clues_destino }}</a>
+                  </td>
+                  <td>
+                    <a *ngIf="item.value.nuevo" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
+                      <span class="icon">
+                        <i class="fa fa-trash"></i>
+                      </span>
+                    </a>
+
+                    <a *ngIf="!item.value.nuevo" class=" is-large modal-button" (click)="detalle_referencia(item.value)">
+                      <span class="icon">
+                        <i class="fa fa-file-text-o"></i>
+                      </span>
+                    </a>
+
+                  </td>
+
+
+
+                </tr>
+                <tr *ngIf="ctrl.dato.get('referencias').length == 0">
+                  <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div [ngClass]="{ 'is-hidden': tab != 3}">
+
+            <a class="button is-success" (click)="nueva_alta()">
+              <span class="icon">
+                <i class="fa fa-plus"></i>
+              </span>&nbsp; Generar Alta</a>
+
+
+            <table class="table" *ngIf="!ctrl.cargando">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Turno</th>
+                  <th>Tipo de Alta</th>
+                  <th>Medico quien Reporta</th>
+                  <th>Diagnóstico de Egreso</th>
+                  <th>Observación de Trabajo Social</th>
+                  <th>Métodos de Planificación</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="ctrl.dato">
+                <tr *ngFor="let item of ctrl.dato.controls.altas_incidencias.controls; let j=index">
+                  <th style="vertical-align: middle;">
+                    <a>{{ j+1 }}</a>
+                  </th>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.turnos.nombre }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.estados_pacientes.nombre }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.medico_reporta_id }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.diagnostico_egreso }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.observacion_trabajo_social }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.metodos_planificacion }}</a>
+                  </td>
+                  <td>
+                    <a *ngIf="item.value.nuevo" type="button" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
+                      <span class="icon">
+                        <i class="fa fa-trash is-primary"></i>
+                      </span>
+                    </a>
+
+
+                  </td>
+
+                </tr>
+                <tr *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
+                  <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </form>
     </div>
-    <div class="column" style="padding:1em;">
-        <div style="background: #FFF; border-radius: 1em; ">
-
-            <!-- formulario -->
-            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
-                <section class="hero is-primary">
-                    <div class="hero-body">
-
-                        <!-- Opciones  -->
-                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
-                    </div>
-                </section>
-
-                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
-                    
-                        <div class="tabs is-toggle is-fullwidth">
-                                <ul>
-                                    <li [ngClass]="{ 'is-active' : tab == 1}">
-                                        <a (click)="tab=1">
-                                        <span class="icon is-small"><i class="fa fa-list-ol"></i></span>
-                                        <span>Seguimiento</span>
-                                    </a>
-                                    </li>
-                                    <li [ngClass]="{ 'is-active' : tab == 2}">
-                                        <a (click)="tab=2">
-                                        <span class="icon is-small"><i class="fa fa-ambulance"></i></span>
-                                        <span>Referencia</span>
-                                    </a>
-                                    </li>
-        
-                                    <li [ngClass]="{ 'is-active' : tab == 3}">
-                                        <a (click)="tab=3">
-                                        <span class="icon is-small"><i class="fa fa-heart"></i></span>
-                                        <span>Alta</span>
-                                    </a>
-                                    </li>
-                                </ul>
-                        </div>
-
-                            <div [ngClass]="{ 'is-hidden': tab != 1}">
-                                    
-                                <a class="button is-success" (click)="nuevo_seguimiento()"><span class="icon"><i class="fa fa-plus"></i></span>&nbsp; Agregar Nuevo Seguimiento</a>
-            
-                                    <table class="table" *ngIf="!ctrl.cargando">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Estado del Paciente</th>
-                                                <th>Turno</th>
-                                                <th>Antiguedad</th>
-                                                <th>Triage</th>
-                                                <th>Valoración del Paciente</th>
-                                                <th>Opciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody *ngIf="ctrl.dato">
-                                            <tr *ngFor="let item of ctrl.dato.controls.movimientos_incidencias.controls; let i=index">
-                                                <th style="vertical-align: middle;"><a>{{ i+1 }}</a></th>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.estados_pacientes.nombre }}</a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.turnos.nombre }}</a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.antiguedad }}</a></td>
-                                                <td style="vertical-align: middle;"><a><div class="tag" [ngClass]="{'is-success' : item.value.triage_colores.nombre == 'Verde', 'is-warning' : item.value.triage_colores.nombre == 'Amarillo', 'is-danger' : item.value.triage_colores.nombre == 'Rojo'}">{{ item.value.triage_colores.nombre }}</div></a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.valoraciones_pacientes.nombre }}</a></td>
-                                                <td>
-                                                    <a *ngIf="item.value.nuevo" type="button" (click)="ctrl.quitar_form_array(ctrl.dato.controls.movimientos_incidencias, i);">
-                                                        <span class="icon">
-                                                            <i class="fa fa-trash-o"></i>
-                                                        </span>
-                                                    </a>
-            
-                                                    <a *ngIf="!item.value.nuevo" class=" is-large modal-button" (click)="detalle_seguimiento(item.value)">
-                                                        <span class="icon">
-                                                            <i class="fa fa-file-text-o"></i>
-                                                        </span>
-                                                    </a>
-            
-                                                </td>
-                                                
-                                            </tr>
-                                            <tr *ngIf="ctrl.dato.get('movimientos_incidencias').length == 0">
-                                                <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-            
-                            <div [ngClass]="{ 'is-hidden': tab != 2}">
-                                <a class="button is-success" (click)="nueva_referencia(); cargarMapa();"><span class="icon"><i class="fa fa-plus"></i></span>&nbsp; Agregar nueva referencia</a>
-                                <table class="table" *ngIf="!ctrl.cargando">
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Medico que refiere</th>
-                                            <th>Diagnostico</th>
-                                            <th>Resumen Clinico</th>
-                                            <th>Unidad Medica de Origen</th>
-                                            <th>Unidad Medica de Destino</th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody *ngIf="ctrl.dato">
-                                        <tr *ngFor="let item of ctrl.dato.controls.referencias.controls; let i=index">
-                                            <th style="vertical-align: middle;"><a>{{ i+1 }}</a></th>
-                                            <td style="vertical-align: middle;"><a>{{ item.value.medico_refiere_id }}</a></td>
-                                            <td style="vertical-align: middle;"><a>{{ item.value.diagnostico }}</a></td>
-                                            <td style="vertical-align: middle;"><a>{{ item.value.resumen_clinico }}</a></td>
-                                            <td style="vertical-align: middle;"><a>{{ item.value.clues_origen }}</a></td>
-                                            <td style="vertical-align: middle;"><a>{{ item.value.clues_destino }}</a></td>
-                                            <td>
-                                                <a *ngIf="item.value.nuevo" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
-                                                    <span class="icon">
-                                                        <i class="fa fa-trash"></i>
-                                                    </span>
-                                                </a>
-        
-                                                <a *ngIf="!item.value.nuevo" class=" is-large modal-button" (click)="detalle_referencia(item.value)">
-                                                        <span class="icon">
-                                                            <i class="fa fa-file-text-o"></i>
-                                                        </span>
-                                                </a>
-        
-                                            </td>
-                                            
-        
-                                            
-                                        </tr>
-                                        <tr *ngIf="ctrl.dato.get('referencias').length == 0">
-                                            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-            
-                            <div [ngClass]="{ 'is-hidden': tab != 3}">
-                                
-                                    <a class="button is-success" (click)="nueva_alta()"><span class="icon"><i class="fa fa-plus"></i></span>&nbsp; Generar Alta</a>
-                                
-                                
-                                    <table class="table" *ngIf="!ctrl.cargando">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Turno</th>
-                                                <th>Tipo de Alta</th>
-                                                <th>Medico quien Reporta</th>
-                                                <th>Diagnóstico de Egreso</th>
-                                                <th>Observación de Trabajo Social</th>
-                                                <th>Métodos de Planificación</th>
-                                                <th>Opciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody *ngIf="ctrl.dato">
-                                            <tr *ngFor="let item of ctrl.dato.controls.altas_incidencias.controls; let j=index">
-                                                <th style="vertical-align: middle;"><a>{{ j+1 }}</a></th>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.turnos.nombre }}</a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.estados_pacientes.nombre }}</a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.medico_reporta_id }}</a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.diagnostico_egreso }}</a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.observacion_trabajo_social }}</a></td>
-                                                <td style="vertical-align: middle;"><a>{{ item.value.metodos_planificacion }}</a></td>                                      
-                                                <td>
-                                                    <a *ngIf="item.value.nuevo" type="button" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
-                                                        <span class="icon">
-                                                            <i class="fa fa-trash is-primary"></i>
-                                                        </span>
-                                                    </a>
-                                                    
-        
-                                                </td>
-                                                
-                                            </tr>
-                                            <tr *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
-                                                <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                </section>
-            </form>
-        </div>
-    </div>
+  </div>
 </div>
 
-    <!--DATOS DEL PACIENTE-->
+<!--DATOS DEL PACIENTE-->
 
-    <div class="column is-3">
-            <div style="padding:1em;">
-                <div class="card" style="border-radius:3%" *ngIf="ctrl.dato">
-                    <div class="card-content" *ngFor="let item of ctrl.dato.get('pacientes').value; let i=index">
-                        <div class="media">
-                            <div class="media-left">
-                                <figure class="image is-48x48">
-                                    <img src="./assets/icono-detalle-seguimiento.svg" alt="Image">
-                                </figure>
-                            </div>
-                            <div class="media-content">
-                                <p class="title is-4">
-                                    {{item.personas.nombre}} {{item.personas.paterno}} {{item.personas.materno}}
-                                </p>
-    
-                                <p class="subtitle is-6">
-                                    <strong>CURP: </strong> {{item.personas.id}}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <p class="content">
-                                <strong>Fecha de Nacimiento: </strong> {{item.personas.fecha_nacimiento | date: 'dd/MM/yyyy'}}
-                                <br>
-                                <strong>Telefono: </strong> {{item.personas.telefono}}
-                                <br>
-                                <strong>Domicilio: </strong> {{item.personas.domicilio}}
-                            </p>
-                            <p class="content">
-                                <strong>Municipio: </strong>
-                                <br>
-                                <strong>Localidad: </strong> {{item.personas.localidades_id}}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div *ngIf="ctrl.dato.get('pacientes').value.length">
-                <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index" style="margin-top:10px">
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-left">
-                                <figure class="image is-48x48">
-                                    <img src="./assets/icono-acompaniante-paciente.svg" alt="Image">
-                                </figure>
-                            </div>
-    
-                            <div class="media-content">
-                                <div class="title is-4">
-                                    <div *ngIf="val.esResponsable == 1">
-                                        <strong>Responsable: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
-                                    </div>
-                                    <div *ngIf="val.esResponsable == 0">
-                                        <strong>Acompañante: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
-                                    </div>
-                                </div>
-    
-                            </div>
-                        </div>
-                        <div class="card-content">
-                            <p class="content">
-                                <strong>Telefono: </strong> {{val.personas.telefono}}
-                                <br>
-                                <strong>Domicilio: </strong> {{val.personas.domicilio}}
-                            </p>
-    
-                        </div>
-                    </div>
-                </div>
-                </div>
+<div class="column is-3">
+  <div style="padding:1em;">
+    <div class="card" style="border-radius:3%" *ngIf="ctrl.dato">
+      <div class="card-content" *ngFor="let item of ctrl.dato.get('pacientes').value; let i=index">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img src="./assets/iconos/icono-detalle-seguimiento.svg" alt="Image">
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="title is-4">
+              {{item.personas.nombre}} {{item.personas.paterno}} {{item.personas.materno}}
+            </p>
+
+            <p class="subtitle is-6">
+              <strong>CURP: </strong> {{item.personas.id}}
+            </p>
+          </div>
+        </div>
+        <div class="card-content">
+          <p class="content">
+            <strong>Fecha de Nacimiento: </strong> {{item.personas.fecha_nacimiento | date: 'dd/MM/yyyy'}}
+            <br>
+            <strong>Telefono: </strong> {{item.personas.telefono}}
+            <br>
+            <strong>Domicilio: </strong> {{item.personas.domicilio}}
+          </p>
+          <p class="content">
+            <strong>Municipio: </strong>
+            <br>
+            <strong>Localidad: </strong> {{item.personas.localidades_id}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div *ngIf="ctrl.dato.get('pacientes').value.length">
+      <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index"
+        style="margin-top:10px">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img src="./assets/iconos/icono-acompaniante-paciente.svg" alt="Image">
+              </figure>
             </div>
-    
-        </div>
-    </div>
-    
-    <!--SEGUIMIENTO-->
-    
-    <div class="modal" id="nuevo_seguimiento" >
-      <div class="modal-background"></div>
-        <div class="modal-card" style="width: 80%;">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Nuevo Seguimiento</p>
-                <button class="delete" (click)="cerrarModal()"></button>
-            </header>
-            <section class="modal-card-body">
-    
-                <div class="columns">
-                    <div class="column is-12">
-                        <p class="control is-expanded has-icon has-icon-right">
-                            <label class="label">Turno en el que se realiza:</label>
-                            <span class="select">
-                                    <select class="select" [(ngModel)]="turnos_id" name="turnos_id"  [ngClass]="{'is-danger': turnos_id?.length == 0 }">
-                                        <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
-                                    </select>
-                            </span>
-                        </p>
-                    </div>
+
+            <div class="media-content">
+              <div class="title is-4">
+                <div *ngIf="val.esResponsable == 1">
+                  <strong>Responsable: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
                 </div>
-    
-               <div class="columns">
-                        <div class="column is-4">
-                            <p class="control is-expanded has-icon has-icon-right">
-                                <label class="label">Valoración del Paciente:</label>
-                                <span class="select">
-                                        <select class="select" [(ngModel)]="valoraciones_pacientes_id" name="valoraciones_pacientes_id"  [ngClass]="{'is-danger': valoraciones_pacientes_id?.length == 0 }">
-                                            <option *ngFor="let val of valoraciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
-                                        </select>
-                                </span>
-                            </p>
-                        </div>
-    
-                        <div class="column is-4">
-                            <p class="control is-expanded has-icon has-icon-right">
-                                <label class="label">Estado del Paciente:</label>
-                                <span class="select">
-                                        <select class="select" [(ngModel)]="estados_pacientes_id" name="estados_pacientes_id"  [ngClass]="{'is-danger': estados_pacientes_id?.length == 0 }">
-                                            <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
-                                        </select>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="column is-4">
-                            <p class="control is-expanded has-icon has-icon-right">
-                                <label class="label">Triage Obstetrico:</label>
-                                <span class="select">
-                                        <select class="select" [(ngModel)]="triage_colores_id" name="triage_colores_id"  [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
-                                            <option *ngFor="let val of triage_colores" value="{{val.id}}">{{ val.nombre }}</option>
-                                        </select>
-                                </span>
-                            </p>
-                        </div>
+                <div *ngIf="val.esResponsable == 0">
+                  <strong>Acompañante: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
                 </div>
-    
-                <div class="columns">
-                    
-                    <div class="column is-6">
-                        <p class="control is-expanded  has-icon has-icon-right">
-                            <label class="label">Medico que Reporta:</label>
-                            <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
-                            id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                            (valueChanged)="ctrl.select_item_autocomplete(medico_reporta_id, 'id', $event, true);"
-                            min-chars="1" class="input" type="text" 
-                            placeholder="Medico que reporta" [(ngModel)]="medico_reporta_id">
-                        </p>
-                    </div>
-    
-                    <div class="column is-6">
-                        <p class="control is-expanded  has-icon has-icon-right">
-                            <label class="label">Subcategoria CIE10:</label>
-                            <input ngui-auto-complete [source]="cie10_term" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
-                            id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                            (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, false);"
-                            min-chars="1" class="input" type="text" 
-                            placeholder="Subcategoria CIE10" [(ngModel)]="subcategorias_cie10_id">
-                        </p>
-                    </div>
-                       
-    
-                </div>
-                
-                <div class="columns">
-                    <div class="control is-grouped column is-6">
-                        <p class="control is-expanded  has-icon has-icon-right">
-                            <label class="label">Atención Brindada (Indicaciones): </label>
-                            <textarea class="textarea" [(ngModel)]="indicaciones" name="indicaciones" autofocus type="text" placeholder="Atención Brindada (Indicaciones)"></textarea>
-                        </p>
-                    </div>
-    
-                    <div class="control is-grouped column is-6">
-                        <p class="control is-expanded  has-icon has-icon-right">
-                            <label class="label">Reporte Médico (Descripción): </label>
-                            <textarea class="textarea" [(ngModel)]="reporte_medico" name="reporte_medico" autofocus type="text" placeholder="Reporte Médico (Descripción)"></textarea>
-                        </p>
-                    </div>
-                </div>
-    
-            </section>
-            <footer class="modal-card-foot">
-                <button class="button is-accent" (click)="agregarSeguimiento();">Agregar</button>
-                <button class="button" (click)="cerrarModal()">Cancelar</button>
-            </footer>
-        </div>
-    </div>
-    
-    <!--DETALLE SEGUIMIENTO-->
-    <div class="modal" id="detalle_seguimiento">
-            <div class="modal-background"></div>
-            <div class="modal-card" style="width: 70%;">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Detalle del Seguimiento</p>
-                    <button class="delete" (click)="cerrarModalDetalleSeguimiento()"></button>
-                </header>
-                <section class="modal-card-body">
-    
-                    <div class="media">
-                        <figure class="image is-64x64">
-                            <img class="is-medium" src="./assets/icono-detalle-seguimiento.svg" alt="Paciente">
-                        </figure>
-                    </div>
-    
-                    <div class="media-content">
-                        <div class="content is-center">
-    
-                            <div class="columns">
-                                <div class="column is-6">
-                                    <h3>Turno del seguimiento:</h3>                                  
-                                    <blockquote>{{turno}}</blockquote>
-                                </div>
-                                <div class="column is-6">
-                                    <h3>Medico que reporta:</h3>
-                                    <blockquote>{{medico}}</blockquote>
-                                </div>
-                            </div>
-    
-                            <div class="columns">
-                                <div class="column is-6">
-                                    <h3>N° Incidencia:</h3>                                  
-                                    <blockquote>{{no_incidencia}}</blockquote>
-                                </div>
-                                <div class="column is-6">
-                                    <h3>Fecha del seguimiento:</h3>
-                                    <blockquote>{{fecha | date: ' dd / MM / yyyy '}}</blockquote>
-                                </div>
-                            </div>
-    
-                            <div class="columns">
-                                    <div class="column is-6">
-                                        <h3>Estado:</h3>                                  
-                                        <blockquote>{{estado_paciente}}</blockquote>
-                                    </div>
-                                    <div class="column is-6">
-                                        <h3>Valoración:</h3>
-                                        <blockquote>{{valoracion_paciente}}</blockquote>
-                                    </div>
-                            </div>
-    
-                            <div class="columns">
-                                    <div class="column is-12">
-                                        <h3>Subcategorias CIE10:</h3>
-                                        <blockquote>{{cie10_codigo}} : {{cie10}}</blockquote>
-                                    </div>
-                            </div>
-    
-                            <div class="columns">
-                                <div class="column is-6">
-                                    <h3>Indicaciones:</h3>
-                                    <blockquote>{{indi}}</blockquote>
-                                </div>
-                                <div class="column is-6">
-                                    <h3>Reporte Medico:</h3>
-                                    <blockquote>{{reporte}}</blockquote>
-                                </div>
-                            </div>
-    
-                            
-                        </div>
-                    </div>
-    
-                </section>
+              </div>
+
             </div>
-    </div>
-    
-    
-    <!--REFERENCIA-->
-    
-    <div class="modal" id="referencia">
-        <div class="modal-background"></div>
-        <div class="modal-card" style="width: 80%; height:80%;">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Nueva Referencia</p>
-                <button class="delete" (click)="cerrarModalReferencia()"></button>
-            </header>
-            <section class="modal-card-body">
-                <div class="columns">
-                        <div class="column is-16">
-                            <div class="file">
-                                <label class="file-label">
-                                    <input class="file-input" name="img" (change)="seleccionarImagenBase64($event)" autofocus type="file" accept="image/*">
-                    
-                                    <span class="file-cta">
-                                                <span class="file-icon">
-                                                    <i class="fa fa-upload"></i>
-                                                </span>
-                                    <span class="file-label">
-                                                    Subir Imagen de la Referencia 
-                                                </span>
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
-                    
-                        <div class="column is-16">
-                            <div class="block" *ngIf="img != ''">
-                                <a class="button is-primary is-outlined" (click)="abrirModal('verFoto')">
-                                    <span class="icon">
-                                                <i class="fa fa-eye"> </i> 
-                                            </span> &nbsp; Ver referencia
-                                </a>
-                            </div>
-                            <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
-                                <div class="modal-background"></div>
-                                <div class="modal-content">
-                                    <p class="image is-4by3">
-                                        <img [src]="'data:image/jpg;base64,'+img" alt="" />
-                                    </p>
-                                </div>
-                                <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
-                            </div>
-                    
-                        </div>
-                    </div>
-    
-                    <div class="columns">
-                        <div class="column is-12">
-                            <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Medico quien Refiere:</label>
-                                <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
-                                id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                (valueChanged)="ctrl.select_item_autocomplete(medico_refiere_id, 'id', $event, false);"
-                                min-chars="1" class="input" type="text" 
-                                placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id">
-                            </p>
-                        </div>        
-                    </div>
-    
-                    <div class="columns">
-                        <div class="column is-6">
-                            <div class="control is-grouped">
-                                <p class="control is-expanded  has-icon has-icon-right">
-                                    <label class="label">Diagnóstico: </label>
-                                    <textarea class="textarea" [(ngModel)]="diagnostico" name="diagnostico" autofocus type="text" placeholder="Diagnostico"></textarea>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="column is-6">
-                                <div class="control is-grouped">
-                                    <p class="control is-expanded  has-icon has-icon-right">
-                                        <label class="label">Resumen Clínico: </label>
-                                        <textarea class="textarea" [(ngModel)]="resumen_clinico" name="resumen_clinico" autofocus type="text" placeholder="Resumen Clínico"></textarea>
-                                    </p>
-                                </div>
-                        </div>
-                    </div>
-    
-                    <div class="columns">
-                        
-                        <div class="column is-6">
-                            <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Unidad Medica de Origen:</label>
-                                <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
-                                id="clues_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                (valueChanged)="ctrl.select_item_autocomplete(clues_origen, 'clues', $event, false); select_origen_autocomplete($event)"
-                                min-chars="1" class="input" type="text" 
-                                placeholder="Origen:" [(ngModel)]="clues_origen">
-                            </p>
-                        </div>
-    
-                        <div class="column is-6">
-                            <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Unidad Medica de Destino:</label>
-                                <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
-                                id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                (valueChanged)="ctrl.select_item_autocomplete(clues_destino, 'clues', $event, false); select_destino_autocomplete($event)"
-                                min-chars="1" class="input" type="text" 
-                                placeholder="Destino:" [(ngModel)]="clues_destino">
-                            </p>
-                        </div>
-    
-                    </div>
-                    <div class="columns">
-                            <div class="column is-6">
-                                <p class="control is-expanded  has-icon has-icon-right">
-                                    <label class="label">Tiempo de traslado:</label>
-                                    <input class="input"  type="text" placeholder="Tiempo de Traslado" id="tiempo_traslado" readonly>
-                                </p>
-                            </div>
-                            <div class="column is-6">
-                                <p class="control is-expanded  has-icon has-icon-right">
-                                    <label class="label">Distancia de traslado:</label>
-                                    <input class="input"  type="text" placeholder="Distancia de Traslado" id="distancia_traslado" readonly>
-                                </p>
-                            </div>
-                    </div>
-                    <div>
-                            <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Descripción de la Ruta:</label>
-                                <textarea class="textarea" type="text" placeholder="Descripción de la Ruta" id="observaciones" readonly></textarea>
-                            </p>
-                    </div>
-                    <br>    
-                    <div style="height: 400px; border-radius: 15px" id="map"></div>
-                    <br>
-            </section>
-            <footer class="modal-card-foot">
-                <button class="button is-accent" (click)="agregarReferencia();">Agregar</button>
-                <button class="button" (click)="cerrarModalReferencia()">Cancelar</button>
-            </footer>
+          </div>
+          <div class="card-content">
+            <p class="content">
+              <strong>Telefono: </strong> {{val.personas.telefono}}
+              <br>
+              <strong>Domicilio: </strong> {{val.personas.domicilio}}
+            </p>
+
+          </div>
         </div>
+      </div>
     </div>
-    
-    <!--DETALLE REFERENCIA-->
-    <div class="modal" id="detalle_referencia">
+  </div>
+
+</div>
+
+
+<!--SEGUIMIENTO-->
+
+<div class="modal" id="nuevo_seguimiento">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 80%;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Nuevo Seguimiento</p>
+      <button class="delete" (click)="cerrarModal()"></button>
+    </header>
+    <section class="modal-card-body">
+
+      <div class="columns">
+          <div class="field column is-12">
+              <label class="label">Turno en el que se realiza:</label>
+              <p class="control has-icons-left">
+                <span class="select">
+                  <select class="select" [(ngModel)]="turnos_id" name="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
+                      <option>Elija el Turno</option>
+                      <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
+                  </select>
+                </span>
+                <span class="icon is-small is-left">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+              </p>
+          </div>
+      </div>
+
+
+
+      <div class="columns">
+        <div class="column is-4">
+          <label class="label">Ubicación del Paciente:</label>
+          <p class="control has-icons-left">
+            <span class="select">
+              <select class="select" [(ngModel)]="ubicaciones_pacientes_id" name="ubicaciones_pacientes_id" [ngClass]="{'is-danger': ubicaciones_pacientes_id?.length == 0 }">
+                  <option>Elija la Ubicación del Paciente</option>
+                <option *ngFor="let val of ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
+              </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-heartbeat"></i>
+            </span>
+          </p>
+        </div>
+
+        <div class="column is-4">
+          <label class="label">Estado del Paciente:</label>
+          <p class="control has-icons-left">
+            <span class="select">
+              <select class="select" [(ngModel)]="estados_pacientes_id" name="estados_pacientes_id" [ngClass]="{'is-danger': estados_pacientes_id?.length == 0 }">
+                  <option>Elija el Estado del Paciente</option>
+                <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
+              </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-hourglass-half"></i>
+            </span>
+          </p>
+        </div>
+        <div class="column is-4">
+          <label class="label">Triage Obstetrico:</label>
+          <p class="control has-icons-left">
+            <span class="select">
+              <select class="select" [(ngModel)]="triage_colores_id" name="triage_colores_id" [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
+                <option>Elija el Triage</option>
+                <option *ngFor="let val of triage_colores" value="{{val.id}}">{{ val.nombre }}</option>
+              </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-tasks"></i>
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+
+        <div class="column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Medico que Reporta:</label>
+            <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
+              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(medico_reporta_id, 'id', $event, true);"
+              min-chars="1" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_reporta_id">
+          </p>
+        </div>
+
+        <div class="column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Subcategoria CIE10:</label>
+            <input ngui-auto-complete [source]="cie10_term" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
+              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, false);"
+              min-chars="1" class="input" type="text" placeholder="Subcategoria CIE10" [(ngModel)]="subcategorias_cie10_id">
+          </p>
+        </div>
+
+
+      </div>
+
+      <div class="columns">
+        <div class="control is-grouped column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Atención Brindada (Indicaciones): </label>
+            <textarea class="textarea" [(ngModel)]="indicaciones" name="indicaciones" autofocus type="text" placeholder="Atención Brindada (Indicaciones)"></textarea>
+          </p>
+        </div>
+
+        <div class="control is-grouped column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Reporte Médico (Descripción): </label>
+            <textarea class="textarea" [(ngModel)]="reporte_medico" name="reporte_medico" autofocus type="text" placeholder="Reporte Médico (Descripción)"></textarea>
+          </p>
+        </div>
+      </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-accent" (click)="agregarSeguimiento();">Agregar</button>
+      <button class="button" (click)="cerrarModal()">Cancelar</button>
+    </footer>
+  </div>
+</div>
+
+<!--DETALLE SEGUIMIENTO-->
+<div class="modal" id="detalle_seguimiento">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 70%; height: 70%">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Detalle del Seguimiento</p>
+      <button class="delete" (click)="cerrarModalDetalleSeguimiento()"></button>
+    </header>
+    <section class="modal-card-body">
+
+      <div class="media-content">
+        <div class="content is-center">
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Turno del seguimiento:</h3>
+              <blockquote>{{turno}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Medico que reporta:</h3>
+              <blockquote>{{medico}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>N° Incidencia:</h3>
+              <blockquote>{{no_incidencia}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Fecha del seguimiento:</h3>
+              <blockquote>{{fecha | date: ' dd / MM / yyyy '}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Estado:</h3>
+              <blockquote>{{estado_paciente}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Ubicación:</h3>
+              <blockquote>{{ubicacion_paciente}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-12">
+              <h3>Subcategorias CIE10:</h3>
+              <blockquote>{{cie10_codigo}} : {{cie10}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Indicaciones:</h3>
+              <blockquote>{{indi}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Reporte Medico:</h3>
+              <blockquote>{{reporte}}</blockquote>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+
+<!--REFERENCIA-->
+
+<div class="modal" id="referencia">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 80%; height:80%;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Nueva Referencia</p>
+      <button class="delete" (click)="cerrarModalReferencia()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="columns">
+        <div class="column is-16">
+          <div class="file">
+            <label class="file-label">
+              <input class="file-input" name="img" (change)="seleccionarImagenBase64($event)" autofocus type="file" accept="image/*">
+
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fa fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Subir Imagen de la Referencia
+                </span>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <div class="column is-16">
+          <div class="block" *ngIf="img != ''">
+            <a class="button is-primary is-outlined" (click)="abrirModal('verFoto')">
+              <span class="icon">
+                <i class="fa fa-eye"> </i>
+              </span> &nbsp; Ver referencia
+            </a>
+          </div>
+          <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
             <div class="modal-background"></div>
-            <div class="modal-card" style="width: 70%;">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Detalle de la Referencia</p>
-                    <button class="delete" (click)="cerrarModalDetalleReferencia()"></button>
-                </header>
-                <section class="modal-card-body">
-    
-                    <div class="media">
-                        <figure class="image is-64x64">
-                            <img class="is-medium" src="./assets/icono-detalle-referencia.svg" alt="Referencia">
-                        </figure>
-                    </div>
-    
-                    <div class="media-content">
-    
-                        <div class="content is-center">
-                            
-                            <div class="columns">
-                                <div class="column is-6">
-                                     <h3>N° Incidencia:</h3>                                  
-                                     <blockquote>{{folio_referencia}}</blockquote>
-                                </div>
-                                <div class="column is-6">
-                                    <h3>Medico que reporta:</h3>
-                                    <blockquote>{{medico_reporta_referencia}}</blockquote>
-                                </div>
-                            </div>
-    
-                            <div class="columns">
-                                <div class="column is-6">
-                                    <h3>Unidad Medica de Origen:</h3>                                  
-                                    <blockquote>{{origen_referencia}}</blockquote>
-                                </div>
-    
-                                <div class="column is-6">
-                                    <h3>Unidad Medica de Destino:</h3>                                  
-                                    <blockquote>{{destino_referencia}}</blockquote>
-                                </div>
-    
-                            </div>
-    
-                            <div class="column is-6">
-                                <div class="block" *ngIf="img_referencia != ''">
-                                    <a class="button is-primary is-outlined" (click)="abrirModalDetalle('verFoto')">
-                                        <span class="icon">
-                                                    <i class="fa fa-eye"> </i> 
-                                                </span> &nbsp; Ver referencia
-                                    </a>
-                                </div>
-                                <!-- <div class="modal" id="verReferencia" (click)="cerrarModalDetalle('verReferencia')">
+            <div class="modal-content">
+              <p class="image is-4by3">
+                <img [src]="'data:image/jpg;base64,'+img" alt="" />
+              </p>
+            </div>
+            <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-12">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Medico quien Refiere:</label>
+            <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
+              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(medico_refiere_id, 'id', $event, false);"
+              min-chars="1" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id">
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-6">
+          <div class="control is-grouped">
+            <p class="control is-expanded  has-icon has-icon-right">
+              <label class="label">Diagnóstico: </label>
+              <textarea class="textarea" [(ngModel)]="diagnostico" name="diagnostico" autofocus type="text" placeholder="Diagnostico"></textarea>
+            </p>
+          </div>
+        </div>
+        <div class="column is-6">
+          <div class="control is-grouped">
+            <p class="control is-expanded  has-icon has-icon-right">
+              <label class="label">Resumen Clínico: </label>
+              <textarea class="textarea" [(ngModel)]="resumen_clinico" name="resumen_clinico" autofocus type="text" placeholder="Resumen Clínico"></textarea>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="columns">
+
+        <div class="column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Unidad Medica de Origen:</label>
+            <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
+              id="clues_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(clues_origen, 'clues', $event, false); select_origen_autocomplete($event)"
+              min-chars="1" class="input" type="text" placeholder="Origen:" [(ngModel)]="clues_origen">
+          </p>
+        </div>
+
+        <div class="column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Unidad Medica de Destino:</label>
+            <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
+              id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(clues_destino, 'clues', $event, false); select_destino_autocomplete($event)"
+              min-chars="1" class="input" type="text" placeholder="Destino:" [(ngModel)]="clues_destino">
+          </p>
+        </div>
+
+      </div>
+      <div class="columns">
+        <div class="column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Tiempo de traslado:</label>
+            <input class="input" type="text" placeholder="Tiempo de Traslado" id="tiempo_traslado" readonly>
+          </p>
+        </div>
+        <div class="column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Distancia de traslado:</label>
+            <input class="input" type="text" placeholder="Distancia de Traslado" id="distancia_traslado" readonly>
+          </p>
+        </div>
+      </div>
+      <div>
+        <p class="control is-expanded  has-icon has-icon-right">
+          <label class="label">Descripción de la Ruta:</label>
+          <textarea class="textarea" type="text" placeholder="Descripción de la Ruta" id="observaciones" readonly></textarea>
+        </p>
+      </div>
+      <br>
+      <div style="height: 400px; border-radius: 15px" id="map"></div>
+      <br>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-accent" (click)="agregarReferencia();">Agregar</button>
+      <button class="button" (click)="cerrarModalReferencia()">Cancelar</button>
+    </footer>
+  </div>
+</div>
+
+<!--DETALLE REFERENCIA-->
+<div class="modal" id="detalle_referencia">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 70%;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Detalle de la Referencia</p>
+      <button class="delete" (click)="cerrarModalDetalleReferencia()"></button>
+    </header>
+    <section class="modal-card-body">
+
+      <div class="media">
+        <figure class="image is-64x64">
+          <img class="is-medium" src="./assets/iconos/icono-detalle-referencia.svg" alt="Referencia">
+        </figure>
+      </div>
+
+      <div class="media-content">
+
+        <div class="content is-center">
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>N° Incidencia:</h3>
+              <blockquote>{{folio_referencia}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Medico que reporta:</h3>
+              <blockquote>{{medico_reporta_referencia}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Unidad Medica de Origen:</h3>
+              <blockquote>{{origen_referencia}}</blockquote>
+            </div>
+
+            <div class="column is-6">
+              <h3>Unidad Medica de Destino:</h3>
+              <blockquote>{{destino_referencia}}</blockquote>
+            </div>
+
+          </div>
+
+          <div class="column is-6">
+            <div class="block" *ngIf="img_referencia != ''">
+              <a class="button is-primary is-outlined" (click)="abrirModalDetalle('verFoto')">
+                <span class="icon">
+                  <i class="fa fa-eye"> </i>
+                </span> &nbsp; Ver referencia
+              </a>
+            </div>
+            <!-- <div class="modal" id="verReferencia" (click)="cerrarModalDetalle('verReferencia')">
                                         <div class="modal-background"></div>
                                         <div class="modal-content">
                                             <p class="image is-4by3">
@@ -657,107 +716,107 @@
                                         </div>
                                         <button type="button" class="modal-close" (click)="cerrarModalDetalle('verReferencia')"></button>
                                 </div> -->
-                            </div>
-    
-                            <div class="columns">
-                                    <div class="column is-6">
-                                        <h3>Diagnostico:</h3>                                  
-                                        <blockquote>{{diagnostico_referencia}}</blockquote>
-                                    </div>
-                                    <div class="column is-6">
-                                        <h3>Resumen Clinico:</h3>
-                                        <blockquote>{{resumen_clinico_referencia}}</blockquote>
-                                    </div>
-                            </div>
-    
-                            
-                        </div>
-                    </div>
-    
-                </section>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Diagnostico:</h3>
+              <blockquote>{{diagnostico_referencia}}</blockquote>
             </div>
-    </div>
-    
-    <!--ALTA-->
-    
-    <div class="modal" id="alta">
-            <div class="modal-background"></div>
-            <div class="modal-card" style="width: 80%; height:80%;">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Alta del Paciente</p>
-                    <button class="delete" (click)="cerrarModalAlta()"></button>
-                </header>
-                <section class="modal-card-body">
-    
-    
-                    <div class="columns">
-                        <div class="column is-6">
-                            <p class="control is-expanded has-icon has-icon-right">
-                                <label class="label">Turno en el que se realiza el alta:</label>
-                                <span class="select">
-                                        <select class="select" [(ngModel)]="tur_id" name="tur_id"  [ngClass]="{'is-danger': tur_id?.length == 0 }">
-                                            <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
-                                        </select>
-                                </span>
-                            </p>
-                        </div>
-                        <div class="column is-6">
-                                <p class="control is-expanded has-icon has-icon-right">
-                                    <label class="label">Tipo de Alta:</label>
-                                    <span class="select">
-                                            <select class="select" [(ngModel)]="e_pacientes_id" name="e_pacientes_id"  [ngClass]="{'is-danger': e_pacientes_id?.length == 0 }">
-                                                <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
-                                            </select>
-                                    </span>
-                                </p>
-                        </div>
-                    </div>
-                    <div class="columns">
-                        <div class="column is-12">
-                            <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Medico que Reporta:</label>
-                                <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
-                                id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                (valueChanged)="ctrl.select_item_autocomplete(me_reporta_id, 'id', $event, true);"
-                                min-chars="1" class="input" type="text" 
-                                placeholder="Medico que reporta" [(ngModel)]="me_reporta_id">
-                            </p>
-                        </div>
-                    </div>
-    
-                    <div class="columns">
-                        <div class="control is-grouped column is-6">
-                            <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Diagnóstico de Egreso: </label>
-                                <textarea class="textarea" style="height: 400px;" [(ngModel)]="diagnostico_egreso" name="diagnostico_egreso" autofocus type="text" placeholder="Diagnóstico de Egreso"></textarea>
-                            </p>
-                        </div>
-    
-                        <div class="control is-grouped column is-6">
-                            <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Observación de Trabajo Social: </label>
-                                <textarea class="textarea" style="height: 400px;" [(ngModel)]="observacion_trabajo_social" name="observacion_trabajo_social" autofocus type="text" placeholder="Observación de Trabajo Social"></textarea>
-                            </p>
-                        </div>
-                    </div>
-    
-                    <div class="columns">
-                        <div class="column is-12">
-                                <p class="control is-expanded has-icon has-icon-right">
-                                    <label class="label">Método de Planificación:</label>
-                                    <span class="select">
-                                            <select class="select" [(ngModel)]="me_planificacion_id" name="me_planificacion_id"  [ngClass]="{'is-danger': me_planificacion_id?.length == 0 }">
-                                                <option *ngFor="let val of metodos_planificacion" value="{{val.id}}">{{ val.nombre }}</option>
-                                            </select>
-                                    </span>
-                                </p>
-                        </div>
-                    </div>
-    
-                </section>
-                <footer class="modal-card-foot">
-                        <button class="button is-accent" (click)="agregarAlta();">Agregar</button>
-                        <button class="button" (click)="cerrarModalAlta()">Cancelar</button>
-                </footer>
+            <div class="column is-6">
+              <h3>Resumen Clinico:</h3>
+              <blockquote>{{resumen_clinico_referencia}}</blockquote>
             </div>
-    </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>
+
+<!--ALTA-->
+
+<div class="modal" id="alta">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 80%; height:80%;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Alta del Paciente</p>
+      <button class="delete" (click)="cerrarModalAlta()"></button>
+    </header>
+    <section class="modal-card-body">
+
+
+      <div class="columns">
+        <div class="column is-6">
+          <p class="control is-expanded has-icon has-icon-right">
+            <label class="label">Turno en el que se realiza el alta:</label>
+            <span class="select">
+              <select class="select" [(ngModel)]="tur_id" name="tur_id" [ngClass]="{'is-danger': tur_id?.length == 0 }">
+                <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
+              </select>
+            </span>
+          </p>
+        </div>
+        <div class="column is-6">
+          <p class="control is-expanded has-icon has-icon-right">
+            <label class="label">Tipo de Alta:</label>
+            <span class="select">
+              <select class="select" [(ngModel)]="e_pacientes_id" name="e_pacientes_id" [ngClass]="{'is-danger': e_pacientes_id?.length == 0 }">
+                <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
+              </select>
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-12">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Medico que Reporta:</label>
+            <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
+              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(me_reporta_id, 'id', $event, true);"
+              min-chars="1" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="me_reporta_id">
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="control is-grouped column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Diagnóstico de Egreso: </label>
+            <textarea class="textarea" style="height: 400px;" [(ngModel)]="diagnostico_egreso" name="diagnostico_egreso" autofocus type="text"
+              placeholder="Diagnóstico de Egreso"></textarea>
+          </p>
+        </div>
+
+        <div class="control is-grouped column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Observación de Trabajo Social: </label>
+            <textarea class="textarea" style="height: 400px;" [(ngModel)]="observacion_trabajo_social" name="observacion_trabajo_social"
+              autofocus type="text" placeholder="Observación de Trabajo Social"></textarea>
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-12">
+          <p class="control is-expanded has-icon has-icon-right">
+            <label class="label">Método de Planificación:</label>
+            <span class="select">
+              <select class="select" [(ngModel)]="me_planificacion_id" name="me_planificacion_id" [ngClass]="{'is-danger': me_planificacion_id?.length == 0 }">
+                <option *ngFor="let val of metodos_planificacion" value="{{val.id}}">{{ val.nombre }}</option>
+              </select>
+            </span>
+          </p>
+        </div>
+      </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-accent" (click)="agregarAlta();">Agregar</button>
+      <button class="button" (click)="cerrarModalAlta()">Cancelar</button>
+    </footer>
+  </div>
+</div>

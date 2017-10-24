@@ -536,8 +536,10 @@
                         <p class="control">
                             <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}" [disabled]="ctrl.izquierda['g'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.sis_usuarios_grupos, ctrl.sis_usuarios_grupos, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
                         </p>
+                                                                                                                                                                                         <!-- este controls ya no va -->               
+                        <!-- para los de mover derecha quitar el controls ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.sis_usuarios_grupos, ctrl.dato.controls.sis_usuarios_grupos.controls, false); -->
                         <p class="control">
-                            <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}" [disabled]="ctrl.derecha['g'].length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.sis_usuarios_grupos, ctrl.dato.controls.sis_usuarios_grupos.controls, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
+                            <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}" [disabled]="ctrl.derecha['g'].length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.sis_usuarios_grupos, ctrl.dato.controls.sis_usuarios_grupos, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
                         </p>
 
                     </div>

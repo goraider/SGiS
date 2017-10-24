@@ -25,7 +25,6 @@
                 </section>
 
                 <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
-
                     <div class="tabs is-toggle is-fullwidth">
                         <ul>
                             <li [ngClass]="{ 'is-active' : tab == 1}">
@@ -58,8 +57,10 @@
                         <br>
 
                         <h1 class="title">
-                                        <span class="icon is-medium"><i class="fa fa-sort-amount-desc"></i></span> Nivel de Cone <a class="button  is-info" id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.cargarCatalogo('niveles_cones', 'niveles-cones', 'initMover'); ctrl.cargarCatalogo('tipos_items', 'tipos-items');"><span class="icon "><i class="fa fa-refresh"></i></span></a>
-                                    </h1>
+                            <span class="icon is-medium"><i class="fa fa-sort-amount-desc"></i></span>
+                            Nivel de Cone 
+                            <a class="button  is-info" id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.cargarCatalogo('niveles_cones', 'niveles-cones', 'initMover'); ctrl.cargarCatalogo('tipos_items', 'tipos-items');"><span class="icon "><i class="fa fa-refresh"></i></span></a>
+                        </h1>
                         <div class="box" *ngIf="ctrl.izquierda['g']">
                             <article class="media">
                                 <div class="media-content">
@@ -92,11 +93,11 @@
                                         <div class="column is-2" style="float:left">
 
                                             <p class="control">
-                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}" [disabled]="ctrl.izquierda['g'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.niveles_cones.controls, ctrl.niveles_cones, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
+                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}" [disabled]="ctrl.izquierda['g'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.niveles_cones, ctrl.niveles_cones, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
                                                 <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
                                             </p>
                                             <p class="control">
-                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}" [disabled]="ctrl.derecha['g'].length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.niveles_cones, ctrl.dato.controls.niveles_cones.controls, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
+                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}" [disabled]="ctrl.derecha['g'].length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.niveles_cones, ctrl.dato.controls.niveles_cones, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
                                                         <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
                                             </p>
 
@@ -167,7 +168,7 @@
                             </div>
                         </div>
                         <div class="block">
-                            <a class="button is-primary is-outlined is-fullwidth" (click)="ctrl.agregar_form_array(ctrl.dato.controls.items.controls, form_items)">
+                            <a class="button is-primary is-outlined is-fullwidth" (click)="ctrl.agregar_form_array(ctrl.dato.controls.items, form_items)">
                                 <span class="icon">
                                                 <i class="fa fa-plus"> </i> 
                                             </span> &nbsp; Agregar Items al Servicio

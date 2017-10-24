@@ -36,26 +36,34 @@
                 <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
                     <thead>
                         <tr>
-                            <th>N° Folio</th>
-                            <th>Paciente</th>
-                            <th>Triage</th>
-                            <th>Antiguedad</th>
-                            <th>Seguimiento</th>
-                            <th style="text-align:center; width: 20%;">Opciones</th>
+                            <th style="text-align:center;">N° Folio</th>
+                            <th style="text-align:center;">Paciente</th>
+                            <th style="text-align:center;">Triage</th>
+                            <th style="text-align:center;">Antiguedad</th>
+                            <th style="text-align:center;">Seguimiento</th>
+                            <th style="text-align:center;">Opciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">{{ item.id }}</td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag" *ngFor="let val of item.pacientes">{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</div></td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}">{{ item.movimientos_incidencias[0].triage_colores.nombre }}</div></td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">{{ item.antiguedad }}</td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><strong>{{ item.id }}</strong></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag is-medium" *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><strong>{{ item.antiguedad }}</strong></td>
                             <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">
                                 
-                                    <a class="is-danger" (click)="download($event, item.id)"><span class="icon"><i class="fa fa-file-pdf-o"></i></span></a>
+                                    <a title="PDF" class="button is-danger tooltip" (click)="download($event, item.id)">
+                                        <span class="icon">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </span>
+                                    </a>
                                     
-                                    <a class="is-danger" routerLink="/transacciones/seguimiento/editar/{{item.id}}"><span class="icon"><i class="fa fa-exchange"></i></span></a>
+                                    <a title="Seguimiento" class="button is-info tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
+                                        <span class="icon">
+                                            <i class="fa fa-exchange"></i>
+                                        </span>
+                                    </a>
 
                             </td>
 
@@ -97,9 +105,17 @@
                                     <div class="level-left">
 
 
-                                            <a class="is-danger" (click)="download($event, item.id)"><span class="icon"><i class="fa fa-file-pdf-o"></i></span></a>
-                                            
-                                            <a class="is-danger" routerLink="/transacciones/seguimiento/editar/{{item.id}}"><span class="icon"><i class="fa fa-exchange"></i></span></a>
+                                            <a title="PDF" class="button is-danger tooltip" (click)="download($event, item.id)">
+                                                <span class="icon">
+                                                    <i class="fa fa-file-pdf-o"></i>
+                                                </span>
+                                            </a>
+                                                
+                                            <a title="Seguimiento" class="button is-info tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
+                                                <span class="icon">
+                                                     <i class="fa fa-exchange"></i>
+                                                </span>
+                                            </a>
 
                                         <!-- acciones -->
                                         <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>

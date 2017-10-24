@@ -916,12 +916,12 @@ export class FormularioComponent implements OnInit {
             else {
                 toModelo.push(item.value);
                 var i = 0;
-                for (let val of ofModelo) {
-                    if (item.value[campo] == val.value[campo]) {
-                        ofModelo.splice(i, 1);
+                ofModelo.controls.forEach(val => {
+                    if (item.value[campo] == val.value[campo]) {                    
+                        ofModelo.removeAt(i);
                     }
                     i++;
-                }
+                });
             }
         }
         clave = [];

@@ -38,13 +38,13 @@ export class ListaComponent {
             let pacientes;
             
              
-            for (var i = 0; i < resultado.pacientes.length; i++) {
-                  var element = resultado.pacientes[i];
+            for (var i = 0; i < resultado.data.pacientes.length; i++) {
+                  var element = resultado.data.pacientes[i];
 
               
             }
 
-            console.log('datos', resultado);
+            console.log('datos', resultado.data.movimientos_incidencias);
 
              let pdf = new jsPDF();
 
@@ -71,7 +71,7 @@ export class ListaComponent {
              pdf.setFontType('bold')
              pdf.text(20, 60, 'N° Folio:');
              pdf.setFontType('normal')
-             pdf.text(40, 60, resultado.id);
+             pdf.text(40, 60, resultado.data.id);
                          
 
              pdf.setFontSize(12)
@@ -178,14 +178,14 @@ export class ListaComponent {
 
 
             var i =  0;
-            resultado.movimientos_incidencias.forEach(seguimientos => {
+            resultado.data.movimientos_incidencias.forEach(seguimientos => {
 
-              pdf.setFontSize(12)
-              pdf.setFont('times')
-              pdf.setFontType('bold')
-              pdf.text(8, 55 + (i * 10), 'N°:');
-              pdf.setFontType('normal')
-              pdf.text(15, 55 + (i * 10), seguimientos.incremento);
+              // pdf.setFontSize(12)
+              // pdf.setFont('times')
+              // pdf.setFontType('bold')
+              // pdf.text(8, 55 + (i * 10), 'N°:');
+              // pdf.setFontType('normal')
+              // pdf.text(15, 55 + (i * 10), seguimientos.id);
     
     
               pdf.setFontSize(12)
@@ -218,7 +218,7 @@ export class ListaComponent {
               pdf.setFontType('bold')
               pdf.text(150, 55 + (i * 10), 'Valoración:');
               pdf.setFontType('normal')
-              pdf.text(175, 55 + (i * 10), seguimientos.valoraciones_pacientes.nombre);
+              pdf.text(175, 55 + (i * 10), seguimientos.ubicaciones_pacientes.nombre);
               
                 i++;
               console.log('aca', seguimientos);

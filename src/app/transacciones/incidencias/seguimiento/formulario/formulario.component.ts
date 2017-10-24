@@ -346,7 +346,7 @@ export class FormularioComponent {
       
       medico_reporta_id: [this.medico_reporta_id, [Validators.required]],
       
-      subcategorias_cie10_id: [this.subcategorias_cie10_id, [Validators.required]],
+      subcategorias_cie10_id: [this.subcategorias_cie10_id.id, [Validators.required]],
       subcategorias_cie10: [this.subcategorias_cie10[sci10], [Validators.required]],
       
       indicaciones: [this.indicaciones, [Validators.required]],
@@ -370,7 +370,7 @@ export class FormularioComponent {
 
 
     const mv: FormArray = <FormArray> this.dato.controls.movimientos_incidencias;
-    mv.controls.push(this.fb.group(datomodal));
+    mv.push(this.fb.group(datomodal));
 
     //asigna el estado de incidencia en proceso con numero 2
     this.dato.controls['estados_incidencias_id'].setValue(2);
@@ -490,7 +490,7 @@ agregarReferencia(){
   };
 
   const mv: FormArray = <FormArray> this.dato.controls.referencias;
-  mv.controls.push(this.fb.group(datoReferencia));
+  mv.push(this.fb.group(datoReferencia));
 
   //asigna el estado de incidencia en proceso con numero 2
   this.dato.controls['estados_incidencias_id'].setValue(2);
@@ -731,7 +731,7 @@ agregarAlta(){
     };
   
     const mv: FormArray = <FormArray> this.dato.controls.altas_incidencias;
-    mv.controls.push(this.fb.group(datoAlta));
+    mv.push(this.fb.group(datoAlta));
 
     //asigna el estado de incidencia en finalizado con numero 3
     this.dato.controls['estados_incidencias_id'].setValue(3);

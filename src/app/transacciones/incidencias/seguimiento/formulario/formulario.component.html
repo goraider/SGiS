@@ -6,10 +6,84 @@
 
 <div style="height:50px;"></div>
 <div class="contenedor columns " style="height:100%; ">
-  <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+  <!--DATOS DEL PACIENTE-->
+  <div class="column is-3">
 
-    <!-- Menu izquierda del modulo enviroment" -->
-    <sistema-menu-aside></sistema-menu-aside>
+    <div>
+      <div style="padding:1em;">
+        <div class="card" style="border-radius:3%" *ngIf="ctrl.dato">
+          <div class="card-content" *ngFor="let item of ctrl.dato.get('pacientes').value; let i=index">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="./assets/iconos/icono-detalle-seguimiento.svg" alt="Image">
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-6">
+                  {{item.personas.nombre}} {{item.personas.paterno}} {{item.personas.materno}}
+                </p>
+                <p>
+                <p class="subtitle is-7">
+                  <strong>CURP: </strong> {{item.personas.id}}
+                </p>
+              </div>
+            </div>
+            <div align="left">
+              <p class="content">
+                <strong>Fecha de Nacimiento: </strong> {{item.personas.fecha_nacimiento | date: 'dd/MM/yyyy'}}
+                <br>
+                <strong>Telefono: </strong> {{item.personas.telefono}}
+                <br>
+                <strong>Domicilio: </strong> {{item.personas.domicilio}}
+              </p>
+              <p class="content">
+                <strong>Municipio: </strong>
+                <br>
+                <strong>Localidad: </strong> {{item.personas.localidades_id}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div *ngIf="ctrl.dato.get('pacientes').value.length">
+          <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index"
+            style="margin-top:10px">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img src="./assets/iconos/icono-acompaniante-paciente.svg" alt="Image">
+                  </figure>
+                </div>
+    
+                <div class="media-content">
+                  <div class="title is-6">
+                    <div *ngIf="val.esResponsable == 1">
+                      <strong>Responsable: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
+                    </div>
+                    <div *ngIf="val.esResponsable == 0">
+                      <strong>Acompañante: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
+                    </div>
+                  </div>
+    
+                </div>
+              </div>
+              <div class="card-content">
+                <p class="content">
+                  <strong>Telefono: </strong> {{val.personas.telefono}}
+                  <br>
+                  <strong>Domicilio: </strong> {{val.personas.domicilio}}
+                </p>
+    
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+    </div>
+
   </div>
   <div class="column" style="padding:1em;">
     <div style="background: #FFF; border-radius: 1em; ">
@@ -92,23 +166,20 @@
                   </td>
                   <td style="vertical-align: middle;">
                     <a>
-                      <div class="tag" [ngClass]="{'is-success' : item.value.triage_colores.nombre == 'Verde', 'is-warning' : item.value.triage_colores.nombre == 'Amarillo', 'is-danger' : item.value.triage_colores.nombre == 'Rojo'}">{{ item.value.triage_colores.nombre }}</div>
+                      <div class="tag is-medium" [ngClass]="{'is-success' : item.value.triage_colores.nombre == 'Verde', 'is-warning' : item.value.triage_colores.nombre == 'Amarillo', 'is-danger' : item.value.triage_colores.nombre == 'Rojo'}"><strong>{{ item.value.triage_colores.nombre }}</strong></div>
                     </a>
                   </td>
                   <td style="vertical-align: middle;">
                     <a>{{ item.value.ubicaciones_pacientes.nombre }}</a>
                   </td>
-                  <td>
-                    <a *ngIf="item.value.nuevo" type="button" (click)="ctrl.quitar_form_array(ctrl.dato.controls.movimientos_incidencias, i);">
-                      <span class="icon">
+                  <td style="vertical-align: middle;">
+                    
+                    <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.movimientos_incidencias, i);">
                         <i class="fa fa-trash-o"></i>
-                      </span>
                     </a>
 
-                    <a *ngIf="!item.value.nuevo" class=" is-large modal-button" (click)="detalle_seguimiento(item.value)">
-                      <span class="icon">
+                    <a *ngIf="!item.value.nuevo" title="Detalle del Seguimiento" class="button is-info tooltip" (click)="detalle_seguimiento(item.value)">
                         <i class="fa fa-file-text-o"></i>
-                      </span>
                     </a>
 
                   </td>
@@ -159,16 +230,12 @@
                     <a>{{ item.value.clues_destino }}</a>
                   </td>
                   <td>
-                    <a *ngIf="item.value.nuevo" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
-                      <span class="icon">
-                        <i class="fa fa-trash"></i>
-                      </span>
+                    <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
+                        <i class="fa fa-trash-o"></i>
                     </a>
 
-                    <a *ngIf="!item.value.nuevo" class=" is-large modal-button" (click)="detalle_referencia(item.value)">
-                      <span class="icon">
+                    <a *ngIf="!item.value.nuevo" title="Detalle del la Referencia" class="button is-info tooltip" (click)="detalle_referencia(item.value)">
                         <i class="fa fa-file-text-o"></i>
-                      </span>
                     </a>
 
                   </td>
@@ -228,10 +295,8 @@
                     <a>{{ item.value.metodos_planificacion }}</a>
                   </td>
                   <td>
-                    <a *ngIf="item.value.nuevo" type="button" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
-                      <span class="icon">
-                        <i class="fa fa-trash is-primary"></i>
-                      </span>
+                    <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
+                        <i class="fa fa-trash-o"></i>
                     </a>
 
 
@@ -248,83 +313,6 @@
       </form>
     </div>
   </div>
-</div>
-
-<!--DATOS DEL PACIENTE-->
-
-<div class="column is-3">
-  <div style="padding:1em;">
-    <div class="card" style="border-radius:3%" *ngIf="ctrl.dato">
-      <div class="card-content" *ngFor="let item of ctrl.dato.get('pacientes').value; let i=index">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img src="./assets/iconos/icono-detalle-seguimiento.svg" alt="Image">
-            </figure>
-          </div>
-          <div class="media-content">
-            <p class="title is-4">
-              {{item.personas.nombre}} {{item.personas.paterno}} {{item.personas.materno}}
-            </p>
-
-            <p class="subtitle is-6">
-              <strong>CURP: </strong> {{item.personas.id}}
-            </p>
-          </div>
-        </div>
-        <div class="card-content">
-          <p class="content">
-            <strong>Fecha de Nacimiento: </strong> {{item.personas.fecha_nacimiento | date: 'dd/MM/yyyy'}}
-            <br>
-            <strong>Telefono: </strong> {{item.personas.telefono}}
-            <br>
-            <strong>Domicilio: </strong> {{item.personas.domicilio}}
-          </p>
-          <p class="content">
-            <strong>Municipio: </strong>
-            <br>
-            <strong>Localidad: </strong> {{item.personas.localidades_id}}
-          </p>
-        </div>
-      </div>
-    </div>
-    <br>
-    <div *ngIf="ctrl.dato.get('pacientes').value.length">
-      <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index"
-        style="margin-top:10px">
-        <div class="card-content">
-          <div class="media">
-            <div class="media-left">
-              <figure class="image is-48x48">
-                <img src="./assets/iconos/icono-acompaniante-paciente.svg" alt="Image">
-              </figure>
-            </div>
-
-            <div class="media-content">
-              <div class="title is-4">
-                <div *ngIf="val.esResponsable == 1">
-                  <strong>Responsable: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
-                </div>
-                <div *ngIf="val.esResponsable == 0">
-                  <strong>Acompañante: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <div class="card-content">
-            <p class="content">
-              <strong>Telefono: </strong> {{val.personas.telefono}}
-              <br>
-              <strong>Domicilio: </strong> {{val.personas.domicilio}}
-            </p>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
 

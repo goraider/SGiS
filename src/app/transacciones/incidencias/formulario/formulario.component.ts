@@ -45,6 +45,12 @@ export class FormularioComponent {
     tiempo: any = '';
     observaciones: any = '';
 
+    private municipios_id: number = null;
+    private temp_municipios_id: number = null;
+
+    private localidades_id: number = null;
+    private temp_localidades_id: number = null;
+
 
     public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
@@ -69,7 +75,7 @@ export class FormularioComponent {
             pacientes: this.fb.array([
                 this.fb.group({
                     //indice 0;
-                    personas_id: ['', [Validators.required, Validators.minLength(18)]],
+                    personas_id: ['', [Validators.minLength(18)]],
                     //objeto
                     personas: this.fb.group({
                         nombre: ['', [Validators.required]],
@@ -81,13 +87,13 @@ export class FormularioComponent {
 
                         estados_embarazos_id: ['', [Validators.required]],
                         derechohabientes_id: ['', [Validators.required]],
-                        municipios_id: ['', [Validators.required]],
-                        localidades_id: ['', [Validators.required]],
+                        municipios_id: [''],
+                        localidades_id: [''],
                     }),
                     acompaniantes: this.fb.array([
                         this.fb.group({
                             //indice 0;
-                            personas_id: ['', [Validators.required, Validators.minLength(18)]],
+                            personas_id: ['', [Validators.minLength(18)]],
                             parentescos_id: ['', [Validators.required]],
                             esResponsable: [1],
                             //objeto
@@ -152,6 +158,26 @@ export class FormularioComponent {
         */
         //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
         document.getElementById("catalogos").click();
+
+        var im = 0, il = 0;
+
+//        const pacientes = <FormArray>this.dato.controls.pacientes['controls']['personas']['controls']['municipios_id'];
+
+        this.dato.controls['pacientes']['controls']['0']['controls']['personas']['controls']['municipios_id'].valueChanges.
+        subscribe(val => {
+          if (val && im == 0) {
+            im++;
+            this.temp_municipios_id = val;
+          }
+        });
+
+        this.dato.controls.pacientes['controls']['0']['controls']['personas']['controls']['localidades_id'].valueChanges.
+        subscribe(val => {
+          if (val && il == 0) {
+            il++;
+            this.temp_localidades_id = val;
+          }
+        });
     }
 
     //   checked(value){
@@ -162,10 +188,16 @@ export class FormularioComponent {
     //       this.mostrar= false;
     // }
 
-    notificar(){
+    autovalor_municipio() {
+        setTimeout(() => {
+          this.municipios_id = this.temp_municipios_id;
+        }, 3000);
+    }
 
-
-
+    autovalor_localidad() {
+        setTimeout(() => {
+          this.localidades_id = this.temp_localidades_id;
+        }, 3000);
     }
 
     agregar_form_array() {
@@ -267,7 +299,6 @@ export class FormularioComponent {
 
         const municipios = <FormGroup>personas.controls.municipios_id;
         municipios.patchValue(data.municipios_id);
-
 
     }
 

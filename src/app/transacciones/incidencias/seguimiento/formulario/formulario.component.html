@@ -97,7 +97,7 @@
             <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
           </div>
         </section>
-
+<!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
         <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
           
           <a id="catalogos" (click)="cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('metodos_planificacion','metodos-planificacion'); cargarCatalogo('subcategorias_cie10','grupos-cie10'); cargarCatalogo('turnos','turnos'); cargarCatalogo('estados_incidencias', 'estados-incidencias'); cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); cargarCatalogo('estados_pacientes', 'estados-pacientes'); cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('grupos_cie10', 'grupos-cie10');"></a>
@@ -267,7 +267,6 @@
                   <th>Medico quien Reporta</th>
                   <th>Diagnóstico de Egreso</th>
                   <th>Observación de Trabajo Social</th>
-                  <th>Métodos de Planificación</th>
                   <th>Opciones</th>
                 </tr>
               </thead>
@@ -291,14 +290,10 @@
                   <td style="vertical-align: middle;">
                     <a>{{ item.value.observacion_trabajo_social }}</a>
                   </td>
-                  <td style="vertical-align: middle;">
-                    <a>{{ item.value.metodos_planificacion }}</a>
-                  </td>
                   <td>
                     <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
                         <i class="fa fa-trash-o"></i>
                     </a>
-
 
                   </td>
 
@@ -738,23 +733,31 @@
 
 
       <div class="columns">
-        <div class="column is-6">
-          <p class="control is-expanded has-icon has-icon-right">
-            <label class="label">Turno en el que se realiza el alta:</label>
+        <div class="field column is-6">
+          <label class="label">Turno en el que se realiza el alta:</label>
+          <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="tur_id" name="tur_id" [ngClass]="{'is-danger': tur_id?.length == 0 }">
+                  <option>Elija el Turno</option>
                 <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-clock-o"></i>
+            </span>
           </p>
         </div>
-        <div class="column is-6">
-          <p class="control is-expanded has-icon has-icon-right">
-            <label class="label">Tipo de Alta:</label>
+        <div class="field column is-6">
+          <label class="label">Tipo de Alta:</label>
+          <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="e_pacientes_id" name="e_pacientes_id" [ngClass]="{'is-danger': e_pacientes_id?.length == 0 }">
-                <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
+                  <option>Elija el Tipo de Alta</option>
+                <option *ngFor="let val of ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-sign-out"></i>
             </span>
           </p>
         </div>
@@ -774,7 +777,7 @@
         <div class="control is-grouped column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Diagnóstico de Egreso: </label>
-            <textarea class="textarea" style="height: 400px;" [(ngModel)]="diagnostico_egreso" name="diagnostico_egreso" autofocus type="text"
+            <textarea class="textarea" [(ngModel)]="diagnostico_egreso" name="diagnostico_egreso" autofocus type="text"
               placeholder="Diagnóstico de Egreso"></textarea>
           </p>
         </div>
@@ -782,20 +785,24 @@
         <div class="control is-grouped column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Observación de Trabajo Social: </label>
-            <textarea class="textarea" style="height: 400px;" [(ngModel)]="observacion_trabajo_social" name="observacion_trabajo_social"
+            <textarea class="textarea" [(ngModel)]="observacion_trabajo_social" name="observacion_trabajo_social"
               autofocus type="text" placeholder="Observación de Trabajo Social"></textarea>
           </p>
         </div>
       </div>
 
       <div class="columns">
-        <div class="column is-12">
-          <p class="control is-expanded has-icon has-icon-right">
-            <label class="label">Método de Planificación:</label>
+        <div class="field column is-12">
+          <label class="label">Método de Planificación:</label>
+          <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="me_planificacion_id" name="me_planificacion_id" [ngClass]="{'is-danger': me_planificacion_id?.length == 0 }">
+                <option>Elija el Método de Planificación</option>
                 <option *ngFor="let val of metodos_planificacion" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-calendar-check-o"></i>
             </span>
           </p>
         </div>
@@ -808,3 +815,67 @@
     </footer>
   </div>
 </div>
+
+<!--DETALLE ALTA-->
+<div class="modal" id="detalle_alta">
+    <div class="modal-background"></div>
+    <div class="modal-card" style="width: 70%;">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Detalle de la Referencia</p>
+        <button class="delete" (click)="cerrarModalDetalleAlta()"></button>
+      </header>
+      <section class="modal-card-body">
+  
+        <div class="media">
+          <figure class="image is-64x64">
+            <img class="is-medium" src="./assets/iconos/icono-detalle-referencia.svg" alt="Referencia">
+          </figure>
+        </div>
+  
+        <div class="media-content">
+  
+          <div class="content is-center">
+  
+            <div class="columns">
+              <div class="column is-6">
+                <h3>N° Incidencia:</h3>
+                <blockquote>{{folio_referencia}}</blockquote>
+              </div>
+              <div class="column is-6">
+                <h3>Medico que reporta:</h3>
+                <blockquote>{{medico_reporta_referencia}}</blockquote>
+              </div>
+            </div>
+  
+            <div class="columns">
+              <div class="column is-6">
+                <h3>Unidad Medica de Origen:</h3>
+                <blockquote>{{origen_referencia}}</blockquote>
+              </div>
+  
+              <div class="column is-6">
+                <h3>Unidad Medica de Destino:</h3>
+                <blockquote>{{destino_referencia}}</blockquote>
+              </div>
+  
+            </div>
+  
+  
+            <div class="columns">
+              <div class="column is-6">
+                <h3>Diagnostico:</h3>
+                <blockquote>{{diagnostico_referencia}}</blockquote>
+              </div>
+              <div class="column is-6">
+                <h3>Resumen Clinico:</h3>
+                <blockquote>{{resumen_clinico_referencia}}</blockquote>
+              </div>
+            </div>
+  
+  
+          </div>
+        </div>
+  
+      </section>
+    </div>
+  </div>

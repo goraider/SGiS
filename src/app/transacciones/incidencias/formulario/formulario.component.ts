@@ -50,6 +50,7 @@ export class FormularioComponent {
 
     private localidades_id: number = null;
     private temp_localidades_id: number = null;
+    private selectedDeal;
 
 
     public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
@@ -64,7 +65,7 @@ export class FormularioComponent {
 
         this.dato = this.fb.group({
 
-            id: ['', [Validators.required]],
+            id: [''],
             motivo_ingreso: ['', [Validators.required]],
             impresion_diagnostica: ['', [Validators.required]],
             clues: ['', [Validators.required]],
@@ -74,9 +75,9 @@ export class FormularioComponent {
 
             pacientes: this.fb.array([
                 this.fb.group({
-                    //indice 0;
-                    personas_id: ['', [Validators.minLength(18)]],
-                    //objeto
+                    //pacientes[0] indice 0;
+                    personas_id: [''],
+                    //personas objeto
                     personas: this.fb.group({
                         nombre: ['', [Validators.required]],
                         paterno: ['', [Validators.required]],
@@ -93,7 +94,7 @@ export class FormularioComponent {
                     acompaniantes: this.fb.array([
                         this.fb.group({
                             //indice 0;
-                            personas_id: ['', [Validators.minLength(18)]],
+                            personas_id: [''],
                             parentescos_id: ['', [Validators.required]],
                             esResponsable: [1],
                             //objeto
@@ -135,7 +136,7 @@ export class FormularioComponent {
         this.form_responsable =
             this.fb.group({
                 //indice 0;
-                personas_id: ['', [Validators.nullValidator, Validators.maxLength(17)]],
+                personas_id: [''],
                 parentescos_id: ['', [Validators.nullValidator]],
                 esResponsable: [1],
             }),
@@ -150,6 +151,8 @@ export class FormularioComponent {
             }),
 
             this.generar_folio(this.dato.controls.id, true);
+
+            console.log(this.dato);
 
         /*
             this.dato.controls.clues.valueChanges.subscribe(val => {
@@ -178,6 +181,7 @@ export class FormularioComponent {
             this.temp_localidades_id = val;
           }
         });
+        
     }
 
     //   checked(value){
@@ -223,6 +227,10 @@ export class FormularioComponent {
 
 
     }
+    private dateChanged(newDate) {
+        this.selectedDeal.EndDate= new Date(newDate);
+        console.log(this.selectedDeal.EndDate); // <-- for testing
+      }
 
 
     quitar_form_array(modelo, i: number) {

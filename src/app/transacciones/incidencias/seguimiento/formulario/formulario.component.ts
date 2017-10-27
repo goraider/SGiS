@@ -110,8 +110,14 @@ export class FormularioComponent {
 
   cie10;
   cie10_codigo;
+  
+  //detalle alta
+  turno_alta;
+  tipo_alta;
+  medico_alta;
+  diagnostico_alta;
 
-  pusher: any;
+
 
 
 
@@ -642,6 +648,19 @@ datosCargados() {
 
 //////////////////////////////Alta////////////////////////////////////
 
+
+detalle_alta(data): void {
+  
+        this.folio_referencia = data.incidencias_id;
+         
+        
+    
+        document.getElementById("detalle_alta").classList.add('is-active');
+  }
+  cerrarModalDetalleAlta() {
+        document.getElementById("detalle_alta").classList.remove('is-active');
+  }
+
 cerrarModalAlta() {
   document.getElementById("alta").classList.remove('is-active');
 }
@@ -725,8 +744,6 @@ agregarAlta(){
 
       diagnostico_egreso:[this.diagnostico_egreso,[Validators.required]],
       observacion_trabajo_social:[this.observacion_trabajo_social,[Validators.required]],
-
-
 
     };
   

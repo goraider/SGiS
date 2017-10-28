@@ -104,6 +104,7 @@ export class FormularioComponent {
                                 materno: ['', [Validators.required]],
                                 telefono: ['', [Validators.required]],
                                 domicilio: ['', [Validators.required]],
+                                fecha_nacimiento: [null],
                             }),
                         }),
 
@@ -148,11 +149,13 @@ export class FormularioComponent {
                 materno: ['', [Validators.nullValidator]],
                 telefono: ['', [Validators.nullValidator]],
                 domicilio: ['', [Validators.nullValidator]],
+                fecha_nacimiento: [null],
             }),
 
             this.generar_folio(this.dato.controls.id, true);
-
+            
             console.log(this.dato);
+
 
         /*
             this.dato.controls.clues.valueChanges.subscribe(val => {

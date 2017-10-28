@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 //modulos
 import { HubModule } from '../../hub/hub.module';
@@ -42,7 +43,8 @@ import { CrudModule }  from '../../crud/crud.module';
     PipesModule,
     MenuModule,
     ParcialModule,
-    CrudModule
+    CrudModule,
+    NguiAutoCompleteModule
   ],
   declarations: [
     ListaComponent,

@@ -37,7 +37,7 @@
                             <th style="vertical-align: middle;">{{ item.id }}</th>
                             <td style="vertical-align: middle;">{{ item.nombre }} {{ item.paterno }} {{ item.materno }}</td>
                             <td style="vertical-align: middle;">{{ item.telefono }}</td>
-                            <td style="vertical-align: middle;">{{ item.fecha_nacimiento }}</td>
+                            <td style="vertical-align: middle;">{{ item.fecha_nacimiento | date: ' dd/MM/yyyy '}}</td>
                             <td style="vertical-align: middle;">{{ item.estados_embarazos.nombre }}</td>
                             <td style="vertical-align: middle;">{{ item.derechohabientes.nombre }}</td>
                             <td style="vertical-align: middle;" class="has-text-centered">

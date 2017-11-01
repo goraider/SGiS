@@ -18,7 +18,7 @@ export class FormularioComponent {
 
   ngOnInit() {
     this.dato = this.fb.group({
-      procesos: ['', [Validators.required]],
+      proceso: ['', [Validators.required]],
       triage_colores_id: ['', [Validators.required]],
       subcategorias_cie10_id: ['', [Validators.required]],
       ubicaciones_pacientes_id: ['', [Validators.required]],

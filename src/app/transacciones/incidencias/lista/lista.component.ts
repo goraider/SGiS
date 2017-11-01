@@ -4,6 +4,15 @@ import { ListarComponent } from '../../../crud/listar.component';
 import { CrudService } from '../../../crud/crud.service';
 import * as jsPDF from 'jspdf';
 
+import * as moment from 'moment';
+
+import * as pdfmake from 'pdfmake/build/pdfmake.js';
+import * as pdffonts from 'pdfmake/build/vfs_fonts.js';
+
+
+
+
+
 @Component({
   selector: 'incidencias-lista',
   templateUrl: './lista.component.html'
@@ -21,9 +30,25 @@ export class ListaComponent {
  
   // // goForm(data: any): void {
   // //   this.router.navigateByUrl('incidencias/seguimiento/lista');
+
+  // pdfmake(){
+    
+  //       var docDefinition = {content: 'Este es un PDF de muestra impreso con pdfMake' };
+    
+  //       pdfMake.createPdf(docDefinition).download();
+    
+    
+        
+  //     }
   // // }
 
+
+
     download(e, id) {
+
+
+
+      
     
         this.crudService.ver(id, "incidencias").subscribe(
           resultado => {
@@ -287,7 +312,7 @@ export class ListaComponent {
 
 
 
-             pdf.save('Incidencia N°:'+resultado.id+'.pdf');
+             pdf.save('Incidencia N°:'+resultado.data.id+'.pdf');
         },
           error => {
          }

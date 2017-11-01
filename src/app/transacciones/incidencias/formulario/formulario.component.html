@@ -6,477 +6,557 @@
 
 <div style="height:50px;"></div>
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+  <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
-        <!-- Menu izquierda del modulo enviroment" -->
-        <sistema-menu-aside></sistema-menu-aside>
-    </div>
-    <div class="column" style="padding:1em;">
-        <div style="background: #FFF; border-radius: 1em; " >
+    <!-- Menu izquierda del modulo enviroment" -->
+    <sistema-menu-aside></sistema-menu-aside>
+  </div>
+  <div class="column" style="padding:1em;">
+    <div style="background: #FFF; border-radius: 1em; ">
+        <a id="catalogos" (click)="ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos'); ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');  ctrl.cargarCatalogo('municipios', 'municipios'); ctrl.cargarCatalogo('parentescos', 'parentescos'); ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); ctrl.cargarCatalogo('triage_colores', 'triage-colores'); ctrl.cargarCatalogo('turnos_varios', 'turnos');"></a>
 
-            <!-- formulario -->
-            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
-                <section class="hero is-primary">
-                    <div class="hero-body">
+      <!-- formulario -->
+      <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+        <section class="hero is-primary">
+          <div class="hero-body">
+            <!-- Opciones  -->
+            <div>
+              <div class="field is-grouped" style="position:absolute; top:4.5em; right:1em;">
+                  <p class="control" >
+                      <a class="button is-primary tooltip" (click)="ctrl.regresar()">
+                          <span class="icon ">
+                              <i class="fa fa-arrow-left"> </i>
+                          </span>
+                          <span class="tooltiptext">Regresar</span>
+                      </a>
+                  </p>
+                  
+                  <p class="control" *ngIf="ctrl.id">
+                      <a class="button is-primary tooltip"  (click)="cargarDatos()" id="cargar_datos_actualizar">
+                          <span class="icon ">
+                              <i class="fa fa-refresh"></i>
+                          </span>
+                          <span class="tooltiptext">Actualizar</span>
+                      </a>
+                  </p>
 
-                        <!-- Opciones  -->
-                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
-                    </div>
-                </section>
+                  <p class="control" *ngIf="(permisos.indexOf(controlador + '.store') > -1 ) && ctrl.id">
+                      <a  class="button is-primary tooltip"  routerLink="{{url_nuevo}}">
+                          <span class="icon ">
+                              <i class="fa fa-file"></i>
+                          </span>
+                          <span class="tooltiptext">Nuevo</span>
+                      </a>
+                  </p>
 
-                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
-                    
-                        <a id="catalogos" (click)= "ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos'); ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');  ctrl.cargarCatalogo('municipios', 'municipios'); ctrl.cargarCatalogo('parentescos', 'parentescos'); ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); ctrl.cargarCatalogo('triage_colores', 'triage-colores'); ctrl.cargarCatalogo('turnos_varios', 'turnos');"></a>
+                  <p class="control" *ngIf="(permisos.indexOf(controlador + '.show') > -1 ) && ctrl.id">
+                      <a class="button is-primary tooltip"  (click)="ctrl.imprimir()">
+                          <span class="icon ">
+                              <i class="fa fa-print"></i>
+                          </span>
+                          <span class="tooltiptext">Imprimir</span>
+                      </a>
+                  </p>
 
-                        <div class="tabs is-toggle is-fullwidth">
-                                <ul>
-                                    <li [ngClass]="{ 'is-active' : tab == 1}">
-                                        <a (click)="tab=1">
-                                            <span class="icon is-small"><i class="fa fa-female"></i></span>
-                                            <span>Datos Personales</span>
-                                        </a>
-                                    </li>
-                                    <li [ngClass]="{ 'is-active' : tab == 2}">
-                                        <a (click)="tab=2">
-                                            <span class="icon is-small"><i class="fa fa-hospital-o"></i></span>
-                                            <span>Datos del Ingreso</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-        
-                            <div class="box">
-        
-                                <label class="label">N° Folio de la Incidencia</label>
-                                <div class="field is-grouped">
-                                        <p class="control">
-                                            <a class="button is-primary" (click)="generar_folio(this.dato.controls.id, true);">Actualizar Folio</a>
-                                        </p>
-                                        <p class="control is-expanded">
-                                            <input class="input" autofocus type="text" placeholder="Folio" formControlName="id" readonly>
-                                        </p>
-                                    
-                                </div>
-                                
-                                <label class="label">Unidad Medica (Clue):</label>
-        
-                                <div class="columns">
-                                    <p class="control is-expanded  has-icon has-icon-right column is-12">
-                                        <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue"
-                                            id="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
-                                            min-chars="1" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched}"
-                                            placeholder="Unidad Medica (Clues):" formControlName="clues">
-        
-                                        <span class="icon is-small" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched"><i class="fa fa-warning"></i></span>
-                                        <span class="help is-danger" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched">Este campo es requerido.</span>
-                                    </p>
-                                </div>
-        
-                            </div>
-        
-                            <div [ngClass]="{ 'is-hidden': tab != 1}" >
-                                <div formArrayName="pacientes" *ngFor="let item of ctrl.dato.controls.pacientes?.controls; let i=index">
-                                        <!-- <div *ngIf="!llenando_formulario" formArrayName="insumos" style="overflow: scroll; overflow-x: hidden; height: 550px;">
+                  <p class="control" *ngIf="(permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf(controlador + '.update') > -1 )">
+                      <button class="button is-primary tooltip" type="submit" [ngClass]="{'is-loading': ctrl.cargando}" [disabled]="ctrl.dato.invalid">
+                          <span class="icon ">
+                              <i class="fa fa-save"> </i>
+                          </span>
+                          <span class="tooltiptext">Guardar</span>
+                      </button>
+
+                  </p>
+
+
+                  <p class="control" *ngIf="(permisos.indexOf(controlador + '.destroy') > -1 || permisos.indexOf( 'Sis' + controlador + '.destroy') > -1) && ctrl.id">
+                      <button class="button is-danger tooltip" type="button" [ngClass]="{'is-loading': ctrl.cargando}" (click)="ctrl.eliminar(ctrl.id)">
+                          <span class="icon ">
+                              <i class="fa fa-trash"> </i>
+                          </span>
+                          <span class="tooltiptext">Eliminar</span>
+                      </button>
+                      
+                  </p>
+              </div>
+
+              <div class="container is-fluid">
+                  <h1 class="title">
+                      <span *ngIf="!ctrl.cargando" class="icon is-medium"><i class="{{icono}}"></i></span>
+                      <span *ngIf="ctrl.cargando" class="icon is-medium"><i class="fa fa-refresh fa-spin"></i></span>
+                      {{ctrl.moduloTitulo}} {{modulo_actual}}
+                  </h1>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+
+          <div class="tabs is-toggle is-fullwidth">
+            <ul>
+              <li [ngClass]="{ 'is-active' : tab == 1}">
+                <a (click)="tab=1">
+                  <span class="icon is-small">
+                    <i class="fa fa-female"></i>
+                  </span>
+                  <span>Datos Personales</span>
+                </a>
+              </li>
+              <li [ngClass]="{ 'is-active' : tab == 2}">
+                <a (click)="tab=2">
+                  <span class="icon is-small">
+                    <i class="fa fa-hospital-o"></i>
+                  </span>
+                  <span>Datos del Ingreso</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="box">
+
+            <label class="label">N° Folio de la Incidencia</label>
+            <div class="field is-grouped">
+              <p class="control">
+                <a class="button is-primary" (click)="generar_folio(this.dato.controls.id, true);">Actualizar Folio</a>
+              </p>
+              <p class="control is-expanded">
+                <input class="input" autofocus type="text" placeholder="Folio" formControlName="id" readonly>
+              </p>
+
+            </div>
+
+            <label class="label">Unidad Medica (Clue):</label>
+
+            <div class="columns">
+              <p class="control is-expanded  has-icon has-icon-right column is-12">
+                <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue"
+                  id="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
+                  min-chars="1" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched}"
+                  placeholder="Unidad Medica (Clues):" formControlName="clues">
+
+                <span class="icon is-small" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched">
+                  <i class="fa fa-warning"></i>
+                </span>
+                <span class="help is-danger" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched">Este campo es requerido.</span>
+              </p>
+            </div>
+
+          </div>
+
+          <div [ngClass]="{ 'is-hidden': tab != 1}">
+            <div formArrayName="pacientes">
+              <!-- <div *ngIf="ctrl.dato.get('pacientes').value[0].personas_id" *ngIf="!llenando_formulario" formArrayName="insumos" style="overflow: scroll; overflow-x: hidden; height: 550px;">
                                                 <div class="box" *ngFor="let item of ctrl.dato.controls.insumos.controls; let i=index" [ngStyle]="{'background': i%2 == 0 ? 'rgba(230, 230, 232, 0.44)' : ''}"> -->
-                                <div [formGroupName]="i">
-                                    <nav class="panel">
-                                        <p class="panel-heading column is-12">
-                                            Paciente
-                                        </p>
-                                        <div class="box" >
-                                                <div class="columns">
-                                                    <div class="column is-12">
-                                
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <label class="label">Curp:</label>
-                                                            <input ngui-auto-complete [source]="personas_term" [list-formatter]="autocompleFormatoCurp" [value-formatter]="valorFormato_curp" id="curp" path-to-data="" loading-text="Cargando..." 
-                                                            no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.pacientes.controls[i].controls.personas_id, 'id', $event, true); select_datosPaciente_autocomplete($event)"
-                                                            min-chars="1" class="input" type="text" placeholder="CURP" formControlName="personas_id">
-                                                            <!--*ngIf="ctrl.dato.get('pacientes').value[0].personas_id"[ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[0].controls.personas_id.valid && ctrl.dato.controls.pacientes.controls[0].controls.personas_id.touched}"
-                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[0].controls.personas_id.valid && ctrl.dato.controls.pacientes.controls[0].controls.personas_id.touched">Este campo es requerido.</span>
-                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[0].controls.personas_id.valid && ctrl.dato.controls.pacientes.controls[0].controls.personas_id.hasError('minlength')">La CURP debe tener 18 caracteres.</span>-->
-                                                        </p>
-                                                    </div>
-                                                </div>
+              <div *ngFor="let item of ctrl.dato.controls.pacientes?.controls; let i=index" [formGroupName]="i">
+                <nav class="panel">
+                  <p class="panel-heading column is-12">
+                    Paciente
+                  </p>
+                  <div class="box">
+                    <div class="columns">
+                      <div class="column is-12">
 
-                                                    <div formGroupName = "personas" >
-                                                            <div class="columns">
-                                                                <div class="column is-12" >
-                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                        <label class="label">Fecha de Nacimiento:</label>
-                                                                        <input class="input" type="date" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.fecha_nacimiento.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.fecha_nacimiento.touched}" placeholder="Fecha de Nacimiento" formControlName="fecha_nacimiento">
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.fecha_nacimiento.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.fecha_nacimiento.touched">Este campo es requerido.</span>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="columns">
-                                                                <div class="column is-4">
-                                                                    <p class="control is-expanded  has-icon has-icon-right">
-                                                                        <label class="label">Nombre(s):</label>
-                                                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.nombre.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.nombre.touched}" placeholder="Nombre(s)" formControlName="nombre">
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.nombre.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.nombre.touched">Este campo es requerido.</span>
-                                            
-                                                                    </p>
-                                                                </div>
-                                            
-
-                                                                <div class="column is-4">
-                                                                    <p class="control is-expanded  has-icon has-icon-right">
-                                                                        <label class="label">Apellido Paterno:</label>
-                                                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.paterno.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.paterno.touched}" placeholder="Apellido Paterno" formControlName="paterno">
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.paterno.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.paterno.touched">Este campo es requerido.</span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="column is-4">
-                                                                    <p class="control is-expanded  has-icon has-icon-right">
-                                                                        <label class="label">Apellido Materno:</label>
-                                                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[0].controls.personas.controls.materno.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.materno.touched}" placeholder="Apellido Materno" name="materno" formControlName="materno">
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.materno.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.materno.touched">Este campo es requerido.</span>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="columns">
-                                                                <div class="column is-4">
-                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                        <label class="label">Teléfono</label>
-                                                                        <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.telefono.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.telefono.touched}" formControlName="telefono">
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.telefono.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.telefono.touched">Este campo es requerido.</span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="column is-8">
-                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                        <label class="label">Domicilio</label>
-                                                                        <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.domicilio.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.domicilio.touched}" formControlName="domicilio">
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.domicilio.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.domicilio.touched">Este campo es requerido.</span>
-                                            
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="columns">                                                                    
-                                                                <div class="column is-6">
-                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                        <label class="label">Municipio: </label>
-                                                                        <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.municipios_id, 'localidades', 'localidades'); autovalor_municipio();" [data]="ctrl.municipios"></select2>
-                                                                    </p>
-                                                                </div>
-                                            
-                                                                <div class="column is-6">
-                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                        <label class="label">Localidad: </label>
-                                                                        <select2 name="localidades_id" [options]="ctrl.optionSelect" [value]="localidades_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.localidades_id); autovalor_localidad();" [data]="ctrl.localidades"></select2>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="columns">
-                                                                <div class="column is-6">
-                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                        <label class="label">Estado de Embarazo: </label>
-                                                                        <span class="select">
-                                                                            <select class="select" name="estados_embarazos_id" formControlName="estados_embarazos_id" [ngClass]="{'is-danger': estados_embarazos_id?.length == 0 }">
-                                                                                <option *ngFor="let val of ctrl.estados_embarazos" value="{{val.id}}">{{ val.nombre }}</option>
-                                                                            </select>
-                                                                        </span>
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.estados_embarazos_id.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.estados_embarazos_id.touched">Este campo es requerido.</span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="column is-6">
-                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                        <label class="label">Derechohabiente: </label>
-                                                                        <span class="select">
-                                                                            <select class="select" name="derechohabientes_id" formControlName="derechohabientes_id" [ngClass]="{'is-danger': derechohabientes_id?.length == 0 }">
-                                                                                <option *ngFor="let val of ctrl.derechohabientes" value="{{val.id}}">{{ val.nombre }}</option>
-                                                                            </select>
-                                                                        </span>
-                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.derechohabientes_id.valid && ctrl.dato.controls.pacientes.controls[i].controls.personas.controls.derechohabientes_id.touched">Este campo es requerido.</span>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-
-                                                    <div class="panel column is-12">
-                                                        <div formArrayName="acompaniantes">
-                                                            <div formGroupName="0">
-
-                                                                    <div class="panel-heading column is-12">
-                                                                            <p>
-                                                                                Acompañante
-                                                                                <!--<label class="checkbox" style="float:right"><input type="checkbox" id= "checar" (change)="mostrar = !mostrar; mostrar ? ctrl.agregar_form_array(ctrl.dato.controls.acompaniantes.controls, form_responsable) : ctrl.quitar_form_array(ctrl.dato.controls.acompaniantes, 1); " formControlName="esResponsable">¿Es responsable?</label>-->
-                                                                                <label style="float:right">¿Es responsable del paciente?
-                                                                                    <label class="radio">
-                                                                                        <input type="radio" name="esResponsable" (click)="quitar_form_array(ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes, 1); ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.esResponsable.patchValue(1);" [checked]="ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">Si</label>
-                                                                                    <label class="radio">
-                                                                                        <input type="radio" name="esResponsable" (click)="agregar_form_array();" [checked]="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">No</label>
-                                                                                </label>
-                                                                            </p>
-                                                                    </div>
-
-                                                                    <div class="box">
-
-                                                                        <div class="columns">
-                                                                                <div class="column is-6">
-                                                                                    <p class="control is-expanded  has-icon has-icon-right">
-                                                                                        <label class="label">Curp:</label>
-                                                                                        <input class="input" autofocus type="text" placeholder="CURP" formControlName="personas_id">
-                                                                                        <!--
-                                                                                            [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[0].controls.personas_id.valid && ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[0].controls.personas_id.touched}"
-                                                                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[0].controls.personas_id.valid && ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[0].controls.personas_id.touched">Este campo es requerido.</span>
-                                                                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[0].controls.personas_id.valid && ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[0].controls.personas_id.hasError('minlength')">La CURP debe tener 18 caracteres.</span>
-                                                                                        -->
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="column is-6">
-                                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                                        <label class="label">Parentesco: </label>
-                                                                                        <span class="select">
-                                                                                            <select class="select" name="parentescos_id" formControlName="parentescos_id" [ngClass]="{'is-danger': parentescos_id?.length == 0 }">
-                                                                                                <option *ngFor="let val of ctrl.parentescos" value="{{val.id}}">{{ val.nombre }}</option>
-                                                                                            </select>
-                                                                                        </span>
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.parentescos_id.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.parentescos_id.touched">Este campo es requerido.</span>
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div formGroupName="personas">
-                                                                                 
-                                                                                    <div class="columns">
-                                                                                        <div class="column is-4">
-                                                                                            <p class="control is-expanded  has-icon has-icon-right">
-                                                                                                <label class="label">Nombre(s):</label>
-                                                                                                <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.nombre.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.nombre.touched}" placeholder="Nombre(s)" formControlName="nombre">
-                                                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.nombre.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.nombre.touched">Este campo es requerido.</span>
-                                                                                            </p>
-                                                                                        </div>
+                        <p class="control is-expanded  has-icon has-icon-right">
+                          <label class="label">Curp:</label>
+                          <input ngui-auto-complete [source]="personas_term" [list-formatter]="autocompleFormatoCurp" [value-formatter]="valorFormato_curp"
+                            id="curp" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.pacientes.controls[i].controls.personas_id, 'id', $event, true); select_datosPaciente_autocomplete($event)"
+                            min-chars="1" class="input" type="text" placeholder="CURP" [ngClass]="{'is-danger': !item.controls.personas_id.valid}" formControlName="personas_id">
+                          
+                            <span class="help is-danger" *ngIf="!item.controls.personas_id.valid">Este campo es requerido.</span>
                                                                 
-                                                                                        <div class="column is-4">
-                                                                                            <p class="control is-expanded  has-icon has-icon-right">
-                                                                                                <label class="label">Apellido Paterno:</label>
-                                                                                                <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.paterno.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.paterno.touched}" placeholder="Apellido Paterno" formControlName="paterno">
-                                                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.paterno.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.paterno.touched">Este campo es requerido.</span>
-                                                                                            </p>
-                                                                                        </div>
-                                                                                        <div class="column is-4">
-                                                                                            <p class="control is-expanded  has-icon has-icon-right">
-                                                                                                <label class="label">Apellido Materno:</label>
-                                                                                                <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.materno.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.materno.touched}" placeholder="Apellido Materno" name="materno" formControlName="materno">
-                                                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.materno.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.materno.touched">Este campo es requerido.</span>
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    </div>
+                        </p>
+                      </div>
+                    </div>
 
-                                                                                    
-                                                                                    <div class="columns">
-                                                                                        <div class="column is-6">
-                                                                                            <p class="control is-expanded has-icon has-icon-right">
-                                                                                                <label class="label">Teléfono: </label>
-                                                                                                <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.telefono.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.telefono.touched}" formControlName="telefono">
-                                                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.telefono.valid && ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[i].controls.personas.controls.telefono.touched">Este campo es requerido.</span>
-                                                                                            </p>
-                                                                                        </div>
-                                                                                        <div class="column is-6">
-                                                                                            <p class="control is-expanded has-icon has-icon-right">
-                                                                                                <label class="label">Domicilio: </label>
-                                                                                                <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.domicilio.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.domicilio.touched}" formControlName="domicilio">
-                                                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.domicilio.valid && ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.personas.controls.domicilio.touched">Este campo es requerido.</span>
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    </div>
-                                                                            </div>
-                                                                    </div>
-                                                            </div>
-
-                                                            </div>
-                                            
-                                                        </div>
-                                                
-                                                            <div *ngIf="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">
-                                                                <div formArrayName="acompaniantes">
-                                                                    <div class="panel-heading column is-12">
-                                                                        <p>
-                                                                            Responsable
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="box" formGroupName="1">
-                                                                        <div class="columns">
-                                                                            <div class="column is-6">
-                                                                                <p class="control is-expanded  has-icon has-icon-right">
-                                                                                    <label class="label">Curp:</label>
-                                                                                    <input class="input" autofocus type="text" placeholder="CURP" formControlName="personas_id">
-                                                                                    <!--
-                                                                                        [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[1].controls.personas_id.touched}"
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[1].controls.personas_id.touched">Este campo es requerido.</span>
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[0].controls.acompaniantes.controls[1].controls.personas_id.hasError('maxlength')">La CURP debe tener 18 caracteres.</span>
-                                                                                    -->
-                                                
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="column is-6">
-                                                                                <p class="control is-expanded has-icon has-icon-right">
-                                                                                    <label class="label">Parentesco: </label>
-                                                                                    <span class="select">
-                                                                                        <select class="select" name="parentescos_id" formControlName="parentescos_id" [ngClass]="{'is-danger': parentescos_id?.length == 0 }">
-                                                                                            <option *ngFor="let val of ctrl.parentescos" value="{{val.id}}">{{ val.nombre }}</option>
-                                                                                        </select>
-                                                                                    </span>
-                                                                                    <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.parentescos_id.touched">Seleccione un parentesco.</span>
-                                                
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div formGroupName="personas">
-                                                                            <div class="columns">
-                                                                                <div class="column is-4">
-                                                                                    <p class="control is-expanded  has-icon has-icon-right">
-                                                                                        <label class="label">Nombre(s):</label>
-                                                                                        <input class="input" autofocus type="text" placeholder="Nombre(s)" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.nombre.touched}" formControlName="nombre">
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.nombre.touched">Este campo es requerido.</span>
-                                                
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="column is-4">
-                                                                                    <p class="control is-expanded  has-icon has-icon-right">
-                                                                                        <label class="label">Apellido Paterno:</label>
-                                                                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.paterno.touched}" placeholder="Apellido Paterno" formControlName="paterno">
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.paterno.touched">Este campo es requerido.</span>
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="column is-4">
-                                                                                    <p class="control is-expanded  has-icon has-icon-right">
-                                                                                        <label class="label">Apellido Materno:</label>
-                                                                                        <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.materno.touched}" placeholder="Apellido Materno" name="materno" formControlName="materno">
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.materno.touched">Este campo es requerido.</span>
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="columns">
-                                                                                <div class="column is-6">
-                                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                                        <label class="label">Teléfono: </label>
-                                                                                        <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.telefono.touched}" formControlName="telefono">
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.telefono.touched">Este campo es requerido.</span>
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="column is-6">
-                                                                                    <p class="control is-expanded has-icon has-icon-right">
-                                                                                        <label class="label">Domicilio: </label>
-                                                                                        <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.domicilio.touched}" formControlName="domicilio">
-                                                                                        <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.domicilio.touched">Este campo es requerido.</span>
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-
-                                
-                                    </nav>
-                                </div>
-                            </div>
+                    <div formGroupName="personas">
+                      <div class="columns">
+                        <div class="column is-12">
+                          <p class="control is-expanded has-icon has-icon-right">
+                            <label class="label">Fecha de Nacimiento:</label>
+                            <input class="input" type="date" [ngClass]="{'is-danger': !item.controls.personas.controls.fecha_nacimiento.valid}" placeholder="Fecha de Nacimiento"
+                              formControlName="fecha_nacimiento">
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.fecha_nacimiento.valid">Este campo es requerido.</span>
+                          </p>
                         </div>
-                            
+                      </div>
 
 
+                      <div class="columns">
+                        <div class="column is-4">
+                          <p class="control is-expanded  has-icon has-icon-right">
+                            <label class="label">Nombre(s):</label>
+                            <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.personas.controls.nombre.valid}"
+                              placeholder="Nombre(s)" formControlName="nombre">
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.nombre.valid">Este campo es requerido.</span>
 
-                            <div [ngClass]="{ 'is-hidden': tab != 2}">
-                                <nav class="panel">
-                                    <p class="panel-heading column is-12">
-                                        Ingreso
-                                    </p>
-                                    <div class="box">
-                                        <div formGroupName="movimientos_incidencias" *ngFor="let item of ctrl.dato.controls.movimientos_incidencias?.controls; let im=index">
-                                            <div [formGroupName]="im">
-                                
-                                                <div class="columns">
-                                                    <div class="column is-12">
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <label class="label">Subcategorias CIE-10:</label>
-                                                            <input ngui-auto-complete [source]="cie10_term" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
-                                                                id="cie10" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                                                (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id, 'id', $event, true);"
-                                                                min-chars="1" class="input" type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id.valid && ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id.touched}" 
-                                                                placeholder="Subcategorias CIE-10">
-                                                                
-                                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id.valid && ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id.touched">Este campo es requerido.</span>
-                                                        </p>
-                                                    </div>
-                                                </div>                                        
-                                                
-        
-                                                <div class="columns">
-                                                    <div class="column is-4">
-                                                        <p class="control is-expanded has-icon has-icon-right">
-                                                            <label class="label">Ubicación del Paciente: </label>
-                                                            <span class="select">
-                                                                    <select class="select" name="ubicaciones_pacientes_id" formControlName="ubicaciones_pacientes_id" [ngClass]="{'is-danger': ubicaciones_pacientes_id?.length == 0 }">
-                                                                        <option *ngFor="let val of ctrl.ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
-                                                                    </select>
-                                                                </span>
-                                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.movimientos_incidencias.controls[im].controls.ubicaciones_pacientes_id.valid && ctrl.dato.controls.movimientos_incidencias.controls[im].controls.ubicaciones_pacientes_id.touched">Este campo es requerido.</span>
-                                                                
-                                                        </p>
-                                                    </div>
-        
-                                                    <div class="column is-4">
-                                                        <p class="control is-expanded has-icon has-icon-right">
-                                                            <label class="label">Triage: </label>
-                                                            <span class="select">
-                                                                    <select class="select" name="triage_colores_id" formControlName="triage_colores_id" [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
-                                                                        <option *ngFor="let val of ctrl.triage_colores" value="{{val.id}}">{{ val.nombre }}</option>
-                                                                    </select>
-                                                                </span>
-                                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.movimientos_incidencias.controls[im].controls.triage_colores_id.valid && ctrl.dato.controls.movimientos_incidencias.controls[im].controls.triage_colores_id.touched">Este campo es requerido.</span>
-                                                        </p>
-                                                    </div>
-        
-                                                    <div class="column is-4">
-                                                        <p class="control is-expanded has-icon has-icon-right">
-                                                            <label class="label">Turno: </label>
-                                                            <span class="select">
-                                                                    <select class="select" name="turnos_id" formControlName="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
-                                                                        <option *ngFor="let val of ctrl.turnos_varios" value="{{val.id}}">{{ val.nombre }}</option>
-                                                                    </select>
-                                                                </span>
-                                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.movimientos_incidencias.controls[im].controls.turnos_id.valid && ctrl.dato.controls.movimientos_incidencias.controls[im].controls.turnos_id.touched">Este campo es requerido.</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-        
-                                        <div class="columns">
-                                            <div class="column is-6">
-                                                <p class="control is-expanded  has-icon has-icon-right">
-                                                    <label class="label">Motivo del Ingreso</label>
-                                                    <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.motivo_ingreso.valid && ctrl.dato.controls.motivo_ingreso.touched}"
-                                                        placeholder="Motivo Ingreso" formControlName="motivo_ingreso"></textarea>
-                                                    <span class="help is-danger" *ngIf="!ctrl.dato.controls.motivo_ingreso.valid && ctrl.dato.controls.motivo_ingreso.touched">Este campo es requerido.</span>
-                                                </p>
-                                            </div>
-                                            <div class="column is-6">
-                                                <p class="control is-expanded  has-icon has-icon-right">
-                                                    <label class="label">Impresión Diagnostica</label>
-                                                    <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.impresion_diagnostica.valid && ctrl.dato.controls.impresion_diagnostica.touched}"
-                                                        placeholder="Impresion Diagnostica" formControlName="impresion_diagnostica"></textarea>
-                                                    <span class="help is-danger" *ngIf="!ctrl.dato.controls.impresion_diagnostica.valid && ctrl.dato.controls.impresion_diagnostica.touched">Este campo es requerido.</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>
+                          </p>
+                        </div>
+
+
+                        <div class="column is-4">
+                          <p class="control is-expanded  has-icon has-icon-right">
+                            <label class="label">Apellido Paterno:</label>
+                            <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.personas.controls.paterno.valid}"
+                              placeholder="Apellido Paterno" formControlName="paterno">
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.paterno.valid">Este campo es requerido.</span>
+                          </p>
+                        </div>
+                        <div class="column is-4">
+                          <p class="control is-expanded  has-icon has-icon-right">
+                            <label class="label">Apellido Materno:</label>
+                            <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.personas.controls.materno.valid}"
+                              placeholder="Apellido Materno" name="materno" formControlName="materno">
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.materno.valid">Este campo es requerido.</span>
+                          </p>
+                        </div>
+                      </div>
+
+
+                      <div class="columns">
+                        <div class="column is-4">
+                          <p class="control is-expanded has-icon has-icon-right">
+                            <label class="label">Teléfono</label>
+                            <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !item.controls.personas.controls.telefono.valid}"
+                              formControlName="telefono">
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.telefono.valid">Este campo es requerido.</span>
+                          </p>
+                        </div>
+                        <div class="column is-8">
+                          <p class="control is-expanded has-icon has-icon-right">
+                            <label class="label">Domicilio</label>
+                            <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !item.controls.personas.controls.domicilio.valid}"
+                              formControlName="domicilio">
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.domicilio.valid">Este campo es requerido.</span>
+
+                          </p>
+                        </div>
+                      </div>
+
+
+                      <div class="columns">
+                        <div class="column is-6">
+                          <p class="control is-expanded has-icon has-icon-right">
+                            <label class="label">Municipio: </label>
+                            <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, item.controls.personas.controls.municipios_id, 'localidades', 'localidades'); autovalor_municipio();"
+                              [data]="ctrl.municipios"></select2>
+                              <span class="help is-danger" *ngIf="!item.controls.personas.controls.municipios_id.valid">Este campo es requerido.</span>
+                          </p>
+                        </div>
+
+                        <div class="column is-6">
+                          <p class="control is-expanded has-icon has-icon-right">
+                            <label class="label">Localidad: </label>
+                            <select2 name="localidades_id" [options]="ctrl.optionSelect" [value]="localidades_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, item.controls.personas.controls.localidades_id); autovalor_localidad();"
+                              [data]="ctrl.localidades"></select2>
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.localidades_id.valid">Este campo es requerido.</span>
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="columns">
+                        <div class="column is-6">
+                          <p class="control is-expanded has-icon has-icon-right">
+                            <label class="label">Estado de Embarazo: </label>
+                            <span class="select">
+                              <select class="select" name="estados_embarazos_id" formControlName="estados_embarazos_id" [ngClass]="{'is-danger': estados_embarazos_id?.length == 0 }">
+                                <option *ngFor="let val of ctrl.estados_embarazos" value="{{val.id}}">{{ val.nombre }}</option>
+                              </select>
+                            </span>
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.estados_embarazos_id">Este campo es requerido.</span>
+                          </p>
+                        </div>
+                        <div class="column is-6">
+                          <p class="control is-expanded has-icon has-icon-right">
+                            <label class="label">Derechohabiente: </label>
+                            <span class="select">
+                              <select class="select" name="derechohabientes_id" formControlName="derechohabientes_id" [ngClass]="{'is-danger': derechohabientes_id?.length == 0 }">
+                                <option *ngFor="let val of ctrl.derechohabientes" value="{{val.id}}">{{ val.nombre }}</option>
+                              </select>
+                            </span>
+                            <span class="help is-danger" *ngIf="!item.controls.personas.controls.derechohabientes_id">Este campo es requerido.</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="panel column is-12">
+                      <div formArrayName="acompaniantes">
+                        <div formGroupName="0">
+
+                          <div class="panel-heading column is-12">
+                            <p>
+                              Acompañante
+                              <!--<label class="checkbox" style="float:right"><input type="checkbox" id= "checar" (change)="mostrar = !mostrar; mostrar ? ctrl.agregar_form_array(ctrl.dato.controls.acompaniantes.controls, form_responsable) : ctrl.quitar_form_array(ctrl.dato.controls.acompaniantes, 1); " formControlName="esResponsable">¿Es responsable?</label>-->
+                              <label style="float:right">¿Es responsable del paciente?
+                                <label class="radio">
+                                  <input type="radio" name="esResponsable" (click)="quitar_form_array(ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes, 1); ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[0].controls.esResponsable.patchValue(1);"
+                                    [checked]="ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">Si</label>
+                                <label class="radio">
+                                  <input type="radio" name="esResponsable" (click)="agregar_form_array();" [checked]="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">No</label>
+                              </label>
+                            </p>
+                          </div>
+
+                          <div class="box">
+
+                            <div class="columns">
+                              <div class="column is-6">
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                  <label class="label">Curp:</label>
+                                  <input class="input" autofocus type="text" placeholder="CURP" formControlName="personas_id">
+                                </p>
+                              </div>
+                              <div class="column is-6">
+                                <p class="control is-expanded has-icon has-icon-right">
+                                  <label class="label">Parentesco: </label>
+                                  <span class="select">
+                                    <select class="select" name="parentescos_id" formControlName="parentescos_id" [ngClass]="{'is-danger': parentescos_id?.length == 0 }">
+                                      <option *ngFor="let val of ctrl.parentescos" value="{{val.id}}">{{ val.nombre }}</option>
+                                    </select>
+                                  </span>
+                                  <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[0].controls.parentescos_id.valid">Este campo es requerido.</span>
+                                </p>
+                              </div>
                             </div>
-                </section>
-            </form>
-        </div>
+
+                            <div formGroupName="personas">
+
+                              <div class="columns">
+                                <div class="column is-4">
+                                  <p class="control is-expanded  has-icon has-icon-right">
+                                    <label class="label">Nombre(s):</label>
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[0].controls.personas.controls.nombre.valid}"
+                                      placeholder="Nombre(s)" formControlName="nombre">
+                                    <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[0].controls.personas.controls.nombre.valid">Este campo es requerido.</span>
+                                  </p>
+                                </div>
+
+                                <div class="column is-4">
+                                  <p class="control is-expanded  has-icon has-icon-right">
+                                    <label class="label">Apellido Paterno:</label>
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[0].controls.personas.controls.paterno.valid}"
+                                      placeholder="Apellido Paterno" formControlName="paterno">
+                                    <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[0].controls.personas.controls.paterno.valid">Este campo es requerido.</span>
+                                  </p>
+                                </div>
+                                <div class="column is-4">
+                                  <p class="control is-expanded  has-icon has-icon-right">
+                                    <label class="label">Apellido Materno:</label>
+                                    <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[0].controls.personas.controls.materno.valid}"
+                                      placeholder="Apellido Materno" name="materno" formControlName="materno">
+                                    <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[0].controls.personas.controls.materno.valid">Este campo es requerido.</span>
+                                  </p>
+                                </div>
+                              </div>
+
+
+                              <div class="columns">
+                                <div class="column is-6">
+                                  <p class="control is-expanded has-icon has-icon-right">
+                                    <label class="label">Teléfono: </label>
+                                    <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[0].controls.personas.controls.telefono.valid}"
+                                      formControlName="telefono">
+                                    <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[0].controls.personas.controls.telefono.valid">Este campo es requerido.</span>
+                                  </p>
+                                </div>
+                                <div class="column is-6">
+                                  <p class="control is-expanded has-icon has-icon-right">
+                                    <label class="label">Domicilio: </label>
+                                    <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[0].controls.personas.controls.domicilio.valid}"
+                                      formControlName="domicilio">
+                                    <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[0].controls.personas.controls.domicilio.valid">Este campo es requerido.</span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <div *ngIf="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">
+                      <div formArrayName="acompaniantes">
+                        <div class="panel-heading column is-12">
+                          <p>
+                            Responsable
+                          </p>
+                        </div>
+                        <div class="box" formGroupName="1">
+                          <div class="columns">
+                            <div class="column is-6">
+                              <p class="control is-expanded  has-icon has-icon-right">
+                                <label class="label">Curp:</label>
+                                <input class="input" autofocus type="text" placeholder="CURP" formControlName="personas_id">
+                              </p>
+                            </div>
+                            <div class="column is-6">
+                              <p class="control is-expanded has-icon has-icon-right">
+                                <label class="label">Parentesco: </label>
+                                <span class="select">
+                                  <select class="select" name="parentescos_id" formControlName="parentescos_id" [ngClass]="{'is-danger': parentescos_id?.length == 0 }">
+                                    <option *ngFor="let val of ctrl.parentescos" value="{{val.id}}">{{ val.nombre }}</option>
+                                  </select>
+                                </span>
+                                <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[1].controls.personas.controls.parentescos_id.valid">Seleccione un parentesco.</span>
+
+                              </p>
+                            </div>
+                          </div>
+                          <div formGroupName="personas">
+                            <div class="columns">
+                              <div class="column is-4">
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                  <label class="label">Nombre(s):</label>
+                                  <input class="input" autofocus type="text" placeholder="Nombre(s)" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.nombre.valid}"
+                                    formControlName="nombre">
+                                  <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.nombre.valid">Este campo es requerido.</span>
+
+                                </p>
+                              </div>
+                              <div class="column is-4">
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                  <label class="label">Apellido Paterno:</label>
+                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.paterno.valid}"
+                                    placeholder="Apellido Paterno" formControlName="paterno">
+                                  <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.paterno.valid">Este campo es requerido.</span>
+                                </p>
+                              </div>
+                              <div class="column is-4">
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                  <label class="label">Apellido Materno:</label>
+                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.materno.valid}"
+                                    placeholder="Apellido Materno" name="materno" formControlName="materno">
+                                  <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.materno.valid">Este campo es requerido.</span>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="columns">
+                              <div class="column is-6">
+                                <p class="control is-expanded has-icon has-icon-right">
+                                  <label class="label">Teléfono: </label>
+                                  <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.telefono.valid}"
+                                    formControlName="telefono">
+                                  <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.telefono.valid">Este campo es requerido.</span>
+                                </p>
+                              </div>
+                              <div class="column is-6">
+                                <p class="control is-expanded has-icon has-icon-right">
+                                  <label class="label">Domicilio: </label>
+                                  <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.domicilio.valid}"
+                                    formControlName="domicilio">
+                                  <span class="help is-danger" *ngIf="!ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.domicilio.valid">Este campo es requerido.</span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                </nav>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div [ngClass]="{ 'is-hidden': tab != 2}">
+            <nav class="panel">
+              <p class="panel-heading column is-12">
+                Ingreso
+              </p>
+              <div class="box">
+                <div formArrayName="movimientos_incidencias">
+                  <div *ngFor="let movimiento of ctrl.dato.controls.movimientos_incidencias?.controls; let im=index" [formGroupName]="im">
+
+                    <div class="columns">
+                      <div class="column is-12">
+                        <p class="control is-expanded  has-icon has-icon-right">
+                          <label class="label">Subcategorias CIE-10:</label>
+                          <input ngui-auto-complete [source]="cie10_term" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
+                            id="cie10" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id, 'id', $event, true);"
+                            min-chars="1" class="input" type="text" [ngClass]="{'is-danger': !movimiento.controls.subcategorias_cie10_id.valid}"
+                            placeholder="Subcategorias CIE-10">
+
+                          <span class="help is-danger" *ngIf="!movimiento.controls.subcategorias_cie10_id.valid">Este campo es requerido.</span>
+                        </p>
+                      </div>
+                    </div>
+
+
+                    <div class="columns">
+                      <div class="column is-4">
+                        <p class="control is-expanded has-icon has-icon-right">
+                          <label class="label">Ubicación del Paciente: </label>
+                          <span class="select">
+                            <select class="select" name="ubicaciones_pacientes_id" formControlName="ubicaciones_pacientes_id" [ngClass]="{'is-danger': ubicaciones_pacientes_id?.length == 0 }">
+                              <option *ngFor="let val of ctrl.ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
+                            </select>
+                          </span>
+                          <span class="help is-danger" *ngIf="!movimiento.controls.ubicaciones_pacientes_id.valid">Este campo es requerido.</span>
+
+                        </p>
+                      </div>
+
+                      <div class="column is-4">
+                        <p class="control is-expanded has-icon has-icon-right">
+                          <label class="label">Triage: </label>
+                          <span class="select">
+                            <select class="select" name="triage_colores_id" formControlName="triage_colores_id" [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
+                              <option *ngFor="let val of ctrl.triage_colores" value="{{val.id}}">{{ val.nombre }}</option>
+                            </select>
+                          </span>
+                          <span class="help is-danger" *ngIf="!movimiento.controls.triage_colores_id.valid">Este campo es requerido.</span>
+                        </p>
+                      </div>
+
+                      <div class="column is-4">
+                        <p class="control is-expanded has-icon has-icon-right">
+                          <label class="label">Turno: </label>
+                          <span class="select">
+                            <select class="select" name="turnos_id" formControlName="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
+                              <option *ngFor="let val of ctrl.turnos_varios" value="{{val.id}}">{{ val.nombre }}</option>
+                            </select>
+                          </span>
+                          <span class="help is-danger" *ngIf="!movimiento.controls.turnos_id.valid">Este campo es requerido.</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="columns">
+                  <div class="column is-6">
+                    <p class="control is-expanded  has-icon has-icon-right">
+                      <label class="label">Motivo del Ingreso</label>
+                      <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.motivo_ingreso.valid}"
+                        placeholder="Motivo Ingreso" formControlName="motivo_ingreso"></textarea>
+                      <span class="help is-danger" *ngIf="!ctrl.dato.controls.motivo_ingreso.valid">Este campo es requerido.</span>
+                    </p>
+                  </div>
+                  <div class="column is-6">
+                    <p class="control is-expanded  has-icon has-icon-right">
+                      <label class="label">Impresión Diagnostica</label>
+                      <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.impresion_diagnostica.valid}"
+                        placeholder="Impresion Diagnostica" formControlName="impresion_diagnostica"></textarea>
+                      <span class="help is-danger" *ngIf="!ctrl.dato.controls.impresion_diagnostica.valid">Este campo es requerido.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </section>
+      </form>
     </div>
+  </div>
 </div>

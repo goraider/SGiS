@@ -5,6 +5,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import { CrudService } from '../../../crud/crud.service';
 
 
 
@@ -45,6 +46,8 @@ export class FormularioComponent {
     tiempo: any = '';
     observaciones: any = '';
 
+    private cargando: boolean = false;
+
     private municipios_id: number = null;
     private temp_municipios_id: number = null;
 
@@ -52,6 +55,16 @@ export class FormularioComponent {
     private temp_localidades_id: number = null;
     private selectedDeal;
 
+    private id;
+    
+    private url_nuevo: string = '';
+    private url_editar: string = '';
+    private url_imprimir: string = '';
+    private permisos;
+    private carpeta;
+    private modulo;
+    private controlador;
+    private modulo_actual;
 
     public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
@@ -59,80 +72,39 @@ export class FormularioComponent {
 
     public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
 
-    constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
+    constructor(private fb: FormBuilder,
+                private router: Router,
+                private route: ActivatedRoute,
+                private _sanitizer: DomSanitizer,
+                private _el: ElementRef,
+                private crudService: CrudService,) { }
 
     ngOnInit() {
 
-        this.dato = this.fb.group({
-
-            id: [''],
-            motivo_ingreso: ['', [Validators.required]],
-            impresion_diagnostica: ['', [Validators.required]],
-            clues: ['', [Validators.required]],
-            estados_incidencias_id: [1],
-
-
-
-            pacientes: this.fb.array([
-                this.fb.group({
-                    //pacientes[0] indice 0;
-                    personas_id: [''],
-                    //personas objeto
-                    personas: this.fb.group({
-                        nombre: ['', [Validators.required]],
-                        paterno: ['', [Validators.required]],
-                        materno: ['', [Validators.required]],
-                        domicilio: ['', [Validators.required]],
-                        fecha_nacimiento: ['', [Validators.required]],
-                        telefono: ['', [Validators.required]],
-
-                        estados_embarazos_id: ['', [Validators.required]],
-                        derechohabientes_id: ['', [Validators.required]],
-                        municipios_id: [''],
-                        localidades_id: [''],
-                    }),
-                    acompaniantes: this.fb.array([
-                        this.fb.group({
-                            //indice 0;
-                            personas_id: [''],
-                            parentescos_id: ['', [Validators.required]],
-                            esResponsable: [1],
-                            //objeto
-                            personas: this.fb.group({
-                                nombre: ['', [Validators.required]],
-                                paterno: ['', [Validators.required]],
-                                materno: ['', [Validators.required]],
-                                telefono: ['', [Validators.required]],
-                                domicilio: ['', [Validators.required]],
-                                fecha_nacimiento: [null],
-                            }),
-                        }),
-
-                    ]),
-                }),
-            ]),
-
-
-            movimientos_incidencias: this.fb.array([
-                this.fb.group({
-                    turnos_id: ['', [Validators.required]],
-                    ubicaciones_pacientes_id: ['', [Validators.required]],
-                    estados_pacientes_id: [1],
-                    triage_colores_id: ['', [Validators.required]],
-                    subcategorias_cie10_id: [1],
-                    medico_reporta_id: [null],
-                    indicaciones: [null],
-                    reporte_medico: [null],
-                    diagnostico_egreso: [null],
-                    observacion_trabajo_social: [null],
-                    metodos_planificacion_id: [null],
-                }),
-            ]),
-
-        });
+        this.iniciarFormulario();
+        var url = location.href.split("/");
+        this.carpeta = url[3];
+        this.modulo = url[4];
+        this.modulo_actual = this.modulo.replace(/[-](?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/[-_]+/g, ' ');
+    
+        var ctrl = "-" + this.modulo;
+        this.controlador = ctrl.toLowerCase()
+            // remplazar _ o - por espacios
+            .replace(/[-_]+/g, ' ')
+            // quitar numeros
+            .replace(/[^\w\s]/g, '')
+            // cambiar a mayusculas el primer caracter despues de un espacio
+            .replace(/ (.)/g, function($1) {
+                return $1.toUpperCase(); })
+            // quitar espacios y agregar controller
+            .replace(/ /g, '') + "Controller";
+    
+        this.permisos = JSON.parse(localStorage.getItem("permisos"));
+        this.url_nuevo = '/' + this.carpeta + '/' + this.modulo + '/nuevo'
+        this.url_editar = '/' + this.carpeta + '/' + this.modulo + '/editar/' + this.id;
+        this.url_imprimir = '/' + this.carpeta + '/' + this.modulo + '/ver/' + this.id;
 
         //hacer igual al Json de responsable del formulario reactivo arriba.
-
 
         this.form_responsable =
             this.fb.group({
@@ -153,9 +125,6 @@ export class FormularioComponent {
             }),
 
             this.generar_folio(this.dato.controls.id, true);
-            
-            console.log(this.dato);
-
 
         /*
             this.dato.controls.clues.valueChanges.subscribe(val => {
@@ -184,7 +153,189 @@ export class FormularioComponent {
             this.temp_localidades_id = val;
           }
         });
+
+        this.route.params.subscribe(params => {
+            this.id = params['id']; // Se puede agregar un simbolo + antes de la variable params para volverlo number
+
+            if (this.id) {                
+                this.cargarDatos();
+            }
+        });
         
+    }
+
+    iniciarFormulario(){
+    
+        this.dato = this.fb.group({
+                        no_cargar: [true],
+                        id: [''],
+                        motivo_ingreso: ['', [Validators.required]],
+                        impresion_diagnostica: ['', [Validators.required]],
+                        clues: ['', [Validators.required]],
+                        estados_incidencias_id: [1],
+            
+                        pacientes: this.fb.array([
+                            this.fb.group({
+                                //pacientes[0] indice 0;
+                                id:[''],
+                                personas_id: [''],
+                                //personas objeto
+                                personas: this.fb.group({
+                                    id:[''],
+                                    nombre: ['', [Validators.required]],
+                                    paterno: ['', [Validators.required]],
+                                    materno: ['', [Validators.required]],
+                                    domicilio: ['', [Validators.required]],
+                                    fecha_nacimiento: ['', [Validators.required]],
+                                    telefono: ['', [Validators.required]],
+            
+                                    estados_embarazos_id: ['', [Validators.required]],
+                                    derechohabientes_id: ['', [Validators.required]],
+                                    municipios_id: [''],
+                                    localidades_id: [''],
+                                }),
+                                acompaniantes: this.fb.array([
+                                    this.fb.group({
+                                        //indice 0;
+                                        id:[''],
+                                        personas_id: [''],
+                                        parentescos_id: ['', [Validators.required]],
+                                        esResponsable: [1],
+                                        //objeto
+                                        personas: this.fb.group({
+                                            id:[''],
+                                            nombre: ['', [Validators.required]],
+                                            paterno: ['', [Validators.required]],
+                                            materno: ['', [Validators.required]],
+                                            telefono: ['', [Validators.required]],
+                                            domicilio: ['', [Validators.required]],
+                                            fecha_nacimiento: [null],
+                                        }),
+                                    }),
+            
+                                ]),
+                            }),
+                        ]),
+            
+                        movimientos_incidencias: this.fb.array([
+                            this.fb.group({
+                                id:[''],
+                                turnos_id: ['', [Validators.required]],
+                                ubicaciones_pacientes_id: ['', [Validators.required]],
+                                estados_pacientes_id: [1],
+                                triage_colores_id: ['', [Validators.required]],
+                                subcategorias_cie10_id: [''],
+                                medico_reporta_id: [null],
+                                indicaciones: [null],
+                                reporte_medico: [null],
+                                diagnostico_egreso: [null],
+                                observacion_trabajo_social: [null],
+                                metodos_planificacion_id: [null],
+                            }),
+                        ]),
+            
+                    });
+
+    }
+
+    reset_form() {
+        this.dato.reset();
+        for (let item in this.dato.controls) {
+            const ctrl = <FormArray>this.dato.controls[item];
+            if (ctrl.controls) {
+                if (typeof ctrl.controls.length == 'number') {
+                    while (ctrl.length) {
+                        ctrl.removeAt(ctrl.length - 1);
+                    }
+                    ctrl.reset();
+                }
+            }
+        }
+        return true;
+    }
+
+    cargarDatos() {
+        if (this.reset_form()) {
+            try {
+                this.cargando = true;
+
+                this.crudService.ver(this.id, "incidencias").subscribe(
+                    resultado => {
+                        this.cargando = false;
+                        //validar todos los key que tengan el array                          
+                        if(document.getElementById("catalogos"))
+                            document.getElementById("catalogos").click();
+                            this.iniciarFormulario();
+
+                            console.log("valores form", resultado.data);
+
+                        this.dato.controls.id.patchValue(resultado.data.id);
+                        this.dato.controls.clues.patchValue(resultado.data.clues);
+                        this.dato.controls.motivo_ingreso.patchValue(resultado.data.motivo_ingreso);
+                        this.dato.controls.impresion_diagnostica.patchValue(resultado.data.impresion_diagnostica);
+
+                        this.dato.controls.pacientes['controls'][0]['controls']['id'].patchValue(resultado.data.id);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['personas_id']);
+
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['id'].patchValue(resultado.data.id);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['nombre'].patchValue(resultado.data.pacientes[0]['personas']['nombre']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['paterno'].patchValue(resultado.data.pacientes[0]['personas']['paterno']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['materno'].patchValue(resultado.data.pacientes[0]['personas']['materno']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['domicilio'].patchValue(resultado.data.pacientes[0]['personas']['domicilio']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['fecha_nacimiento'].patchValue(resultado.data.pacientes[0]['personas']['fecha_nacimiento']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['telefono'].patchValue(resultado.data.pacientes[0]['personas']['telefono']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['estados_embarazos_id'].patchValue(resultado.data.pacientes[0]['personas']['estados_embarazos_id']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['derechohabientes_id'].patchValue(resultado.data.pacientes[0]['personas']['derechohabientes_id']);                        
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['municipios_id'].patchValue(resultado.data.pacientes[0]['personas']['municipios_id']);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['localidades_id'].patchValue(resultado.data.pacientes[0]['personas']['localidades_id']);
+
+                        if(this.dato.controls.pacientes['controls'][0]){
+                            if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]){
+
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(resultado.data.id);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas_id']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['esResponsable'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['esResponsable']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['parentescos_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['parentescos_id']);
+                                
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['id'].patchValue(resultado.data.id);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['nombre'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['nombre']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['paterno'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['paterno']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['materno'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['materno']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['telefono'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['telefono']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['domicilio'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['domicilio']);
+                            }
+                        
+                            if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]){
+
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['id'].patchValue(resultado.data.id);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas_id']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['esResponsable'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['esResponsable']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['parentescos_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['parentescos_id']);
+                                
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['id']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['nombre'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['nombre']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['paterno'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['paterno']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['materno'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['materno']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['telefono'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['telefono']);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['domicilio'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['domicilio']);
+                            }
+                        }
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['id'].patchValue(resultado.data.id);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['subcategorias_cie10_id'].patchValue(resultado.data.movimientos_incidencias[0]['subcategorias_cie10_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['ubicaciones_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[0]['ubicaciones_pacientes_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['triage_colores_id'].patchValue(resultado.data.movimientos_incidencias[0]['triage_colores_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['turnos_id'].patchValue(resultado.data.movimientos_incidencias[0]['turnos_id']);
+                        
+                        
+                
+                    },
+                    error => {                       
+                    }
+                );
+            } catch (e) {
+                console.log(0, e);
+            }
+        }
     }
 
     //   checked(value){

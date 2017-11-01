@@ -68,4 +68,5 @@ export class FormularioComponent {
     um.push(this.fb.group(data));
     (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
   }
+ 
 }

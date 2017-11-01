@@ -26,7 +26,7 @@
                             <th>Ubicación del Paciente</th>
                             <th>Sucategoria CIE-10</th>
                             <th>Estado del Paciente</th>
-                            <th>Procesos de Solución</th>
+                            <th>Proceso de Solución</th>
                             <th style="text-align:center; width: 20%;">Opciones</th>
                         </tr>
                     </thead>
@@ -38,7 +38,7 @@
                             <td style="vertical-align: middle;">{{item.ubicaciones_pacientes.nombre}}</td>
                             <td style="vertical-align: middle;">{{item.sub_categoria_cie10.nombre}}</td>
                             <td style="vertical-align: middle;">{{item.estados_pacientes.nombre}}</td>
-                            <th style="vertical-align: middle;">{{ item.procesos }}</th>
+                            <th style="vertical-align: middle;">{{ item.proceso }}</th>
                             <td style="vertical-align: middle;" class="has-text-centered">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
@@ -72,7 +72,7 @@
                                         <br>
                                         <strong class="tag is-medium">Estado del Paciente: {{item.estados_pacientes.nombre}}</strong>
                                         <br>
-                                        <strong class="tag is-medium"> Proceso de Solución: {{item.procesos}} </strong>
+                                        <strong class="tag is-medium">Descripción del Proceso de Solución: {{item.proceso}} </strong>
 
                                     </p>
                                 </div>

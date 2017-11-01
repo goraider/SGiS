@@ -114,7 +114,8 @@ export class FormularioComponent implements OnInit {
             if (this.id) {
                 if (this.id == 'yo')
                     this.id = JSON.parse(localStorage.getItem("usuario")).id;
-                this.cargarDatos();
+                if(!this.dato.controls.no_cargar)
+                    this.cargarDatos();
             }
         });
 
@@ -280,18 +281,25 @@ export class FormularioComponent implements OnInit {
                 try {
                     var posicionx = 0;
                     const valoresx = [];
-
+                    
                     resultado.forEach(ax => {
+                        
                         if (typeof ax === "object") {
-
+                            
                             var xx = {};
                             for (let key1x in ax) {
-                                if (ax[key1x] || (key1x != 'created_at' && key1x != 'updated_at' && key1x != 'deleted_at')) {
+                                if ((key1x != 'created_at' && key1x != 'updated_at' && key1x != 'deleted_at' && key1x != '0')) {
                                     xx[key1x] = ax[key1x];
                                 }
                             }
                             var xtx = []; var tieneDatosx = false;
+
+                            //agregar todos los controles sin excepcion                             
+                            if(data){
+                                data.push(this.fb.group(xx));
+                            }
                             for (let key1x in xx) {
+                                
                                 if (Array.isArray(xx[key1x])) {
                                     if (!xtx[key1x])
                                         xtx[key1x] = [];
@@ -299,15 +307,23 @@ export class FormularioComponent implements OnInit {
                                     xx[key1x] = this.fb.array([]);
                                     tieneDatosx = true;
                                 }
+                                else{
+                                    if(xx[key1x] && key1x != 'pivot' && typeof xx[key1x] == 'object'){                                         
+                                        if(data){                                                           
+                                            const x2x = <FormGroup>data.controls[posicionx];                                                              
+                                            x2x.addControl(key1x, xx[key1x]);                                                              
+                                            const x3x = <FormGroup>x2x.controls[key1x];
+                                            this.cargarDatosRecursivo(xx[key1x], x3x);
+                                        }
+                                    }                                   
+                                }
                             }
-
-                            //agregar todos los controles sin excepcion                            
-                            data.push(this.fb.group(xx));
+                            
                             //recorrer los controles en busca de los que son de tipo array
 
-                            if (tieneDatosx) {
+                            if (tieneDatosx) {                                
                                 //obtener el control para agregar un nuevo control                            
-                                const x2x = <FormArray>data.controls[posicionx];
+                                const x2x = <FormArray>data.controls[posicionx]
                                 for (let xrx in xtx) {
                                     for (let x1x in xtx[xrx]) {
                                         //crear el form array en caso de que el dato sea un array 
@@ -328,8 +344,9 @@ export class FormularioComponent implements OnInit {
                         }
                         posicionx++;
                     });
-                    if (valoresx.length > 0)
+                    if (valoresx.length > 0){                        
                         data.patchValue(valoresx);
+                    }
                 } catch (e) {
                     console.log(2, e);
                     return;
@@ -340,107 +357,121 @@ export class FormularioComponent implements OnInit {
                     //recorrer los controles del formulario y agregar su respectivo valor                    
                     for (let key in resultado) {
                         //validar que exista en la declaracion del fromulario
-                        if (data.controls[key]) {
-                            //validar si es un array    
-
-                            if (Array.isArray(resultado[key])) {
-                                var valores = [];
-                                const control = <FormArray>data.controls[key];
-                                var posicion1 = 0, posicion2 = 0;
-                                //recorrer los items del array para validar si no hay mas array
-                                try {
-                                    for (let a1 in resultado[key]) {
-                                        var a = resultado[key][a1];
-
-                                        //si es un objeto crear un fromgroup o un nuevo array                            
-                                        if (typeof a === "object") {
-                                            var x = {};
-                                            for (let key1 in a) {
-                                                if (a[key1] || (key1 != 'created_at' && key1 != 'updated_at' && key1 != 'deleted_at')) {
-                                                    x[key1] = a[key1];
-                                                }
-                                            }
-                                            var xt = []; var tieneDatos = false;
-                                            for (let key1 in x) {
-                                                if (Array.isArray(x[key1])) {
-                                                    if (!xt[key1])
-                                                        xt[key1] = [];
-                                                    xt[key1].push(x[key1]);
-                                                    x[key1] = this.fb.array([]);
-                                                    tieneDatos = true;
-                                                }
-                                            }
-
-                                            //agregar todos los controles sin excepcion
-                                            control.push(this.fb.group(x));
-                                            //recorrer los controles en busca de los que son de tipo array
-                                            try {
-                                                if (tieneDatos) {
-                                                    //obtener el control para agregar un nuevo control                            
-                                                    const x2 = <FormArray>control.controls[posicion1];
-
-                                                    for (let xr in xt) {
-                                                        for (let x1 in xt[xr]) {
-                                                            //crear el form array en caso de que el dato sea un array 
-                                                            x2.controls[x1] = new FormArray([]);
-                                                            //obtener su control
-                                                            const x3 = <FormArray>x2.controls[xr];
-
-                                                            //llamar el metodo recursivo para llegar al ultimo array en la lista
-                                                            this.cargarDatosRecursivo(xt[xr][x1], x3);
+                        if(data.controls){
+                            if (data.controls[key]) {
+                                //validar si es un array                                   
+                                if (Array.isArray(resultado[key])) {
+                                    var valores = [];
+                                    const control = <FormArray>data.controls[key];
+                                    var posicion1 = 0, posicion2 = 0;
+                                    //recorrer los items del array para validar si no hay mas array
+                                    try {
+                                        for (let a1 in resultado[key]) {
+                                            var a = resultado[key][a1];
+                                            //si es un objeto crear un fromgroup o un nuevo array                            
+                                            if (typeof a === "object") {
+                                                var x = {};
+                                                for (let key1 in a) {
+                                                    if ((key1 != 'created_at' && key1 != 'updated_at' && key1 != 'deleted_at' && key1 != '0')) {
+                                                        if(a[key1]){
+                                                            x[key1] = a[key1];
                                                         }
                                                     }
                                                 }
-                                            } catch (e) {
-                                                console.log(5, e);
-                                                return data;
-                                            }
-                                        }
-                                        else {
-                                            valores.push(a);
-                                        }
-                                        posicion1++;
-                                    }
-                                    if (valores.length > 0) {
-                                        control.patchValue(valores);
-                                    }
-                                } catch (e) {
-                                    console.log(4, e);
-                                    return;
-                                }
-                            }
-                            else {
-                                if (resultado[key]){
-                                    var tiene = 0;
-                                    if (typeof resultado[key] == "object" || Array.isArray(resultado[key])){
-                                        for (let a1 in resultado[key]){
-                                            const x1 = <FormArray>data.controls[key];
-                                            
-                                            if (Array.isArray(resultado[key][a1])) {
-                                            const x2 = <FormArray>x1.controls[a1];
-                                                //llamar el metodo recursivo para llegar al ultimo array en la lista
-                                                if (a1 != 'created_at' && a1 != 'updated_at' && a1 != 'deleted_at') {
-                                                    if(x1.controls[a1])
-                                                        this.cargarDatosRecursivo(resultado[key][a1], x2);
+                                                var xt = []; var tieneDatos = false;
+                                                //agregar todos los controles sin excepcion                                                
+                                                control.push(this.fb.group(x));
+                                               
+                                                
+                                                for (let key1 in x) {
+                                                    
+                                                    if (Array.isArray(x[key1])) {
+                                                        if (!xt[key1])
+                                                            xt[key1] = [];
+                                                        xt[key1].push(x[key1]);
+                                                        x[key1] = this.fb.array([]);
+                                                        tieneDatos = true;
+                                                    }else{                                                   
+                                                        if(x[key1] && key1 != 'pivot' && typeof x[key1] == 'object'){                                                                                                                                                                  
+                                                            const x2 = <FormGroup>control.controls[posicion1];                                                              
+                                                            x2.addControl(key1, this.fb.group(x[key1]));                                                              
+                                                            const x3 = <FormGroup>x2.controls[key1];                                                                                                                       
+                                                            this.cargarDatosRecursivo(x[key1], x3);
+                                                        }  
+                                                    }
+                                                }
+    
+                                                
+                                                //recorrer los controles en busca de los que son de tipo array
+                                                try {
+                                                    if (tieneDatos) {                                                    
+                                                        //obtener el control para agregar un nuevo control                            
+                                                        const x2 = <FormArray>control.controls[posicion1];
+    
+                                                        for (let xr in xt) {
+                                                            for (let x1 in xt[xr]) {
+                                                                //crear el form array en caso de que el dato sea un array 
+                                                                x2.controls[x1] = new FormArray([]);
+                                                                //obtener su control
+                                                                const x3 = <FormArray>x2.controls[xr];
+    
+                                                                //llamar el metodo recursivo para llegar al ultimo array en la lista
+                                                                this.cargarDatosRecursivo(xt[xr][x1], x3);
+                                                            }
+                                                        }
+                                                    }
+                                                } catch (e) {
+                                                    console.log(5, e);
+                                                    return data;
                                                 }
                                             }
-                                            else{
-                                                if (a1 != 'created_at' && a1 != 'updated_at' && a1 != 'deleted_at') {
-                                                    if(x1.controls[a1])
-                                                        x1.controls[a1].patchValue(resultado[key][a1]);
-                                                }
+                                            else {
+                                                valores.push(a);
                                             }
+                                            posicion1++;
                                         }
+                                        if (valores.length > 0) {
+                                            control.patchValue(valores);
+                                        }
+                                    } catch (e) {
+                                        console.log(4, e);
+                                        return;
                                     }
-                                    if(tiene == 0){
-                                        if (key != 'created_at' && key != 'updated_at' && key != 'deleted_at') {
-                                            if(data.controls[key])
-                                                data.controls[key].patchValue(resultado[key]);
-                                        }
-                                    }                                        
                                 }
                                 else {
-                                    data.controls[key].patchValue('');
+                                    if (resultado[key]){
+                                        var tiene = 0;
+                                        if (typeof resultado[key] == "object" || Array.isArray(resultado[key])){
+                                            for (let a1 in resultado[key]){
+                                                const x1 = <FormArray>data.controls[key];
+                                                
+                                                if (Array.isArray(resultado[key][a1])) {
+                                                const x2 = <FormArray>x1.controls[a1];
+                                                    //llamar el metodo recursivo para llegar al ultimo array en la lista
+                                                    if (a1 != 'created_at' && a1 != 'updated_at' && a1 != 'deleted_at' && a1 != '0') {
+                                                        if(x1.controls[a1])
+                                                            this.cargarDatosRecursivo(resultado[key][a1], x2);
+                                                    }
+                                                }
+                                                else{
+                                                    if (a1 != 'created_at' && a1 != 'updated_at' && a1 != 'deleted_at' && a1 != '0') {
+                                                        if(x1.controls[a1]){
+                                                            x1.controls[a1].patchValue(resultado[key][a1]);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if(tiene == 0){
+                                            if (key != 'created_at' && key != 'updated_at' && key != 'deleted_at' && key != '0') {
+                                                if(data.controls[key])
+                                                    data.controls[key].patchValue(resultado[key]);
+                                            }
+                                        }                                        
+                                    }
+                                    else {
+                                        data.controls[key].patchValue('');
+                                    }
                                 }
                             }
                         }
@@ -490,7 +521,6 @@ export class FormularioComponent implements OnInit {
 
                         //validar todos los key que tengan el array  
                         this.dato.patchValue(this.cargarDatosRecursivo(resultado.data, this.dato));
-
                         if(document.getElementById("catalogos"))
                             document.getElementById("catalogos").click();
                         
@@ -967,11 +997,11 @@ export class FormularioComponent implements OnInit {
      * @param esmodelo Bandera que determina si el modelo es un formGroup 
      * @return void
      */
-    select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {
+    select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {        
         if (!esmodelo)
             modelo = datos[item];
         else
-            modelo.patchValue(datos[item]);
+            modelo.patchValue(datos[item]);        
     }
 
     /**

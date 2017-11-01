@@ -29,7 +29,11 @@
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
         "../node_modules/select2/dist/js/select2.full.js",
-        "../node_modules/jsPDF/dist/jspdf.min.js"
+        "../node_modules/jsPDF/dist/jspdf.min.js",
+        "../node_modules/pdfmake/build/pdfmake.min.js",
+        "../node_modules/pdfmake/build/vfs_fonts.js"
+        
+        
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

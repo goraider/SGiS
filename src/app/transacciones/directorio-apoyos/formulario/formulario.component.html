@@ -6,6 +6,7 @@
 
 <div style="height:50px;"></div>
 <div class="contenedor columns " style="height:100%; ">
+<a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.cargarCatalogo('tipos_apoyos', 'apoyos', initMover); ctrl.cargarCatalogo('municipios', 'municipios');"></a>
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
@@ -26,9 +27,7 @@
 
                 <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
                     
-                    <a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.cargarCatalogo('tipos_apoyos', 'apoyos', 'initMover'); ctrl.cargarCatalogo('municipios', 'municipios');"></a>
-
-                    <div class="columns">
+                       <div class="columns">
                             <div class="column is-12">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label">Institución:</label>
@@ -86,16 +85,20 @@
 
                         </div>
 
-                        <div class="columns">                    
-                            <div class="column is-12">
-                                    <label class="label">Municipio:</label>
-                                <p class="control is-expanded  has-icon has-icon-right">
-                                    <span class="select">
-                                        <select class="select" name="municipios_id" formControlName="municipios_id" [ngClass]="{'is-warning': municipios_id?.length ==0 }">
-                                            <option *ngFor="let val of ctrl.municipios" value="{{val.id}}" >{{ val.nombre }}</option>
-                                        </select>
-                                    </span>
-                                    <span class="help is-danger" *ngIf="!ctrl.dato.controls.municipios_id.valid">Este campo es requerido.</span>
+                        <div class="columns">                                                                    
+                            <div class="column is-6">
+                                <p class="control is-expanded has-icon has-icon-right">
+                                    <label class="label">Municipio: </label>
+                                    <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id, 'localidades', 'localidades'); autovalor_municipio();" [data]="ctrl.municipios"></select2>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('municipios_id').hasError('required')">Este campo es requerido.</span>
+                                </p>
+                            </div>
+        
+                            <div class="column is-6">
+                                <p class="control is-expanded has-icon has-icon-right">
+                                    <label class="label">Localidad: </label>
+                                    <select2 name="localidades_id" [options]="ctrl.optionSelect" [value]="localidades_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.localidades_id); autovalor_localidad();" [data]="ctrl.localidades"></select2>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('localidades_id').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                         </div>

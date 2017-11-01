@@ -9,15 +9,25 @@
     position: relative;
 
 }
+
 .contenido{
 
     width: 30%;
     position: absolute;
-    top: 20% ;
+    top: 45% ;
     left: 2%;
     flex: 1 1 auto;
     
 }
+
+.img{
+    top: 15%;
+    left: 10%;
+    width: 15%; 
+    height: 30%;
+    position: absolute;
+}
+
 @media only screen and (max-width: 700px) {
     /* For mobile phones: */
     [class*="contenido"] {
@@ -25,6 +35,12 @@
         top: 30% ;
         left: 20%;
         
+    }
+    [class*="img"] {
+        width: 30%; 
+        height: 20%;
+        top: 10%;
+        left: 35%;
     }
 }
 

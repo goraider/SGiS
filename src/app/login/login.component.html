@@ -1,7 +1,10 @@
 <div class="bg columns" style="background-image: url('../assets/iconos/pantalla-de-inicio-SGIS.png');">
-    <div class="contenido ">
+
+    <img class="img" src="../assets/iconos/icono-ugus-512x512.png"/>
+
+    <div class="contenido">
     <form name="form" (ngSubmit)="!loading && login()">
-            <h1 class="title has-text-centered">Bienvenido</h1>
+            <h1 class="title has-text-centered" style="color:#293689">Bienvenido</h1>
             <h2 class="subtitle has-text-centered" style="color:white;">Esta app esta diseñada especialmente para ti.</h2>
             <div class="notification is-danger" *ngIf="mostrarMensaje">
                 <a class="delete" (click)="mostrarMensaje = false"></a>
@@ -22,7 +25,7 @@
             </p>
             <br>
             <p class="control" >
-                <button class="button is-primary is-large is-fullwidth" [ngClass]="{'is-loading': loading}" >Iniciar sesión</button>
+                <button class="button is-accent is-large is-fullwidth" [ngClass]="{'is-loading': loading}" >Iniciar sesión</button>
             </p>
             <p class="control" *ngIf="saludIdDisponible">
                 <button class="button is-primary is-large is-fullwidth">Conectar con Salud ID</button>

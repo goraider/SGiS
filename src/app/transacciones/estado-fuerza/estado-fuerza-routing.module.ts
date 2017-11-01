@@ -8,6 +8,7 @@ import { AuthGuard } from '../../auth-guard.service';
 const routes: Routes = [
 
   { path: 'transacciones/estado-fuerza', redirectTo: '/transacciones/estado-fuerza/lista', pathMatch: 'full' },
+  { path: 'transacciones/estado-fuerza/nuevo', redirectTo: '/transacciones/estado-fuerza/editar/2', pathMatch: 'full' },
   {
     path: 'transacciones/estado-fuerza',
     children: [

@@ -85,12 +85,12 @@
                     <div class="columns">
                         <div class="column is-12">
                             <p class="control is-expanded  has-icon has-icon-right">
-                                <label class="label">Descripción del Proceso:</label>
-                                <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('procesos').hasError('required') && ctrl.dato.get('procesos').touched}"
-                                    placeholder="Descripción del Proceso" formControlName="procesos"></textarea>
+                                <label class="label">Descripción del Proceso de Solución:</label>
+                                <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('proceso').hasError('required') && ctrl.dato.get('proceso').touched}"
+                                    placeholder="Descripción del Proceso" formControlName="proceso"></textarea>
                                     
-                                <span class="icon is-small" *ngIf="ctrl.dato.get('procesos').hasError('required') && ctrl.dato.get('procesos').touched"><i class="fa fa-warning"></i></span>
-                                <span class="help is-danger" *ngIf="ctrl.dato.get('procesos').hasError('required') && ctrl.dato.get('procesos').touched">Este campo es requerido.</span>
+                                <span class="icon is-small" *ngIf="ctrl.dato.get('proceso').hasError('required') && ctrl.dato.get('proceso').touched"><i class="fa fa-warning"></i></span>
+                                <span class="help is-danger" *ngIf="ctrl.dato.get('proceso').hasError('required') && ctrl.dato.get('proceso').touched">Este campo es requerido.</span>
                             </p>
                         </div>
                     </div>

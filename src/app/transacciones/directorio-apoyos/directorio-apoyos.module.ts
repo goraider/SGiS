@@ -28,6 +28,7 @@ import { CrudService } from '../../crud/crud.service';
 import { CrudModule }  from '../../crud/crud.module';
 //fin crud
 
+import { Select2Module } from 'ng2-select2';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { CrudModule }  from '../../crud/crud.module';
     PipesModule,
     MenuModule,
     ParcialModule,
-    CrudModule
+    CrudModule,
+    Select2Module
   ],
   declarations: [
     ListaComponent,

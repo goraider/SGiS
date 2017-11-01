@@ -53,7 +53,7 @@
                             <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><strong>{{ item.antiguedad }}</strong></td>
                             <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">
                                 
-                                    <a title="PDF" class="button is-danger tooltip" (click)="download($event, item.id)">
+                                    <a title="PDF" class="button is-danger tooltip" (click)="download($event, item.id);">
                                         <span class="icon">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </span>

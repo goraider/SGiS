@@ -84,7 +84,7 @@
                                 <td style="vertical-align: middle;" >{{ item.controls.nombre.value }}</td>
                                 <td style="vertical-align: middle;" >{{ item.controls.jurisdicciones.value.nombre}}</td>
                                 <td style="vertical-align: middle;" class="has-text-centered">
-                                    <a id="quitar{{i}}" class="is-danger" (click)="quitar_form_array(ctrl.dato.controls.clues.controls, i)"><span class="icon"><i class="fa fa-trash-o button is-danger tooltip"></i></span></a>
+                                    <a id="quitar{{i}}" class="is-danger" (click)="quitar_form_array(ctrl.dato.controls.clues, i)"><span class="icon"><i class="fa fa-trash-o button is-danger tooltip"></i></span></a>
                                 </td>
                             </tr>
                             <tr *ngIf="ctrl.dato.length == 0">

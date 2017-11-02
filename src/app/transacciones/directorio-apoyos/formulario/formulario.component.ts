@@ -33,9 +33,6 @@ export class FormularioComponent {
       apoyos: this.fb.array([])
     });
 
-    //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
-    document.getElementById("catalogos").click();
-
     var im = 0, il = 0;
     
     // const pacientes = <FormArray>this.dato.controls.pacientes['controls']['personas']['controls']['municipios_id'];
@@ -55,7 +52,11 @@ export class FormularioComponent {
         }
       });
 
+      //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
+      document.getElementById("catalogos").click();
+
   }
+
 
   autovalor_municipio() {
     setTimeout(() => {

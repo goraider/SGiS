@@ -26,7 +26,7 @@
                             <th>Nombre</th>
                             <th>Telefono</th>
                             <th>Fecha de Nacimiento</th>
-                            <!-- <th>Estado de Embarazo</th> -->
+                            <th>Estado de Embarazo</th>
                             <th>Derechohabiente</th>
                             <th>Localidad</th>
                             <th style="text-align:center; width: 20%;">Opciones</th>
@@ -38,8 +38,8 @@
                             <th style="vertical-align: middle;">{{ item.id }}</th>
                             <td style="vertical-align: middle;">{{ item.nombre }} {{ item.paterno }} {{ item.materno }}</td>
                             <td style="vertical-align: middle;">{{ item.telefono }}</td>
-                            <td style="vertical-align: middle;">{{ item.fecha_nacimiento}}</td>
-                            <!-- <td style="vertical-align: middle;">{{ item.estados_embarazos.nombre }}</td> -->
+                            <td style="vertical-align: middle;">{{ item.fecha_nacimiento | date: 'dd/MM/yyyy'}}</td>
+                            <td style="vertical-align: middle;">{{ item.estados_embarazos.nombre }}</td>
                             <td style="vertical-align: middle;">{{ item.derechohabientes.nombre }}</td>
                             <td style="vertical-align: middle;">{{ item.localidades.nombre }}</td>
                             
@@ -68,7 +68,7 @@
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <strong class="tag is-medium"> CURP: {{item.id}} Nombre: {{ item.nombre }} {{ item.paterno }} {{ item.materno }} Fecha de Nacimiento: {{ item.fecha_nacimiento }} </strong>
+                                        <strong class="tag is-medium"> CURP: {{item.id}} Nombre: {{ item.nombre }} {{ item.paterno }} {{ item.materno }} Fecha de Nacimiento: {{ item.fecha_nacimiento | date: 'dd/MM/yyyy' }} </strong>
                                         <br>
                                         <strong class="tag">Derechohabiente: {{ item.derechohabientes.nombre }} Estado de Embarazo: {{ item.estados_embarazos.nombre }}</strong>
                                         <br>

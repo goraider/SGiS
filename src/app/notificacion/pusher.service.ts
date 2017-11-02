@@ -23,6 +23,7 @@ export class PusherService {
         this.channels = [];
 
         var channel = this.pusher.subscribe(`${environment.pusher_channel}`);
+        //${id}
         channel.bind(`${environment.pusher_event}`,  (data) => {
             this._messages.next(data);
 

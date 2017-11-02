@@ -6,7 +6,7 @@
 
 <div style="height:50px;"></div>
 <div class="contenedor columns " style="height:100%; ">
-<a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.cargarCatalogo('tipos_apoyos', 'apoyos', initMover); ctrl.cargarCatalogo('municipios', 'municipios');"></a>
+<a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.cargarCatalogo('tipos_apoyos', 'apoyos', 'initMover'); ctrl.cargarCatalogo('municipios', 'municipios');"></a>
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
@@ -192,7 +192,7 @@
                                 </article>
                             </div>
                 </section>
-                <a (click)="ctrl.initMover(ctrl.dato.controls.apoyos.controls, ctrl.apoyos); " id="initMover"></a>
+                <a (click)="ctrl.initMover(ctrl.dato.controls.apoyos.controls, ctrl.tipos_apoyos); " id="initMover"></a>
             </form>
         </div>
     </div>

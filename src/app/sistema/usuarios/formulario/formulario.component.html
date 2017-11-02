@@ -31,7 +31,7 @@
                 <section class="section" style="padding: 2rem 1rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
 
                     <!-- cargar los catalogos que se requieran parametro 1 modelo donde se guarda el catalogo, parametro 2 ruta de la api -->
-                    <a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_derecha('d'); ctrl.iniciar_derecha('r'); ctrl.iniciar_izquierda('g'); ctrl.iniciar_izquierda('d'); ctrl.iniciar_izquierda('r'); ctrl.cargarCatalogo('paises', 'paises'); ctrl.cargarCatalogo('sis_usuarios_grupos', 'sisGrupo', 'initMover'); ctrl.cargarCatalogo('tipos_medios', 'tipo-medio'); "></a>
+                    <a id="catalogos" (click)="ctrl.iniciar_derecha('g'); ctrl.iniciar_izquierda('g'); ctrl.iniciar_derecha('n'); ctrl.iniciar_izquierda('n'); ctrl.cargarCatalogo('paises', 'paises'); ctrl.cargarCatalogo('sis_usuarios_grupos', 'sisGrupo', 'initMover'); ctrl.cargarCatalogo('tipo_notificacion', 'tipos-notificaciones', 'initMoverNotificacion'); ctrl.cargarCatalogo('tipos_medios', 'tipo-medio'); "></a>
                     <div class="contenedor columns">
                         <div class="column is-one-quarter menu-persona is-hidden-touch">
                             <div>
@@ -96,6 +96,12 @@
                                         <a (click)="tab=5">
                                         <span class="icon"><i class="fa fa-building"></i></span>
                                         <span  class="is-hidden-touch">Clues</span>
+                                    </a>
+                                    </li>
+                                    <li [ngClass]="{ 'is-active' : tab == 6}">
+                                        <a (click)="tab=6">
+                                        <span class="icon"><i class="fa fa-commenting"></i></span>
+                                        <span  class="is-hidden-touch">Notificaciónes</span>
                                     </a>
                                     </li>
 
@@ -502,6 +508,7 @@
 
 <!--grupos -->
 <div [ngClass]="{ 'is-hidden': tab != 4}">
+
     <div class="box" *ngIf="ctrl.izquierda['g']">
         <article class="media">
             <div class="media-content">
@@ -511,7 +518,9 @@
                             <div class="panel-heading">
                                 <div class="field">
                                     <div class="b-checkbox is-info">
-                                        <input id="sis_usuarios_grupos" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.izquierda" (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['g'], ctrl.sis_usuarios_grupos)">
+                                        <input id="sis_usuarios_grupos" class="styled" type="checkbox"
+                                        [checked]="ctrl.todosSeleccionados.izquierda"
+                                        (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['g'], ctrl.sis_usuarios_grupos)">
                                         <label for="sis_usuarios_grupos">
                                             Grupos disponibles
                                         </label>
@@ -521,7 +530,9 @@
                             <label class="panel-block" *ngFor="let val of ctrl.sis_usuarios_grupos; let i=index">
                                 <div class="field">
                                     <div class="b-checkbox">
-                                        <input id="sis_usuarios_grupos{{val.id}}" class="styled" type="checkbox" [checked]="ctrl.izquierda['g'].indexOf(val) > -1" (click)="ctrl.agregarMover(ctrl.izquierda['g'], ctrl.sis_usuarios_grupos, val)">
+                                        <input id="sis_usuarios_grupos{{val.id}}" class="styled" type="checkbox"
+                                        [checked]="ctrl.izquierda['g'].indexOf(val) > -1"
+                                        (click)="ctrl.agregarMover(ctrl.izquierda['g'], ctrl.sis_usuarios_grupos, val)">
                                         <label for="sis_usuarios_grupos{{val.id}}">
                                             {{val.nombre}}
                                         </label>
@@ -534,12 +545,17 @@
                     <div class="column is-2" style="float:left">
 
                         <p class="control">
-                            <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}" [disabled]="ctrl.izquierda['g'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.sis_usuarios_grupos, ctrl.sis_usuarios_grupos, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
+                            <button class="button is-default" type="button" style="width:100%"
+                            [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}"
+                            [disabled]="ctrl.izquierda['g'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.sis_usuarios_grupos, ctrl.sis_usuarios_grupos, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
                         </p>
                                                                                                                                                                                          <!-- este controls ya no va -->               
                         <!-- para los de mover derecha quitar el controls ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.sis_usuarios_grupos, ctrl.dato.controls.sis_usuarios_grupos.controls, false); -->
                         <p class="control">
-                            <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}" [disabled]="ctrl.derecha['g'].length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.sis_usuarios_grupos, ctrl.dato.controls.sis_usuarios_grupos, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
+                            <button class="button is-default" type="button" style="width:100%"
+                            [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}"
+                            [disabled]="ctrl.derecha['g'].length <= 0"
+                            (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.sis_usuarios_grupos, ctrl.dato.controls.sis_usuarios_grupos, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
                         </p>
 
                     </div>
@@ -548,7 +564,9 @@
                             <div class="panel-heading">
                                 <div class="field">
                                     <div class="b-checkbox is-info">
-                                        <input id="Missis_usuarios_grupos" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.derecha" (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['g'], ctrl.dato.controls.sis_usuarios_grupos.controls)">
+                                        <input id="Missis_usuarios_grupos" class="styled" type="checkbox"
+                                        [checked]="ctrl.todosSeleccionados.derecha"
+                                        (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['g'], ctrl.dato.controls.sis_usuarios_grupos.controls)">
                                         <label for="Missis_usuarios_grupos">
                                             Mis grupos
                                         </label>
@@ -558,7 +576,9 @@
                             <label class="panel-block" *ngFor="let item of ctrl.dato.controls.sis_usuarios_grupos.controls; let i2=index">
                                 <div class="field" [formGroupName]="i2">
                                     <div class="b-checkbox">
-                                        <input id="Missis_usuarios_grupos{{item.value.id}}" class="styled" type="checkbox" [checked]="ctrl.derecha['g'].indexOf(item) > -1" (click)="ctrl.agregarMover(ctrl.derecha['g'], ctrl.dato.controls.sis_usuarios_grupos.controls, item)">
+                                        <input id="Missis_usuarios_grupos{{item.value.id}}" class="styled" type="checkbox"
+                                        [checked]="ctrl.derecha['g'].indexOf(item) > -1"
+                                        (click)="ctrl.agregarMover(ctrl.derecha['g'], ctrl.dato.controls.sis_usuarios_grupos.controls, item)">
                                         <label for="Missis_usuarios_grupos{{item.value.id}}">
                                             {{item.value.nombre}}
                                         </label>
@@ -604,7 +624,7 @@
                 <td style="vertical-align: middle;" >{{ item.controls.nombre.value }}</td>
                 <td style="vertical-align: middle;" >{{ item.controls.jurisdicciones.value.nombre}}</td>
                 <td style="vertical-align: middle;" class="has-text-centered">
-                    <a id="quitar{{i}}" class="is-danger" (click)="quitar_form_array(ctrl.dato.controls.sis_usuarios_clues.controls, i)"><span class="icon"><i class="fa fa-trash-o button is-danger tooltip"></i></span></a>
+                    <a id="quitar{{i}}" class="is-danger" (click)="quitar_form_array(ctrl.dato.controls.sis_usuarios_clues, i)"><span class="icon"><i class="fa fa-trash-o button is-danger tooltip"></i></span></a>
                 </td>
             </tr>
             <tr *ngIf="ctrl.dato.length == 0">
@@ -612,6 +632,99 @@
             </tr>
         </tbody>
     </table>
+
+</div>
+
+<!--notificaciones -->
+<div [ngClass]="{ 'is-hidden': tab != 6}">
+
+    <div class="box" *ngIf="ctrl.izquierda['n']">
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <div class="column is-5" style="float:left">
+                            <nav class="panel">
+                                <div class="panel-heading">
+                                    <div class="field">
+                                        <div class="b-checkbox is-info">
+                                            <input id="sis_usuarios_notificaciones" class="styled" type="checkbox"
+                                            [checked]="ctrl.todosSeleccionados.izquierda"
+                                            (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['n'], ctrl.tipo_notificacion)">
+                                            <label for="sis_usuarios_notificaciones">
+                                                Notificaciónes disponibles
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="panel-block" *ngFor="let val of ctrl.tipo_notificacion; let n=index">
+                                    <div class="field">
+                                        <div class="b-checkbox">
+                                            <input id="sis_usuarios_notificaciones{{val.id}}" class="styled" type="checkbox"
+                                            [checked]="ctrl.izquierda['n'].indexOf(val) > -1"
+                                            (click)="ctrl.agregarMover(ctrl.izquierda['n'], ctrl.tipo_notificacion, val)">
+                                            <label for="sis_usuarios_notificaciones{{val.id}}">
+                                                {{val.nombre}}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </label>
+                            </nav>
+                        </div>
+                        <div class="column is-2" style="float:left">
+
+                            <p class="control">
+                                <button class="button is-default" type="button" style="width:100%"
+                                [ngClass]="{'is-success': ctrl.izquierda['n'].length > 0}"
+                                [disabled]="ctrl.izquierda['n'].length <= 0"
+                                (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['n'], ctrl.dato.controls.sis_usuarios_notificaciones, ctrl.tipo_notificacion, true); ctrl.iniciar_izquierda('n');"><i class="fa fa-arrow-right"></i></button>
+                            </p>
+                                                                                                                                                                                                <!-- este controls ya no va -->               
+                            <!-- para los de mover derecha quitar el controls ctrl.iniciarMover('derecha', ctrl.derecha['d'], ctrl.tipo_notificacion, ctrl.dato.controls.sis_usuarios_notificaciones.controls, false); -->
+                            <p class="control">
+                                <button class="button is-default" type="button" style="width:100%"
+                                [ngClass]="{'is-success': ctrl.derecha['n'].length > 0}"
+                                [disabled]="ctrl.derecha['n'].length <= 0"
+                                (click)="ctrl.iniciarMover('derecha', ctrl.derecha['n'], ctrl.tipo_notificacion, ctrl.dato.controls.sis_usuarios_notificaciones, false); ctrl.iniciar_derecha('n');"><i class="fa fa-arrow-left"></i></button>
+                            </p>
+
+                        </div>
+                        <div class="column is-5" style="float:left">
+                            <nav class="panel" formGroupName="sis_usuarios_notificaciones">
+                                <div class="panel-heading">
+                                    <div class="field">
+                                        <div class="b-checkbox is-info">
+                                            <input id="Missis_usuarios_notificaciones" class="styled" type="checkbox"
+                                            [checked]="ctrl.todosSeleccionados.derecha"
+                                            (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['n'], ctrl.dato.controls.sis_usuarios_notificaciones.controls)">
+                                            <label for="Missis_usuarios_notificaciones">
+                                                Mis Notificaciónes
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="panel-block" *ngFor="let item of ctrl.dato.controls.sis_usuarios_notificaciones.controls; let nf=index">
+                                    <div class="field" [formGroupName]="nf">
+                                        <div class="b-checkbox">
+                                            <input id="Missis_usuarios_notificaciones{{item.value.id}}" class="styled" type="checkbox"
+                                            [checked]="ctrl.derecha['n'].indexOf(item) > -1"
+                                            (click)="ctrl.agregarMover(ctrl.derecha['n'], ctrl.dato.controls.sis_usuarios_notificaciones.controls, item)">
+                                            <label for="Missis_usuarios_notificaciones{{item.value.id}}">
+                                                {{item.value.nombre}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </label>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        
+        <!-- ejecuta el movimiento de los datos que ya existen en el lado derecho, parametro 1 formulario reactivo que se guarda en la BD parametro 2 el catalogo en el evento ngAfterViewInit en el .ts  -->
+        <a (click)="ctrl.initMover(ctrl.dato.controls.sis_usuarios_notificaciones.controls, ctrl.tipo_notificacion); " id="initMoverNotificacion"></a>
+    
 
 </div>
 

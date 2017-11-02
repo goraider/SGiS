@@ -72,7 +72,8 @@ export class FormularioComponent {
       // sis_usuarios_sucursales: this.fb.array([]),
       // sis_usuarios_dashboards: this.fb.array([]),
       // sis_usuarios_reportes: this.fb.array([]),
-      sis_usuarios_grupos: this.fb.array([])
+      sis_usuarios_grupos: this.fb.array([]),
+      sis_usuarios_notificaciones: this.fb.array([])
     });
 
     this.form_sis_usuarios_contactos = {
@@ -222,7 +223,7 @@ export class FormularioComponent {
     (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
   }
   quitar_form_array(modelo, i) {
-    modelo.splice(i, 1);
+    modelo.removeAt(i);
   }
   
 }

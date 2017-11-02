@@ -95,8 +95,10 @@ export class FormularioComponent {
     }
   }
   quitar_form_array(modelo, i) {
-    modelo.splice(i, 1);
+    modelo.removeAt(i);
+
   }
+  
   quitar_clues_jurisdiccion(modelo, data, catalogo) {
     var i = 0;
     catalogo.push(data.value);    

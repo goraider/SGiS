@@ -274,7 +274,7 @@ export class FormularioComponent {
                         this.dato.controls.motivo_ingreso.patchValue(resultado.data.motivo_ingreso);
                         this.dato.controls.impresion_diagnostica.patchValue(resultado.data.impresion_diagnostica);
 
-                        this.dato.controls.pacientes['controls'][0]['controls']['id'].patchValue(resultado.data.id);
+                        this.dato.controls.pacientes['controls'][0]['controls']['id'].patchValue(resultado.data.pacientes[0]['id']);
                         this.dato.controls.pacientes['controls'][0]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['personas_id']);
 
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['id'].patchValue(resultado.data.id);
@@ -292,12 +292,12 @@ export class FormularioComponent {
                         if(this.dato.controls.pacientes['controls'][0]){
                             if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]){
 
-                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(resultado.data.id);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['id']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas_id']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['esResponsable'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['esResponsable']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['parentescos_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['parentescos_id']);
                                 
-                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['id'].patchValue(resultado.data.id);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['id']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['nombre'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['nombre']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['paterno'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['paterno']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['materno'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['materno']);
@@ -307,7 +307,7 @@ export class FormularioComponent {
                         
                             if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]){
 
-                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['id'].patchValue(resultado.data.id);
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['id']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas_id']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['esResponsable'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['esResponsable']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['parentescos_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['parentescos_id']);
@@ -320,7 +320,7 @@ export class FormularioComponent {
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['domicilio'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['domicilio']);
                             }
                         }
-                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['id'].patchValue(resultado.data.id);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['id'].patchValue(resultado.data.movimientos_incidencias[0]['id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['subcategorias_cie10_id'].patchValue(resultado.data.movimientos_incidencias[0]['subcategorias_cie10_id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['ubicaciones_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[0]['ubicaciones_pacientes_id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['triage_colores_id'].patchValue(resultado.data.movimientos_incidencias[0]['triage_colores_id']);

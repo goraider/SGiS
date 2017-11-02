@@ -70,7 +70,9 @@
                                                 <div class="panel-heading">
                                                     <div class="field">
                                                         <div class="b-checkbox is-info">
-                                                            <input id="NiveslCones" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.izquierda" (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['g'], ctrl.niveles_cones)">
+                                                            <input id="NiveslCones" class="styled" type="checkbox"
+                                                            [checked]="ctrl.todosSeleccionados.izquierda"
+                                                            (click)="ctrl.seleccionarTodosMover('izquierda', ctrl.izquierda['g'], ctrl.niveles_cones)">
                                                             <label for="NiveslCones">
                                                                 Niveles de CONE Disponible
                                                             </label>
@@ -80,7 +82,9 @@
                                                 <label class="panel-block" *ngFor="let val of ctrl.niveles_cones; let i=index">
                                                     <div class="field">
                                                         <div class="b-checkbox">
-                                                            <input id="NiveslCones{{val.id}}" class="styled" type="checkbox" [checked]="ctrl.izquierda['g'].indexOf(val) > -1" (click)="ctrl.agregarMover(ctrl.izquierda['g'], ctrl.niveles_cones, val)">
+                                                            <input id="NiveslCones{{val.id}}" class="styled" type="checkbox"
+                                                            [checked]="ctrl.izquierda['g'].indexOf(val) > -1"
+                                                            (click)="ctrl.agregarMover(ctrl.izquierda['g'], ctrl.niveles_cones, val)">
                                                             <label for="NiveslCones{{val.id}}">
                                                                 {{val.nombre}}
                                                             </label>
@@ -93,11 +97,17 @@
                                         <div class="column is-2" style="float:left">
 
                                             <p class="control">
-                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}" [disabled]="ctrl.izquierda['g'].length <= 0" (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.niveles_cones, ctrl.niveles_cones, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
+                                                <button class="button is-default" type="button" style="width:100%"
+                                                [ngClass]="{'is-success': ctrl.izquierda['g'].length > 0}" 
+                                                [disabled]="ctrl.izquierda['g'].length <= 0" 
+                                                (click)="ctrl.iniciarMover('izquierda', ctrl.izquierda['g'], ctrl.dato.controls.niveles_cones, ctrl.niveles_cones, true); ctrl.iniciar_izquierda('g');"><i class="fa fa-arrow-right"></i></button>
                                                 <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
                                             </p>
                                             <p class="control">
-                                                <button class="button is-default" type="button" style="width:100%" [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}" [disabled]="ctrl.derecha['g'].length <= 0" (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.niveles_cones, ctrl.dato.controls.niveles_cones, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
+                                                <button class="button is-default" type="button" style="width:100%"
+                                                [ngClass]="{'is-success': ctrl.derecha['g'].length > 0}"
+                                                [disabled]="ctrl.derecha['g'].length <= 0" 
+                                                (click)="ctrl.iniciarMover('derecha', ctrl.derecha['g'], ctrl.niveles_cones, ctrl.dato.controls.niveles_cones, false); ctrl.iniciar_derecha('g');"><i class="fa fa-arrow-left"></i></button>
                                                         <!--ctrl.dato.controls.niveles_cones.controls hace referencia al array que esta en el componente -->
                                             </p>
 
@@ -107,7 +117,9 @@
                                                 <div class="panel-heading">
                                                     <div class="field">
                                                         <div class="b-checkbox is-info">
-                                                            <input id="MisNiveles" class="styled" type="checkbox" [checked]="ctrl.todosSeleccionados.derecha" (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['g'], ctrl.dato.controls.niveles_cones.controls)">
+                                                            <input id="MisNiveles" class="styled" type="checkbox"
+                                                            [checked]="ctrl.todosSeleccionados.derecha"
+                                                            (click)="ctrl.seleccionarTodosMover('derecha', ctrl.derecha['g'], ctrl.dato.controls.niveles_cones.controls)">
                                                             <!--ctrl.dato.controls.niveles_cones.controls hace referencia al formsGroupName de la vista-->
                                                             <label for="MisNiveles">
                                                                 Niveles de CONE Elegidos
@@ -118,7 +130,9 @@
                                                 <label class="panel-block" *ngFor="let item of ctrl.dato.controls.niveles_cones.controls; let i2=index">
                                                     <div class="field" [formGroupName]="i2">
                                                         <div class="b-checkbox">
-                                                            <input id="MisNiveles{{item.value.id}}" class="styled" type="checkbox" [checked]="ctrl.derecha['g'].indexOf(item) > -1" (click)="ctrl.agregarMover(ctrl.derecha['g'], ctrl.dato.controls.niveles_cones.controls, item)">
+                                                            <input id="MisNiveles{{item.value.id}}" class="styled" type="checkbox"
+                                                            [checked]="ctrl.derecha['g'].indexOf(item) > -1"
+                                                            (click)="ctrl.agregarMover(ctrl.derecha['g'], ctrl.dato.controls.niveles_cones.controls, item)">
                                                             <label for="MisNiveles{{item.value.id}}">
                                                                 {{item.value.nombre}}
                                                             </label>

@@ -82,6 +82,7 @@ export class FormularioComponent {
     ngOnInit() {
 
         this.iniciarFormulario();
+
         var url = location.href.split("/");
         this.carpeta = url[3];
         this.modulo = url[4];
@@ -109,18 +110,21 @@ export class FormularioComponent {
         this.form_responsable =
             this.fb.group({
                 //indice 0;
+                id:[''],
                 personas_id: [''],
-                parentescos_id: ['', [Validators.nullValidator]],
+                parentescos_id: ['', [Validators.required]],
                 esResponsable: [1],
             }),
 
+
             this.form_persona_responsable =
             this.fb.group({
-                nombre: ['', [Validators.nullValidator]],
-                paterno: ['', [Validators.nullValidator]],
-                materno: ['', [Validators.nullValidator]],
-                telefono: ['', [Validators.nullValidator]],
-                domicilio: ['', [Validators.nullValidator]],
+                id:[''],
+                nombre: ['', [Validators.required]],
+                paterno: ['', [Validators.required]],
+                materno: ['', [Validators.required]],
+                telefono: ['', [Validators.required]],
+                domicilio: ['', [Validators.required]],
                 fecha_nacimiento: [null],
             }),
 
@@ -165,8 +169,10 @@ export class FormularioComponent {
     }
 
     iniciarFormulario(){
-    
+
+        
         this.dato = this.fb.group({
+                    
                         no_cargar: [true],
                         id: [''],
                         motivo_ingreso: ['', [Validators.required]],
@@ -233,9 +239,64 @@ export class FormularioComponent {
                                 metodos_planificacion_id: [null],
                             }),
                         ]),
+
+                        referencias: this.fb.array([
+                             this.fb.group({
+                                 medico_refiere_id:[''],
+                                 diagnostico:[''],
+                                 resumen_clinico:[''],
+                                 clues_origen:[''],
+                                 clues_destino:[''],                       
+                                 img:[''],
+                                 esContrareferencia:[0],
+                           }),
+                         ]),
             
                     });
 
+                    var im = 0, il = 0;
+                    
+                    //        const pacientes = <FormArray>this.dato.controls.pacientes['controls']['personas']['controls']['municipios_id'];
+                    
+                    this.dato.controls['pacientes']['controls']['0']['controls']['personas']['controls']['municipios_id'].valueChanges.
+                    subscribe(val => {
+                        if (val && im == 0) {
+                        im++;
+                        this.temp_municipios_id = val;
+                        }
+                    });
+            
+                    this.dato.controls.pacientes['controls']['0']['controls']['personas']['controls']['localidades_id'].valueChanges.
+                    subscribe(val => {
+                        if (val && il == 0) {
+                        il++;
+                        this.temp_localidades_id = val;
+                        }
+                    });
+                    
+
+    }
+
+    //this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].value);
+    asignar_curp(){
+
+        if(this.dato.controls.pacientes['controls'][0]){
+            this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['personas_id'].value);
+            
+            console.log("paciente[0]", this.dato.controls.pacientes['controls'][0].value);
+                        
+            if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]){
+                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].value);
+                console.log("acompaniante[0]", this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0].value);
+            
+            }
+            if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]){
+                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas_id'].value);
+                console.log("acompaniante[1]", this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1].value);
+
+            }
+        }
+    
     }
 
     reset_form() {
@@ -258,16 +319,19 @@ export class FormularioComponent {
         if (this.reset_form()) {
             try {
                 this.cargando = true;
+                
 
                 this.crudService.ver(this.id, "incidencias").subscribe(
                     resultado => {
                         this.cargando = false;
                         //validar todos los key que tengan el array                          
                         if(document.getElementById("catalogos"))
+
                             document.getElementById("catalogos").click();
                             this.iniciarFormulario();
 
                             console.log("valores form", resultado.data);
+                            
 
                         this.dato.controls.id.patchValue(resultado.data.id);
                         this.dato.controls.clues.patchValue(resultado.data.clues);
@@ -277,7 +341,7 @@ export class FormularioComponent {
                         this.dato.controls.pacientes['controls'][0]['controls']['id'].patchValue(resultado.data.pacientes[0]['id']);
                         this.dato.controls.pacientes['controls'][0]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['personas_id']);
 
-                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['id'].patchValue(resultado.data.id);
+                        this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['id'].patchValue(resultado.data.pacientes[0]['personas']['id']);
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['nombre'].patchValue(resultado.data.pacientes[0]['personas']['nombre']);
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['paterno'].patchValue(resultado.data.pacientes[0]['personas']['paterno']);
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['materno'].patchValue(resultado.data.pacientes[0]['personas']['materno']);
@@ -288,9 +352,43 @@ export class FormularioComponent {
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['derechohabientes_id'].patchValue(resultado.data.pacientes[0]['personas']['derechohabientes_id']);                        
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['municipios_id'].patchValue(resultado.data.pacientes[0]['personas']['municipios_id']);
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['localidades_id'].patchValue(resultado.data.pacientes[0]['personas']['localidades_id']);
-
-                        if(this.dato.controls.pacientes['controls'][0]){
-                            if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]){
+                        
+                        var cont = 0;
+                        this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes'] = this.fb.array([]);
+                        resultado.data.pacientes[0]['acompaniantes'].forEach(element => {
+                            if(!this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]){
+                                this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont] = this.fb.group({                                    
+                                    id:[''],
+                                    personas_id: [''],
+                                    parentescos_id: ['', [Validators.required]],
+                                    esResponsable: [1],
+                                    personas: this.fb.group({
+                                        id:[''],
+                                        nombre: ['', [Validators.required]],
+                                        paterno: ['', [Validators.required]],
+                                        materno: ['', [Validators.required]],
+                                        telefono: ['', [Validators.required]],
+                                        domicilio: ['', [Validators.required]],
+                                        fecha_nacimiento: [null],
+                                    }),
+                                });
+                            }
+                            
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas_id'].patchValue(element['personas_id']);
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['esResponsable'].patchValue(element['esResponsable']);
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['parentescos_id'].patchValue(element['parentescos_id']);
+                            
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas']['controls']['id'].patchValue(element['personas']['id']);
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas']['controls']['nombre'].patchValue(element['personas']['nombre']);
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas']['controls']['paterno'].patchValue(element['personas']['paterno']);
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas']['controls']['materno'].patchValue(element['personas']['materno']);
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas']['controls']['telefono'].patchValue(element['personas']['telefono']);
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas']['controls']['domicilio'].patchValue(element['personas']['domicilio']);
+                        
+                        cont++;
+                        });
+                        /*if(this.dato.controls.pacientes['controls'][0]){
+                            if(resultado.data.pacientes[0]['acompaniantes'][0]){
 
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['id']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas_id']);
@@ -305,7 +403,7 @@ export class FormularioComponent {
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['domicilio'].patchValue(resultado.data.pacientes[0]['acompaniantes'][0]['personas']['domicilio']);
                             }
                         
-                            if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]){
+                            if(resultado.data.pacientes[0]['acompaniantes'][1]){
 
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['id']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas_id'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas_id']);
@@ -319,7 +417,7 @@ export class FormularioComponent {
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['telefono'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['telefono']);
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['domicilio'].patchValue(resultado.data.pacientes[0]['acompaniantes'][1]['personas']['domicilio']);
                             }
-                        }
+                        }*/
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['id'].patchValue(resultado.data.movimientos_incidencias[0]['id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['subcategorias_cie10_id'].patchValue(resultado.data.movimientos_incidencias[0]['subcategorias_cie10_id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['ubicaciones_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[0]['ubicaciones_pacientes_id']);
@@ -377,6 +475,10 @@ export class FormularioComponent {
             const po0 = <FormGroup>pos.controls[0];
             po0.controls.esResponsable.patchValue(0);
 
+            console.log(po1);
+
+            console.log(pac);
+
         }
 
 
@@ -425,7 +527,7 @@ export class FormularioComponent {
     }
 
     select_datosPaciente_autocomplete(data: any) {
-
+    if(data){
         //Se asigna en variables el formulario formulario reactivo, respecto si es un FormArray o un FormGroup
         const pacientes = <FormArray>this.dato.controls.pacientes;
         const posicion = <FormGroup>pacientes.controls[0];
@@ -461,6 +563,7 @@ export class FormularioComponent {
 
         const municipios = <FormGroup>personas.controls.municipios_id;
         municipios.patchValue(data.municipios_id);
+    }
 
     }
 
@@ -488,6 +591,47 @@ export class FormularioComponent {
         let html = `${data.clues} - ${data.nombre}`;
         return html;
     }
+
+/////pestaña referencia//////
+
+        
+    valorFormato_origen(data: any)  {
+
+        let html = `(${data.clues}) - ${data.nombre}`;
+        return html;
+    }
+
+    valorFormato_destino(data: any)  {
+
+        let html = `(${data.clues}) - ${data.nombre}`;
+        return html;
+    }
+    
+    autocompleMedicos = (data: any) => {
+        
+              let html = `<span>${data.nombre}</span>`;
+              return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    valorFormato_medico(data: any)  {
+        
+            let html = `(${data.id}) - ${data.nombre}`;
+            return html;
+    }
+
+
+
+
+
+    cancelarModal(id) {
+        document.getElementById(id).classList.remove('is-active');
+    }
+      
+    abrirModal(id){
+        document.getElementById(id).classList.add('is-active');
+    }
+
+    
 
 
 

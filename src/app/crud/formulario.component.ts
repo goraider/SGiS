@@ -1000,8 +1000,10 @@ export class FormularioComponent implements OnInit {
     select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {        
         if (!esmodelo)
             modelo = datos[item];
-        else
-            modelo.patchValue(datos[item]);        
+        else{
+            if(datos)
+                modelo.patchValue(datos[item]);        
+        }
     }
 
     /**

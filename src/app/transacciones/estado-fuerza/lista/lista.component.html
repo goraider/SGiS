@@ -12,21 +12,21 @@
     </div>
     <div class="column" style="padding:1em;">
         <div style="background: #FFF; border-radius: 1em; ">
-            
+
             <!-- Opciones y busqueda -->
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
-                
+
             <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
-                    
+
                 <!--Tabla -->
                 <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
                     <thead>
                         <tr>
                             <th>Clues</th>
                             <th>Fecha de Registro</th>
-                            <th>Cartera de Servicios</th>
-                            <th>ítems</th>
                             <th>Turno</th>
+                            <th>Cartera de Servicios</th>
+                            <!-- <th>ítems</th> -->
                         </tr>
                     </thead>
 
@@ -34,9 +34,10 @@
                         <tr *ngFor="let item of ctrl.dato; let i=index">
                             <th style="vertical-align: middle;">{{ item.clues.nombre }}</th>
                             <td style="vertical-align: middle;">{{ item.created_at }}</td>
-                            <td style="vertical-align: middle;">{{ item.cartera_servicios.nombre }}</td>
-                            <th style="vertical-align: middle;">{{ item.items.nombre }}</th>
                             <th style="vertical-align: middle;">{{ item.turnos.nombre }}</th>
+                            <td style="vertical-align: middle;">{{ item.id }}</td>
+                            <!-- <th style="vertical-align: middle;">{{ item }}</th> -->
+
                             <td style="vertical-align: middle;" class="has-text-centered">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
@@ -64,9 +65,9 @@
                                     <p>
                                         <strong class="tag is-medium"> Unidad Medica (Clue): {{item.clues.nombre}} Turno: {{item.turnos.nombre}} Fecha de Registro: {{ item.created_at }} </strong>
                                         <br>
-                                        <strong class="tag" > Servicio: {{ item.item.cartera_servicios.nombre }}</strong>
+                                        <!-- <strong class="tag" > Servicio: {{ item.item.cartera_servicios.nombre }}</strong>
                                         <br>
-                                        <strong class="tag"> Ítems: {{item.items.nombre}}</strong>
+                                        <strong class="tag"> Ítems: {{item.items.nombre}}</strong> -->
 
                                     </p>
                                 </div>

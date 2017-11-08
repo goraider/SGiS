@@ -46,6 +46,8 @@ export class FormularioComponent {
     tiempo: any = '';
     observaciones: any = '';
 
+    private usuario_clue;
+
     private cargando: boolean = false;
 
     private municipios_id: number = null;
@@ -82,6 +84,7 @@ export class FormularioComponent {
     ngOnInit() {
 
         this.iniciarFormulario();
+
 
         var url = location.href.split("/");
         this.carpeta = url[3];
@@ -165,6 +168,7 @@ export class FormularioComponent {
                 this.cargarDatos();
             }
         });
+
         
     }
 
@@ -179,6 +183,7 @@ export class FormularioComponent {
                         impresion_diagnostica: ['', [Validators.required]],
                         clues: ['', [Validators.required]],
                         estados_incidencias_id: [1],
+                        tieneReferencia:[''],
             
                         pacientes: this.fb.array([
                             this.fb.group({
@@ -228,7 +233,7 @@ export class FormularioComponent {
                                 id:[''],
                                 turnos_id: ['', [Validators.required]],
                                 ubicaciones_pacientes_id: ['', [Validators.required]],
-                                estados_pacientes_id: [1],
+                                estados_pacientes_id: ['',Validators.required],
                                 triage_colores_id: ['', [Validators.required]],
                                 subcategorias_cie10_id: [''],
                                 medico_reporta_id: [null],
@@ -279,24 +284,25 @@ export class FormularioComponent {
 
     //this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].value);
     asignar_curp(){
-
+        //asigna curp al id que tiene referenciado de la curp del acompañante/paciente.
         if(this.dato.controls.pacientes['controls'][0]){
             this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['personas_id'].value);
             
-            console.log("paciente[0]", this.dato.controls.pacientes['controls'][0].value);
                         
             if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]){
                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas']['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].value);
-                console.log("acompaniante[0]", this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0].value);
             
             }
             if(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]){
                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas_id'].value);
-                console.log("acompaniante[1]", this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1].value);
 
             }
         }
     
+    }
+
+    asignar_referencia(){
+        this.dato.controls.tieneReferencia.setValue(1);
     }
 
     reset_form() {
@@ -421,9 +427,18 @@ export class FormularioComponent {
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['id'].patchValue(resultado.data.movimientos_incidencias[0]['id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['subcategorias_cie10_id'].patchValue(resultado.data.movimientos_incidencias[0]['subcategorias_cie10_id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['ubicaciones_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[0]['ubicaciones_pacientes_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['estados_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[0]['estados_pacientes_id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['triage_colores_id'].patchValue(resultado.data.movimientos_incidencias[0]['triage_colores_id']);
                         this.dato.controls.movimientos_incidencias['controls'][0]['controls']['turnos_id'].patchValue(resultado.data.movimientos_incidencias[0]['turnos_id']);
-                        
+
+
+                        this.dato.controls.referencias['controls'][0]['controls']['medico_refiere_id'].patchValue(resultado.data.referencias[0]['medico_refiere_id']);
+                        this.dato.controls.referencias['controls'][0]['controls']['diagnostico'].patchValue(resultado.data.referencias[0]['diagnostico']);
+                        this.dato.controls.referencias['controls'][0]['controls']['resumen_clinico'].patchValue(resultado.data.referencias[0]['resumen_clinico']);
+                        this.dato.controls.referencias['controls'][0]['controls']['clues_origen'].patchValue(resultado.data.referencias[0]['clues_origen']);
+                        this.dato.controls.referencias['controls'][0]['controls']['clues_destino'].patchValue(resultado.data.referencias[0]['clues_destino']);
+                        this.dato.controls.referencias['controls'][0]['controls']['img'].patchValue(resultado.data.referencias[0]['img']);
+                        this.dato.controls.referencias['controls'][0]['controls']['esContrareferencia'].patchValue(resultado.data.referencias[0]['esContrareferencia']);                        
                         
                 
                     },
@@ -475,9 +490,6 @@ export class FormularioComponent {
             const po0 = <FormGroup>pos.controls[0];
             po0.controls.esResponsable.patchValue(0);
 
-            console.log(po1);
-
-            console.log(pac);
 
         }
 
@@ -586,10 +598,11 @@ export class FormularioComponent {
         return this._sanitizer.bypassSecurityTrustHtml(html);
     }
 
-    valorFormato_clue(data: any) {
+    valorFormato_clue(data: any,) {
 
-        let html = `${data.clues} - ${data.nombre}`;
+        let html = `${data.nombre}`;
         return html;
+
     }
 
 /////pestaña referencia//////

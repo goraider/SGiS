@@ -16,14 +16,18 @@ import { CrudService } from '../../../crud/crud.service';
 export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
+
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
-  usuario = JSON.parse(localStorage.getItem("usuario"));
+
+  private usuario = JSON.parse(localStorage.getItem("usuario"));
+
   constructor(private crudService: CrudService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
   fecha = new Date();
+
   ngOnInit() {
     this.dato = this.fb.group({
       clues: ['', [Validators.required]],
-      usuarios_id: [this.usuario.id, [Validators.required]],
+      sis_usuarios_id: [this.usuario.id, [Validators.required]],
       usuario: [this.usuario.nombre],
       turnos_id: ['', [Validators.required]],
       created_at: [this.fecha.getFullYear() + '-' + (this.fecha.getMonth() + 1) + '-' + this.fecha.getDate(), [Validators.required]],
@@ -47,11 +51,13 @@ export class FormularioComponent {
     document.getElementById("catalogos").click();
 
     setTimeout(()=> {
-      if(this.dato.get("usuarios_id").value == ""){
-        this.dato.controls.usuarios_id.patchValue(this.usuario.id);
+      if(this.dato.get("sis_usuarios_id").value == ""){
+        this.dato.controls.sis_usuarios_id.patchValue(this.usuario.id);
         this.dato.controls.usuario.patchValue(this.usuario.nombre);
+        this.dato.controls.created_at.patchValue(this.fecha);
       }
     }, 3000);
+
   }
 
   autocompleListFormatter = (data: any) => {
@@ -67,6 +73,17 @@ export class FormularioComponent {
     const um = <FormArray>this.dato.controls.clues;
     um.push(this.fb.group(data));
     (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
+
+    
+      if(this.dato.get("sis_usuarios_id").value == ""){
+        this.dato.controls.sis_usuarios_id.patchValue(this.usuario.id);
+        this.dato.controls.usuario.patchValue(this.usuario.nombre);
+        this.dato.controls.created_at.patchValue(this.fecha);
+      }
+
   }
+
+
+
  
 }

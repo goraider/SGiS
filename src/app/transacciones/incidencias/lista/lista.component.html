@@ -17,13 +17,13 @@
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
 
             <div class="field is-grouped">
-                    <div class="control is-expanded" *ngIf="!ctrl.cargando && ctrl.dato">
+                    <div class="control is-expanded" *ngIf="!ctrl.cargando && ctrl.dato && !ctrl.busquedaActivada">
                         <div class="field">
                             <label class="title is-small">Estados de Incidencia:</label>
                             <div class="select is-medium ">
-                                <select class="select is-medium" [(ngModel)]="edo_incidencia">
+                                <select class="select is-medium" [(ngModel)]="edo_incidencia" #searchBox id="search-box" (change)="ctrl.mostrarLista(2)">
                                     <option value="">Todos</option>
-                                    <option *ngFor="let val of ctrl.dato[ctrl.dato.length-1].estados_incidencias" value="{{val.id}}">{{ val.nombre }}</option>
+                                    <option *ngFor="let val of ctrl.dato[ctrl.dato.length-1].estados_incidencias" value="{{val.id}}"  >{{ val.nombre }}</option>
                                 </select>
                             </div>
                         </div>

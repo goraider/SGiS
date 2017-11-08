@@ -38,7 +38,7 @@
                                 <div class="content">
                                     <div class="field is-grouped">
                                         <p class="control is-expanded  has-icon has-icon-right">
-                                            <label class="label">Unidad medica</label>
+                                            <label class="label">Unidad medica: </label>
                                             <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue"
                                                 id="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                                                 (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
@@ -50,31 +50,40 @@
                                         </p>
 
                                         <p class="control is-one-quarter has-icon has-icon-right">
-                                            <label class="label">Clues</label>
+                                            <label class="label">Unidad Medica: </label>
                                             <input type="text" class="input" readonly formControlName="clues">
                                         </p>
                                     </div>
                                 
                                     <div class="field is-grouped">
                                         <p class="control is-expanded  has-icon has-icon-right">
-                                            <label class="label">Trabajador Social</label>
+                                            <label class="label">Usuario: </label>
                                             <input class="input" autofocus type="text" placeholder="Nombre" formControlName="usuario" readonly>                                        
                                         </p>
                                     </div>
-                                    <div class="field is-grouped">
-                                        <p class="control is-expanded  has-icon has-icon-right">
-                                            <label class="label">Fecha</label>
-                                            <input class="input" type="text" placeholder="fecha" formControlName="created_at" readonly>
-                                        </p>
-                                        <p class="control is-expanded has-icon has-icon-right">
+
+                                    <div class="columns">
+                                        <div class="column is-6">
+                                            <label class="label">Fecha: </label>
+                                            <p class="control is-expanded  has-icon has-icon-right">
+                                                <input class="input" type="text" placeholder="fecha" formControlName="created_at" readonly>
+                                            </p>
+                                        </div>
+                                        
+                                        <div class="column is-6">
                                             <label class="label">Turno: </label>
-                                            <span class="select">
+                                            <p class="control has-icons-left">
+                                                <span class="select">
                                                     <select class="select" name="turnos_id" formControlName="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
                                                         <option *ngFor="let val of ctrl.turnos_varios" value="{{val.id}}">{{ val.nombre }}</option>
                                                     </select>
                                                 </span>
-                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.turnos_id.valid && ctrl.dato.controls.turnos_id.touched">Este campo es requerido.</span>
-                                        </p>
+                                                <span class="icon is-small is-left">
+                                                    <i class="fa fa-clock-o"></i>
+                                                </span>
+                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.turnos_id.valid">Este campo es requerido.</span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

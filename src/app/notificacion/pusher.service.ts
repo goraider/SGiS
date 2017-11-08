@@ -8,6 +8,8 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class PusherService {
+
+    public usuario = JSON.parse(localStorage.getItem("usuario"));
     private pusher: any;
     private channels: any[];
 
@@ -22,8 +24,8 @@ export class PusherService {
         this.pusher.logToConsole = true;
         this.channels = [];
 
-        var channel = this.pusher.subscribe(`${environment.pusher_channel}`);
-        //${id}
+        var channel = this.pusher.subscribe(`${environment.pusher_channel}${this.usuario.id}`);
+
         channel.bind(`${environment.pusher_event}`,  (data) => {
             this._messages.next(data);
 

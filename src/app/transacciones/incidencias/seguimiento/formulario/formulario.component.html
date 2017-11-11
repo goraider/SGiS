@@ -279,7 +279,7 @@
                     <a>{{ item.value.turnos.nombre }}</a>
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.estados_pacientes.nombre }}</a>
+                    <a>{{ item.value.ubicaciones_pacientes_id.nombre }}</a>
                   </td>
                   <td style="vertical-align: middle;">
                     <a>{{ item.value.medico_reporta_id }}</a>
@@ -517,11 +517,12 @@
       <button class="delete" (click)="cerrarModalReferencia()"></button>
     </header>
     <section class="modal-card-body">
-      <div class="columns">
+
+       <div class="columns" >
         <div class="column is-16">
-          <div class="file">
+          <div class="file" >
             <label class="file-label">
-              <input class="file-input" name="img" (change)="seleccionarImagenBase64($event)" autofocus type="file" accept="image/*">
+              <input class="file-input" multiple="multiple" name="img" (change)="seleccionarImagenBase64($event, img, true)" [(ngModel)]="img" autofocus type="file" accept="image/*">
 
               <span class="file-cta">
                 <span class="file-icon">
@@ -535,8 +536,9 @@
           </div>
         </div>
 
+
         <div class="column is-16">
-          <div class="block" *ngIf="img != ''">
+          <div class="block" *ngIf="img.length > 0">
             <a class="button is-primary is-outlined" (click)="abrirModal('verFoto')">
               <span class="icon">
                 <i class="fa fa-eye"> </i>
@@ -546,15 +548,79 @@
           <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
             <div class="modal-background"></div>
             <div class="modal-content">
-              <p class="image is-4by3">
-                <img [src]="'data:image/jpg;base64,'+img" alt="" />
+              <p class="image is-4by3" *ngFor="let im of img; let ix = index;">
+                <img [src]="'data:image/jpg;base64,'+im" alt="" />
               </p>
             </div>
             <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
           </div>
 
         </div>
-      </div>
+      </div> 
+
+      <!--<table class="table is-bordered is-striped is-narrow is-fullwidth">
+          <thead>
+              <tr>
+                  <th hide-sm>ID</th>
+                  <th>Seleccionar</th>
+                  <th>ver</th>
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let img of multimedias; let in=index">
+
+                  <td>{{ in + 1 }}</td>
+
+                  <td>
+                      <div class="control has-icon" >
+                          <div class="file">
+                              <label class="file-label" >
+                                <input class="file-input" name="img" (change)="seleccionarImagenBase64($event)" [(ngModel)]="img[in]" autofocus type="file" accept="image/*">
+                  
+                                <span class="file-cta">
+                                  <span class="file-icon">
+                                    <i class="fa fa-upload"></i>
+                                  </span>
+                                  <span class="file-label">
+                                    Subir Imagen
+                                  </span>
+                                </span>
+                              </label>
+                            </div>
+                        </div>
+
+                  </td>
+
+                  <td>
+                      <div class="column is-16">
+                          <div class="block" *ngIf="img != ''">
+                            <a class="button is-primary is-outlined" (click)="abrirModal('verFoto')">
+                              <span class="icon">
+                                <i class="fa fa-eye"> </i>
+                              </span> &nbsp; Ver referencia
+                            </a>
+                          </div>
+                          <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
+                            <div class="modal-background"></div>
+                            <div class="modal-content">
+                              <p class="image is-4by3">
+                                <img [src]="'data:image/jpg;base64,'+img[in]" alt="" />
+                              </p>
+                            </div>
+                            <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
+                          </div>
+                
+                        </div>
+                  </td>
+
+                  <td align="right"><button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(multimedias, in)"><i class="fa fa-trash-o"></i></button></td>
+              </tr>
+          </tbody>
+      </table>-->
+
+
+      
 
       <div class="columns">
         <div class="column is-12">
@@ -751,7 +817,7 @@
           <label class="label">Tipo de Alta:</label>
           <p class="control has-icons-left">
             <span class="select">
-              <select class="select" [(ngModel)]="e_pacientes_id" name="e_pacientes_id" [ngClass]="{'is-danger': e_pacientes_id?.length == 0 }">
+              <select class="select" [(ngModel)]="u_pacientes_id" name="u_pacientes_id" [ngClass]="{'is-danger': u_pacientes_id?.length == 0 }">
                   <option>Elija el Tipo de Alta</option>
                 <option *ngFor="let val of ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
@@ -807,6 +873,10 @@
           </p>
         </div>
       </div>
+
+      <br>
+
+
 
     </section>
     <footer class="modal-card-foot">

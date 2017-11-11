@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Title }     from '@angular/platform-browser';
 
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html'
@@ -13,6 +14,7 @@ export class DashboardComponent implements OnInit {
   constructor(private title: Title) { }
 
   ngOnInit() {
+
     this.title.setTitle("Dashboard");
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
 
@@ -24,6 +26,8 @@ export class DashboardComponent implements OnInit {
 
     if(abrir)
       document.getElementById("cambiar_clues").click();
+
+    
   }
 
 }

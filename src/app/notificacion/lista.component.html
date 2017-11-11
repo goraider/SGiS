@@ -75,7 +75,7 @@
                         <article class="media">
                             <div class="media-left">
                                 <figure class="image is-64x64">
-                                    <img [src]="item.user.foto ? ctrl.API_PATH+'/adjunto/usuario/' + item.user.foto : item.user.avatar">
+                                    <img [src]="item.mensaje.usuario.foto ? ctrl.API_PATH+'/adjunto/usuario/' + item.mensaje.usuario.foto : item.mensaje.usuario.avatar">
                                 </figure>
                             </div>
                             <div class="media-content">

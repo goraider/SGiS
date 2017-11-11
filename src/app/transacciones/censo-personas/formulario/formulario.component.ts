@@ -56,22 +56,25 @@ export class FormularioComponent {
         if (val && il == 0) {
           il++;
           this.temp_localidades_id = val;
+          console.log(this.temp_localidades_id);
         }
       });
+
   }
 
 
   
-  autovalor_municipio() {
-    setTimeout(() => {
-      this.municipios_id = this.temp_municipios_id;
-    }, 3000);
-  }
-
-  autovalor_localidad() {
-    setTimeout(() => {
-      this.localidades_id = this.temp_localidades_id;
-    }, 3000);
-  }
-
+    autovalor_municipio() {
+      setTimeout(() => {
+        this.municipios_id = this.temp_municipios_id;
+      }, 3000);
+    }
+  
+    autovalor_localidad() {
+      setTimeout(() => {
+        this.localidades_id = this.temp_localidades_id;
+        console.log(this.dato.controls.localidades_id.value);
+      }, 3000);
+    }
+  
 }

@@ -97,6 +97,8 @@ import { ArticuloModule } from './invetario/articulo/articulo.module';
 import { ReporteVentaModule } from './reporte/resumen/reporte-venta.module';
 import { ReporteArticuloModule } from './reporte/inventario/reporte-articulo.module';
 
+import { ReporteIncidenciaModule } from './reporte/incidencias/reporte-incidencia.module';
+
 //Notificacion Pusher
 import { NotificacionPusherModule } from './notificacion/notificacion-pusher.module';
 
@@ -173,6 +175,8 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     ReporteVentaModule,
     ReporteArticuloModule,
 
+    ReporteIncidenciaModule,
+
     NotificacionPusherModule,
     
     TiposNotificacionesModule,
@@ -180,7 +184,12 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     
     WildcardRoutingModule, // Este siempre debe ir al final para que no haga conflicto con otras rutas    
   ],
-  providers: [ Title, AuthGuard, AuthService,JwtHelper, JwtRequestService],
+  providers: [ Title,
+               AuthGuard,
+               AuthService,
+               JwtHelper,
+               JwtRequestService,
+              ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

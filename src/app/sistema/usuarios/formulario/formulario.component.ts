@@ -20,13 +20,13 @@ export class FormularioComponent {
   private tab: number = 1;
   private tieneid: boolean = false;
 
-  private paises_id: number = null;
   private estados_id: number = null;
   private municipios_id: number = null;
+  private localidades_id: number = null;
 
-  private temp_paises_id: number = null;
   private temp_estados_id: number = null;
   private temp_municipios_id: number = null;
+  private temp_localidades_id: number = null;
 
   private form_sis_usuarios_contactos;
   private form_sis_usuarios_rfcs;
@@ -63,9 +63,8 @@ export class FormularioComponent {
       codigo_postal: [''],
       last_login: [''],
       activo: [''],
-      paises_id: [''],
-      estados_id: [''],
       municipios_id: [''],
+      localidades_id: [''],
       sis_usuarios_contactos: this.fb.array([]),
       sis_usuarios_rfcs: this.fb.array([]),
       sis_usuarios_clues: this.fb.array([]),
@@ -113,7 +112,8 @@ export class FormularioComponent {
         this.toggleCambiarPassword();
     });
 
-    var ip = 0, ie = 0, im = 0, sue = 0;
+    var il = 0, ie = 0, im = 0, sue = 0;
+
     this.dato.controls.sis_usuarios_clues.valueChanges.
       subscribe(val => {
         if (val.length > 0 && sue == 0) {
@@ -124,21 +124,6 @@ export class FormularioComponent {
 
         }
       });
-    this.dato.controls.paises_id.valueChanges.
-      subscribe(val => {
-        if (val && ip == 0) {
-          ip++;
-          this.temp_paises_id = val;
-        }
-      });
-
-    this.dato.controls.estados_id.valueChanges.
-      subscribe(val => {
-        if (val && ie == 0) {
-          ie++;
-          this.temp_estados_id = val;
-        }
-      });
 
     this.dato.controls.municipios_id.valueChanges.
       subscribe(val => {
@@ -147,24 +132,26 @@ export class FormularioComponent {
           this.temp_municipios_id = val;
         }
       });
+    this.dato.controls.localidades_id.valueChanges.
+      subscribe(val => {
+        if (val && il == 0) {
+          il++;
+          this.temp_localidades_id = val;
+        }
+      });
 
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     document.getElementById("catalogos").click();
-  }
-  autovalor_pais() {
-    setTimeout(() => {
-      this.paises_id = this.temp_paises_id;
-    }, 2000);
-  }
-  autovalor_estado() {
-    setTimeout(() => {
-      this.estados_id = this.temp_estados_id;
-    }, 3000);
   }
   autovalor_municipio() {
     setTimeout(() => {
       this.municipios_id = this.temp_municipios_id;
     }, 3000);
+  }
+  autovalor_localidad() {
+    setTimeout(() => {
+      this.localidades_id = this.temp_localidades_id;
+    }, 2000);
   }
 
   toggleCambiarPassword() {

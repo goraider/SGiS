@@ -86,16 +86,16 @@
 
                                 </p>
                             </div>
-                                <div class="column is-6">
-                                    <p class="control is-expanded has-icon has-icon-right">
-                                        <label class="label">Número de Celular</label>
-                                        <input class="input" type="text" placeholder="Número de Celular" [ngClass]="{'is-danger': ctrl.dato.get('celular').hasError('required')}"
-                                            formControlName="celular">
-                                        <span class="icon is-small" *ngIf="ctrl.dato.get('celular').hasError('required') && ctrl.dato.get('celular').pattern"><i class="fa fa-warning"></i></span>
-                                        <span class="help is-danger" *ngIf="ctrl.dato.get('celular').hasError('required')">Este campo es requerido.</span>
-                                        <span class="help is-danger" *ngIf="ctrl.dato.get('celular').hasError('pattern')">Este campo debe contener un número celular, Ejemplo: <b>9671012030</b></span>
-                                    </p>
-                                </div>
+                            <div class="column is-6">
+                                <p class="control is-expanded has-icon has-icon-right">
+                                    <label class="label">Número de Celular</label>
+                                    <input class="input" type="text" placeholder="Número de Celular" [ngClass]="{'is-danger': ctrl.dato.get('celular').hasError('required')}"
+                                        formControlName="celular">
+                                    <span class="icon is-small" *ngIf="ctrl.dato.get('celular').hasError('required') && ctrl.dato.get('celular').pattern"><i class="fa fa-warning"></i></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('celular').hasError('required')">Este campo es requerido.</span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('celular').hasError('pattern')">Este campo debe contener un número celular, Ejemplo: <b>9671012030</b></span>
+                                </p>
+                            </div>
 
                         </div>
                     

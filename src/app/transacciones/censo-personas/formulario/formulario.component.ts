@@ -29,7 +29,7 @@ export class FormularioComponent {
       domicilio: ['', [Validators.required]],
       municipios_id: ['', [Validators.required]],
       localidades_id: ['', [Validators.required]],
-      telefono: ['', [Validators.required, Validators.pattern("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$")]],
+      telefono: ['',  [Validators.required, Validators.pattern("[0-9]*")]],
       fecha_nacimiento: ['', [Validators.required]],
       estados_embarazos_id: ['', [Validators.required]],
       derechohabientes_id: ['', [Validators.required]]
@@ -56,9 +56,9 @@ export class FormularioComponent {
         if (val && il == 0) {
           il++;
           this.temp_localidades_id = val;
-          console.log(this.temp_localidades_id);
         }
       });
+
 
   }
 
@@ -73,7 +73,6 @@ export class FormularioComponent {
     autovalor_localidad() {
       setTimeout(() => {
         this.localidades_id = this.temp_localidades_id;
-        console.log(this.dato.controls.localidades_id.value);
       }, 3000);
     }
   

@@ -203,12 +203,13 @@ export class ListaComponent {
              pdf.setFontType('normal')
              pdf.text(40, 120, element.acompaniantes[0].personas.domicilio);
 
-             pdf.setFontSize(15)
-             pdf.setFont('times')
-             pdf.setFontType('bold')
-             pdf.text(20, 135, 'Datos del Responsable:');
 
              if(element.acompaniantes[1]){
+
+                  pdf.setFontSize(15)
+                  pdf.setFont('times')
+                  pdf.setFontType('bold')
+                  pdf.text(20, 135, 'Datos del Responsable:');
 
                   pdf.setFontSize(12)
                   pdf.setFont('times')

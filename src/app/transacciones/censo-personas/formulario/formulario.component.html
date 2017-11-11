@@ -74,7 +74,6 @@
                                 <p class="control is-expanded has-icon has-icon-right">
                                     <label class="label">Municipio: </label>
                                     <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id, 'localidades', 'localidades'); autovalor_municipio();" [data]="ctrl.municipios"></select2>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('municipios_id').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
         
@@ -82,7 +81,6 @@
                                 <p class="control is-expanded has-icon has-icon-right">
                                     <label class="label">Localidad: </label>
                                     <select2 name="localidades_id" [options]="ctrl.optionSelect" [value]="localidades_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.localidades_id); autovalor_localidad();" [data]="ctrl.localidades"></select2>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('localidades_id').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                         </div>
@@ -103,12 +101,14 @@
                             <div class="column is-6">
                                 <p class="control is-expanded has-icon has-icon-right">
                                     <label class="label">Teléfono Fijo ó Celular</label>
-                                    <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': ctrl.dato.get('telefono').hasError('required')}"
+                                    <input class="input" type="text" placeholder="Teléfono Fijo ó Celular" [ngClass]="{'is-danger': ctrl.dato.get('telefono').hasError('required')}"
                                         formControlName="telefono">
                                     <span class="icon is-small" *ngIf="ctrl.dato.get('telefono').hasError('required') && ctrl.dato.get('telefono').pattern"><i class="fa fa-warning"></i></span>
-                                    <span class="help is-danger" *ngIf="ctrl.dato.get('telefono').hasError('required')">Este campo debe contener un <b>Número Celular ó Telénofo Fijo</b></span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('telefono').hasError('required')">Este campo es requerido.</span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('telefono').hasError('pattern')">Este campo debe contener un <b>Número Celular ó Telénofo Fijo</b></span>
                                 </p>
                             </div>
+
 
                             <div class="column is-6">
                                 <p class="control is-expanded has-icon has-icon-right">

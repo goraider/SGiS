@@ -538,7 +538,7 @@ export class FormularioComponent {
     // for(let item of this.subcategorias_cie10){
     //   if(this.subcategorias_cie10_id == item.id)
     //     break;
-    //   cOrigen++;   multimedias:this.fb.array([ this.fb.group({ img:[''] })]),
+    //   cOrigen++;
     // };
 
 
@@ -748,6 +748,8 @@ export class FormularioComponent {
     document.getElementById(id).classList.add('is-active');
   }
 
+
+
   agregarAlta() {
 
     var up = 0;
@@ -797,6 +799,19 @@ export class FormularioComponent {
 
     const mv: FormArray = <FormArray>this.dato.controls.altas_incidencias;
     mv.push(this.fb.group(datoAlta));
+    
+    const ref: FormArray = <FormArray>this.dato.controls.referencias;
+
+    if(ref.length > -1){
+
+      this.dato.controls['tieneReferencia'].setValue(1);
+
+    }else{
+      this.dato.controls['tieneReferencia'].setValue(0);
+    }
+
+    
+
 
 
     //asigna el estado de incidencia en finalizado con numero 3

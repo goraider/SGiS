@@ -10,12 +10,39 @@ import { TablaAccionesComponent } from './tabla-acciones/acciones.component';
 import { SimpleOpcionesComponent } from './simple-opciones/simple-opciones.component';
 import { FiltrosReportesComponent } from './filtros-reportes/filtros-reportes.component';
 
+import { FiltrosReporteIncidenciaComponent } from './filtros-reporte-incidencia/filtros-reporte-incidencia.component';
+
+
+//crud
+import { CrudService } from '../crud/crud.service';
+import { CrudModule }  from '../crud/crud.module';
+
+
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    CrudModule
   ],
-  declarations: [FormularioOpcionesComponent, TablaOpcionesComponent, TablaAccionesComponent, SimpleOpcionesComponent, FiltrosReportesComponent],
-  exports: [FormularioOpcionesComponent, TablaOpcionesComponent, TablaAccionesComponent, SimpleOpcionesComponent, FiltrosReportesComponent]
+  
+  declarations: [
+                  FormularioOpcionesComponent,
+                  TablaOpcionesComponent,
+                  TablaAccionesComponent,
+                  SimpleOpcionesComponent,
+                  FiltrosReportesComponent,
+                  FiltrosReporteIncidenciaComponent
+                ],
+  exports:      [
+                  FormularioOpcionesComponent,
+                  TablaOpcionesComponent,
+                  TablaAccionesComponent,
+                  SimpleOpcionesComponent,
+                  FiltrosReportesComponent,
+                  FiltrosReporteIncidenciaComponent
+                ],
+  providers:    [
+                  CrudService
+                ],
 })
 export class ParcialModule { }

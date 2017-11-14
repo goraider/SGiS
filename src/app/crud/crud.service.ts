@@ -58,6 +58,16 @@ export class CrudService {
       return this.jwtRequest.get(URL, null).map((response: Response) => response.json());
   }
 
+    /**
+   * Este método obtiene una lista de elementos de la
+   * api con los parametros que se especifiquen en la vista
+   * @param URL  ruta de la api donde se obtiene los valores
+   * @return Respuesta tipo object que obtiene de la api
+   */
+  lista_general(URL: string): Observable<any> {
+    return this.jwtRequest.get(URL, null).map((response: Response) => response.json().data);
+  }
+
 
   /**
    * Este método obtiene el valor de un elementos de la

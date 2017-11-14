@@ -1,0 +1,38 @@
+<section class="hero" [ngClass]=" {'is-dark': busquedaActivada, 'is-primary': !busquedaActivada } ">
+    
+    <div class="hero-body" style="position:relative;">
+
+        <div class="control is-grouped" style="position:absolute; top:0.5em; right:0em;">
+
+            <p class="control">
+                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"  (click)="imprimir()">
+                    <span class="icon ">
+                        <i class="fa fa-print"></i>
+                    </span>
+                    <span class="tooltiptext">Imprimir</span>
+                </a>
+            </p>
+
+        </div>
+
+        <div class="container is-fluid">
+
+            <div class="control">
+
+
+
+
+
+                
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<div class="is-fullwidth has-text-centered" *ngIf="cargando">
+    <br>
+    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+    <br>
+    <br>
+</div>

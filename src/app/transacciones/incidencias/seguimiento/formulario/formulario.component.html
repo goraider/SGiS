@@ -97,10 +97,10 @@
             <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
           </div>
         </section>
-<!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
+        <!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
         <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
           
-          <a id="catalogos" (click)="cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('metodos_planificacion','metodos-planificacion'); cargarCatalogo('subcategorias_cie10','grupos-cie10'); cargarCatalogo('turnos','turnos'); cargarCatalogo('estados_incidencias', 'estados-incidencias'); cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); cargarCatalogo('estados_pacientes', 'estados-pacientes'); cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('grupos_cie10', 'grupos-cie10');"></a>
+          <a id="catalogos" (click)="cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('metodos_planificacion','metodos-planificacion'); cargarCatalogo('subcategorias_cie10','grupos-cie10'); cargarCatalogo('turnos','turnos'); cargarCatalogo('estados_incidencias', 'estados-incidencias'); cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); cargarCatalogo('tipos_altas', 'tipos-altas'); cargarCatalogo('estados_pacientes', 'estados-pacientes'); cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('grupos_cie10', 'grupos-cie10');"></a>
 
           <div class="tabs is-toggle is-fullwidth">
             <ul>
@@ -279,7 +279,7 @@
                     <a>{{ item.value.turnos.nombre }}</a>
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.ubicaciones_pacientes_id.nombre }}</a>
+                    <a>{{ item.value.tipos_altas.nombre }}</a>
                   </td>
                   <td style="vertical-align: middle;">
                     <a>{{ item.value.medico_reporta_id }}</a>
@@ -797,8 +797,71 @@
     </header>
     <section class="modal-card-body">
 
+        <div class="columns" >
+            <div class="column is-16">
+              <div class="file" >
+                <label class="file-label">
+                  <input class="file-input" multiple="multiple" name="imgalta" (change)="seleccionarImagenBase64($event, imgalta, true)" [(ngModel)]="imgalta" autofocus type="file" accept="image/*">
+    
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fa fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                      Subir Imagen del alta
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+    
+    
+            <div class="column is-16">
+              <div class="block" *ngIf="imgalta.length > 0">
+                <a class="button is-primary is-outlined" (click)="abrirModal('verFotosAlta')">
+                  <span class="icon">
+                    <i class="fa fa-eye"> </i>
+                  </span> &nbsp; Ver imagenes del alta
+                </a>
+              </div>
+              <div class="modal" id="verFotosAlta" (click)="cancelarModal('verFotosAlta')">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                  <p class="image is-4by3" *ngFor="let im of imgalta; let ix = index;">
+                    <img [src]="'data:image/jpg;base64,'+im" alt="" />
+                  </p>
+                </div>
+                <button type="button" class="modal-close" (click)="cancelarModal('verFotosAlta')"></button>
+              </div>
+    
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+                <p class="control is-expanded  has-icon has-icon-right">
+                  <label class="label">Institución que recibió (Unidad Medica que contrarefiere):</label>
+                  <input type="text" class="input" id="contrareferencia" name="clues_contrareferencia" [(ngModel)]="clues_contrareferencia" readonly>
+                </p>
+              </div>
+
+              <div class="column is-6">
+                <p class="control is-expanded  has-icon has-icon-right">
+                  <label class="label">Unidad Médica que solicitó (Unidad Médica a donde regresa):</label>
+                  <input ngui-auto-complete [source]="clues_term"
+                    [list-formatter]="autocompleListFormatterRegresa"
+                    [value-formatter]="valorFormato_regresa"
+                    id="clues_regresa" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                    (valueChanged)="ctrl.select_item_autocomplete(clues_regresa, 'clues', $event, false);"
+                    min-chars="1" class="input" type="text" placeholder="Unidad Médica a donde regresa:" [(ngModel)]="clues_regresa">
+                </p>
+              </div>
+
+          </div>
+
 
       <div class="columns">
+
         <div class="field column is-6">
           <label class="label">Turno en el que se realiza el alta:</label>
           <p class="control has-icons-left">
@@ -813,13 +876,15 @@
             </span>
           </p>
         </div>
+
+
         <div class="field column is-6">
           <label class="label">Tipo de Alta:</label>
           <p class="control has-icons-left">
             <span class="select">
-              <select class="select" [(ngModel)]="u_pacientes_id" name="u_pacientes_id" [ngClass]="{'is-danger': u_pacientes_id?.length == 0 }">
+              <select class="select" [(ngModel)]="t_altas_id" name="t_altas_id" [ngClass]="{'is-danger': t_altas_id?.length == 0 }">
                   <option>Elija el Tipo de Alta</option>
-                <option *ngFor="let val of ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
+                <option *ngFor="let val of tipos_altas" value="{{val.id}}">{{ val.nombre }}</option>tipos_altas
               </select>
             </span>
             <span class="icon is-small is-left">
@@ -827,7 +892,10 @@
             </span>
           </p>
         </div>
+
       </div>
+
+
       <div class="columns">
         <div class="column is-12">
           <p class="control is-expanded  has-icon has-icon-right">
@@ -839,26 +907,32 @@
         </div>
       </div>
 
-      <div class="columns">
-        <div class="control is-grouped column is-6">
-          <p class="control is-expanded  has-icon has-icon-right">
-            <label class="label">Diagnóstico de Egreso: </label>
-            <textarea class="textarea" [(ngModel)]="diagnostico_egreso" name="diagnostico_egreso" autofocus type="text"
-              placeholder="Diagnóstico de Egreso"></textarea>
-          </p>
-        </div>
+      <label class="label" style="text-align: center;">MANEJO DEL PACIENTE:</label>
 
-        <div class="control is-grouped column is-6">
-          <p class="control is-expanded  has-icon has-icon-right">
-            <label class="label">Observación de Trabajo Social: </label>
-            <textarea class="textarea" [(ngModel)]="observacion_trabajo_social" name="observacion_trabajo_social"
-              autofocus type="text" placeholder="Observación de Trabajo Social"></textarea>
-          </p>
-        </div>
+
+      <div class="columns">
+
+          <div class="control is-grouped column is-6">
+              <p class="control is-expanded  has-icon has-icon-right">
+                <label class="label">Resumen Clinico: </label>
+                <textarea class="textarea" [(ngModel)]="r_clinico" name="r_clinico" autofocus type="text"
+                  placeholder="Resumen Clinico"></textarea>
+              </p>
+          </div>
+
+          <div class="control is-grouped column is-6">
+            <p class="control is-expanded  has-icon has-icon-right">
+              <label class="label">Diagnóstico de Egreso: </label>
+              <textarea class="textarea" [(ngModel)]="diagnostico_egreso" name="diagnostico_egreso" autofocus type="text"
+                placeholder="Diagnóstico de Egreso"></textarea>
+            </p>
+          </div>
+
       </div>
 
       <div class="columns">
-        <div class="field column is-12">
+
+        <div class="field column is-6">
           <label class="label">Método de Planificación:</label>
           <p class="control has-icons-left">
             <span class="select">
@@ -872,10 +946,28 @@
             </span>
           </p>
         </div>
+
+        <div class="control is-grouped column is-6">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Observación de Trabajo Social: </label>
+            <textarea class="textarea" [(ngModel)]="observacion_trabajo_social" name="observacion_trabajo_social"
+              autofocus type="text" placeholder="Observación de Trabajo Social"></textarea>
+          </p>
+        </div>
+
+      </div>
+
+      <div class="columns">
+        <div class="control is-grouped column is-12">
+            <p class="control is-expanded  has-icon has-icon-right">
+              <label class="label">Instrucciones y Recomendaciones para el manejo del paciente en su unidad de adscripción:</label>
+              <textarea class="textarea" [(ngModel)]="i_recomendaciones" name="i_recomendaciones" autofocus type="text"
+                placeholder="Instrucciones y Recomendaciones"></textarea>
+            </p>
+          </div>
       </div>
 
       <br>
-
 
 
     </section>

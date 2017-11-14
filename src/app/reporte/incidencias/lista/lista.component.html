@@ -1,5 +1,3 @@
-<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
-<formulario #ctrl titulo="Reporte / Artículo"></formulario>
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
@@ -14,32 +12,109 @@
         <div style="background: #FFF; border-radius: 1em; ">
 
             <!-- cargar los catalogos que se requieran parametro 1 modelo donde se guarda el catalogo, parametro 2 ruta de la api -->
-            <a id="catalogos" (click)="ctrl.cargarCatalogo('articulos', 'incidencias?order=categorias_id');"></a>
-            <simple-opciones [ctrl]="ctrl"></simple-opciones>
+
+            <a id="catalogos" (click)="cargarCatalogo('e_incidencias', 'estados-incidencias');
+                                       cargarCatalogo('c_triage', 'triage-colores');
+            
+            "></a>
+
+            <section class="hero" [ngClass]=" {'is-dark': busquedaActivada, 'is-primary': !busquedaActivada } ">
+                    
+                    <div class="hero-body" style="position:relative;">
+                
+                        <div class="control is-grouped" style="position:absolute; top:0.5em; right:0em;">
+                
+                            <p class="control">
+                                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"  (click)="imprimir()">
+                                    <span class="icon ">
+                                        <i class="fa fa-print"></i>
+                                    </span>
+                                    <span class="tooltiptext">Imprimir</span>
+                                </a>
+                            </p>
+                
+                        </div>
+                
+                        <div class="container is-fluid">
+                
+                            <div class="control">
+                
+                                    <div class="columns">
+                                        
+                                        <div class="column is-6">
+                                        
+                                            <input ngui-auto-complete
+                                                [source]="clues_term"
+                                                [list-formatter]="autocompleListFormatter"
+                                                [value-formatter]="valorFormato_clue"
+                                                id="clues" name="clues" [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                                                (valueChanged)="select_item_autocomplete(clues, 'clues', $event, flase);"                                                         
+                                                min-chars="1" class="input" type="text"
+                                                placeholder="Unidad Medica (Clues):">
+                                    
+                                        </div>
+                        
+                                        <div class="column is-3">
+                                            <div class="select">
+                                                <select class="select" [(ngModel)]="edo_incidencia" name="edo_incidencia" style="width:100%;" id="edo_incidencia" >
+                                                    <option *ngFor="let ei of e_incidencias" value="{{ei.id}}" >{{ ei.nombre }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                        
+                                        <div class="column is-3">
+                                            <div class="select">
+                                                <select class="select" [(ngModel)]="color_triage" name="color_triage" style="width:100%;" id="color_triage" >
+                                                    <option *ngFor="let ct of c_triage" value="{{ct.id}}" >{{ ct.nombre }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                         
+                                    </div>
+                        
+                                    
+                                    <div class="columns">
+                                        <div class="column is-4">
+                                            <button class="button is-success is-medium tooltip" type="button"
+                                            (click)="listar('reportes/incidencias?clues='+clues+'&edo_incidencia='+edo_incidencia+'&colores_triage='+color_triage)">
+                                            Buscar</button>
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                
+                    </div>
+                </section>
+                
+                <div class="is-fullwidth has-text-centered" *ngIf="cargando">
+                    <br>
+                    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+                    <br>
+                    <br>
+                </div>
+
+            
             
             <div id="imprimir"  style="overflow:auto;" [style.maxHeight.px]="tamano-180">                    
                 <!--Tabla -->
-                <table id class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="!ctrl.cargando " >
+
+                <table  class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="!cargando " >
                     <thead>
                         <tr>
-                            <th>Clave</th>
-                            <th>Código barras</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>Existencia</th>
+                            <th>Clues</th>
+                            <th>Estados de Incidencia</th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of ctrl.articulos; let i=index">
-                            <th style="vertical-align: middle; font-size:13px; text-align:center;">{{ item.clave }}</th>
-                            <td style="vertical-align: middle; font-size:13px; text-align:center;"><strong>{{item.codigo_barras}} </strong></td>
-                            <td style="vertical-align: middle; font-size:11px; text-align:left;">{{ item.nombre }} </td>
-                            <td style="vertical-align: middle; font-size:11px; text-align:left;">{{item.categorias.nombre }}</td>
-                            <td style="vertical-align: middle; font-size:13px; text-align:center;">{{ item.existencia }}</td>
+                        <tr *ngFor="let item of datos; let i=index">
+                            <th style="vertical-align: middle; font-size:13px; text-align:center;">{{ item.id }}</th>
+                            <td style="vertical-align: middle; font-size:13px; text-align:center;"><strong>{{item.estados_incidencias.nombre}} </strong></td>
                         </tr>
-                        <tr *ngIf="ctrl.articulos.length == 0">
+                         <tr *ngIf="datos.length == 0">
                             <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
-                        </tr>
+                        </tr> 
                     </tbody>
 
                 </table>

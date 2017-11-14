@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ElementRef} from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { CrudService } from '../../../crud/crud.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'reporte-incidencia',
@@ -6,49 +10,97 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class ReporteIncidenciaComponent{
+
+  
+  //VARIABLES PARA LISTAR
+  datos: any[] = [];
+  cargando: boolean = false;
+  
+
+  public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
+
+  constructor(
+    private crudService: CrudService,
+    private fb: FormBuilder,
+    private _sanitizer: DomSanitizer,
+    private _el: ElementRef,
+  ){}
+
+  
   tamano = document.body.clientHeight;
   private filtro;
   private orden;
+
+  edo_incidencia: any [] = [];
+  colores_triage: any [] = [];
+
+
+
   ngOnInit(){
+
+
     document.getElementById("catalogos").click();
+
+
+    
   }
 
-  imprimir() {
-    /*let pdf = new jsPDF('p', 'pt', 'letter');
-    pdf.setProperties({
-      title: 'Ticket',
-      subject: 'YOURSOFT',
-      author: 'Eliecer Ramirez Esquinca',
-      keywords: 'yoursoft, web, mobile, desarrollo, agil',
-      creator: 'www.yoursoft.com.mx'
-    });
-    var elementHandler = {
-      '.equis': function (element, renderer) {
-        return true;
+  cargarCatalogo(item, url) {
+    this.crudService.lista(0, 0, url).subscribe(
+      resultado => {
+        this[item] = resultado.data;
+      },
+      error => {
+
       }
-    };
-    pdf.fromHTML($('body')[0], 5, 5, {
-      'width': 170,
-      'elementHandlers': elementHandler
-    });
+    );
+  }
 
-    pdf.output('dataurlnewwindow')*/
-    var html = document.getElementById("imprimir").innerHTML;
-    html = '<html lang="es">' + ' <head>' + ' <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' + ' <meta name="charset" content="UTF-8">' + ' <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">' + ' <meta name="apple-mobile-web-app-capable" content="yes">' + ' <title>PDF</title> <meta name="viewport" content="initial-scale=1" />' + ' <style>html { font-size: .9em;} body{font-size: .9em;} select::-ms-expand {display: none;}</style>' + ' </head>' + ' <body>' + html + ' </body>' + ' </html>';
-    var iframe = document.createElement('iframe');
-    iframe.setAttribute("id", "printf");
-    iframe.setAttribute("style", "display:none");
-    document.body.appendChild(iframe);
 
-    var mywindow = <HTMLSelectElement>document.getElementById('printf');
-    mywindow.contentWindow.document.write(html);
-    setTimeout(function () {
-      // lanzar la sentencia imprimir
-      mywindow.contentWindow.print();
-    }, 500);
-    setTimeout(function () {
-      // remover el contenedor de impresión
-      document.body.removeChild(iframe);
-    }, 2000);
+  listar(url): void {
+    
+    this.cargando = true;
+    this.crudService.lista_general(url).subscribe(
+        resultado => {
+          console.log(resultado);
+            this.cargando = false;
+            this.datos = resultado as any[];
+            
+
+        },
+        error => {
+
+        }
+    );
+}
+
+select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {        
+  if (!esmodelo)
+      modelo = datos[item];
+  else{
+      if(datos)
+          modelo.patchValue(datos[item]);        
+  }
+}
+
+
+
+  autocompleListFormatter = (data: any) => {
+    
+      let html = `<span>(${data.clues}) - ${data.nombre} </span>`;
+      return this._sanitizer.bypassSecurityTrustHtml(html);
+  }
+    
+  valorFormato_clue(data: any,) {
+
+      let html = `${data.clues}`;
+      return html;
+
+  }
+
+  imprimir(e) {
+
+    console.log(this.edo_incidencia);
+
   }
 }

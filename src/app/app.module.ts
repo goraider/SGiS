@@ -49,6 +49,7 @@ import { CarteraServiciosModule } from './catalogos/cartera-servicios/cartera-se
 //pacientes
 import { EstadosPacientesModule } from './catalogos/estados-pacientes/estados-pacientes.module';
 import { UbicacionesPacientesModule } from './catalogos/ubicaciones-pacientes/ubicaciones-pacientes.module';
+import { TiposAltasModule } from './catalogos/tipos-altas/tipos-altas.module';
 import { ParentescosModule } from './catalogos/parentescos/parentescos.module';
 import { MetodosPlanificacionModule } from './catalogos/metodos-planificacion/metodos-planificacion.module';
 import { EstadosEmbarazosModule } from './catalogos/estados-embarazos/estados-embarazos.module';
@@ -144,6 +145,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
 
     EstadosPacientesModule,
     UbicacionesPacientesModule,
+    TiposAltasModule,
     ParentescosModule,
     MetodosPlanificacionModule,
     EstadosEmbarazosModule,

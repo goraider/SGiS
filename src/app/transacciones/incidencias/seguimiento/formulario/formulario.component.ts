@@ -19,6 +19,7 @@ declare var google: any;
 })
 
 export class FormularioComponent {
+  
   dato: FormGroup;
   tamano = document.body.clientHeight;
   personas: any;
@@ -97,12 +98,20 @@ export class FormularioComponent {
   medico_reporta_referencia;
 
   //Alta
+  tipos_altas
   tur_id;
   tur;
-  u_pacientes_id;
-  u_pacientes;
   me_planificacion;
   me_planificacion_id;
+  t_altas;
+  t_altas_id;
+  clues_regresa;
+  clues_contrarefiere;
+
+
+  r_clinico;
+  i_recomendaciones;
+  diagnostico_ingreso;
 
   me_reporta;
   me_reporta_id;
@@ -137,10 +146,19 @@ export class FormularioComponent {
 
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
-  constructor(private router: Router, private route: ActivatedRoute, private crudService: CrudService, private fb: FormBuilder, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
+  constructor(
+            private router: Router,
+            private route: ActivatedRoute,
+            private crudService: CrudService,
+            private fb: FormBuilder,
+            private _sanitizer: DomSanitizer,
+            private _el: ElementRef) { }
+  
 
 
   ngOnInit() {
+
+    this.clues_contrarefiere = JSON.parse(localStorage.getItem("clues"));
 
     this.route.params.subscribe(params => {
       this.id = params['id']; // Se puede agregar un simbolo + antes de la variable params para volverlo number
@@ -236,12 +254,19 @@ export class FormularioComponent {
 
       altas_incidencias: this.fb.array([
         this.fb.group({
-          ubicaciones_pacientes_id: [''],
           medico_reporta_id: [''],
+          metodos_planificacion_id: [''],
+          tipos_altas_id:[''],
+          turnos_id:[''],
           diagnostico_egreso: [''],
           observacion_trabajo_social: [''],
-          metodos_planificacion_id: [''],
-
+          clues_contrarefiere:[''],
+          clues_regresa:[''],
+          resumen_clinico:[''],
+          instrucciones_recomendaciones:[''],
+          multimedias: this.fb.group({
+            img:this.fb.array([])
+          }),
         }),
       ]),
 
@@ -250,7 +275,9 @@ export class FormularioComponent {
 
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     document.getElementById("catalogos").click();
-  }
+
+    
+}
 
   cerrarModal() {
     document.getElementById("nuevo_seguimiento").classList.remove('is-active');
@@ -565,6 +592,8 @@ export class FormularioComponent {
     const mv: FormArray = <FormArray>this.dato.controls.referencias;
     mv.push(this.fb.group(datoReferencia));
 
+    console.log(this.dato.value);
+
     // console.log("control",this.dato.controls.altas_incidencias['controls']['0']['controls']['multimedias'].value);
 
 
@@ -719,6 +748,24 @@ export class FormularioComponent {
 
   //////////////////////////////Alta////////////////////////////////////
 
+  valorFormato_contrareferencia(data: any) {
+    
+        let html = `(${data.clues}) - ${data.nombre}`;
+        return html;
+  }
+
+  autocompleListFormatterRegresa = (data: any) => {
+    
+    let html = `<span>(${data.clues}) - ${data.nombre} </span>`;
+    return this._sanitizer.bypassSecurityTrustHtml(html);
+  }
+    
+  valorFormato_regresa(data: any) {
+
+    let html = `(${data.clues}) - ${data.nombre}`;
+    return html;
+  }
+
 
   detalle_alta(data): void {
 
@@ -728,6 +775,7 @@ export class FormularioComponent {
 
     document.getElementById("detalle_alta").classList.add('is-active');
   }
+
   cerrarModalDetalleAlta() {
     document.getElementById("detalle_alta").classList.remove('is-active');
   }
@@ -738,6 +786,8 @@ export class FormularioComponent {
 
   nueva_alta() {
     document.getElementById("alta").classList.add('is-active');
+
+    (<HTMLInputElement>document.getElementById('contrareferencia')).value = "("+this.clues_contrarefiere.clues+")"+" - "+this.clues_contrarefiere.nombre;
   }
 
   cancelarModal(id) {
@@ -749,14 +799,15 @@ export class FormularioComponent {
   }
 
 
+  imgalta=[];
 
   agregarAlta() {
 
-    var up = 0;
-    for (let item of this.ubicaciones_pacientes) {
-      if (this.u_pacientes_id == item.id)
+    var ta = 0;
+    for (let item of this.tipos_altas) {
+      if (this.t_altas_id == item.id)
         break;
-      up++;
+      ta++;
     };
 
     var mp = 0;
@@ -773,32 +824,41 @@ export class FormularioComponent {
       tur++;
     };
 
-
-
-
+    
 
     var datoAlta = {
 
       nuevo: [1, [Validators.required]],
 
+      multimedias: this.fb.group({
+        img:this.fb.array(this.imgalta)
+      }),
+      
+      medico_reporta_id: [this.me_reporta_id, [Validators.required]],
+
       turnos: [this.turnos[tur], [Validators.required]],
       turnos_id: [this.tur_id, [Validators.required]],
-
-      ubicaciones_pacientes: [this.ubicaciones_pacientes[up], [Validators.required]],
-      ubicaciones_pacientes_id: [this.u_pacientes_id, [Validators.required]],
-
-      metodos_planificacion: [this.metodos_planificacion[mp], [Validators.required]],
-      metodos_planificacion_id: [this.me_planificacion_id, [Validators.required]],
-
-      medico_reporta_id: [this.me_reporta_id, [Validators.required]],
+      
+      tipos_altas: [this.tipos_altas[ta], [Validators.required]],
+      tipos_altas_id: [this.t_altas_id, [Validators.required]],
 
       diagnostico_egreso: [this.diagnostico_egreso, [Validators.required]],
       observacion_trabajo_social: [this.observacion_trabajo_social, [Validators.required]],
+      clues_contrarefiere: [this.clues_contrarefiere.clues, [Validators.required]],
+      clues_regresa: [this.clues_regresa.clues, [Validators.required]],
+      resumen_clinico:[this.r_clinico, [Validators.required]],
+      //diagnostico_ingreso:[this.diagnostico_ingreso,[Validators.required]],
+      instrucciones_recomendaciones:[this.i_recomendaciones, [Validators.required]],
+      metodos_planificacion: [this.metodos_planificacion[mp], [Validators.required]],
+      metodos_planificacion_id: [this.me_planificacion_id, [Validators.required]],
 
     };
 
+
+
     const mv: FormArray = <FormArray>this.dato.controls.altas_incidencias;
     mv.push(this.fb.group(datoAlta));
+    
     
     const ref: FormArray = <FormArray>this.dato.controls.referencias;
 
@@ -811,13 +871,17 @@ export class FormularioComponent {
     }
 
     
-
+    console.log(this.dato.value);
 
 
     //asigna el estado de incidencia en finalizado con numero 3
     this.dato.controls['estados_incidencias_id'].setValue(3);
 
-    this.u_pacientes_id = '';
+   // this.u_pacientes_id = '';
+
+    this.clues_regresa = '';
+    this.t_altas_id = '';
+    this.tur_id = '';
     this.me_reporta_id = '';
     this.resumen_clinico = '';
     this.diagnostico_egreso = '';

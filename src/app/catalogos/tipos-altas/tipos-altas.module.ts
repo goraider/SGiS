@@ -1,47 +1,49 @@
-import { NgModule, OnInit } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
+//modulos
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { ReporteIncidenciaRoutingModule } from './reporte-incidencia-routing.module';
+import { TiposAltasRoutingModule } from '../tipos-altas/tipos-altas-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
+
+import { PipesModule }             from '../../pipes/pipes.module';
+import { ListaComponent } from './lista/lista.component';
+import { FormularioComponent } from './formulario/formulario.component';
+
+import { AuthService } from '../../auth.service';
 
 import { MenuModule } from '../../menu/menu.module';
 import { ParcialModule } from '../../parcial/parcial.module';
 
-import { ReporteIncidenciaComponent } from './lista/lista.component';
-
-import { AuthService } from '../../auth.service';
-
 //crud
 import { CrudService } from '../../crud/crud.service';
-import { CrudModule }  from '../../crud/crud.module';
+import { CrudModule } from '../../crud/crud.module';
 //fin crud
-import { Select2Module } from 'ng2-select2';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ReporteIncidenciaRoutingModule,
+    TiposAltasRoutingModule,
     HubModule,
     PerfilModule,
     BloquearPantallaModule,
+    PaginacionModule,
+    PipesModule,
     MenuModule, 
     ParcialModule,
-    PaginacionModule,
-    CrudModule,
-    Select2Module,
-    NguiAutoCompleteModule
+    CrudModule
   ],
   declarations: [ 
-    ReporteIncidenciaComponent, 
-  
+    ListaComponent,   
+    FormularioComponent 
   ],
   providers: [ AuthService, CrudService ]
 })
-export class ReporteIncidenciaModule { }
+export class TiposAltasModule { }

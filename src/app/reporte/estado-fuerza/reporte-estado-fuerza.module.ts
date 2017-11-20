@@ -7,13 +7,13 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { ReporteIncidenciaRoutingModule } from './reporte-incidencia-routing.module';
+import { ReporteEstadoFuerzaRoutingModule } from './reporte-estado-fuerza-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
 
 import { MenuModule } from '../../menu/menu.module';
 import { ParcialModule } from '../../parcial/parcial.module';
 
-import { ReporteIncidenciaComponent } from './lista/lista.component';
+import { ReporteEstadoFuerzaComponent } from './lista/lista.component';
 
 import { AuthService } from '../../auth.service';
 
@@ -29,7 +29,7 @@ import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ReporteIncidenciaRoutingModule,
+    ReporteEstadoFuerzaRoutingModule,
     HubModule,
     PerfilModule,
     BloquearPantallaModule,
@@ -43,9 +43,9 @@ import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
 
   ],
   declarations: [ 
-    ReporteIncidenciaComponent, 
+    ReporteEstadoFuerzaComponent, 
   
   ],
   providers: [ AuthService, CrudService ]
 })
-export class ReporteIncidenciaModule { }
+export class ReporteEstadoFuerzaModule { }

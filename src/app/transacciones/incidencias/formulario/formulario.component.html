@@ -5,7 +5,7 @@
 <sistema-menu></sistema-menu>
 
 <div style="height:50px;"></div>
-<a id="catalogos" (click)="ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos'); ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes'); ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');  ctrl.cargarCatalogo('municipios', 'municipios'); ctrl.cargarCatalogo('parentescos', 'parentescos'); ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); ctrl.cargarCatalogo('triage_colores', 'triage-colores'); ctrl.cargarCatalogo('turnos_varios', 'turnos');"></a>
+
 
 <div class="contenedor columns " style="height:100%; ">
   <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
@@ -23,6 +23,25 @@
             <!-- Opciones  -->
             <div>
               <div class="field is-grouped" style="position:absolute; top:4.5em; right:1em;">
+
+                  <p class="control">
+                      <a id="catalogos" style="float:right" class="button is-primary tooltip"
+                      (click)="ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos');
+                               ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes');
+                               ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');
+                               ctrl.cargarCatalogo('municipios', 'municipios');
+                               ctrl.cargarCatalogo('parentescos', 'parentescos');
+                               ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
+                               ctrl.cargarCatalogo('triage_colores', 'triage-colores');
+                               ctrl.cargarCatalogo('turnos_varios', 'turnos');">
+            
+                               <span class="icon ">
+                                  <i class="fa fa-refresh"></i>
+                              </span>
+                              <span class="tooltiptext">Cargar Catologos</span>
+                      </a>
+                  </p>
+                  
                   <p class="control" >
                       <a class="button is-primary tooltip" (click)="ctrl.regresar()">
                           <span class="icon ">
@@ -122,8 +141,10 @@
               </li>
             </ul>
           </div>
+          <br>
 
           <div class="box">
+
 
             <label class="label">N° Folio de la Incidencia</label>
             <div class="field is-grouped">
@@ -155,6 +176,9 @@
             </div>
 
 
+
+
+
           </div>
 
           <div [ngClass]="{ 'is-hidden': tab != 1}">
@@ -163,9 +187,9 @@
                                                 <div class="box" *ngFor="let item of ctrl.dato.controls.insumos.controls; let i=index" [ngStyle]="{'background': i%2 == 0 ? 'rgba(230, 230, 232, 0.44)' : ''}"> -->
               <div *ngFor="let item of ctrl.dato.controls.pacientes?.controls; let i=index" [formGroupName]="i">
                 <nav class="panel">
-                  <p class="panel-heading column is-12">
+                  <div class="panel-heading column is-12">
                     Paciente
-                  </p>
+                  </div>
                   <div class="box">
                     <div class="columns">
                       <div class="column is-12">
@@ -587,10 +611,19 @@
           
           <div [ngClass]="{ 'is-hidden': tab != 3}">
             <nav class="panel">
-                <p class="panel-heading column is-12">
-                  Referencia
-                </p>
-              <div class="box">
+                <div class="panel-heading column is-12">
+
+                  <p>
+                      Referencia
+                      <label style="float:right">¿El paciente tiene referencia?
+                          <label class="radio">
+                            <input type="radio" name="tieneReferencia" (click)="si_tiene_referencia(); tiene_referencia=1" [ngClass]="{ 'is-active' : tiene_referencia == 1}"  [checked]="ctrl.dato.tieneReferencia">Si</label>
+                          <label class="radio">
+                            <input type="radio" name="tieneReferencia" (click)="no_tiene_referencia(); tiene_referencia=2" [checked]="!ctrl.dato.tieneReferencia">No</label>
+                      </label>
+                  </p>
+                </div>
+              <div class="box" [ngClass]="{ 'is-hidden': tiene_referencia != 1}">
 
                   <div formArrayName="referencias">                  
                     <div *ngFor="let referencias of ctrl.dato.controls.referencias?.controls; let ref=index" [formGroupName]="ref">
@@ -661,7 +694,6 @@
                                 <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
                                   id="clues_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                                   (valueChanged)="ctrl.select_item_autocomplete(referencias.controls.clues_origen, 'clues', $event, true);"
-                                  (blur)="asignar_referencia()"
                                   min-chars="1" class="input" type="text" placeholder="Origen:" formControlName="clues_origen">
                               </p>
                             </div>

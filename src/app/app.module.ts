@@ -99,6 +99,7 @@ import { ReporteVentaModule } from './reporte/resumen/reporte-venta.module';
 import { ReporteArticuloModule } from './reporte/inventario/reporte-articulo.module';
 
 import { ReporteIncidenciaModule } from './reporte/incidencias/reporte-incidencia.module';
+import { ReporteEstadoFuerzaModule } from './reporte/estado-fuerza/reporte-estado-fuerza.module';
 
 //Notificacion Pusher
 import { NotificacionPusherModule } from './notificacion/notificacion-pusher.module';

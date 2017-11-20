@@ -110,7 +110,7 @@
                                         <div class="field">
                                             <div class="select is-medium ">
                                                 <select class="select is-medium" [(ngModel)]="edo_incidencia" #searchBox id="search-box" (change)="ctrl.mostrarLista(1)">
-                                                    <option value="">Todos</option>
+                                                    <option value="ctrl.dato">Todos</option>
                                                     <option *ngFor="let val of ctrl.dato[ctrl.dato.length-1].estados_incidencias" value="{{val.id}}"  >{{ val.nombre }}</option>
                                                 </select>
                                             </div>

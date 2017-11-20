@@ -21,6 +21,7 @@ export class FormularioComponent {
     dato: FormGroup;
     tamano = document.body.clientHeight;
     tab: number = 1;
+    tiene_referencia: number = 0;
     mostrar;
 
     form_responsable: any;
@@ -132,6 +133,7 @@ export class FormularioComponent {
             }),
 
             this.generar_folio(this.dato.controls.id, true);
+            console.log(this.dato.value);
 
         /*
             this.dato.controls.clues.valueChanges.subscribe(val => {
@@ -183,7 +185,7 @@ export class FormularioComponent {
                         impresion_diagnostica: ['', [Validators.required]],
                         clues: ['', [Validators.required]],
                         estados_incidencias_id: [1],
-                        tieneReferencia:[''],
+                        tieneReferencia:[0],
             
                         pacientes: this.fb.array([
                             this.fb.group({
@@ -301,8 +303,20 @@ export class FormularioComponent {
     
     }
 
-    asignar_referencia(){
+    si_tiene_referencia(){
+
         this.dato.controls.tieneReferencia.setValue(1);
+
+        console.log(this.dato.value);
+
+    }
+
+    no_tiene_referencia(){
+        
+        this.dato.controls.tieneReferencia.setValue(0);
+
+        console.log(this.dato.value);
+
     }
 
     reset_form() {
@@ -335,8 +349,6 @@ export class FormularioComponent {
 
                             document.getElementById("catalogos").click();
                             this.iniciarFormulario();
-
-                            console.log("valores form", resultado.data);
                             
 
                         this.dato.controls.id.patchValue(resultado.data.id);

@@ -13,7 +13,7 @@ import * as moment from 'moment';
   templateUrl: './lista.component.html'
 })
 
-export class ReporteIncidenciaComponent{
+export class ReporteEstadoFuerzaComponent{
 
   
   //VARIABLES PARA LISTAR
@@ -23,18 +23,11 @@ export class ReporteIncidenciaComponent{
   fecha_inicio = "";
   fecha_fin = "";
   clues = "";
-  edo_incidencia = "";
-  edo_paciente= "";
-  color_triage = "";
   turno = "";
-  referencia_origen = "";
-  referencia_destino = "";
-  cie10 = "";
   
 
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
-  public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
 
   constructor(
     private crudService: CrudService,
@@ -95,10 +88,8 @@ export class ReporteIncidenciaComponent{
 lista_incidencias(url){
  
 
-    this.listar('reportes/incidencias?fecha_inicio='+this.fecha_inicio+'&fecha_fin='+
-    this.fecha_fin+'&clues='+this.clues+'&edo_incidencia='+
-    this.edo_incidencia+'&colores_triage='+this.color_triage+'&turno='+this.turno+'&referencia_origen='+
-    this.referencia_origen+'&referencia_destino='+this.referencia_destino+'&edo_paciente='+this.edo_paciente+'&cie10='+this.cie10
+    this.listar('reportes/estadoFuerza?fecha_inicio='+this.fecha_inicio+'&fecha_fin='+
+    this.fecha_fin+'&clues='+this.clues+'&turno='+this.turno
     );
 
 }
@@ -130,18 +121,6 @@ select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {
 
   }
 
-  autocompleFormatoSubcategoriasCIE10 = (data: any) => {
-    
-    let html = `<span> ${data.codigo} - ${data.nombre}</span>`;
-    return this._sanitizer.bypassSecurityTrustHtml(html);
-  }
-    
-  valorFormato_SubcategoriasCIE10(data: any) {
-
-      let html = `${data.nombre}`;
-      this.cie10 = data.id;
-      return html;
-  }
 
   imprimir_pdf(datos) {
   

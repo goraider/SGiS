@@ -307,15 +307,11 @@ export class FormularioComponent {
 
         this.dato.controls.tieneReferencia.setValue(1);
 
-        console.log(this.dato.value);
-
     }
 
     no_tiene_referencia(){
         
         this.dato.controls.tieneReferencia.setValue(0);
-
-        console.log(this.dato.value);
 
     }
 

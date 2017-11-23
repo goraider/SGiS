@@ -32,9 +32,11 @@ export class ListaComponent {
 
   constructor(public crudService: CrudService){ }
 
-  usuario = localStorage.getItem('usuario');
+  clues = JSON.parse(localStorage.getItem("clues"));
 
   ngOnInit() {
+
+  
     var url = location.href.split("/");
     this.carpeta = url[3];
     this.modulo = url[4];

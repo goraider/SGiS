@@ -6,6 +6,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { concat } from 'rxjs/observable/concat';
 
 
 declare var google: any;
@@ -120,10 +121,20 @@ export class FormularioComponent {
   cie10_codigo;
 
   //detalle alta
+  clues_contrarefiere_alta;
+  clues_regresa_alta;
   turno_alta;
   tipo_alta;
   medico_alta;
+  img_alta;
+  metodos_planificacion_alta;
+
+
+  observaciones_ts_alta;
+  resumen_alta;
+  instrucciones_alta;
   diagnostico_alta;
+
 
 
 
@@ -217,7 +228,8 @@ export class FormularioComponent {
 
       movimientos_incidencias: this.fb.array([
         this.fb.group({
-
+          
+          id:[''],
           diagnostico_egreso: [''],
           estados_incidencias_id: [''],
           estados_pacientes_id: [''],
@@ -364,6 +376,8 @@ export class FormularioComponent {
 
     var datomodal = {
 
+      id: [''],
+
       nuevo: [1, [Validators.required]],
 
       turnos: [this.turnos[tur], [Validators.required]],
@@ -479,10 +493,11 @@ export class FormularioComponent {
 
   detalle_referencia(data): void {
 
+
     this.folio_referencia = data.incidencias_id;
-    this.origen_referencia = data.clues_origen;
-    this.destino_referencia = data.clues_destino;
-    this.img_referencia = data.img;
+    this.origen_referencia = '('+data.clues_origen+')'+ " - "+ data.clues_origen_o.nombre;
+    this.destino_referencia = '('+data.clues_destino+')'+ " - "+  data.clues_destino_o.nombre;
+    this.img_referencia = data.multimedias;
     this.medico_reporta_referencia = data.medico_refiere_id;
     this.diagnostico_referencia = data.diagnostico;
     this.resumen_clinico_referencia = data.resumen_clinico;
@@ -592,7 +607,6 @@ export class FormularioComponent {
     const mv: FormArray = <FormArray>this.dato.controls.referencias;
     mv.push(this.fb.group(datoReferencia));
 
-    console.log(this.dato.value);
 
     // console.log("control",this.dato.controls.altas_incidencias['controls']['0']['controls']['multimedias'].value);
 
@@ -769,7 +783,21 @@ export class FormularioComponent {
 
   detalle_alta(data): void {
 
+
     this.folio_referencia = data.incidencias_id;
+    this.medico_alta = data.medico_reporta_id;
+    this.img_alta = data.multimedias;
+    this.clues_contrarefiere_alta = data.clues_contrarefiere;
+    this.clues_regresa_alta = data.clues_regresa;
+    this.turno_alta = data.turnos.nombre;
+    this.tipo_alta = data.tipos_altas.nombre;
+    this.resumen_alta = data.resumen_clinico;
+    this.diagnostico_alta = data.diagnostico_egreso;
+    this.metodos_planificacion_alta = data.metodos_planificacion.nombre;
+    this.observaciones_ts_alta = data.observacion_trabajo_social;
+    this.instrucciones_alta = data.instrucciones_recomendaciones;
+
+
 
 
 
@@ -870,23 +898,20 @@ export class FormularioComponent {
       this.dato.controls['tieneReferencia'].setValue(0);
     }
 
-    
-    console.log(this.dato.value);
 
 
     //asigna el estado de incidencia en finalizado con numero 3
     this.dato.controls['estados_incidencias_id'].setValue(3);
 
-   // this.u_pacientes_id = '';
-
     this.clues_regresa = '';
     this.t_altas_id = '';
     this.tur_id = '';
     this.me_reporta_id = '';
-    this.resumen_clinico = '';
+    this.r_clinico = '';
     this.diagnostico_egreso = '';
     this.observacion_trabajo_social = '';
     this.me_planificacion_id = '';
+    this.i_recomendaciones = '';
 
     this.cerrarModalAlta();
 

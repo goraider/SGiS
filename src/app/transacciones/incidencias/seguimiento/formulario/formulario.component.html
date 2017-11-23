@@ -19,6 +19,7 @@
                   <img src="./assets/iconos/icono-detalle-seguimiento.svg" alt="Image">
                 </figure>
               </div>
+
               <div class="media-content">
                 <p class="title is-6">
                   {{item.personas.nombre}} {{item.personas.paterno}} {{item.personas.materno}}
@@ -38,7 +39,7 @@
                 <strong>Domicilio: </strong> {{item.personas.domicilio}}
               </p>
               <p class="content">
-                <strong>Municipio: </strong>
+                <strong>Municipio: </strong> {{item.personas.municipios.nombre}}
                 <br>
                 <strong>Localidad: </strong> {{item.personas.localidades.nombre}}
               </p>
@@ -224,13 +225,13 @@
                     <a>{{ item.value.resumen_clinico }}</a>
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.clues_origen }}</a>
+                    <a>{{item.value.clues_origen}}</a>
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.clues_destino }}</a>
+                    <a>{{item.value.clues_destino}}</a>
                   </td>
                   <td>
-                    <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
+                    <a *ngIf="item.value.nuevo" title="Quitar Referencia" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
                         <i class="fa fa-trash-o"></i>
                     </a>
 
@@ -291,8 +292,12 @@
                     <a>{{ item.value.observacion_trabajo_social }}</a>
                   </td>
                   <td>
-                    <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
+                    <a *ngIf="item.value.nuevo" title="Quitar Alta" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
                         <i class="fa fa-trash-o"></i>
+                    </a>
+
+                    <a *ngIf="!item.value.nuevo" title="Detalle del Alta" class="button is-info tooltip" (click)="detalle_alta(item.value)">
+                      <i class="fa fa-file-text-o"></i>
                     </a>
 
                   </td>
@@ -328,7 +333,7 @@
               <p class="control has-icons-left">
                 <span class="select">
                   <select class="select" [(ngModel)]="turnos_id" name="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
-                      <option>Elija el Turno</option>
+                      <option value="">Elija el Turno</option>
                       <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
                   </select>
                 </span>
@@ -347,7 +352,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="ubicaciones_pacientes_id" name="ubicaciones_pacientes_id" [ngClass]="{'is-danger': ubicaciones_pacientes_id?.length == 0 }">
-                  <option>Elija la Ubicación del Paciente</option>
+                  <option value="">Elija la Ubicación del Paciente</option>
                 <option *ngFor="let val of ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
@@ -362,7 +367,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="estados_pacientes_id" name="estados_pacientes_id" [ngClass]="{'is-danger': estados_pacientes_id?.length == 0 }">
-                  <option>Elija el Estado del Paciente</option>
+                  <option value="">Elija el Estado del Paciente</option>
                 <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
@@ -376,7 +381,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="triage_colores_id" name="triage_colores_id" [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
-                <option>Elija el Triage</option>
+                <option value="">Elija el Triage</option>
                 <option *ngFor="let val of triage_colores" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
@@ -708,21 +713,39 @@
 <div class="modal" id="detalle_referencia">
   <div class="modal-background"></div>
   <div class="modal-card" style="width: 70%;">
+
     <header class="modal-card-head">
       <p class="modal-card-title">Detalle de la Referencia</p>
-      <button class="delete" (click)="cerrarModalDetalleReferencia()"></button>
+      <button class="delete " (click)="cerrarModalDetalleReferencia()"></button>
     </header>
-    <section class="modal-card-body">
 
-      <div class="media">
-        <figure class="image is-64x64">
-          <img class="is-medium" src="./assets/iconos/icono-detalle-referencia.svg" alt="Referencia">
-        </figure>
-      </div>
+    <section class="modal-card-body">
 
       <div class="media-content">
 
         <div class="content is-center">
+
+          <div class="columns">
+                <div class="column is-6">
+                    <div class="block" *ngIf="img_referencia != '' "> <!--*ngIf="img_referencia.length > 0" -->
+                     <a class="button is-primary is-outlined" (click)="abrirModalDetalle('verReferencia')">
+                       <span class="icon">
+                         <i class="fa fa-eye"> </i>
+                       </span> &nbsp; Ver Imagenes de la Referencia
+                     </a>
+                   </div>
+                   <div class="modal" id="verReferencia" (click)="cerrarModalDetalle('verReferencia')">
+                       <div class="modal-background"></div>
+                       <div class="modal-content">
+                           <p class="image is-4by3" *ngFor="let img of img_referencia; let imi = index;">
+                               <img [src]="'http://api.sgis.ismchiapas.org/adjunto/referencias/'+img.url" alt="" />
+                           </p>
+                       </div>
+                       <button type="button" class="modal-close" (click)="cerrarModalDetalle('verReferencia')"></button>
+                   </div>
+                 </div>
+          </div>
+
 
           <div class="columns">
             <div class="column is-6">
@@ -746,25 +769,6 @@
               <blockquote>{{destino_referencia}}</blockquote>
             </div>
 
-          </div>
-
-          <div class="column is-6">
-            <div class="block" *ngIf="img_referencia != ''">
-              <a class="button is-primary is-outlined" (click)="abrirModalDetalle('verFoto')">
-                <span class="icon">
-                  <i class="fa fa-eye"> </i>
-                </span> &nbsp; Ver referencia
-              </a>
-            </div>
-            <!-- <div class="modal" id="verReferencia" (click)="cerrarModalDetalle('verReferencia')">
-                                        <div class="modal-background"></div>
-                                        <div class="modal-content">
-                                            <p class="image is-4by3">
-                                                <img [src]="'http://127.0.0.1:8000/public/adjunto/referencias/'+img_referencia" alt="" />
-                                            </p>
-                                        </div>
-                                        <button type="button" class="modal-close" (click)="cerrarModalDetalle('verReferencia')"></button>
-                                </div> -->
           </div>
 
           <div class="columns">
@@ -981,22 +985,43 @@
 <!--DETALLE ALTA-->
 <div class="modal" id="detalle_alta">
     <div class="modal-background"></div>
-    <div class="modal-card" style="width: 70%;">
+    <div class="modal-card" style="width: 60%; height:80%">
       <header class="modal-card-head">
-        <p class="modal-card-title">Detalle de la Referencia</p>
+        <p class="modal-card-title">Detalle del Alta</p>
         <button class="delete" (click)="cerrarModalDetalleAlta()"></button>
       </header>
       <section class="modal-card-body">
   
-        <div class="media">
+        <!-- <div class="media">
           <figure class="image is-64x64">
             <img class="is-medium" src="./assets/iconos/icono-detalle-referencia.svg" alt="Referencia">
           </figure>
-        </div>
+        </div> -->
   
         <div class="media-content">
   
           <div class="content is-center">
+          
+          <div class="columns">
+              <div class="column is-6">
+                  <div class="block"  *ngIf="img_alta != ''"> <!--*ngIf="img_alta.length > 0" -->
+                    <a class="button is-primary is-outlined" (click)="abrirModalDetalle('verAlta')">
+                      <span class="icon">
+                        <i class="fa fa-eye"> </i>
+                      </span> &nbsp; Ver Imagenes del Alta
+                    </a>
+                  </div>
+                  <div class="modal" id="verAlta" (click)="cerrarModalDetalle('verAlta')">
+                      <div class="modal-background"></div>
+                      <div class="modal-content">
+                          <p class="image is-4by3" *ngFor="let alta of img_alta; let imi = index;">
+                              <img [src]="'http://api.sgis.ismchiapas.org/adjunto/contrareferencias/'+alta.url" alt="" />
+                          </p>
+                      </div>
+                      <button type="button" class="modal-close" (click)="cerrarModalDetalle('verAlta')"></button>
+                  </div>
+                </div>
+          </div>
   
             <div class="columns">
               <div class="column is-6">
@@ -1004,33 +1029,62 @@
                 <blockquote>{{folio_referencia}}</blockquote>
               </div>
               <div class="column is-6">
-                <h3>Medico que reporta:</h3>
-                <blockquote>{{medico_reporta_referencia}}</blockquote>
+                <h3>Medico quien realizo el Alta:</h3>
+                <blockquote>{{medico_alta}}</blockquote>
               </div>
             </div>
+
   
             <div class="columns">
               <div class="column is-6">
-                <h3>Unidad Medica de Origen:</h3>
-                <blockquote>{{origen_referencia}}</blockquote>
+                <h3>Unidad Médica que Contrarefiere:</h3>
+                <blockquote>{{clues_contrarefiere_alta}}</blockquote>
               </div>
   
               <div class="column is-6">
-                <h3>Unidad Medica de Destino:</h3>
-                <blockquote>{{destino_referencia}}</blockquote>
+                <h3>Unidad Médica a donde regresa:</h3>
+                <blockquote>{{clues_regresa_alta}}</blockquote>
               </div>
-  
             </div>
   
   
             <div class="columns">
               <div class="column is-6">
-                <h3>Diagnostico:</h3>
-                <blockquote>{{diagnostico_referencia}}</blockquote>
+                <h3>Turno del Alta:</h3>
+                <blockquote>{{turno_alta}}</blockquote>
               </div>
+              <div class="column is-6">
+                <h3>Tipo de Alta:</h3>
+                <blockquote>{{tipo_alta}}</blockquote>
+              </div>
+            </div>
+
+            <div class="columns">
               <div class="column is-6">
                 <h3>Resumen Clinico:</h3>
-                <blockquote>{{resumen_clinico_referencia}}</blockquote>
+                <blockquote>{{resumen_alta}}</blockquote>
+              </div>
+              <div class="column is-6">
+                <h3>Diagnostico de Egreso:</h3>
+                <blockquote>{{diagnostico_alta}}</blockquote>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column is-6">
+                <h3>Método de Planificación:</h3>
+                <blockquote>{{metodos_planificacion_alta}}</blockquote>
+              </div>
+              <div class="column is-6">
+                <h3>Observación de Trabajo Social:</h3>
+                <blockquote>{{observaciones_ts_alta}}</blockquote>
+              </div>
+            </div>
+
+            <div class="columns">
+              <div class="column is-12">
+                <h3>Instrucciones y Recomendaciones:</h3>
+                <blockquote>{{instrucciones_alta}}</blockquote>
               </div>
             </div>
   

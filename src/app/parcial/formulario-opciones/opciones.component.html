@@ -1,67 +1,76 @@
+<nav class="level">
+    <!-- Left side -->
+    <div class="level-left">
+        <div class="level-item">
+            <p class="title">
+                <span *ngIf="!ctrl.cargando" class="icon is-medium">
+                    <i class="{{icono}}"></i>
+                </span>
+                <span *ngIf="ctrl.cargando" class="icon is-medium">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </span>
+                <span class="icon is-medium">
+                    <i class="fa" [ngClass]="ctrl.moduloTitulo == 'Nuevo' ? 'fa-file': 'fa-edit'"></i>
+                </span> {{modulo_actual}}
+            </p>
+        </div>
 
-<div class="field is-grouped" style="position:absolute; top:4.5em; right:1em;">
-    <p class="control" >
-        <a class="button is-primary tooltip" (click)="ctrl.regresar()">
-            <span class="icon ">
+    </div>
+
+    <!-- Right side -->
+    <div class="level-right">
+        <a class="navbar-item tooltip" (click)="ctrl.regresar()">
+            <span class="icon fa-2x">
                 <i class="fa fa-arrow-left"> </i>
             </span>
             <span class="tooltiptext">Regresar</span>
         </a>
-    </p>
-    
-    <p class="control" *ngIf="ctrl.id">
-        <a class="button is-primary tooltip"  (click)="ctrl.cargarDatos()" id="cargar_datos_actualizar">
-            <span class="icon ">
+
+        <a class="navbar-item tooltip" (click)="ctrl.cargarDatos()" id="cargar_datos_actualizar" *ngIf="ctrl.id">
+            <span class="icon fa-2x">
                 <i class="fa fa-refresh"></i>
             </span>
             <span class="tooltiptext">Actualizar</span>
         </a>
-    </p>
 
-    <p class="control" *ngIf="(permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1) && ctrl.id">
-        <a  class="button is-primary tooltip"  routerLink="{{url_nuevo}}">
-            <span class="icon ">
+        
+        <a class="navbar-item tooltip" id="catalogos" *ngIf="ctrl.id"
+                (click)="ctrl.cargarCatalogo('triage_colores', 'triage-colores');
+                       ctrl.cargarCatalogo('metodos_planificacion','metodos-planificacion');
+                       ctrl.cargarCatalogo('subcategorias_cie10','grupos-cie10');
+                       ctrl.cargarCatalogo('turnos','turnos');
+                       ctrl.cargarCatalogo('estados_incidencias', 'estados-incidencias');
+                       ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
+                       ctrl.cargarCatalogo('tipos_altas', 'tipos-altas');
+                       ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes');
+                       ctrl.cargarCatalogo('triage_colores', 'triage-colores');
+                       ctrl.cargarCatalogo('grupos_cie10', 'grupos-cie10');">
+            <span class="icon fa-2x">
+                <i class="fa fa-retweet"></i>
+            </span>
+            <span class="tooltiptext">Cargar Catalogos</span>
+        </a> 
+
+        <a class="navbar-item tooltip" routerLink="{{url_nuevo}}" *ngIf="(permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1) && ctrl.id">
+            <span class="icon fa-2x">
                 <i class="fa fa-file"></i>
             </span>
             <span class="tooltiptext">Nuevo</span>
         </a>
-    </p>
 
-    <p class="control" *ngIf="(permisos.indexOf(controlador + '.show') > -1 || permisos.indexOf( 'Sis' + controlador + '.show') > -1) && ctrl.id">
-        <a class="button is-primary tooltip"  (click)="ctrl.imprimir()">
-            <span class="icon ">
-                <i class="fa fa-print"></i>
-            </span>
-            <span class="tooltiptext">Imprimir</span>
-        </a>
-    </p>
-
-    <p class="control" *ngIf="controlador != 'CajaOperacionController' && (permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1 || permisos.indexOf(controlador + '.update') > -1 || permisos.indexOf( 'Sis' + controlador + '.update') > -1)">
-        <button class="button is-primary tooltip" type="submit" [ngClass]="{'is-loading': ctrl.cargando}" [disabled]="ctrl.dato.invalid">
-            <span class="icon ">
+        <button class="navbar-item  is-success tooltip" type="submit" [ngClass]="{'is-loading': ctrl.cargando}"
+            [disabled]="ctrl.dato.invalid" *ngIf="(permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis'+ controlador + '.store') > -1 || permisos.indexOf(controlador + '.update') > -1 || permisos.indexOf( 'Sis' + controlador + '.update') > -1)">
+            <span class="icon fa-2x has-text-success">
                 <i class="fa fa-save"> </i>
             </span>
             <span class="tooltiptext">Guardar</span>
         </button>
-
-    </p>
-
-
-    <p class="control" *ngIf="(permisos.indexOf(controlador + '.destroy') > -1 || permisos.indexOf( 'Sis' + controlador + '.destroy') > -1) && ctrl.id">
-        <button class="button is-danger tooltip" type="button" [ngClass]="{'is-loading': ctrl.cargando}" (click)="ctrl.eliminar(ctrl.id)">
-            <span class="icon ">
-                <i class="fa fa-trash"> </i>
+        <button class="navbar-item  is-danger tooltip" type="button" [ngClass]="{'is-loading': ctrl.cargando}"
+            (click)="ctrl.eliminar(ctrl.id)" *ngIf="(permisos.indexOf(controlador + '.destroy') > -1 || permisos.indexOf( 'Sis' + controlador + '.destroy') > -1) && ctrl.id">
+            <span class="icon fa-2x has-text-danger">
+                <i class="fa fa-trash"></i>
             </span>
             <span class="tooltiptext">Eliminar</span>
         </button>
-        
-    </p>
-</div>
-
-<div class="container is-fluid">
-    <h1 class="title">
-        <span *ngIf="!ctrl.cargando" class="icon is-medium"><i class="{{icono}}"></i></span>
-        <span *ngIf="ctrl.cargando" class="icon is-medium"><i class="fa fa-refresh fa-spin"></i></span>
-        {{ctrl.moduloTitulo}} {{modulo_actual}}
-    </h1>
-</div>
+    </div>
+</nav>

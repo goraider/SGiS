@@ -19,6 +19,7 @@ import { CrudService } from '../../../crud/crud.service';
 export class FormularioComponent {
 
     dato: FormGroup;
+    private clues = JSON.parse(localStorage.getItem("clues"));
     tamano = document.body.clientHeight;
     tab: number = 1;
     tiene_referencia: number = 0;
@@ -62,12 +63,13 @@ export class FormularioComponent {
     
     private url_nuevo: string = '';
     private url_editar: string = '';
-    private url_imprimir: string = '';
-    private permisos;
+    private permisos = JSON.parse(localStorage.getItem("permisos"));
     private carpeta;
     private modulo;
     private controlador;
     private modulo_actual;
+    private icono;
+    private activarOp = false;
 
     public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
@@ -88,9 +90,9 @@ export class FormularioComponent {
 
 
         var url = location.href.split("/");
-        this.carpeta = url[3];
-        this.modulo = url[4];
-        this.modulo_actual = this.modulo.replace(/[-](?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/[-_]+/g, ' ');
+        this.carpeta = url[4];
+        this.modulo = url[5];
+        //this.modulo_actual = this.modulo.replace(/[-](?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/[-_]+/g, ' ');
     
         var ctrl = "-" + this.modulo;
         this.controlador = ctrl.toLowerCase()
@@ -104,12 +106,16 @@ export class FormularioComponent {
             // quitar espacios y agregar controller
             .replace(/ /g, '') + "Controller";
     
-        this.permisos = JSON.parse(localStorage.getItem("permisos"));
+        this.permisos;
         this.url_nuevo = '/' + this.carpeta + '/' + this.modulo + '/nuevo'
         this.url_editar = '/' + this.carpeta + '/' + this.modulo + '/editar/' + this.id;
-        this.url_imprimir = '/' + this.carpeta + '/' + this.modulo + '/ver/' + this.id;
 
-        //hacer igual al Json de responsable del formulario reactivo arriba.
+        var titulo_icono = this.obtener_icono(url, this.controlador, JSON.parse(localStorage.getItem("menu")));
+
+        this.icono = titulo_icono.icono;
+        this.modulo_actual = titulo_icono.titulo;
+
+        //hacer igual al Json de responsable del formulario reactivo.
 
         this.form_responsable =
             this.fb.group({
@@ -133,7 +139,6 @@ export class FormularioComponent {
             }),
 
             this.generar_folio(this.dato.controls.id, true);
-            console.log(this.dato.value);
 
         /*
             this.dato.controls.clues.valueChanges.subscribe(val => {
@@ -141,7 +146,10 @@ export class FormularioComponent {
             });
         */
         //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
-        document.getElementById("catalogos").click();
+
+
+            document.getElementById("catalogos").click();
+
 
         var im = 0, il = 0;
 
@@ -174,6 +182,29 @@ export class FormularioComponent {
         
     }
 
+    obtener_icono(url, controlador, menu) {
+        menu.map((element, key) => {
+          if (typeof this.icono == 'undefined') {
+            if (element.lista) {
+              this.icono = this.obtener_icono(url, controlador, element.lista);
+              return this.icono;
+            }
+            if (element.path.indexOf(url[5] + '/' + url[6]) > -1 ) {
+              this.icono = element;
+              return this.icono;
+            }else{
+              if (element.key.indexOf(controlador) > -1){
+                this.icono = element;
+                return this.icono;
+              }          
+            }
+          }
+          else
+            return this.icono;
+        });
+        return this.icono;
+      } 
+
     iniciarFormulario(){
 
         
@@ -183,7 +214,7 @@ export class FormularioComponent {
                         id: [''],
                         motivo_ingreso: ['', [Validators.required]],
                         impresion_diagnostica: ['', [Validators.required]],
-                        clues: ['', [Validators.required]],
+                        clues: [this.clues.clues],
                         estados_incidencias_id: [1],
                         tieneReferencia:[0],
             
@@ -254,7 +285,7 @@ export class FormularioComponent {
                                  resumen_clinico:[''],
                                  clues_origen:[''],
                                  clues_destino:[''],                       
-                                 img:[''],
+                                 multimedias:[''],
                                  esContrareferencia:[0],
                            }),
                          ]),
@@ -344,6 +375,8 @@ export class FormularioComponent {
                         if(document.getElementById("catalogos"))
 
                             document.getElementById("catalogos").click();
+                            
+
                             this.iniciarFormulario();
                             
 
@@ -470,13 +503,13 @@ export class FormularioComponent {
     autovalor_municipio() {
         setTimeout(() => {
           this.municipios_id = this.temp_municipios_id;
-        }, 3000);
+        }, 2000);
     }
 
     autovalor_localidad() {
         setTimeout(() => {
           this.localidades_id = this.temp_localidades_id;
-        }, 3000);
+        }, 2000);
     }
 
     agregar_form_array() {
@@ -532,6 +565,8 @@ export class FormularioComponent {
             modelo = cadena;
         else
             modelo.patchValue(cadena);
+
+     
     }
 
     autocompleFormatoCurp = (data: any) => {
@@ -604,27 +639,18 @@ export class FormularioComponent {
 
         let html = `<span>(${data.clues}) - ${data.nombre} </span>`;
         return this._sanitizer.bypassSecurityTrustHtml(html);
+
+        
     }
 
-    valorFormato_clue(data: any,) {
 
-        let html = `${data.nombre}`;
-        return html;
-
-    }
 
 /////pestaña referencia//////
 
         
     valorFormato_origen(data: any)  {
 
-        let html = `(${data.clues}) - ${data.nombre}`;
-        return html;
-    }
-
-    valorFormato_destino(data: any)  {
-
-        let html = `(${data.clues}) - ${data.nombre}`;
+        let html = `${data.clues}`;
         return html;
     }
     

@@ -3,7 +3,7 @@
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
@@ -14,115 +14,90 @@
         <div style="background: #FFF; border-radius: 1em; ">
             
             <!-- Opciones y busqueda -->
-
             <section class="hero" [ngClass]=" {'is-dark': ctrl.busquedaActivada, 'is-primary': !ctrl.busquedaActivada } ">
-                    <div class="hero-body" style="position:relative;">
-                
-                        <div class="field is-grouped" style="position:absolute; top:0.5em; right:0em;">
-                            
-                            <p class="control" *ngIf="!ctrl.busquedaActivada">
-                                <a class="button is-primary tooltip"  (click)="ctrl.listar(1)" id="cargar_datos_actualizar">
-                                    <span class="icon ">
-                                        <i class="fa fa-refresh"></i>
-                                    </span>
-                                    <span class="tooltiptext">Actualizar</span>
-                                </a>
-                            </p>
-                
-                            <p class="control" *ngIf="ctrl.busquedaActivada">
-                                <a class="button is-dark tooltip"  (click)="ctrl.listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar">
-                                    <span class="icon ">
-                                        <i class="fa fa-refresh"></i>
-                                    </span>
-                                    <span class="tooltiptext">Actualizar</span>
-                                </a>
-                            </p>
-                
-                            <p class="control" *ngIf="permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1">
-                                <a  class="button is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip"  routerLink="{{url_nuevo}}">
-                                    <span class="icon ">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    <span class="tooltiptext">Nuevo</span>
-                                </a>
-                            </p>
-                
-                            <p class="control">
-                                <a class="button is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip"  >
-                                    <span class="icon ">
-                                        <i class="fa fa-file-excel-o"></i>
-                                    </span>
-                                    <span class="tooltiptext">Exportar Excel</span>
-                                </a>
-                            </p>
-                
-                            <p class="control">
-                                <a class="button is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip"  routerLink="{{url_imprimir}}">
-                                    <span class="icon ">
-                                        <i class="fa fa-print"></i>
-                                    </span>
-                                    <span class="tooltiptext">Imprimir</span>
-                                </a>
-                            </p>
-                
-                            <p class="control">
-                                <a class="button  is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip" (click)="ctrl.cambiar_vista();">
-                                    <span class="icon ">
-                                        <i class="fa fa-table" *ngIf="!ctrl.tipo_grid"></i>
-                                        <i class="fa fa-list" *ngIf="ctrl.tipo_grid"></i>
-                                    </span>
-                                    <span class="tooltiptext" *ngIf="!ctrl.tipo_grid">Cambiar a tabla</span>
-                                    <span class="tooltiptext" *ngIf="ctrl.tipo_grid">Cambiar a lista</span>
-                                </a>
-                            </p>
-                
-                            <p class="control">
-                                <a class="button  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
-                                    <span class="icon ">
-                                        <i class="fa fa-close"></i>
-                                    </span>
-                                    <span class="tooltiptext">Cerrar Busqueda</span>
-                                </a>
-                            </p>
+                <div class="hero-body">
+                    <nav class="level ">
+                        <!-- Left side -->
+                        <div class="level-left ">
+                            <div class="level-item">
+                                <p class="title">
+                                    <span class="icon is-medium">
+                                        <i class="{{icono}}"></i>
+                                    </span> {{modulo_actual}}
+                                </p>
+                            </div>                
                         </div>
-                
-                        <div class="container is-fluid">
-                
-                            <h1 class="title" *ngIf="!ctrl.busquedaActivada">
-                                <span class="icon is-medium"><i class="{{icono}}"></i></span>&nbsp; {{modulo_actual}}
-                            </h1>
-
-                            <h1 class="title" *ngIf="ctrl.busquedaActivada">
-                                <span class="icon is-medium"><i class="fa fa-search"></i></span> Búsqueda
-                            </h1>
-
-                            <div class="field is-grouped columns">
-
-                                <div class="column is-6">
-                                    <p class="control is-expanded">
-                                        <input class="input is-medium" type="text" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value)">
-                                    </p>
+            
+                        <!-- Right side -->
+                        <div class="level-right ">
+                            
+                            <div class="level-item">
+                                <div class="field">
+                                    <label>Buscar por Paciente:</label>
+                                    <div class="control has-icons-left is-expanded">
+                                        <input type="text" class="input is-flat is-medium" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value)">
+                                        <span class="icon is-medium is-left">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                
-                                <div class="column is-6">
-                                    
-                                    <div class="control is-expanded" *ngIf="!ctrl.cargando && ctrl.dato && !ctrl.busquedaActivada">
-                                        <div class="field">
-                                            <div class="select is-medium">
-                                                <select class="select is-medium" [(ngModel)]="edo_incidencia" #searchBox id="search-box" (change)="ctrl.mostrarLista(1)">
-                                                    <option value="">Todos</option>
-                                                    <option *ngFor="let val of ctrl.dato[ctrl.dato.length-1].estados_incidencias" value="{{val.id}}"  >{{ val.nombre }}</option>
-                                                </select>
-                                            </div>
+                            </div>
+                            
+                            <div class="level-item" *ngIf="ctrl.dato.estados_incidencias != ''">
+                                <a (click)="ctrl.mostrarLista(1)" id="rebuscar"></a>
+                                <div class="control is-expanded" *ngIf="!ctrl.cargando && ctrl.dato && !ctrl.busquedaActivada" >
+                                    <div class="field">
+                                        <label>Filtrar por Estado de Incidencia:</label>
+                                        <div class="select is-medium" >
+                                            <select class="select is-medium" [(ngModel)]="edo_incidencia" #searchBox id="search-box" (change)="cambiar_busqueda()">
+                                                <option  value="">Todos</option>
+                                                <option *ngFor="let val of ctrl.dato[ctrl.dato.length-1].estados_incidencias" value="{{val.id}}"  >{{ val.nombre }}</option>
+                                            </select>
                                         </div>
                                     </div>
-                                </div>                               
-                            </div>
-
+                                </div>
+                            </div> 
+                            <a class="navbar-item tooltip" (click)="ctrl.listar(1)" id="cargar_datos_actualizar" *ngIf="!ctrl.busquedaActivada">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-refresh"></i>
+                                </span>
+                                <span class="tooltiptext">Actualizar</span>
+                            </a>
+            
+                            <a class="navbar-item tooltip" (click)="ctrl.listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar" *ngIf="ctrl.busquedaActivada">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-refresh"></i>
+                                </span>
+                                <span class="tooltiptext">Actualizar</span>
+                            </a>
+            
+                            <a class="navbar-item tooltip" routerLink="{{url_nuevo}}" *ngIf="permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-file"></i>
+                                </span>
+                                <span class="tooltiptext">Nuevo</span>
+                            </a>
+            
+            
+                            <a class="navbar-item  tooltip" (click)="ctrl.cambiar_vista();">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-table" *ngIf="!ctrl.tipo_grid"></i>
+                                    <i class="fa fa-list" *ngIf="ctrl.tipo_grid"></i>
+                                </span>
+                                <span class="tooltiptext" *ngIf="!ctrl.tipo_grid">Cambiar a tabla</span>
+                                <span class="tooltiptext" *ngIf="ctrl.tipo_grid">Cambiar a lista</span>
+                            </a>
+            
+                            <a class="navbar-item  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-close"></i>
+                                </span>
+                                <span class="tooltiptext">Cerrar Busqueda</span>
+                            </a>
                         </div>
-                
-                    </div>
-                </section>
+                    </nav>
+                </div>
+            </section>
                 
                 <div class="is-fullwidth has-text-centered" *ngIf="ctrl.cargando">
                     <br>
@@ -132,47 +107,50 @@
                 </div>
 
 
-                
-            <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
+            <span style="overflow-y:auto; overflow-x:hidden; display:block" [style.maxHeight.px]="tamano-285">
                     
                 <!--Tabla -->
-                <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+                <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;">
                     <thead>
                         <tr>
-                            <th style="text-align:center;">N° Folio</th>
-                            <th style="text-align:center;">Paciente</th>
-                            <th style="text-align:center;">Triage</th>
-                            <th style="text-align:center;">Antiguedad</th>
-                            <th style="text-align:center;">Seguimiento</th>
-                            <th style="text-align:center;">Opciones</th>
+                            <th>N° Folio</th>
+                            <th>Paciente</th>
+                            <th>Triage</th>
+                            <th>Estado de Incidencia</th>
+                            <th>Antiguedad</th>
+                            <th width="1%">Seguimientos</th>
+                            <th width="1%">Opciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><strong>{{ item.id }}</strong></td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag is-medium" *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;"><strong>{{ item.antiguedad }}</strong></td>
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle; text-align:center;">
-                                
-                                    <a title="PDF" class="button is-danger tooltip" (click)="download($event, item.id);">
-                                        <span class="icon">
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.id }}</strong></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" disabled><strong>{{ item.estados_incidencias.nombre }}</strong></div></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.antiguedad }}</strong></td>
+                            <td *ngIf="(i+1)<ctrl.dato.length"  style="vertical-align: middle;">
+                                <div class="level-left">
+                                    <a class="navbar-item tooltip"  (click)="download($event, item.id);">
+                                        <span class="icon fa-2x  has-text-danger ">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </span>
+                                        <span class="tooltiptext">PDF</span>
                                     </a>
                                     
-                                    <a title="Seguimiento" class="button is-info tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
-                                        <span class="icon">
+                                    <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
+                                        <span class="icon fa-2x has-text-info">
                                             <i class="fa fa-exchange"></i>
                                         </span>
+                                        <span class="tooltiptext">Seguimiento</span>
                                     </a>
-
+                                </div>
                             </td>
 
-                            <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;" class="has-text-centered">
+                            <td *ngIf="(i+1)<ctrl.dato.length"  style="vertical-align: middle;">
                                 <!-- acciones -->
-                                <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                                <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                             </td>
 
                         </tr>
@@ -194,34 +172,37 @@
                             </div>
                             <div class="media-content">
                                 <div class="content">
-                                    <p>
+                                    <p *ngIf="item.pacientes && item.movimientos_incidencias">
                                         <strong class="tag is-medium" *ngFor="let val of item.pacientes">N° Foliio: {{item.id}}</strong>
                                         <br>
-                                        <strong class="tag" *ngFor="let val of item.pacientes"> Nombre: {{ val.personas.nombre }} </strong>
+                                        <strong class="tag" *ngFor="let val of item.pacientes"> Nombre: {{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }} </strong>
+                                        <br>
                                         <strong class="tag" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"> Triage: {{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong>
                                         <br>
-                                        <strong> Antiguedad: {{ item.antiguedad }}</strong>
-
+                                        <strong class="tag">Estado de Incidencia: {{ item.estados_incidencias.nombre }}</strong>
+                                        <br>
+                                        <strong class="tag"> Antiguedad: {{ item.antiguedad }}</strong>
                                     </p>
                                 </div>
                                 <nav class="level is-mobile" style="float:right">
                                     <div class="level-left">
 
+                                        <a class="navbar-item tooltip" (click)="download($event, item.id)">
+                                            <span class="icon fa-2x  has-text-danger">
+                                                <i class="fa fa-file-pdf-o"></i>
+                                            </span>
+                                            <span class="tooltiptext">PDF</span>
+                                        </a>
+                                            
+                                        <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
+                                            <span class="icon fa-2x has-text-info">
+                                                <i class="fa fa-exchange"></i>
+                                            </span>
+                                            <span class="tooltiptext">Seguimiento</span>
+                                        </a>
 
-                                            <a title="PDF" class="button is-danger tooltip" (click)="download($event, item.id)">
-                                                <span class="icon">
-                                                    <i class="fa fa-file-pdf-o"></i>
-                                                </span>
-                                            </a>
-                                                
-                                            <a title="Seguimiento" class="button is-info tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
-                                                <span class="icon">
-                                                     <i class="fa fa-exchange"></i>
-                                                </span>
-                                            </a>
-
-                                        <!-- acciones -->
-                                        <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                                            <!-- acciones -->
+                                            <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                                     </div>
                                 </nav>
                             </div>

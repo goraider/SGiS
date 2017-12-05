@@ -3,9 +3,9 @@
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+    <div class="column is-2 is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
         <sistema-menu-aside ></sistema-menu-aside>
@@ -63,7 +63,7 @@
                     <div class="columns" >
                         <div [ngClass]="{ 'is-hidden': tab != i2}" *ngFor="let padre of ctrl.catalogo; let i2 = index;" >                            
                             <span *ngIf="padre.es_super ? activar_super ? true : false : true">
-                                <div class="column is-1" *ngFor="let hijos of padre.hijos" style="float:left; min-width:300px">
+                                <div class="column is-3" *ngFor="let hijos of padre.hijos" style="float:left; min-width:300px">
                                     <nav class="panel">
                                         <div class="panel-heading">
                                             <div class="field">

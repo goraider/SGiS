@@ -7,11 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  private usuario: any = {};
+  private usuario: any = JSON.parse(localStorage.getItem("usuario"));
+  
   constructor() { }
 
   ngOnInit() {
-    this.usuario = JSON.parse(localStorage.getItem("usuario"));
+    
   }
 
 }

@@ -3,7 +3,7 @@
 
 <!-- Menu principal  menutitulo="titulo del modulo en el que estamos con el nombre como se encuentra en enviroment" menuactual="nombre del hub donde estamos como se especifico en el routing"-->
 <sistema-menu menutitulo="Catalogo" menuactual="catalogo"></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; " >
     <div class="column"></div>
     <div class="column is-three-quarters" style="padding:1em; ">
@@ -67,7 +67,7 @@
                 <br>
             </div>
                 
-            <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
+            <span style="overflow-y:auto; display:block; overflow-x:hidden;" [style.maxHeight.px]="tamano-285">
                     
                 <!--Lista -->
                 <span *ngIf="!ctrl.cargando">

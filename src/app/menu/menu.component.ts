@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
     var menu = JSON.parse(localStorage.getItem("menu"));
 
     var url = location.href.split("/");
-    this.menuactual = url[3];
+    this.menuactual = url[4];
     menu.forEach(element => {
       if(element.path.indexOf(this.menuactual) > -1){
         this.menutitulo = element.titulo;

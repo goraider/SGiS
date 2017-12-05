@@ -1,11 +1,11 @@
 <section class="hero" [ngClass]=" {'is-dark': ctrl.busquedaActivada, 'is-primary': !ctrl.busquedaActivada } ">
     <div class="hero-body" style="position:relative;">
 
-        <div class="field is-grouped" style="position:absolute; top:0.5em; right:0em;">
+        <div class="control is-grouped" style="position:absolute; top:0.5em; right:0em;">
             
             <p class="control" *ngIf="!ctrl.busquedaActivada">
                 <a class="button is-primary tooltip">
-                    <span class="icon ">
+                    <span class="icon fa-2x">
                         <i class="fa fa-refresh"></i>
                     </span>
                     <span class="tooltiptext">Actualizar</span>
@@ -13,8 +13,8 @@
             </p>
 
             <p class="control">
-                <a class="button is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip"   (click)="ctrl.imprimir()">
-                    <span class="icon ">
+                <a class="button tooltip" [ngClass]="ctrl.busquedaActivada ? 'is-dark' : 'is-primary'"   (click)="ctrl.imprimir()">
+                    <span class="icon fa-2x">
                         <i class="fa fa-print"></i>
                     </span>
                     <span class="tooltiptext">Imprimir</span>
@@ -34,7 +34,7 @@
                 <div class="columns">
                     <div class="column is-4" style="text-align:center">
                         <div class="select">
-                            <select class="select" name="orden" style="width:100%;"  ([ngModel])="orden">
+                            <select class="select" name="orden" style="width:100%;"  [(ngModel)]="orden">
                                 <option selected value="categorias_id">Ordenar por categorías</option>
                                 <option value="clave">Ordenar por clave</option>
                             </select>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="column is-4" style="text-align:center">
                         <div class="select">
-                            <select class="select" name="filtro" style="width:100%;" ([ngModel])="filtro">                                
+                            <select class="select" name="filtro" style="width:100%;" [(ngModel)]="filtro">                                
                                 <option selected value="menor-minimo">Menores al mínimo</option>
                                 <option value="agotado">Agotados</option>
                             </select>

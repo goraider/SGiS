@@ -1,41 +1,46 @@
 <!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
-<formulario #ctrl URL="sisModulo" titulo="Permisos / Sistema" [dato]="dato" ></formulario>
+<formulario #ctrl URL="sisModulo" titulo="Permisos / Sistema" [dato]="dato"></formulario>
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+    <div class="column is-2 is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
-        <sistema-menu-aside ></sistema-menu-aside>
+        <sistema-menu-aside></sistema-menu-aside>
     </div>
     <div class="column" style="padding:1em;">
         <div style="background: #FFF; border-radius: 1em; ">
 
             <!-- formulario -->
-            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()" >
-            <section class="hero is-primary">
-                <div class="hero-body">
+            <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+                <section class="hero is-primary">
+                    <div class="hero-body">
 
-                    <!-- Opciones  -->
-                    <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones> 
-                    
+                        <!-- Opciones  -->
+                        <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+
+                    </div>
+                </section>
+                <div class="is-fullwidth has-text-centered" *ngIf="!ctrl.datosCargados">
+                    <br>
+                    <span class="tag is-primary is-large ">
+                        <span class="icon">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </span> &nbsp;
+                        <span>Cargando...</span>
+                    </span>
                 </div>
-            </section>
-            <div class="is-fullwidth has-text-centered" *ngIf="!ctrl.datosCargados">
-                <br>
-                <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
-            </div>
-            <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
-                                
+                <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+
                     <a id="catalogos" (click)="ctrl.cargarCatalogo('padres', 'sisModulo'); "></a>
                     <div class="columns">
                         <div class="column is-6">
                             <label class="label">Nombre: </label>
-                            <p class="field is-expanded  has-icon has-icon-right">
+                            <p class="control is-expanded  has-icon has-icon-right">
                                 <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')}"
-                                    placeholder="nombre" formControlName="nombre" >
+                                    placeholder="nombre" formControlName="nombre">
                                 <span class="icon is-small" *ngIf="ctrl.dato.get('nombre').hasError('required') && ctrl.dato.get('nombre').hasError('required')">
                                     <i class="fa fa-warning"></i>
                                 </span>
@@ -44,9 +49,9 @@
                         </div>
                         <div class="column is-6">
                             <label class="label">Controlador: </label>
-                            <p class="field is-expanded  has-icon has-icon-right">
+                            <p class="control is-expanded  has-icon has-icon-right">
                                 <input class="input" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('controlador').hasError('required') && ctrl.dato.get('controlador').hasError('required')}"
-                                    placeholder="controlador" formControlName="controlador" >
+                                    placeholder="controlador" formControlName="controlador">
                                 <span class="icon is-small" *ngIf="ctrl.dato.get('controlador').hasError('required') && ctrl.dato.get('controlador').hasError('required')">
                                     <i class="fa fa-warning"></i>
                                 </span>
@@ -58,88 +63,105 @@
                     <div class="columns">
                         <div class="column is-6">
                             <label class="label">Padre:</label>
-                            <div class="select">                         
-                                <select class="select" formControlName="sis_modulos_id" >
+                            <div class="select">
+                                <select class="select" formControlName="sis_modulos_id">
                                     <optgroup *ngFor="let val of ctrl.padres | groupBy:'modulo_padre'" label="{{val.key}}">
-                                        <option *ngFor="let item of val.value" value="{{item.id}}" >{{item.nombre}}</option>
+                                        <option *ngFor="let item of val.value" value="{{item.id}}">{{item.nombre}}</option>
                                     </optgroup>
                                 </select>
                             </div>
                         </div>
-                        <div class="column is-3"><br><br>
+                        <div class="column is-3">
+                            <br>
+                            <br>
                             <div class="b-checkbox">
-                                <input id="vista" class="styled" 
-                                [checked]="ctrl.dato.get('vista').value == '1' ? true : false" 
-                                (change)="ctrl.dato.get('vista').patchValue(ctrl.dato.get('vista').value == '1' ? '0' : '1')" type="checkbox">
+                                <input id="vista" class="styled" [checked]="ctrl.dato.get('vista').value == '1' ? true : false" (change)="ctrl.dato.get('vista').patchValue(ctrl.dato.get('vista').value == '1' ? '0' : '1')"
+                                    type="checkbox">
                                 <label for="vista">
                                     Tiene vista?
                                 </label>
                             </div>
                         </div>
-                        <div class="column is-3" *ngIf="activar_super"><br><br>
+                        <div class="column is-3" *ngIf="activar_super">
+                            <br>
+                            <br>
                             <div class="b-checkbox">
-                                <input id="es_super" class="styled" 
-                                [checked]="ctrl.dato.get('es_super').value == '1' ? true : false" 
-                                (change)="ctrl.dato.get('es_super').patchValue(ctrl.dato.get('es_super').value == '1' ? '0' : '1')" type="checkbox">
+                                <input id="es_super" class="styled" [checked]="ctrl.dato.get('es_super').value == '1' ? true : false" (change)="ctrl.dato.get('es_super').patchValue(ctrl.dato.get('es_super').value == '1' ? '0' : '1')"
+                                    type="checkbox">
                                 <label for="es_super">
                                     Es para super?
                                 </label>
                             </div>
                         </div>
-                    </div> 
+                    </div>
 
                     <nav class="panel">
-                        <p class="panel-heading" style="padding:15px;">
-                            Metodos del controlador 
-                        </p>
+                        <section class="hero is-light">
+                            <div class="hero-head">
+                                <nav class="level">
+                                    <!-- Left side -->
+                                    <div class="level-left">
+                                        <div class="level-item">
+                                            <p class="title is-4" style=" padding-left: 10px; ">
+                                                <span class="icon is-medium">
+                                                    <i class="fa fa-list"></i>
+                                                </span> Metodos del controlador
+                                            </p>
+                                        </div>
 
-                        <div class="field is-grouped" style="margin-right: 10px;margin-top: -3%;float: right;">
-                            <p class="control">
-                                <a class="button is-primary tooltip" (click)="ctrl.agregar_form_array(ctrl.dato.controls.metodos.controls, form_metodos)">
-                                    <span class="icon ">
-                                        <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span class="tooltiptext">Agregar Método</span>
-                                </a>
-                            </p>                            
 
-                            <p class="control" >
-                                <a class="button is-default tooltip" (click)="defaultMetodo(ctrl.dato.controls.metodos)">
-                                    <span class="icon ">
-                                        <i class="fa fa-file"></i>
-                                    </span>
-                                    <span class="tooltiptext">Métodos Default</span>
-                                </a>
-                            </p>
+                                    </div>
 
-                            <p class="control" >
-                                <a class="button is-danger tooltip" (click)="quitarAllMetodo()">
-                                    <span class="icon ">
-                                        <i class="fa fa-trash-o"></i>
-                                    </span>
-                                    <span class="tooltiptext">Limpiar lista</span>
-                                </a>
-                            </p>
-                        </div>
+                                    <!-- Right side -->
+                                    <div class="level-right">
+
+                                        <a class="navbar-item  tooltip" (click)="ctrl.agregar_form_array(ctrl.dato.controls.metodos, form_metodos)">
+                                            <span class="icon has-text-success">
+                                                <i class="fa fa-plus"></i>
+                                            </span>
+                                            <span class="tooltiptext">Agregar Método</span>
+                                        </a>
+
+                                        <a class="navbar-item  tooltip" (click)="defaultMetodo(ctrl.dato.controls.metodos)">
+                                            <span class="icon has-text-info">
+                                                <i class="fa fa-file"></i>
+                                            </span>
+                                            <span class="tooltiptext">Métodos Default</span>
+                                        </a>
+
+                                        <a class="navbar-item  tooltip" (click)="quitarAllMetodo()">
+                                            <span class="icon has-text-danger">
+                                                <i class="fa fa-trash-o"></i>
+                                            </span>
+                                            <span class="tooltiptext">Limpiar lista</span>
+                                        </a>
+                                    </div>
+                                </nav>
+                            </div>
+                        </section>
                         <div class="panel-block">
                             <div formArrayName="metodos">
                                 <div *ngFor="let item of ctrl.dato.controls.metodos.controls; let i=index" class="column" style="min-width:280px; width:19.5%; float:left">
                                     <nav class="panel" [formGroupName]="i">
                                         <div class="panel-heading">
                                             <label class="label">Nombre: </label>
-                                            <input class="input" type="text" placeholder="nombre" formControlName="nombre" >
-                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.metodos.controls[i].controls.nombre.valid">Este campo es requerido.</span>                                            
-                                            <a style="float:right; margin-top: -65px;" class="is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.metodos, i)"><span class="icon"><i class="fa fa-trash-o"></i></span></a>
+                                            <input class="input" type="text" placeholder="nombre" formControlName="nombre">
+                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.metodos.controls[i].controls.nombre.valid">Este campo es requerido.</span>
+                                            <a style="float:right; margin-top: -65px;" class="is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.metodos, i)">
+                                                <span class="icon has-text-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </span>
+                                            </a>
                                         </div>
-                                        <label class="panel-block">                                                  
+                                        <label class="panel-block">
                                             <label class="label">Recurso: </label>
                                             <p class="control is-expanded  has-icon has-icon-right">
-                                                <input class="input" type="text" placeholder="recurso" formControlName="recurso" >
-                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.metodos.controls[i].controls.recurso.valid">Este campo es requerido.</span>                                            
+                                                <input class="input" type="text" placeholder="recurso" formControlName="recurso">
+                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.metodos.controls[i].controls.recurso.valid">Este campo es requerido.</span>
                                             </p>
                                         </label>
 
-                                        <label class="panel-block"> 
+                                        <label class="panel-block">
                                             <label class="label">Método: </label>
                                             <div class="control is-expanded  has-icon has-icon-right">
                                                 <div class="select">
@@ -150,9 +172,9 @@
                                                         <option value="put">PUT</option>
                                                     </select>
                                                 </div>
-                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.metodos.controls[i].controls.metodo.valid">Este campo es requerido.</span>                                            
+                                                <span class="help is-danger" *ngIf="!ctrl.dato.controls.metodos.controls[i].controls.metodo.valid">Este campo es requerido.</span>
                                             </div>
-                                        </label> 
+                                        </label>
                                         <label class="panel-block" *ngIf="activar_super">
                                             <div class="field">
                                                 <div class="b-checkbox is-info">
@@ -169,7 +191,7 @@
                         </div>
                     </nav>
 
-            </section>
+                </section>
             </form>
         </div>
     </div>

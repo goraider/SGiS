@@ -3,7 +3,7 @@
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
@@ -16,31 +16,30 @@
             <!-- Opciones y busqueda -->
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
 
-            <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
+            <span style="overflow-y:auto; display:block; overflow-x:hidden;" [style.maxHeight.px]="tamano-285">
 
                 <!--Tabla -->
-                <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+                <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
                     <thead>
                         <tr>
-                            <th>Clues</th>
+                            <th>Unidad Médica</th>
+                            <th>Turno Laboral</th>
+                            <th>Nombre del Usuario</th>
                             <th>Fecha de Registro</th>
-                            <th>Turno</th>
-                            <th>Cartera de Servicios</th>
-                            <!-- <th>ítems</th> -->
+                            <th width="1%">Opciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
-                            <th style="vertical-align: middle;">{{ item.clues.nombre }}</th>
+                            <td style="vertical-align: middle;">{{ item.clues.nombre }}</td>
+                            <td style="vertical-align: middle;">{{ item.turnos.nombre }}</td>
+                            <td style="vertical-align: middle;">{{ item.sis_usuarios.nombre}}</td>
                             <td style="vertical-align: middle;">{{ item.created_at }}</td>
-                            <th style="vertical-align: middle;">{{ item.turnos.nombre }}</th>
-                            <td style="vertical-align: middle;">{{ item.id }}</td>
-                            <!-- <th style="vertical-align: middle;">{{ item }}</th> -->
 
-                            <td style="vertical-align: middle;" class="has-text-centered">
+                            <td style="vertical-align: middle;">
                                 <!-- acciones -->
-                                <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                                <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                             </td>
 
                         </tr>
@@ -63,11 +62,11 @@
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <strong class="tag is-medium"> Unidad Medica (Clue): {{item.clues.nombre}} Turno: {{item.turnos.nombre}} Fecha de Registro: {{ item.created_at }} </strong>
+                                        <strong class="tag is-medium"> Unidad Medica (Clue): {{item.clues.nombre}}  </strong>
                                         <br>
-                                        <!-- <strong class="tag" > Servicio: {{ item.item.cartera_servicios.nombre }}</strong>
+                                        <strong class="tag"> Nombre del Usuario: {{item.sis_usuarios.nombre}}</strong>
                                         <br>
-                                        <strong class="tag"> Ítems: {{item.items.nombre}}</strong> -->
+                                        <strong class="tag" > Turno: {{item.turnos.nombre}} Fecha de Registro: {{ item.created_at }}</strong>
 
                                     </p>
                                 </div>
@@ -75,7 +74,7 @@
                                     <div class="level-left">
 
                                         <!-- acciones -->
-                                        <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                                        <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                                     </div>
                                 </nav>
                             </div>

@@ -4,7 +4,7 @@
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
 
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
   <!--DATOS DEL PACIENTE-->
   <div class="column is-3">
@@ -140,7 +140,7 @@
                 <i class="fa fa-plus"></i>
               </span>&nbsp; Agregar Nuevo Seguimiento</a>
 
-            <table class="table" *ngIf="!ctrl.cargando">
+            <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
               <thead>
                 <tr>
                   <th>No.</th>
@@ -197,8 +197,8 @@
             <a class="button is-success" (click)="nueva_referencia(); cargarMapa();">
               <span class="icon">
                 <i class="fa fa-plus"></i>
-              </span>&nbsp; Agregar nueva referencia</a>
-            <table class="table" *ngIf="!ctrl.cargando">
+              </span>&nbsp; Agregar Nueva Referencia</a>
+            <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
               <thead>
                 <tr>
                   <th>No.</th>
@@ -259,7 +259,7 @@
               </span>&nbsp; Generar Alta</a>
 
 
-            <table class="table" *ngIf="!ctrl.cargando">
+            <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
               <thead>
                 <tr>
                   <th>No.</th>
@@ -333,7 +333,7 @@
               <p class="control has-icons-left">
                 <span class="select">
                   <select class="select" [(ngModel)]="turnos_id" name="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
-                      <option value="">Elija el Turno</option>
+                      <option value="">Elija el Turno Laboral</option>
                       <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
                   </select>
                 </span>
@@ -352,7 +352,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="ubicaciones_pacientes_id" name="ubicaciones_pacientes_id" [ngClass]="{'is-danger': ubicaciones_pacientes_id?.length == 0 }">
-                  <option value="">Elija la Ubicación del Paciente</option>
+                  <option value="">Elija la Ubicación de la Paciente</option>
                 <option *ngFor="let val of ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
@@ -367,7 +367,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="estados_pacientes_id" name="estados_pacientes_id" [ngClass]="{'is-danger': estados_pacientes_id?.length == 0 }">
-                  <option value="">Elija el Estado del Paciente</option>
+                  <option value="">Elija el Estado de la Paciente</option>
                 <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
@@ -381,7 +381,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="triage_colores_id" name="triage_colores_id" [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
-                <option value="">Elija el Triage</option>
+                <option value="">Elija el Triage de la Paciente</option>
                 <option *ngFor="let val of triage_colores" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
@@ -514,7 +514,7 @@
 
 <!--REFERENCIA-->
 
-<div class="modal" id="referencia">
+<div class="modal" id="referencia" >
   <div class="modal-background"></div>
   <div class="modal-card" style="width: 80%; height:80%;">
     <header class="modal-card-head">
@@ -563,77 +563,13 @@
         </div>
       </div> 
 
-      <!--<table class="table is-bordered is-striped is-narrow is-fullwidth">
-          <thead>
-              <tr>
-                  <th hide-sm>ID</th>
-                  <th>Seleccionar</th>
-                  <th>ver</th>
-                  <th></th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let img of multimedias; let in=index">
-
-                  <td>{{ in + 1 }}</td>
-
-                  <td>
-                      <div class="control has-icon" >
-                          <div class="file">
-                              <label class="file-label" >
-                                <input class="file-input" name="img" (change)="seleccionarImagenBase64($event)" [(ngModel)]="img[in]" autofocus type="file" accept="image/*">
-                  
-                                <span class="file-cta">
-                                  <span class="file-icon">
-                                    <i class="fa fa-upload"></i>
-                                  </span>
-                                  <span class="file-label">
-                                    Subir Imagen
-                                  </span>
-                                </span>
-                              </label>
-                            </div>
-                        </div>
-
-                  </td>
-
-                  <td>
-                      <div class="column is-16">
-                          <div class="block" *ngIf="img != ''">
-                            <a class="button is-primary is-outlined" (click)="abrirModal('verFoto')">
-                              <span class="icon">
-                                <i class="fa fa-eye"> </i>
-                              </span> &nbsp; Ver referencia
-                            </a>
-                          </div>
-                          <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
-                            <div class="modal-background"></div>
-                            <div class="modal-content">
-                              <p class="image is-4by3">
-                                <img [src]="'data:image/jpg;base64,'+img[in]" alt="" />
-                              </p>
-                            </div>
-                            <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
-                          </div>
-                
-                        </div>
-                  </td>
-
-                  <td align="right"><button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(multimedias, in)"><i class="fa fa-trash-o"></i></button></td>
-              </tr>
-          </tbody>
-      </table>-->
-
-
-      
-
       <div class="columns">
         <div class="column is-12">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico quien Refiere:</label>
             <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
               id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(medico_refiere_id, 'id', $event, false);"
-              min-chars="1" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id">
+              min-chars="5" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id">
           </p>
         </div>
       </div>
@@ -652,6 +588,8 @@
             <p class="control is-expanded  has-icon has-icon-right">
               <label class="label">Resumen Clínico: </label>
               <textarea class="textarea" [(ngModel)]="resumen_clinico" name="resumen_clinico" autofocus type="text" placeholder="Resumen Clínico"></textarea>
+
+              
             </p>
           </div>
         </div>
@@ -662,18 +600,18 @@
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Unidad Medica de Origen:</label>
-            <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
-              id="clues_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(clues_origen, 'clues', $event, false); select_origen_autocomplete($event)"
-              min-chars="1" class="input" type="text" placeholder="Origen:" [(ngModel)]="clues_origen">
+            <input type="text" id="clues_origen" class="input" readonly>
           </p>
         </div>
 
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
-            <label class="label">Unidad Medica de Destino:</label>
+            <label class="label">Unidad Médica donde Refieren a la Paciente (Destino):</label>
             <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
-              id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(clues_destino, 'clues', $event, false); select_destino_autocomplete($event)"
-              min-chars="1" class="input" type="text" placeholder="Destino:" [(ngModel)]="clues_destino">
+              id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+              (valueChanged)="ctrl.select_item_autocomplete(clues_destino, 'clues', $event, false);
+                              select_destino_autocomplete($event)"
+              min-chars="5" class="input" type="text" placeholder="Escriba como mínimo 5 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_destino">
           </p>
         </div>
 
@@ -857,7 +795,7 @@
                     [value-formatter]="valorFormato_regresa"
                     id="clues_regresa" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                     (valueChanged)="ctrl.select_item_autocomplete(clues_regresa, 'clues', $event, false);"
-                    min-chars="1" class="input" type="text" placeholder="Unidad Médica a donde regresa:" [(ngModel)]="clues_regresa">
+                    min-chars="5" class="input" type="text" placeholder="Unidad Médica a donde regresa, Escriba como mínimo 5 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_regresa">
                 </p>
               </div>
 
@@ -871,7 +809,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="tur_id" name="tur_id" [ngClass]="{'is-danger': tur_id?.length == 0 }">
-                  <option>Elija el Turno</option>
+                <option  value="">Elija el Turno Laboral</option>
                 <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
@@ -887,7 +825,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="t_altas_id" name="t_altas_id" [ngClass]="{'is-danger': t_altas_id?.length == 0 }">
-                  <option>Elija el Tipo de Alta</option>
+                <option value="">Elija el Tipo de Alta de la Paciente</option>
                 <option *ngFor="let val of tipos_altas" value="{{val.id}}">{{ val.nombre }}</option>tipos_altas
               </select>
             </span>
@@ -941,7 +879,7 @@
           <p class="control has-icons-left">
             <span class="select">
               <select class="select" [(ngModel)]="me_planificacion_id" name="me_planificacion_id" [ngClass]="{'is-danger': me_planificacion_id?.length == 0 }">
-                <option>Elija el Método de Planificación</option>
+                <option  value="">Elija el Método de Planificación</option>
                 <option *ngFor="let val of metodos_planificacion" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>

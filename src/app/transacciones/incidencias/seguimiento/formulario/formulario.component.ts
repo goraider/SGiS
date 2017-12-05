@@ -88,6 +88,7 @@ export class FormularioComponent {
   resumen_clinico;
   clues_origen;
   clues_destino;
+  private clues_origen_login
 
   //detalle referencia
   folio_referencia;
@@ -170,6 +171,9 @@ export class FormularioComponent {
   ngOnInit() {
 
     this.clues_contrarefiere = JSON.parse(localStorage.getItem("clues"));
+
+    this.clues_origen_login = JSON.parse(localStorage.getItem("clues"));
+
 
     this.route.params.subscribe(params => {
       this.id = params['id']; // Se puede agregar un simbolo + antes de la variable params para volverlo number
@@ -292,6 +296,14 @@ export class FormularioComponent {
 }
 
   cerrarModal() {
+    this.ubicaciones_pacientes_id = '';
+    this.estados_pacientes_id = '';
+    this.triage_colores_id = '';
+    this.indicaciones = '';
+    this.reporte_medico = '';
+    this.medico_reporta_id = '';
+    this.turnos_id = '';
+    this.subcategorias_cie10 = '';
     document.getElementById("nuevo_seguimiento").classList.remove('is-active');
   }
 
@@ -575,14 +587,6 @@ export class FormularioComponent {
 
   agregarReferencia() {
 
-    // var cOrigen = 0;
-    // if(this.subcategorias_cie10)
-    // for(let item of this.subcategorias_cie10){
-    //   if(this.subcategorias_cie10_id == item.id)
-    //     break;
-    //   cOrigen++;
-    // };
-
 
     var datoReferencia = {
 
@@ -591,7 +595,7 @@ export class FormularioComponent {
       diagnostico: [this.diagnostico, [Validators.required]],
       resumen_clinico: [this.resumen_clinico, [Validators.required]],
 
-      clues_origen: [this.clues_origen.clues, [Validators.required]],
+      clues_origen: [this.clues_origen_login.clues, [Validators.required]],
       clues_destino: [this.clues_destino.clues, [Validators.required]],
 
       multimedias: this.fb.group({
@@ -607,8 +611,8 @@ export class FormularioComponent {
     const mv: FormArray = <FormArray>this.dato.controls.referencias;
     mv.push(this.fb.group(datoReferencia));
 
+    console.log(datoReferencia);
 
-    // console.log("control",this.dato.controls.altas_incidencias['controls']['0']['controls']['multimedias'].value);
 
 
     //asigna el estado de incidencia en proceso con numero 2
@@ -618,19 +622,16 @@ export class FormularioComponent {
     this.medico_refiere_id = '';
     this.diagnostico = '';
     this.resumen_clinico = '';
-    this.clues_origen = '';
-    this.clues_destino = ''
+    this.clues_destino = '';
    
     this.cerrarModalReferencia();
+
 
   }
 
 
-  //mapa_creado = false;
-
   cargarMapa() {
 
-    //if(this.mapa_creado == false){
 
     let directionsService = new google.maps.DirectionsService;
     let directionsDisplay = new google.maps.DirectionsRenderer;
@@ -644,8 +645,7 @@ export class FormularioComponent {
     (<HTMLInputElement>document.getElementById('tiempo_traslado')).value = "";
     (<HTMLInputElement>document.getElementById('distancia_traslado')).value = "";
     (<HTMLInputElement>document.getElementById('observaciones')).value = "";
-    //this.mapa_creado = true;
-    //}
+
   }
 
   calcularOrigenDestino(directionsService, directionsDisplay) {
@@ -674,11 +674,6 @@ export class FormularioComponent {
           (<HTMLInputElement>document.getElementById('distancia_traslado')).value = this.distancia;
           (<HTMLInputElement>document.getElementById('observaciones')).value = this.observaciones;
 
-          // despues de asignados se envian los datos al formulario reactivo para que estos se muestren en la vista y se guarden en la base de datos.
-          // this.dato.controls['tiempo_traslado'].setValue(this.tiempo);
-          // this.dato.controls['distancia_traslado'].setValue(this.distancia);
-          // this.dato.controls['observaciones'].setValue(this.observaciones);
-
           directionsDisplay.setDirections(response);
 
         } else {
@@ -688,24 +683,22 @@ export class FormularioComponent {
       });
   }
 
-  select_origen_autocomplete(data, latOrigen: any, longOrigen: any) {
+  select_origen_autocomplete(clues_origen_login, latOrigen: any, longOrigen: any) {
 
-    this.latOrigen = data.numeroLatitud;
-    this.longOrigen = data.numeroLongitud;
-    // this.dato.controls['numeroLatitud_origen'].setValue(this.latOrigen);
-    // this.dato.controls['numeroLongitud_origen'].setValue(this.longOrigen);
-    this.trazarRuta();
-    // this.origin = {latitude: this.latOrigen, longitude: this.longOrigen};
+    this.latOrigen = clues_origen_login.numeroLatitud;
+    this.longOrigen = clues_origen_login.numeroLongitud;
+
   }
 
   select_destino_autocomplete(data, latDestino: any, longDestino: any) {
 
     this.latDestino = data.numeroLatitud;
     this.longDestino = data.numeroLongitud;
-    // this.dato.controls['numeroLatitud_destino'].setValue(this.latDestino);
-    // this.dato.controls['numeroLongitud_destino'].setValue(this.longDestino);
+
+    this.select_origen_autocomplete(this.clues_origen_login, this.latOrigen, this.longOrigen);
+
     this.trazarRuta();
-    //this.destination = {latitude: this.latDestino, longitude: this.longDestino};
+     
   }
 
   trazarRuta() {
@@ -734,11 +727,16 @@ export class FormularioComponent {
 
 
   cerrarModalReferencia() {
+    this.medico_refiere_id = '';
+    this.diagnostico = '';
+    this.resumen_clinico = '';
+    this.clues_destino = '';
     document.getElementById("referencia").classList.remove('is-active');
   }
 
   nueva_referencia() {
     document.getElementById("referencia").classList.add('is-active');
+    (<HTMLInputElement>document.getElementById('clues_origen')).value = "("+this.clues_origen_login.clues+")"+" - "+this.clues_origen_login.nombre;
   }
 
   autocompleListFormatter = (data: any) => {
@@ -809,7 +807,17 @@ export class FormularioComponent {
   }
 
   cerrarModalAlta() {
+    this.clues_regresa = '';
+    this.t_altas_id = '';
+    this.tur_id = '';
+    this.me_reporta_id = '';
+    this.r_clinico = '';
+    this.diagnostico_egreso = '';
+    this.observacion_trabajo_social = '';
+    this.me_planificacion_id = '';
+    this.i_recomendaciones = '';
     document.getElementById("alta").classList.remove('is-active');
+
   }
 
   nueva_alta() {

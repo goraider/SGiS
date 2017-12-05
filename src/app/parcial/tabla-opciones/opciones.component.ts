@@ -9,7 +9,7 @@ export class TablaOpcionesComponent{
   @Input() ctrl: any; 
 
   private url_nuevo: string = '';
-  private permisos;
+  private permisos = JSON.parse(localStorage.getItem("permisos"));
   private carpeta;
   private modulo;
   private controlador;
@@ -18,9 +18,9 @@ export class TablaOpcionesComponent{
 
   ngOnInit() {
     var url = location.href.split("/");
-    this.carpeta = url[3];
-    this.modulo = url[4];
-    this.modulo_actual = this.modulo.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/[-_]+/g, ' ');
+    this.carpeta = url[4];
+    this.modulo = url[5];
+    //this.modulo_actual = this.modulo.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/[-_]+/g, ' ');
 
     var ctrl = "-" + this.modulo;
     this.controlador = ctrl.toLowerCase()
@@ -33,27 +33,28 @@ export class TablaOpcionesComponent{
             return $1.toUpperCase(); })
         // quitar espacios y agregar controller
         .replace(/ /g, '') + "Controller";
-    
-    this.permisos = JSON.parse(localStorage.getItem("permisos"));
+    this.permisos;
     this.url_nuevo = '/' + this.carpeta + '/' + this.modulo + '/nuevo';
+    var titulo_icono = this.obtener_icono(url[5] + '/' + url[6], JSON.parse(localStorage.getItem("menu")));
 
-    this.icono = this.obtener_icono(this.controlador, JSON.parse(localStorage.getItem("menu")));
+    this.icono = titulo_icono.icono;
+    this.modulo_actual = titulo_icono.titulo;
   }
-  
-  obtener_icono(controlador, menu){    
+
+  obtener_icono(controlador, menu) {
     menu.map((element, key) => {
-      if(typeof this.icono == 'undefined'){
-        if(element.lista){
-          this.icono = this.obtener_icono(controlador, element.lista);        
+      if (typeof this.icono == 'undefined') {
+        if (element.lista) {
+          this.icono = this.obtener_icono(controlador, element.lista);
           return this.icono;
         }
-        if(element.key.indexOf(controlador) > -1 ){
-          this.icono = element.icono;
-          return this.icono;        
+        if (element.path.indexOf(controlador) > -1) {
+          this.icono = element;
+          return this.icono;
         }
       }
       else
-        return this.icono;     
+        return this.icono;
     });
     return this.icono;
   }  

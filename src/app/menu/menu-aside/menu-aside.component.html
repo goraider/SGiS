@@ -1,5 +1,5 @@
 
-<div class="profile-menu is-hidden-mobile" style="background-image: url('../assets/iconos/aside.jpg');">
+<div class="profile-menu is-hidden-mobile" [style.background]="'url(' + fondo + ')'">
     <a (click)="toggle = !toggle">
         <div class="profile-pic">
             <!-- <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile"> -->
@@ -54,7 +54,7 @@
                     </ul>
 
                 </a>
-                <i class="fa fa-caret-{{openmenu[i] ? 'up' : 'down'}}" *ngIf="modulo.lista" style="float:right; margin-top:-28px; margin-right:12px; "></i>
+                <i class="fa fa-caret-{{openmenu[i] ? 'up' : 'down'}}" *ngIf="modulo.lista" style="float:right; margin-top:-28px; margin-right:12px;"></i>
             </li>    
         </ul>
     </div> 

@@ -1,96 +1,82 @@
 <section class="hero" [ngClass]=" {'is-dark': ctrl.busquedaActivada, 'is-primary': !ctrl.busquedaActivada } ">
-    <div class="hero-body" style="position:relative;">
+    <div class="hero-body">
+        <nav class="level ">
+            <!-- Left side -->
+            <div class="level-left ">
+                <div class="level-item">
+                    <p class="title">
+                        <span class="icon is-medium">
+                            <i class="{{icono}}"></i>
+                        </span>
+                        <span class="icon is-medium">
+                            <i class="fa fa-list"></i>
+                        </span> {{modulo_actual}}
+                    </p>
+                </div>                
+            </div>
 
-        <div class="field is-grouped" style="position:absolute; top:0.5em; right:0em;">
-            
-            <p class="control" *ngIf="!ctrl.busquedaActivada">
-                <a class="button is-primary tooltip"  (click)="ctrl.listar(1)">
-                    <span class="icon ">
+            <!-- Right side -->
+            <div class="level-right ">
+                <div class="level-item">
+                    <div class="field is-grouped"  >
+                        <div class="control has-icons-left is-expanded">
+                            <input type="text" class="input is-flat is-medium" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value)">
+                            <span class="icon is-medium is-left">
+                                <i class="fa fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <a class="navbar-item tooltip" (click)="ctrl.listar(1)" id="cargar_datos_actualizar" *ngIf="!ctrl.busquedaActivada">
+                    <span class="icon fa-2x">
                         <i class="fa fa-refresh"></i>
                     </span>
                     <span class="tooltiptext">Actualizar</span>
                 </a>
-            </p>
 
-            <p class="control" *ngIf="ctrl.busquedaActivada">
-                <a class="button is-dark tooltip"  (click)="ctrl.listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar">
-                    <span class="icon ">
+                <a class="navbar-item tooltip" (click)="ctrl.listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar" *ngIf="ctrl.busquedaActivada">
+                    <span class="icon fa-2x">
                         <i class="fa fa-refresh"></i>
                     </span>
                     <span class="tooltiptext">Actualizar</span>
                 </a>
-            </p>
 
-            <p class="control" *ngIf="permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1">
-                <a  class="button is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip"  routerLink="{{url_nuevo}}">
-                    <span class="icon ">
+                <a class="navbar-item tooltip" routerLink="{{url_nuevo}}" *ngIf="permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1">
+                    <span class="icon fa-2x">
                         <i class="fa fa-file"></i>
                     </span>
                     <span class="tooltiptext">Nuevo</span>
                 </a>
-            </p>
 
-            <p class="control">
-                <a class="button is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip"  >
-                    <span class="icon ">
-                        <i class="fa fa-file-excel-o"></i>
-                    </span>
-                    <span class="tooltiptext">Exportar Excel</span>
-                </a>
-            </p>
 
-            <p class="control">
-                <a class="button is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip"  routerLink="{{url_imprimir}}">
-                    <span class="icon ">
-                        <i class="fa fa-print"></i>
-                    </span>
-                    <span class="tooltiptext">Imprimir</span>
-                </a>
-            </p>
-
-            <p class="control">
-                <a class="button  is-{{ctrl.busquedaActivada ? 'dark' : 'primary'}} tooltip" (click)="ctrl.cambiar_vista();">
-                    <span class="icon ">
+                <a class="navbar-item  tooltip" (click)="ctrl.cambiar_vista();">
+                    <span class="icon fa-2x">
                         <i class="fa fa-table" *ngIf="!ctrl.tipo_grid"></i>
                         <i class="fa fa-list" *ngIf="ctrl.tipo_grid"></i>
                     </span>
                     <span class="tooltiptext" *ngIf="!ctrl.tipo_grid">Cambiar a tabla</span>
                     <span class="tooltiptext" *ngIf="ctrl.tipo_grid">Cambiar a lista</span>
                 </a>
-            </p>
 
-            <p class="control">
-                <a class="button  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
-                    <span class="icon ">
+                <a class="navbar-item  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
+                    <span class="icon fa-2x">
                         <i class="fa fa-close"></i>
                     </span>
                     <span class="tooltiptext">Cerrar Busqueda</span>
                 </a>
-            </p>
-        </div>
-
-        <div class="container is-fluid">
-
-            <h1 class="title" *ngIf="!ctrl.busquedaActivada">
-                <span class="icon is-medium"><i class="{{icono}}"></i></span>&nbsp; {{modulo_actual}}
-            </h1>
-            <h1 class="title" *ngIf="ctrl.busquedaActivada">
-                <span class="icon is-medium"><i class="fa fa-search"></i></span> Búsqueda
-            </h1>
-            <div class="control is-grouped">
-                <p class="control is-expanded">
-                    <input class="input is-medium" type="text" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value)">
-                </p>
-                
             </div>
-        </div>
-
+        </nav>
     </div>
 </section>
 
 <div class="is-fullwidth has-text-centered" *ngIf="ctrl.cargando">
     <br>
-    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+    <span class="tag is-primary is-large ">
+        <span class="icon">
+            <i class="fa fa-refresh fa-spin"></i>
+        </span> &nbsp;
+        <span>Cargando...</span>
+    </span>
     <br>
     <br>
 </div>

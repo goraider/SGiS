@@ -1,5 +1,5 @@
-<a class="nav-item tooltip" (click)="toggleNotificaciones()" style="height: 48px;" >
-  <span class="icon">
+<a class="nav-item tooltip" (click)="toggleNotificaciones()">
+  <span class="icon fa-2x">
       <i class="fa fa-bell"></i>
   </span>
   <span class="tag is-danger" style="position:absolute; top:0px; right:0px; border-radius: 50%;" *ngIf="numero_notif > 0">{{ numero_notif }}</span>
@@ -9,7 +9,7 @@
     <div class="box" *ngFor="let mensaje of mensajes; let i = index;" style="margin-bottom: 0.2rem;" [style.background]="mensaje.mensaje.leido ? '' : 'aliceblue'">
         <article class="media">
           <div class="media-left">
-            <figure class="image is-64x64">
+            <figure class="image is-24x24">
                 <img [src]="mensaje.mensaje.usuario.foto ? API_PATH+'/adjunto/usuario/' + mensaje.mensaje.usuario.foto : mensaje.mensaje.usuario.avatar">
             </figure>
           </div>

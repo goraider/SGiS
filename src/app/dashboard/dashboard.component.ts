@@ -11,7 +11,9 @@ export class DashboardComponent implements OnInit {
 
   private usuario: any = {}
 
-  constructor(private title: Title) { }
+  constructor(private title: Title) { 
+    
+  }
 
   ngOnInit() {
 

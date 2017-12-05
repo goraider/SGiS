@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 
 export class JwtRequestService {
 
-  constructor(private http: Http, private authService: AuthService, private bloquearPantallaService: BloquearPantallaService, private router: Router, private jwtHelper: JwtHelper) {    
+  constructor(private http: Http, private authService: AuthService, private bloquearPantallaService: BloquearPantallaService, private router: Router, private jwtHelper: JwtHelper) {
     var token = localStorage.getItem('token');
 
     if (token == 'undefined') {
@@ -47,28 +47,42 @@ export class JwtRequestService {
   }
 
   private request(method: string, url: string, id: any = null, params: any = {}): Observable<any> {
+
+    var usuario = JSON.parse(localStorage.getItem("usuario"));
+    var sucursal = localStorage.getItem("sucursal");
+    var clues = localStorage.getItem("clues") ? JSON.parse(localStorage.getItem("clues")) : {clues: "", nombre: ""};
+    var caja = JSON.parse(localStorage.getItem("caja"));
+    
+    var url_abs = '';
+    var headersJson = {};
+    if (url.indexOf("http") > -1) {
+       headersJson = {
+         'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'
+      };
+      url_abs = `${url}`;
+    } else {
+       headersJson = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+        'Disponible': environment.OAUTH_DISPONIBLE,
+        'X-Usuario': usuario.email,
+        'sucursal': sucursal,
+        'clues': clues.clues,
+        'caja': caja
+      };
+      url_abs = `${environment.API_URL}/${url}`;
+    }
     if (localStorage.getItem('token') == null) {
       return null;
     }
 
     var serverInfo = JSON.parse(localStorage.getItem("server_info"));
     var token = '';
-    if(localStorage.getItem('token') == 'undefined'){
+    if (localStorage.getItem('token') == 'undefined') {
       this.bloquearPantallaService.bloquearPantalla();
     }
 
-    token = this.jwtHelper.decodeToken(localStorage.getItem('token'));
-    var usuario = JSON.parse(localStorage.getItem("usuario"));
-    var sucursal = localStorage.getItem("sucursal");
-    var clues = localStorage.getItem("clues") ? JSON.parse(localStorage.getItem("clues")) : {clues: "", nombre: ""};
-    var caja = JSON.parse(localStorage.getItem("caja"));
-
-    var headersJson = { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token'), 'Disponible': environment.OAUTH_DISPONIBLE };
-
-    headersJson['X-Usuario'] = usuario.email;
-    headersJson['sucursal'] = sucursal;
-    headersJson['clues'] = clues.clues;
-    headersJson['caja'] = caja;
+    token = this.jwtHelper.decodeToken(localStorage.getItem('token'));    
 
     var headers = new Headers(headersJson);
 
@@ -101,7 +115,7 @@ export class JwtRequestService {
                   }
                 }
                 if (id == null) {
-                  this.http.get(`${environment.API_URL}/${url}`, { headers: headers, search: urlSearchParams })
+                  this.http.get(`${url_abs}`, { headers: headers, search: urlSearchParams })
                     .subscribe(
                     data => {
                       observer.next(data)
@@ -109,7 +123,7 @@ export class JwtRequestService {
                     error => { observer.error(error) }
                     );
                 } else {
-                  this.http.get(`${environment.API_URL}/${url}/${id}`, { headers: headers, search: urlSearchParams })
+                  this.http.get(`${url_abs}/${id}`, { headers: headers, search: urlSearchParams })
                     .subscribe(
                     data => {
                       observer.next(data)
@@ -120,7 +134,7 @@ export class JwtRequestService {
               }
 
               if (method == 'post') {
-                this.http.post(`${environment.API_URL}/${url}`, params, { headers: headers })
+                this.http.post(`${url_abs}`, params, { headers: headers })
                   .subscribe(
                   data => {
                     observer.next(data)
@@ -130,7 +144,7 @@ export class JwtRequestService {
               }
 
               if (method == 'put' && id != null) {
-                this.http.put(`${environment.API_URL}/${url}/${id}`, params, { headers: headers })
+                this.http.put(`${url_abs}/${id}`, params, { headers: headers })
                   .subscribe(
                   data => {
                     observer.next(data)
@@ -140,7 +154,7 @@ export class JwtRequestService {
               }
 
               if (method == 'delete' && id != null) {
-                this.http.delete(`${environment.API_URL}/${url}/${id}`, { headers: headers })
+                this.http.delete(`${url_abs}/${id}`, { headers: headers })
                   .subscribe(
                   data => {
                     observer.next(data)
@@ -170,7 +184,7 @@ export class JwtRequestService {
             }
           }
           if (id == null) {
-            this.http.get(`${environment.API_URL}/${url}`, { headers: headers, search: urlSearchParams })
+            this.http.get(`${url_abs}`, { headers: headers, search: urlSearchParams })
               .subscribe(
               data => {
                 observer.next(data)
@@ -178,7 +192,7 @@ export class JwtRequestService {
               error => { observer.error(error) }
               );
           } else {
-            this.http.get(`${environment.API_URL}/${url}/${id}`, { headers: headers, search: urlSearchParams })
+            this.http.get(`${url_abs}/${id}`, { headers: headers, search: urlSearchParams })
               .subscribe(
               data => {
                 observer.next(data)
@@ -190,7 +204,7 @@ export class JwtRequestService {
 
 
         if (method == 'post') {
-          this.http.post(`${environment.API_URL}/${url}`, params, { headers: headers })
+          this.http.post(`${url_abs}`, params, { headers: headers })
             .subscribe(
             data => {
               observer.next(data)
@@ -200,7 +214,7 @@ export class JwtRequestService {
         }
 
         if (method == 'put' && id != null) {
-          this.http.put(`${environment.API_URL}/${url}/${id}`, params, { headers: headers })
+          this.http.put(`${url_abs}/${id}`, params, { headers: headers })
             .subscribe(
             data => {
               observer.next(data)
@@ -210,7 +224,7 @@ export class JwtRequestService {
         }
 
         if (method == 'delete' && id != null) {
-          this.http.delete(`${environment.API_URL}/${url}/${id}`, { headers: headers })
+          this.http.delete(`${url_abs}/${id}`, { headers: headers })
             .subscribe(
             data => {
               observer.next(data)

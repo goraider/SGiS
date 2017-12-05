@@ -26,10 +26,10 @@ export class MenuAsideComponent implements OnInit {
   
     var menu = JSON.parse(localStorage.getItem("menu"));
 
-    this.fondo = './assets/iconos/pantalla-de-inicio-SGIS.png';
+    this.fondo = '../assets/iconos/aside.jpg';
 
     var url = location.href.split("/");
-    this.menuactual = " " + url[3];
+    this.menuactual = " " + url[4];
     this.menuactual = this.menuactual.toLowerCase()
       .replace(/[-_]+/g, ' ')
       .replace(/[^\w\s]/g, '')
@@ -37,7 +37,7 @@ export class MenuAsideComponent implements OnInit {
       .replace(/ /g, '');
 
     for (let item of menu) {
-      if (item.titulo == this.menuactual || item.path.indexOf(url[3]) > -1) {
+      if (item.titulo == this.menuactual || item.path.indexOf(url[4]) > -1) {
         if (this.menu.indexOf(item) < 0)
           this.menu.push(item);
       }

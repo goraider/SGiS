@@ -1,8 +1,8 @@
-<div style="padding:0em;" >
+<div style="padding:1em;" >
     
-    <div class="control" style="float:right; margin-left: 16px;">
-        <div class="select">
-        <select #totalPorPagina (change)="ctrl.cambiar_filas_pagina(totalPorPagina)" style="height: 35px;">
+    <p class="control" style="float:right; margin-left: 16px;">
+        <span class="select">
+        <select #totalPorPagina (change)="ctrl.cambiar_filas_pagina(totalPorPagina)" >
             <option value="15">Filas por página: 15</option>
             <option value="30">Filas por página: 30</option>
             <option value="50">Filas por página: 50</option>
@@ -10,9 +10,9 @@
             <option value="500">Filas por página: 500</option>
             <option value="all">Ver Todo</option>
         </select>
-        </div>
-    </div>
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        </span>
+    </p>
+    <nav class="pagination is-centered" >
         
         <a class="pagination-previous" [ngClass]="{'is-disabled': 1 == ctrl.paginaActual }" (click)="ctrl.paginaAnterior()">Anterior</a>
         <a class="pagination-next"  [ngClass]="{'is-disabled': ctrl.paginasTotales <= ctrl.paginaActual }" (click)="ctrl.paginaSiguiente()">Siguiente</a>

@@ -24,7 +24,7 @@ export class IndexComponent implements OnInit {
     var menu = JSON.parse(localStorage.getItem("menu"));
 
     var url = location.href.split("/");
-    this.modulo = url[3];
+    this.modulo = url[4];
     this.modulo_actual = this.modulo.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 
     for (let item of menu) {

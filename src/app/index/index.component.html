@@ -1,46 +1,58 @@
-<sistema-menu ></sistema-menu>
+<sistema-menu></sistema-menu>
 
-<div style="height:50px;"></div>
+
 <section style="padding: 1em;">
-  <div class="field is-grouped">
-    <p class="control is-expanded">
-        <input class="input is-medium" type="text" placeholder="Buscar" [(ngModel)] = "busqueda" id="search-box">
-    </p>
-    <p class="control">
-        <a class="button is-medium is-primary is-inverted" [ngClass]="{ 'is-disabled': busqueda==''}" (click)="busqueda=''">
-        <span class="icon"><i class="fa fa-close"></i></span>
-        </a>
-    </p>
-  </div>
+
+    <div class="field is-grouped">
+        <div class="control has-icons-left is-expanded">
+            <input type="text" class="input is-flat is-medium" placeholder="Buscar" [(ngModel)]="busqueda" id="search-box">
+            <span class="icon is-medium is-left">
+                <i class="fa fa-search"></i>
+            </span>
+        </div>
+        <p class="control">
+            <button class="button is-medium is-primary" [ngClass]="{ 'is-disabled': busqueda==''}" (click)="busqueda=''">
+                <span class="icon">
+                    <i class="fa fa-close"></i>
+                </span>
+            </button>
+        </p>
+    </div>
 </section>
 <section style="padding: 1em; overflow:auto;" [style.maxHeight.px]="tamano-130">
-    
     <section class="contenedor columns is-multiline is-mobile" *ngFor="let val of menu">
-        <div *ngFor="let item of val.lista | buscarModulo: busqueda"  [class]="item.lista ? 'column is-12' : val.lista.length > 7 ? '' : 'column is-2-desktop is-4-tablet is-6-mobile'" >
-            <a *ngIf="!item.lista" href="#" title="{{ item.titulo}}" style="position: relative;" class="item menu-index menu-index-a {{val.lista.length > 6 ? 'menu-index-a-tamanio' : ''}}"  routerLink="{{item.path}}" routerLinkActive="active">
-                
+        <div *ngFor="let item of val.lista | buscarModulo: busqueda" [class]="item.lista ? 'column is-12' : val.lista.length > 7 ? '' : 'column is-2-desktop is-4-tablet is-6-mobile'">
+            <a *ngIf="!item.lista" href="#" title="{{ item.titulo}}" style="position: relative;" class="item menu-index menu-index-a {{val.lista.length > 6 ? 'menu-index-a-tamanio' : ''}}"
+                routerLink="{{item.path}}" routerLinkActive="active">
+
                 <figure class="image " style="height: auto; width: 100%; ">
-                    <i class="{{item.icono}}" style="font-size: 100px"></i>                             
+                    <i class="{{item.icono}}" style="font-size: 100px"></i>
                 </figure>
                 <span class="is-hidden-mobile">{{ item.titulo}}</span>
-                <span class="is-hidden-tablet is-hidden-desktop"><small>{{ item.titulo}}</small></span>
-            </a>   
-            <span *ngIf="item.lista" class="menu-index-span"  >
+                <span class="is-hidden-tablet is-hidden-desktop">
+                    <small>{{ item.titulo}}</small>
+                </span>
+            </a>
+            <span *ngIf="item.lista" class="menu-index-span">
                 <figure class="image " style="height: auto; width: 100%; ">
-                    <i class="{{item.icono}}" style="font-size: 100px"></i>                             
+                    <i class="{{item.icono}}" style="font-size: 100px"></i>
                 </figure>
                 <span class="is-hidden-mobile">{{ item.titulo}}</span>
-                <span class="is-hidden-tablet is-hidden-desktop"><small>{{ item.titulo}}</small></span>
-            </span> 
-            <section *ngIf="item.lista" class="contenedor columns is-multiline is-mobile">        
+                <span class="is-hidden-tablet is-hidden-desktop">
+                    <small>{{ item.titulo}}</small>
+                </span>
+            </span>
+            <section *ngIf="item.lista" class="contenedor columns is-multiline is-mobile">
                 <div *ngFor="let valor of item.lista | buscarModulo: busqueda" class="column is-2-desktop is-4-tablet is-4-mobile menu-index">
                     <a href="#" title="{{ valor.titulo}}" style="position: relative;" class="item" routerLink="{{valor.path}}" routerLinkActive="active">
-                        
+
                         <figure class="image " style="height: auto; width: 100%; ">
-                            <i class="{{valor.icono}}" style="font-size: 100px"></i>                             
+                            <i class="{{valor.icono}}" style="font-size: 100px"></i>
                         </figure>
                         <span class="is-hidden-mobile">{{ valor.titulo}}</span>
-                        <span class="is-hidden-tablet is-hidden-desktop"><small>{{ valor.titulo}}</small></span>
+                        <span class="is-hidden-tablet is-hidden-desktop">
+                            <small>{{ valor.titulo}}</small>
+                        </span>
                     </a>
                 </div>
             </section>
@@ -49,4 +61,3 @@
         <hr>
     </section>
 </section>
-

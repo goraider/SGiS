@@ -29,7 +29,6 @@ export class FormularioComponent {
   private temp_localidades_id: number = null;
 
   private form_sis_usuarios_contactos;
-  private form_sis_usuarios_rfcs;
   private tamano;
   private usuario;
   private activar_super;
@@ -66,9 +65,7 @@ export class FormularioComponent {
       municipios_id: [''],
       localidades_id: [''],
       sis_usuarios_contactos: this.fb.array([]),
-      sis_usuarios_rfcs: this.fb.array([]),
       sis_usuarios_clues: this.fb.array([]),
-      // sis_usuarios_sucursales: this.fb.array([]),
       // sis_usuarios_dashboards: this.fb.array([]),
       // sis_usuarios_reportes: this.fb.array([]),
       sis_usuarios_grupos: this.fb.array([]),
@@ -78,22 +75,6 @@ export class FormularioComponent {
     this.form_sis_usuarios_contactos = {
       tipos_medios_id: ['1'],
       valor: ['', [Validators.required]]
-    };
-
-    this.form_sis_usuarios_rfcs = {
-      tipo_persona: ['Fisica', [Validators.required]],
-      rfc: ['', [Validators.required]],
-      razon_social: ['', [Validators.required]],
-      paises_id: [''],
-      estados_id: [''],
-      municipios_id: [''],
-      localidad: [''],
-      colonia: [''],
-      calle: [''],
-      numero_exterior: [''],
-      numero_interior: [''],
-      codigo_postal: [''],
-      email: ['']
     };
 
     this.tamano = document.body.clientHeight;

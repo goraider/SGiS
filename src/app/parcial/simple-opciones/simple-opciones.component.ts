@@ -9,7 +9,7 @@ export class SimpleOpcionesComponent{
   @Input() ctrl: any; 
 
   private url_nuevo: string = '';
-  private permisos;
+  private permisos = JSON.parse(localStorage.getItem("permisos"));
   private carpeta;
   private modulo;
   private controlador;
@@ -18,8 +18,8 @@ export class SimpleOpcionesComponent{
 
   ngOnInit() {
     var url = location.href.split("/");
-    this.carpeta = url[3];
-    this.modulo = url[4];
+    this.carpeta = url[4];
+    this.modulo = url[5];
     this.modulo_actual = this.modulo.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/[-_]+/g, ' ');
 
     var ctrl = "-" + this.modulo;
@@ -34,7 +34,6 @@ export class SimpleOpcionesComponent{
         // quitar espacios y agregar controller
         .replace(/ /g, '') + "Controller";
     
-    this.permisos = JSON.parse(localStorage.getItem("permisos"));
     this.url_nuevo = '/' + this.carpeta + '/' + this.modulo + '/nuevo';
 
     this.icono = this.obtener_icono(this.controlador, JSON.parse(localStorage.getItem("menu")));

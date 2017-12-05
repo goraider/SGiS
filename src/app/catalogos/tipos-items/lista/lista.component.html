@@ -3,7 +3,7 @@
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
@@ -16,16 +16,16 @@
             <!-- Opciones y busqueda -->
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
                 
-            <span style="overflow:auto; display:block" [style.maxHeight.px]="tamano-285">
+            <span style="overflow-y:auto; display:block; overflow-x:hidden;" [style.maxHeight.px]="tamano-285">
                     
                 <!--Tabla -->
-                <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+                <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th style="text-align:center; width: 20%;">Opciones</th>
+                            <th width="1%">Opciones</th>
                         </tr>
                     </thead>
 
@@ -34,9 +34,9 @@
                             <th style="vertical-align: middle;">{{ item.id }}</th>
                             <td style="vertical-align: middle;">{{ item.nombre }}</td>
                             <td style="vertical-align: middle;">{{ item.descripcion }}</td>
-                            <td style="vertical-align: middle;" class="has-text-centered">
+                            <td style="vertical-align: middle;">
                                 <!-- acciones -->
-                                <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                                <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                             </td>
 
                         </tr>
@@ -69,7 +69,7 @@
                                     <div class="level-left">
 
                                         <!-- acciones -->
-                                        <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl"></tabla-acciones>
+                                        <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                                     </div>
                                 </nav>
                             </div>

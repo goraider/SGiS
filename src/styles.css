@@ -14,10 +14,6 @@ html {
 }
 body { height: 100%; }
 
-.table{
-  width: 100%;
-}
-
 
 .b-checkbox {
   line-height: 1;
@@ -191,14 +187,14 @@ input[type="checkbox"] .styled:checked + label::after {
 .menu-izquierda{
   background: white;
   font-size: 14pt;
-  width: 20% !important;
   min-width: 268px !important;
   box-shadow: -2px 1px 10px;
 }
 
 .menu-izquierda sistema-menu-aside{
-  width: 103%;
+  width: 104%;
   display: block;
+  margin-top: -12px;
 }
 .menu-izquierda aside{    
     font-size: 1em;
@@ -209,7 +205,9 @@ input[type="checkbox"] .styled:checked + label::after {
     min-width: 225px !important;
     margin-top: 16%;
 }
-
+.contenedor{
+  margin-top: 0px !important;
+}
 .menu-persona{
   background: #f8f8f8;
   font-size: 14pt;
@@ -324,8 +322,6 @@ input[type="checkbox"] .styled:checked + label::after {
 
 .tooltip {
     position: relative;
-    /*display: inline-block;*/
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
 }
 
 /* Tooltip text */
@@ -335,12 +331,13 @@ input[type="checkbox"] .styled:checked + label::after {
     background-color: black;
     color: #fff;
     text-align: center;
-    padding: 5px 0;
+    /* padding: 5px 0; */
     border-radius: 6px;
-    top: 35px;
-    /* Position the tooltip text - see examples below! */
+    top: 40px;
     position: absolute;
     z-index: 1;
+    display: block;
+    left: -32px;
 }
 
 /* Show the tooltip text when you mouse over the tooltip container */
@@ -445,9 +442,7 @@ input[type="checkbox"] .styled:checked + label::after {
 .menu-index-span{
   float: left;
     text-align: -webkit-center;
-    margin-left: 25px;
     height: 153px;
-    margin-top: -5px;
     padding: 7px 36px;
 }
 .menu-index-a{
@@ -471,7 +466,55 @@ input[type="checkbox"] .styled:checked + label::after {
   cursor: pointer;
   transition: all 0.5s;
   border: 2px solid #37474F;
-  width: 30%;
-  right: 1%;
+}
+.blue-class{
+  background: rgb(173, 216, 230) !important;
+  animation-name: blue_change;
+  animation-duration: 3s;
+}
+@media print {
+  .equis{
+      display: none !important;
+      height: 0 !important;
+      width: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+  }
+}
+@-webkit-keyframes blue_change {
+  0%   {background: rgba(173, 217, 230, 0.25);}
+  25%  {background: rgba(173, 217, 230, 0.5);}
+  50%  {background: rgba(173, 217, 230, 0.75);}
+  100% {background: rgb(173, 217, 230);}
+}
+@keyframes blue_change {
+  0%   {background: rgba(173, 217, 230, 0.25);}
+  25%  {background: rgba(173, 217, 230, 0.5);}
+  50%  {background: rgba(173, 217, 230, 0.75);}
+  100% {background: rgb(173, 217, 230);}
+}
+
+
+input[disabled], fieldset[disabled], button[disabled] {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
+.no-match-found, .ngui-auto-complete ul li{
+  color:black;
+}
+
+.pusher-notificacion {
+  position: fixed;
+  cursor: pointer;
+  transition: all 0.5s;
+  border: 2px solid #37474F;
+  width: 25%;
+  right: 0%;
+  top: 5.3%;
   line-height: 1.8;
+  z-index: 9999;
 }

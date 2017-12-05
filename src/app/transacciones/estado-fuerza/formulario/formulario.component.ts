@@ -21,6 +21,8 @@ export class FormularioComponent {
 
   private usuario = JSON.parse(localStorage.getItem("usuario"));
 
+  private clues_login = JSON.parse(localStorage.getItem("clues"));
+
   constructor(private crudService: CrudService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
   fecha = new Date();
 

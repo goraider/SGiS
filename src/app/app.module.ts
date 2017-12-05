@@ -2,6 +2,7 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -104,6 +105,19 @@ import { ReporteEstadoFuerzaModule } from './reporte/estado-fuerza/reporte-estad
 //Notificacion Pusher
 import { NotificacionPusherModule } from './notificacion/notificacion-pusher.module';
 
+// import { ChartModule } from 'angular2-highcharts';
+// import { HighchartsStatic } from "angular2-highcharts/dist/HighchartsService";
+
+// declare var require: any;
+
+// export function highchartsFactory() {
+//   const hc = require('highcharts');
+//   const dd = require('highcharts/modules/drilldown');
+//   dd(hc);
+
+//   return hc;
+// }
+
 // Asegurarase que en imports "WildcardRoutingModule" vaya al ÚLTIMO
 // Esto nos sirve para redireccionar a una página 404 en lugar de que se genere un error
 
@@ -181,6 +195,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     ReporteIncidenciaModule,
 
     NotificacionPusherModule,
+    //ChartModule,
     
     TiposNotificacionesModule,
     EscalamientosNotificacionesModule,
@@ -192,6 +207,8 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
                AuthService,
                JwtHelper,
                JwtRequestService,
+               {provide: LocationStrategy, useClass: HashLocationStrategy },
+               //{provide: HighchartsStatic, useFactory: highchartsFactory},
               ],
   bootstrap: [AppComponent]
 })

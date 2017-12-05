@@ -1,72 +1,77 @@
-<section class="hero is-primary" style="position: fixed; width: 100%;top:0px; z-index:99">
+<section class="hero is-primary">
     <div class="hero-head">
-        <div class="container is-fluid">
-            <nav class="nav is-info">
-                <div class="nav-left">
-                    <figure class="image">
-                        <img [src]="'./assets/iconos/icono-ugus-512x512.png'" alt="Logo" class="profile" style="width:35px; height: 35px;">
-                    </figure>
-                    &nbsp;&nbsp;
-                    <a class="nav-item is-brand" routerLink="/{{menuactual}}" routerLinkActive="active">
-                   
-                     <span class="icon">
-                        <i style="font-size: 1.5em;"></i>
-                    </span> 
-                     <h1 class="title">&nbsp;&nbsp;&nbsp;&nbsp;{{menutitulo}}</h1>
-                    </a>
-                </div>
+        <nav class="navbar">
+            <div class="navbar-brand">
 
-                <div class="nav-center is-invert" style="background: #1E254B">
-                    <span class="nav-item is-hidden-mobile " style="font-size: 1em;"> 
-                            {{clues.clues}}   &nbsp;
-                        <span class="icon">
-                            <i class="fa fa-caret-right"></i>
+                <a class="navbar-item" routerLink="/{{menuactual}}" routerLinkActive="active">
+                    <span class="icon fa-2x">
+                        <i class="{{menuicono}}"></i>
+                    </span> &nbsp;&nbsp;
+                    <h1 class="title">{{menutitulo}}</h1>
+                </a>
+
+                <span class="navbar-burger burger" [ngClass]="{'is-active': activar}" data-target="navbarMenuHeroA" (click)="activar = !activar">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </div>
+
+            <div id="navbarMenuHeroA" class="navbar-menu" [ngClass]="{'is-active': activar}" >
+                <div class="navbar-end">
+                    <a class="navbar-item is-active">
+                        <span class="nav-item is-hidden-mobile" style="font-size: 1.3em;"> 
+                                {{clues.clues}}   &nbsp;
+                            <span class="icon">
+                                <i class="fa fa-caret-right"></i>
+                            </span>
+                            &nbsp;{{clues.nombre }}       
                         </span>
-                        &nbsp;     {{clues.nombre }}       
-                    </span>
-                    <a class="nav-item tooltip" id="cambiar_clues" (click)="toggleCambiarclues()">
-                        <span class="icon">
+                    </a>
+
+                    <a class="navbar-item tooltip" id="cambiar_clues" (click)="toggleCambiarclues()">
+                        <span class="icon fa-2x">
                             <i class="fa fa-hospital-o"></i>
                         </span>
-                        <span class="tooltiptext">Cambiar de clues</span>
+                        <span class="tooltiptext">Cambiar de Clues</span>
+                    </a>
+
+                    <a class="navbar-item tooltip">
+                        <notificacion-pusher></notificacion-pusher>
+                    </a>
+
+                    <a class="navbar-item is-hidden-tablet tooltip" (click)="toggleMenuAside()">
+                        <span class="icon fa-2x">
+                            <i class="fa fa-navicon"></i>
+                        </span>
+                        <span class="tooltiptext">Menú Opciones</span>
+                    </a>
+                    <a class="navbar-item tooltip" (click)="hub.toggle()">
+                        <span class="icon fa-2x">
+                            <i class="fa fa-th"></i>
+                        </span>
+                        <span class="tooltiptext">Menú Modulos</span>
+                    </a>                
+
+                    <a class="navbar-item is-hidden-mobile tooltip" (click)="perfil.toggle()">
+                        
+                        <figure class="image" style="width:26px;">
+                            <img src="{{ usuario.avatar }}" alt="Image" class="profile">
+                        </figure>
+                        &nbsp;
+                        <span>{{ usuario.nombre }} {{ usuario.apellidos }}</span>
+                        <span class="tooltiptext">Perfil</span>
+                    </a>
+                    <a class="navbar-item is-hidden-tablet tooltip" (click)="perfil.toggle()">
+                        
+                        <figure class="image" style="width:26px;">
+                            <img src="{{ usuario.avatar }}" alt="Image" class="profile">
+                        </figure>
+                        <span class="tooltiptext">Perfil</span>
                     </a>
                 </div>
-
-                <notificacion-pusher></notificacion-pusher>
-
-                <a class="nav-item is-hidden-tablet tooltip" (click)="toggleMenuAside()">
-                    <span class="icon">
-                        <i class="fa fa-navicon"></i>
-                    </span>
-                    <span class="tooltiptext">Menú Opciones</span>
-                </a>
-                <a class="nav-item tooltip"  (click)="hub.toggle()">
-                    <span class="icon">
-                        <i class="fa fa-th"></i>
-                    </span>
-                    <span class="tooltiptext">Menú Modulos</span>
-                </a>                
-
-                <a class="nav-item is-hidden-mobile tooltip" (click)="perfil.toggle()">
-                    
-                    <figure class="image" style="width:26px;">
-                        <img src="{{ usuario.avatar }}" alt="Image" class="profile">
-                    </figure>
-                    &nbsp;
-                    <span>{{ usuario.nombre }} {{ usuario.apellidos }}</span>
-                    <span class="tooltiptext">Perfil</span>
-                </a>
-                <a class="nav-item is-hidden-tablet tooltip" (click)="perfil.toggle()">
-                    
-                    <figure class="image" style="width:26px;">
-                        <img src="{{ usuario.avatar }}" alt="Image" class="profile">
-                    </figure>
-                    <span class="tooltiptext">Perfil</span>
-                </a>
-               
-                
-            </nav>
-        </div>
+            </div>
+        </nav>
     </div>
 </section>
 

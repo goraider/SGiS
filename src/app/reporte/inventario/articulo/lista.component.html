@@ -3,7 +3,7 @@
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
@@ -19,7 +19,7 @@
             
             <div id="imprimir"  style="overflow:auto;" [style.maxHeight.px]="tamano-180">                    
                 <!--Tabla -->
-                <table id class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="!ctrl.cargando " >
+                <table id class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando " >
                     <thead>
                         <tr>
                             <th>Clave</th>

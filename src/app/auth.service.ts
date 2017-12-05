@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Compiler } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +13,7 @@ export class AuthService {
   clues = localStorage.getItem("clues") ? JSON.parse(localStorage.getItem("clues")) : {clues: "", nombre: ""};
   private headers = new Headers({ 'Content-Type': 'application/json', 'Disponible':  environment.OAUTH_DISPONIBLE, 'clues': this.clues.clues});
 
-  constructor(private http: Http, private router: Router) { }
+  constructor(private http: Http, private router: Router, private compiler: Compiler) { }
 
   login(email: string, password: string) {
     const url: string = 'signin';
@@ -103,7 +103,7 @@ export class AuthService {
   }
 
   logout(url: string = null) {
-    localStorage.removeItem('token');
+        localStorage.removeItem('token');
         localStorage.removeItem('usuario'); 
         localStorage.removeItem('clues'); 
         localStorage.removeItem('usuario_clues');         
@@ -111,11 +111,12 @@ export class AuthService {
         localStorage.removeItem('permisos');
         localStorage.removeItem('server_info');
 
-    if (url != null) {
-      this.router.navigate(['login'], { queryParams: { returnUrl: decodeURIComponent(url.replace(/\+/g, " ")) } });
-    } else {
-      this.router.navigate(['login']);
-    }
+        this.compiler.clearCache();
+        if (url != null) {
+          this.router.navigate(['login'], { queryParams: { returnUrl: decodeURIComponent(url.replace(/\+/g, " ")) } });
+        } else {
+          this.router.navigate(['login']);
+        }
   }
 
 }

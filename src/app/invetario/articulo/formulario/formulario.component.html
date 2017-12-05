@@ -3,7 +3,7 @@
 
 <!-- Menu principal  menutitulo="titulo del modulo en el que estamos con el nombre como se encuentra en enviroment" menuactual="nombre del hub donde estamos como se especifico en el routing"-->
 <sistema-menu menutitulo="Catalogo" menuactual="catalago"></sistema-menu>
-<div style="height:50px;"></div>
+
 <div class="contenedor columns " style="height:100%; ">
     
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
@@ -222,7 +222,7 @@
 
                         <div [ngClass]="{ 'is-hidden': tab != 6}">  <!-- PRECIOS -->
                                                     
-                            <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.dato.get('articulos_precios').length > 0">
+                            <table class="table is-striped is-fullwidth" *ngIf="ctrl.dato.get('articulos_precios').length > 0">
                                 <thead>
                                     <tr>
                                         <th hide-sm>ID</th>
@@ -500,7 +500,7 @@
 
                         <div [ngClass]="{ 'is-hidden': tab != 5}">  <!-- IMAGENES -->
                            
-                            <table class="table is-bordered is-striped is-narrow is-fullwidth" *ngIf="ctrl.dato.get('articulos_imagenes').length > 0">
+                            <table class="table is-striped is-fullwidth" *ngIf="ctrl.dato.get('articulos_imagenes').length > 0">
                                 <thead>
                                     <tr>
                                         <th hide-sm>#</th>

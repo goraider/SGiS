@@ -90,6 +90,8 @@ export class FormularioComponent {
 
         this.iniciarFormulario();
 
+        console.log(this.dato.value);
+
 
         var url = location.href.split("/");
         this.carpeta = url[4];
@@ -352,6 +354,7 @@ export class FormularioComponent {
     no_tiene_referencia() {
 
         this.dato.controls.tieneReferencia.setValue(0);
+
 
     }
 

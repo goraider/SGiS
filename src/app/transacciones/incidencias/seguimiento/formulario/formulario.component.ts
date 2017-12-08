@@ -104,7 +104,7 @@ export class FormularioComponent {
   tur_id:  any = '';
   tur:  any = '';
   me_planificacion:  any = '';
-  me_planificacion_id;
+  me_planificacion_id:  any = '';;
   t_altas:  any = '';
   t_altas_id:  any = '';
   clues_regresa:  any = '';

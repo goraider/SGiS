@@ -23,16 +23,17 @@ export class ReporteIncidenciaComponent{
   datos: any[] = [];
   cargando: boolean = false;
 
-  fecha_inicio = "";
-  fecha_fin = "";
-  clues = "";
-  edo_incidencia = "";
-  edo_paciente= "";
-  color_triage = "";
-  turno = "";
-  referencia_origen = "";
-  referencia_destino = "";
-  cie10 = "";
+  fecha_inicio: any = "";
+  fecha_fin: any = "";
+  clues: any = "";
+  edo_incidencia: any = "";
+  edo_paciente: any = "";
+  color_triage: any = "";
+  turno: any = "";
+  referencia_origen: any = "";
+  referencia_destino: any = "";
+  cie10: any = "";
+  tipo_alta: any = "";
   
 
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
@@ -106,6 +107,20 @@ lista_incidencias(url){
 
 }
 
+limpiar_campos_busqueda(){
+  this.fecha_inicio = "";
+  this.fecha_fin = "";
+  this.clues = "";
+  this.edo_incidencia = "";
+  this.edo_paciente= "";
+  this.color_triage = "";
+  this.turno = "";
+  this.referencia_origen = "";
+  this.referencia_destino = "";
+  this.cie10 = "";
+  this.tipo_alta = "";
+}
+
 
 select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {        
   if (!esmodelo)
@@ -162,7 +177,7 @@ select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {
 
   datos.forEach(element => {
 
-    console.log(element.id,element.movimientos_incidencias[element.movimientos_incidencias.length -1].subcategorias_cie10);
+    //console.log(element.id,element.movimientos_incidencias[element.movimientos_incidencias.length -1].subcategorias_cie10);
 
     //console.log(element.movimientos_incidencias[element.movimientos_incidencias.length -1].triage_colores.nombre);
   
@@ -233,7 +248,7 @@ select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {
 
 
 
-    doc.save('table.pdf');
+    doc.save('Reporte de Incidencias.pdf');
     
 
   }

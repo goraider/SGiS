@@ -22,6 +22,7 @@ export class MenuComponent implements OnInit {
   menutitulo: string;
   menuicono: string;
   mostrar = [];
+  @Input() ctrl: any;
   private mensaje_cambiar_clues:string = '';
   ngOnInit() {
     this.usuario = JSON.parse(localStorage.getItem("usuario"));

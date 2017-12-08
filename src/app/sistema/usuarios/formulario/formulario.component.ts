@@ -51,7 +51,7 @@ export class FormularioComponent {
       password: [{ value: '', disabled: true }, [Validators.required]],
       confirmarPassword: [{ value: '', disabled: true }, [Validators.required]],
       foto: [''],
-      avatar: [''],
+      avatar: ['https://www.menon.no/wp-content/uploads/person-placeholder.jpg'],
       username: [''],
       direccion: [''],
       colonia: [''],
@@ -94,6 +94,7 @@ export class FormularioComponent {
     });
 
     var il = 0, ie = 0, im = 0, sue = 0;
+    
 
     this.dato.controls.sis_usuarios_clues.valueChanges.
       subscribe(val => {
@@ -113,7 +114,8 @@ export class FormularioComponent {
           this.temp_municipios_id = val;
         }
       });
-    this.dato.controls.localidades_id.valueChanges.
+
+      this.dato.controls.localidades_id.valueChanges.
       subscribe(val => {
         if (val && il == 0) {
           il++;
@@ -123,16 +125,19 @@ export class FormularioComponent {
 
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     document.getElementById("catalogos").click();
+
+
   }
   autovalor_municipio() {
     setTimeout(() => {
       this.municipios_id = this.temp_municipios_id;
     }, 3000);
   }
+
   autovalor_localidad() {
     setTimeout(() => {
       this.localidades_id = this.temp_localidades_id;
-    }, 2000);
+    }, 3000);
   }
 
   toggleCambiarPassword() {
@@ -186,9 +191,16 @@ export class FormularioComponent {
     return html;
   }
   select_clue_autocomplete(modelo, data) {
+    console.log(data);
     const um =<FormArray> this.dato.controls.sis_usuarios_clues;
-    um.push(this.fb.group(data));
-    (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
+    if(data == ""){
+      (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
+    }
+    else{
+      um.push(this.fb.group(data));
+      (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
+    }
+
   }
   quitar_form_array(modelo, i) {
     modelo.removeAt(i);

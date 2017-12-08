@@ -154,6 +154,7 @@ export class FormularioComponent implements OnInit {
 
         this.cargando = true;
         this.guardado = false;
+        console.log(this.dato);
         var json = this.dato.getRawValue();
         this.crudService.crear(json, this.URL).subscribe(
             resultado => {
@@ -968,7 +969,7 @@ export class FormularioComponent implements OnInit {
      * @param esmodelo Bandera que determina si el modelo es un formGroup 
      * @return void
      */
-    select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {        
+    select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {  
         if (!esmodelo)
             modelo = datos[item];
         else{

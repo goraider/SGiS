@@ -19,32 +19,30 @@
             <section class="hero is-primary">
                 <div class="hero-body">
 
-                    <!-- Opciones  -->   
-                    <div class="field is-grouped" style="position:absolute; top:4.5em; right:1em;"> 
-                        <p class="control" >
-                            <a class="button is-primary tooltip" (click)="ctrl.regresar()">
-                                <span class="icon ">
-                                    <i class="fa fa-arrow-left"> </i>
-                                </span>
-                                <span class="tooltiptext">Regresar</span>
-                            </a>
-                        </p> 
-                        <p class="control" *ngIf="ctrl.id">
-                            <a class="button is-primary tooltip"  (click)="ctrl.cargarDatos()">
-                                <span class="icon ">
-                                    <i class="fa fa-refresh"></i>
-                                </span>
-                                <span class="tooltiptext">Actualizar</span>
-                            </a>
-                        </p>
-                        <p class="control" >
-                            <button class="button is-primary tooltip" type="submit" [ngClass]="{'is-loading': ctrl.cargando}" [disabled]="ctrl.dato.invalid">
-                                <span class="icon ">
-                                    <i class="fa fa-save"> </i>
-                                </span>
-                                <span class="tooltiptext">Guardar</span>
-                            </button>
-                        </p>
+                    <!-- Opciones  -->
+                    <div class="level-right">
+                        <a class="navbar-item tooltip" (click)="ctrl.regresar()">
+                            <span class="icon fa-2x">
+                                <i class="fa fa-arrow-left"> </i>
+                            </span>
+                            <span class="tooltiptext">Regresar</span>
+                        </a>
+
+                        <a class="navbar-item tooltip" (click)="ctrl.cargarDatos()" id="cargar_datos_actualizar" *ngIf="ctrl.id">
+                            <span class="icon fa-2x">
+                                <i class="fa fa-refresh"></i>
+                            </span>
+                            <span class="tooltiptext">Actualizar</span>
+                        </a>
+
+                        <button class="navbar-item  is-success tooltip" type="submit" [ngClass]="{'is-loading': ctrl.cargando}"
+                            [disabled]="ctrl.dato.invalid" >
+                            <span class="icon fa-2x has-text-success">
+                                <i class="fa fa-save"> </i>
+                            </span>
+                            <span class="tooltiptext">Guardar</span>
+                        </button>
+
                     </div>
                                  
                 </div>
@@ -97,26 +95,19 @@
                                     </a>
                                 </li>
 
-                                <li [ngClass]="{ 'is-active' : tab == 6}">
-                                    <a (click)="tab=6">
+                                <li [ngClass]="{ 'is-active' : tab == 2}">
+                                    <a (click)="tab=2">
                                         <span class="icon"><i class="fa fa-lock"></i></span>
                                         <span>Seguridad</span>
                                     </a>
                                 </li>
 
-                                <li [ngClass]="{ 'is-active' : tab == 2}">
-                                    <a (click)="tab=2">
+                                <li [ngClass]="{ 'is-active' : tab == 3}">
+                                    <a (click)="tab=3">
                                         <span class="icon"><i class="fa fa-book"></i></span>
                                         <span>Medios de contacto</span>
                                     </a>
-                                </li>
-
-                                <li [ngClass]="{ 'is-active' : tab == 3}">
-                                    <a (click)="tab=3">
-                                        <span class="icon"><i class="fa fa-credit-card"></i></span>
-                                        <span>RFC</span>
-                                    </a>
-                                </li>                                
+                                </li>                               
                             </ul>
                         </div>
 
@@ -259,7 +250,7 @@
                                 </p>
                             </div>
 
-                            <div class="field">
+                            <!-- <div class="field">
                                 <label class="label">foto:</label>
                                 <p class="control is-expanded  has-icon has-icon-right" *ngIf="ctrl.dato.get('foto').value == ''">
                                     <input type="file" (change)="ctrl.seleccionarImagenBase64($event, ctrl.dato.controls.foto)" accept="image/x-png,image/gif,image/jpeg,image/jpg">
@@ -275,11 +266,46 @@
                                     
                                 </button>
                                 
-                            </div>
+                            </div> -->
                             
                         </div>
 
                         <div [ngClass]="{ 'is-hidden': tab != 2}">
+                                
+                            <br>
+                            <div class="field">
+                                <div class="b-checkbox is-primary">
+                                    <input id="cambiarPassword" class="styled" type="checkbox" formControlName="cambiarPassword" (click)="toggleCambiarPassword()">
+                                    <label for="cambiarPassword">
+                                        Cambiar contraseña
+                                    </label>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="field">
+                                <label class="label">Usuario:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Usuario" formControlName="username">
+                                </p>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">Contraseña:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Contraseña" formControlName="password">
+                                </p>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">Repetir Contraseña:</label>
+                                <p class="control is-expanded  has-icon has-icon-right">
+                                    <input class="input" type="text" placeholder="Repetir Contraseña" formControlName="confirmarPassword">
+                                </p>
+                            </div>
+                        </div>
+
+                        <div [ngClass]="{ 'is-hidden': tab != 3}">
                                                     
                             <table class="table is-striped is-fullwidth" *ngIf="ctrl.dato.get('sis_usuarios_contactos').length > 0">
                                 <thead>
@@ -316,191 +342,6 @@
                             
                             <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: -20px;">
                                 <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.sis_usuarios_contactos, form_sis_usuarios_contactos)"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-
-                        <div [ngClass]="{ 'is-hidden': tab != 3}">
-                            
-                            <span formArrayName="sis_usuarios_rfcs" *ngIf="ctrl.dato.get('sis_usuarios_rfcs').length > 0">
-                                <nav class="panel" *ngFor="let medio of ctrl.dato.controls.sis_usuarios_rfcs.controls; let i=index" [formGroupName]="i">
-                                    <p class="panel-heading">
-                                        RFC # {{ i + 1 }}
-
-                                        <button style="margin-top: -5px; float:right" type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.sis_usuarios_rfcs, i)"><i class="fa fa-trash-o"></i></button>
-                                    </p>
-                                    <div class="panel-block">
-                                        <div style="width:100%">
-                                            <div class="columns">
-                                                <div class="column is-6">
-                                                    <div class="field">
-                                                        <label class="label">Razón Social:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="Razón Social" formControlName="razon_social">
-                                                            
-                                                            <span class="help is-danger"  *ngIf="!ctrl.dato.controls.sis_usuarios_rfcs.controls[i].controls.razon_social.valid">Este campo es requerido.</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="column is-6">
-                                                    <div class="field">
-                                                        <label class="label">Rfc:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="Rfc" formControlName="rfc">
-                                                            
-                                                            <span class="help is-danger"  *ngIf="!ctrl.dato.controls.sis_usuarios_rfcs.controls[i].controls.rfc.valid">Este campo es requerido.</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="columns">
-                                                <div class="column is-6">
-                                                    <div class="field">
-                                                        <div class="field">
-                                                            <label class="label">Correo eléctronico:</label>
-                                                            <p class="control is-expanded  has-icon has-icon-right">
-                                                                <input class="input" type="text" placeholder="Correo eléctronico" formControlName="email">
-                                                                
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="column is-6">
-                                                    <br><br>
-                                                    <div class="field">
-                                                        <div class="b-checkbox is-primary is-circular">
-                                                            <input id="tipo_persona_f" name="tipo_persona" value="Fisica" class="styled" type="radio" formControlName="tipo_persona">
-                                                            <label for="tipo_persona_f">
-                                                                Fisica
-                                                            </label>
-
-                                                            <input id="tipo_persona_m" name="tipo_persona" value="Moral" class="styled" type="radio" formControlName="tipo_persona">
-                                                            <label for="tipo_persona_m">
-                                                                Moral
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="columns">
-                                                <div class="column is-4">
-                                                    <label class="label">País {{paises_id}}:</label>
-                                                    <select2 name="pais" [options]="ctrl.optionSelect" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.paises_id, 'estados', 'estados')"
-                                                        [data]="ctrl.paises"></select2>
-
-                                                </div>
-
-                                                <div class="column is-4">
-                                                    <label class="label">Estado:</label>
-                                                    <select2 name="estados" [options]="ctrl.optionSelect" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.estados_id, 'municipios', 'municipios')"
-                                                        [data]="ctrl.estados"></select2>
-                                                </div>
-
-                                                <div class="column is-4">
-                                                    <label class="label">Municipio:</label>
-                                                    <select2 name="municipios" [options]="ctrl.optionSelect" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id)"
-                                                        [data]="ctrl.municipios"></select2>
-                                                </div>
-                                            </div>
-
-                                            <div class="columns">
-                                                <div class="column is-6">
-                                                    <div class="field">
-                                                        <label class="label">Direccion:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="calle" formControlName="calle">
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="column is-3">
-                                                    <div class="field">
-                                                        <label class="label">Num. Exterior:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="Num. Exterior" formControlName="numero_exterior">
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="column is-3">
-                                                    <div class="field">
-                                                        <label class="label">Num. Interior:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="Num. Interior" formControlName="numero_interior">
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="columns">
-                                                <div class="column is-4">
-                                                    <div class="field">
-                                                        <label class="label">Localidad:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="Localidad" formControlName="localidad">
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="column is-4">
-                                                    <div class="field">
-                                                        <label class="label">Col. / Fracc.:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="Col. / Fracc." formControlName="colonia">
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div class="column is-4">
-                                                    <div class="field">
-                                                        <label class="label">Codigo Postal:</label>
-                                                        <p class="control is-expanded  has-icon has-icon-right">
-                                                            <input class="input" type="text" placeholder="CP" formControlName="codigo_postal">
-                                                        </p>
-                                                    </div>
-                                                </div>                                                    
-                                            </div>
-                                        </div>
-                                    </div>
-                                </nav>
-                            </span>
-
-                            <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: 20px;">
-                                <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.sis_usuarios_rfcs, form_sis_usuarios_rfcs)"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-
-                        <div [ngClass]="{ 'is-hidden': tab != 6}">
-
-                            <br>
-                            <div class="field">
-                                <div class="b-checkbox is-primary">
-                                    <input id="cambiarPassword" class="styled" type="checkbox" formControlName="cambiarPassword" (click)="toggleCambiarPassword()">
-                                    <label for="cambiarPassword">
-                                        Cambiar contraseña
-                                    </label>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="field">
-                                <label class="label">Usuario:</label>
-                                <p class="control is-expanded  has-icon has-icon-right">
-                                    <input class="input" type="text" placeholder="Usuario" formControlName="username">
-                                </p>
-                            </div>
-
-                            <div class="field">
-                                <label class="label">Contraseña:</label>
-                                <p class="control is-expanded  has-icon has-icon-right">
-                                    <input class="input" type="text" placeholder="Contraseña" formControlName="password">
-                                </p>
-                            </div>
-
-                            <div class="field">
-                                <label class="label">Repetir Contraseña:</label>
-                                <p class="control is-expanded  has-icon has-icon-right">
-                                    <input class="input" type="text" placeholder="Repetir Contraseña" formControlName="confirmarPassword">
-                                </p>
                             </div>
                         </div>
                         

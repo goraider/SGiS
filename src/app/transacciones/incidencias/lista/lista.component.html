@@ -79,15 +79,6 @@
                             </a>
             
             
-                            <a class="navbar-item  tooltip" (click)="ctrl.cambiar_vista();">
-                                <span class="icon fa-2x">
-                                    <i class="fa fa-table" *ngIf="!ctrl.tipo_grid"></i>
-                                    <i class="fa fa-list" *ngIf="ctrl.tipo_grid"></i>
-                                </span>
-                                <span class="tooltiptext" *ngIf="!ctrl.tipo_grid">Cambiar a tabla</span>
-                                <span class="tooltiptext" *ngIf="ctrl.tipo_grid">Cambiar a lista</span>
-                            </a>
-            
                             <a class="navbar-item  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
                                 <span class="icon fa-2x">
                                     <i class="fa fa-close"></i>
@@ -162,53 +153,7 @@
                 </table>
 
                 <!--Lista -->
-                <span *ngIf="!ctrl.tipo_grid && !ctrl.cargando">
-                    <div class="box" *ngFor="let item of ctrl.dato; let i=index" style="margin-bottom:0.1rem;" [style.background]="i%2 == 0 ? '#fafafa' : '#ffffff'">
-                        <article class="media">
-                            <div class="media-left">
-                            <figure class="image is-64x64">
-                                <img src="./assets/128x128.png" alt="Image">
-                            </figure>
-                            </div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p *ngIf="item.pacientes && item.movimientos_incidencias">
-                                        <strong class="tag is-medium" *ngFor="let val of item.pacientes">N° Foliio: {{item.id}}</strong>
-                                        <br>
-                                        <strong class="tag" *ngFor="let val of item.pacientes"> Nombre: {{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }} </strong>
-                                        <br>
-                                        <strong class="tag" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"> Triage: {{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong>
-                                        <br>
-                                        <strong class="tag">Estado de Incidencia: {{ item.estados_incidencias.nombre }}</strong>
-                                        <br>
-                                        <strong class="tag"> Antiguedad: {{ item.antiguedad }}</strong>
-                                    </p>
-                                </div>
-                                <nav class="level is-mobile" style="float:right">
-                                    <div class="level-left">
-
-                                        <a class="navbar-item tooltip" (click)="download($event, item.id)">
-                                            <span class="icon fa-2x  has-text-danger">
-                                                <i class="fa fa-file-pdf-o"></i>
-                                            </span>
-                                            <span class="tooltiptext">PDF</span>
-                                        </a>
-                                            
-                                        <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
-                                            <span class="icon fa-2x has-text-info">
-                                                <i class="fa fa-exchange"></i>
-                                            </span>
-                                            <span class="tooltiptext">Seguimiento</span>
-                                        </a>
-
-                                            <!-- acciones -->
-                                            <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
-                                    </div>
-                                </nav>
-                            </div>
-                        </article>
-                    </div>
-                </span>
+   
             </span>
             <!-- Paginación para la lista  -->
             <paginacion [ctrl]="ctrl"></paginacion>

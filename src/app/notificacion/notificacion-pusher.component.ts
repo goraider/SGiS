@@ -29,7 +29,7 @@ export class NotificacionPusherComponent {
 
     constructor(private pusher: PusherService, private notificacion: NotificationsService, private crudService: CrudService) {
         var url = location.href.split("/");
-        for(let i = 0; i < url.length-4; i++){
+        for(let i = 0; i < url.length-5; i++){
             this.ruta_notificacion += "../";
         }
         this.ruta_notificacion += "notificacion/lista";

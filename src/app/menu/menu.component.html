@@ -107,7 +107,7 @@
                 <li *ngFor="let val of usuario_clues; let i = index;" style="margin:2px;">
                     <a class="is-active" (click)="cambiar_clues(val)">
                         <div class="b-checkbox is-info ">
-                            <input id="clues{{val.clues}}" name="clues" class="styled" type="radio"  [checked]="clues == val.clues || mostrar[val.clues]" >
+                            <input id="clues{{val.clues}}" name="clues" class="styled" type="radio"  [checked]="clues == val.clues || mostrar[val.clues]">
                             <label for="clues{{val.clues}}">
                                 {{ val.nombre }}
                             </label>                            

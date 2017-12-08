@@ -95,14 +95,23 @@ export class ListaComponent {
 
         this.crudService.ver(id, "incidencias").subscribe(
           resultado => {
+            
+            var fechaIngreso = moment(resultado.data.created_at);
 
-            console.log(resultado.data);
+            //console.log(fechaIngreso.format('DD/MM/YYYY, h:mm:ss a'));
+
+            console.log(resultado.data.movimientos_incidencias[0]);
+
+            
 
           var columns_paciente = [
-              {title: "Nombre", dataKey: "nombre_paciente"},
+              {title: "Nombre Completo", dataKey: "nombre_paciente"},
               {title: "CURP", dataKey: "curp_paciente"},
               {title: "Teléfono", dataKey: "telefono_paciente"},
               {title: "Fecha de Nacimiento", dataKey: "fecha_nacimiento_paciente"},
+              {title: "Municipio", dataKey: "municipio_paciente"},
+              //{title: "Localidad", dataKey: "localidad_paciente"},
+              
               
           ];
 
@@ -112,6 +121,8 @@ export class ListaComponent {
                 "curp_paciente": resultado.data.pacientes[0].personas.id,
                 "telefono_paciente": resultado.data.pacientes[0].personas.telefono,
                 "fecha_nacimiento_paciente": resultado.data.pacientes[0].personas.fecha_nacimiento,
+                "municipio_paciente":resultado.data.pacientes[0].personas.municipios.nombre,
+                //"localidad_paciente":resultado.data.pacientes[0].personas.localidades.nombre,
                });
 
           
@@ -119,10 +130,10 @@ export class ListaComponent {
                 if(resultado.data.pacientes[0].acompaniantes[0].personas.fecha_nacimiento == null){
                   resultado.data.pacientes[0].acompaniantes[0].personas.fecha_nacimiento = "N/A";
                 var columns_acompaniante = [
-                    {title: "Nombre", dataKey: "nombre_acompaniante"},
+                    {title: "Nombre Completo", dataKey: "nombre_acompaniante"},
                     {title: "CURP", dataKey: "curp_acompaniante"},
                     {title: "Teléfono", dataKey: "telefono_acompaniante"},
-                    {title: "Fecha de Nacimiento", dataKey: "fecha_nacimiento_acompaniante"},
+
                 ];
         
                 var rows_acompaniante = []; 
@@ -130,7 +141,6 @@ export class ListaComponent {
                         "nombre_acompaniante": resultado.data.pacientes[0].acompaniantes[0].personas.nombre+" "+resultado.data.pacientes[0].acompaniantes[0].personas.paterno+" "+resultado.data.pacientes[0].acompaniantes[0].personas.materno,
                         "curp_acompaniante": resultado.data.pacientes[0].acompaniantes[0].personas.id,
                         "telefono_acompaniante": resultado.data.pacientes[0].acompaniantes[0].personas.telefono,
-                        "fecha_nacimiento_acompaniante": resultado.data.pacientes[0].acompaniantes[0].personas.fecha_nacimiento,
                 });
               }
             }
@@ -141,10 +151,9 @@ export class ListaComponent {
             if(resultado.data.pacientes[0].acompaniantes[1]){
               if(resultado.data.pacientes[0].acompaniantes[0].personas.fecha_nacimiento == null){
                 var columns_responsable = [
-                {title: "Nombre", dataKey: "nombre_acompaniante"},
+                {title: "Nombre Completo", dataKey: "nombre_acompaniante"},
                 {title: "CURP", dataKey: "curp_acompaniante"},
                 {title: "Teléfono", dataKey: "telefono_acompaniante"},
-                {title: "Fecha de Nacimiento", dataKey: "fecha_nacimiento_acompaniante"},
             ];
               
               var rows_responsable = []; 
@@ -152,7 +161,6 @@ export class ListaComponent {
                   "nombre_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.nombre+" "+resultado.data.pacientes[0].acompaniantes[1].personas.paterno+" "+resultado.data.pacientes[0].acompaniantes[1].personas.materno,
                   "curp_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.id,
                   "telefono_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.telefono,
-                  "fecha_nacimiento_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.fecha_nacimiento,
                 });
               }
             }
@@ -163,36 +171,29 @@ export class ListaComponent {
             var num = resultado.data.movimientos_incidencias.length;
 
             var columns_movimientos = [
-              {title: "N°", dataKey: "numero"},
-              {title: "Antigüedad", dataKey: "antiguedad_paciente"},
-              {title: "Estado", dataKey: "estado_paciente_movimiento"},
+              {title: "N° Seguimiento", dataKey: "numero"},
+              {title: "Turno de Ingreso", dataKey: "turno_ingreso_paciente"},
+              {title: "Estado de la Paciente", dataKey: "estado_paciente_movimiento"},
               {title: "Triage", dataKey: "triage_acompaniante_movimiento"},
-              {title: "Ubicación", dataKey: "ubicacion_paciente_movimiento"},
-              {title: "CIE-10", dataKey: "cie10_movimientos"},
+              {title: "Ubicación de la Paciente", dataKey: "ubicacion_paciente_movimiento"},
+              {title: "Subcategoria CIE-10", dataKey: "cie10_movimientos"},
               
             ];
-            
+
+    
             var rows_movimientos = []; 
             resultado.data.movimientos_incidencias.forEach(element => {
 
-              // if(element.reporte_medico == null){
-              //   var indi = "EN INGRESO Y ATENCIÓN";
-                
-              //   element.indicaciones = indi
-                
-              // }
-
-              if(element != '' || element != null || element != undefined){
+              
                 rows_movimientos.push({
                   "numero": num --,
-                  "antiguedad_paciente": element.antiguedad,
+                  "turno_ingreso_paciente": element.turnos.nombre,
                   "estado_paciente_movimiento": element.estados_pacientes.nombre,
                   "triage_acompaniante_movimiento": element.triage_colores.nombre,
                   "ubicacion_paciente_movimiento": element.ubicaciones_pacientes.nombre,
                   "cie10_movimientos": element.subcategorias_cie10.nombre,
                 });;
-              }
-              console.log(element);
+              
             });
 
             
@@ -252,14 +253,15 @@ export class ListaComponent {
              pdf.setFontType('bold')
              pdf.text(10, 45, 'Datos de la Paciente:');
              pdf.text(60, 45, 'Folio de Incidencia:');
-             pdf.setFontType('normal')
-             pdf.text(105, 45, resultado.data.id)
+             pdf.setFontType('normal');
+             pdf.text(105, 45, resultado.data.id);
+
 
              pdf.autoTable(columns_paciente, rows_pacientes, {
               
                 startY: 50,
                 margin: {top: 30, horizontal: 7},
-                styles: {fontSize: 13,overflow: 'linebreak', columnWidth: 'wrap'},
+                styles: {overflow: 'linebreak', columnWidth: 'wrap'},
                 columnStyles: {text: {columnWidth: 'auto'}},
                 addPageContent: pageContentPaciente
                        
@@ -270,13 +272,13 @@ export class ListaComponent {
                   pdf.setFontSize(13)
                   pdf.setFont('helvetica')
                   pdf.setFontType('bold')
-                  pdf.text(10, 90, 'Datos del Acompañante:');
+                  pdf.text(10, 85, 'Datos del Acompañante:');
     
                   pdf.autoTable(columns_acompaniante, rows_acompaniante, {
                     
                       startY: pdf.autoTable.previous.finalY + 25,
                       margin: {top: 30, horizontal: 7},
-                      styles: {fontSize: 13,overflow: 'linebreak', columnWidth: 'wrap'},
+                      styles: {overflow: 'linebreak', columnWidth: 'wrap'},
                       columnStyles: {text: {columnWidth: 'auto'}},
                       addPageContent: pageContentPaciente
                              
@@ -294,7 +296,7 @@ export class ListaComponent {
                         startY: pdf.autoTable.previous.finalY + 25,
                         margin: {horizontal: 7},
                         bodyStyles: {valign: 'top'},
-                        styles: {fontSize: 13,overflow: 'linebreak', columnWidth: 'wrap'},
+                        styles: {overflow: 'linebreak', columnWidth: 'wrap'},
                         columnStyles: {text: {columnWidth: 'auto'}},
                         addPageContent: pageContentPaciente
                                
@@ -341,14 +343,22 @@ export class ListaComponent {
               pdf.text(10, 35, 'Seguimiento de la Paciente:');
               pdf.setFontType('normal')              
               pdf.text(75, 35,  resultado.data.pacientes[0].personas.nombre+" "+resultado.data.pacientes[0].personas.paterno+" "+resultado.data.pacientes[0].personas.materno);
+              pdf.setFontType('bold')
+              pdf.text(10, 45, 'Fecha de Ingreso:');
+              pdf.setFontType('normal') 
+              pdf.text(55, 45, fechaIngreso.format('DD/MM/YYYY, h:mm:ss a'));
               
               var data = rows_movimientos;
+
+              
+
+
               pdf.autoTable(columns_movimientos, data, {
 
-                startY: 45,
+                startY: 50,
                 margin: {horizontal: 7},
                 bodyStyles: {valign: 'top'},
-                styles: {fontSize: 12,overflow: 'linebreak', columnWidth: 'wrap'},
+                styles: {overflow: 'linebreak', columnWidth: 'wrap'},
                 columnStyles: {text: {columnWidth: 'auto'}},
                 addPageContent: pageContentMovimientos
 
@@ -365,196 +375,10 @@ export class ListaComponent {
 
 
 
-            //  pdf.addImage(logoUgus, 'JPEG', 10, 5, 30, 30);
-            //  pdf.addImage(logoSalud, 'JPEG', 150, 8, 50, 15);
 
 
 
-             
-            //  pdf.setFontSize(15)
-            //  pdf.setFont('times')
-            //  pdf.setFontType('bold')
-            //  pdf.text(20, 45, 'Datos del Paciente:');
-
-
-            
-             
-
-
-            //  pdf.setFontSize(12)
-            //  pdf.setFont('times')
-            //  pdf.setFontType('bold')
-            //  pdf.text(20, 110, 'Nombre:');
-            //  pdf.setFontType('normal')
-            //  pdf.text(40, 110, element.acompaniantes[0].personas.nombre+" "+element.acompaniantes[0].personas.paterno+" "+element.acompaniantes[0].personas.materno);
-
-            //  pdf.setFontSize(12)
-            //  pdf.setFont('times')
-            //  pdf.setFontType('bold')
-            //  pdf.text(120, 110, 'Telefono:');
-            //  pdf.setFontType('normal')
-            //  pdf.text(160, 110, element.acompaniantes[0].personas.telefono);
-
-            //  pdf.setFontSize(12)
-            //  pdf.setFont('times')
-            //  pdf.setFontType('bold')
-            //  pdf.text(20, 120, 'Dirección:');
-            //  pdf.setFontType('normal')
-            //  pdf.text(40, 120, element.acompaniantes[0].personas.domicilio);
-
-
-            //  if(element.acompaniantes[1]){
-
-            //       pdf.setFontSize(15)
-            //       pdf.setFont('times')
-            //       pdf.setFontType('bold')
-            //       pdf.text(20, 135, 'Datos del Responsable:');
-
-            //       pdf.setFontSize(12)
-            //       pdf.setFont('times')
-            //       pdf.setFontType('bold')
-            //       pdf.text(20, 150, 'Nombre:');
-            //       pdf.setFontType('normal')
-            //       pdf.text(40, 150, element.acompaniantes[1].personas.nombre+" "+element.acompaniantes[1].personas.paterno+" "+element.acompaniantes[1].personas.materno);
-     
-            //       pdf.setFontSize(12)
-            //       pdf.setFont('times')
-            //       pdf.setFontType('bold')
-            //       pdf.text(120, 150, 'Telefono:');
-            //       pdf.setFontType('normal')
-            //       pdf.text(160, 150, element.acompaniantes[1].personas.telefono);
-
-            //       pdf.setFontSize(12)
-            //       pdf.setFont('times')
-            //       pdf.setFontType('bold')
-            //       pdf.text(20, 160, 'Dirección:');
-            //       pdf.setFontType('normal')
-            //       pdf.text(40, 160, element.acompaniantes[1].personas.domicilio);
-
-            //  }
-
-
-            //  pdf.setFont('helvetica')
-            //  pdf.setFontType('bold')
-            //  pdf.text(70, 20, 'Reporte de Incidencia')
-            
-            //  pdf.setFontSize(8)
-            //  pdf.setFont('helvetica')
-            //  pdf.text(67, 24, 'Unidad de Gestion de Usuarios en Salud (UGUS)')
-
-
-
-            // var i =  0;
-            // resultado.data.movimientos_incidencias.forEach(seguimientos => {
-
-              // pdf.setFontSize(12)
-              // pdf.setFont('times')
-              // pdf.setFontType('bold')
-              // pdf.text(8, 55 + (i * 10), 'N°:');
-              // pdf.setFontType('normal')
-              // pdf.text(15, 55 + (i * 10), seguimientos.id);
-    
-    
-            //   pdf.setFontSize(12)
-            //   pdf.setFont('times')
-            //   pdf.setFontType('bold')
-            //   pdf.text(20, 55 + (i * 10), 'Fecha:');
-            //   pdf.setFontType('normal')
-            //   pdf.text(35, 55 + (i * 10), seguimientos.created_at);
-    
-    
-            //   pdf.setFontSize(12)
-            //   pdf.setFont('times')
-            //   pdf.setFontType('bold')
-            //   pdf.text(75, 55 + (i * 10), 'Turno:');
-            //   pdf.setFontType('normal')
-            //   pdf.text(90, 55 + (i * 10), seguimientos.turnos.nombre);
-    
-    
-    
-            //   pdf.setFontSize(12)
-            //   pdf.setFont('times')
-            //   pdf.setFontType('bold')
-            //   pdf.text(115, 55 + (i * 10), 'Triage:');
-            //   pdf.setFontType('normal')
-            //   pdf.text(130, 55 + (i * 10), seguimientos.triage_colores.nombre);
-    
-    
-            //   pdf.setFontSize(12)
-            //   pdf.setFont('times')
-            //   pdf.setFontType('bold')
-            //   pdf.text(150, 55 + (i * 10), 'Valoración:');
-            //   pdf.setFontType('normal')
-            //   pdf.text(175, 55 + (i * 10), seguimientos.ubicaciones_pacientes.nombre);
-              
-            //     i++;
-              
-            // });
-            
-
-          
-
-
-
-                        
-            
-
-
-          //   for(var i = 1; i < resultado.movimientos_incidencias; i ++) {
-          //     pdf.text(20, 30 + (i * 10), i );
-          // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //  pdf.setFontSize(14)
-            //  pdf.setFont('times')
-            //  pdf.setFontType('bold')
-            //  pdf.text(20, 100, 'Datos del Acompañante:');
-
-            // pdf.setFontSize(15)
-            // pdf.setFont('times')
-            // pdf.setFontType('bold')
-            // pdf.text(20, 150, 'Motivo del Ingreso:');
-            // pdf.setFontType('normal')
-            // pdf.text(65, 150, resultado.motivo_ingreso);
-
-
-            // pdf.setFontSize(15)
-            // pdf.setFont('times')
-            // pdf.setFontType('bold')
-            // pdf.text(20, 160, 'Impresión Diagnostica:');
-            // pdf.setFontType('normal')
-            // pdf.text(75, 160, resultado.impresion_diagnostica);
-
-
-            // pdf.setFontSize(15)
-            // pdf.setFont('times')
-            // pdf.setFontType('bold')
-            // pdf.text(20, 175, 'Seguimientos:');
-
-
-            //  pdf.addPage();
-
-
-
-
-
-             pdf.save('Incidencia N°:'+resultado.data.id+'.pdf');
+             pdf.save('Incidencia N°:'+resultado.data.id+" "+resultado.data.pacientes[0].personas.nombre+'.pdf');
         },
           error => {
          }

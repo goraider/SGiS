@@ -93,7 +93,7 @@ import { BaseConocimientosModule } from './transacciones/base-conocimientos/base
 //import { CajaModule } from './transaccion/caja/caja.module';
 
 //Inventario
-import { ArticuloModule } from './invetario/articulo/articulo.module';
+
 
 //reportes
 import { ReporteVentaModule } from './reporte/resumen/reporte-venta.module';

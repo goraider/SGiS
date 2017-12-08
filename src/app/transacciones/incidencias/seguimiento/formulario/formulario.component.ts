@@ -45,113 +45,98 @@ export class FormularioComponent {
 
   //Seguimiento
   nuevo;
-  antiguedad;
-  medico_reporta_id;
-  incidencias_id;
-  indicaciones;
-  reporte_medico;
-  diagnostico_egreso;
-  observacion_trabajo_social;
-  metodos_planificacion_id;
-  estados_incidencias_id;
+  antiguedad:  any = '';
+  medico_reporta_id:  any = '';
+  incidencias_id:  any = '';
+  indicaciones:  any = '';
+  reporte_medico:  any = '';
+  diagnostico_egreso:  any = '';
+  observacion_trabajo_social:  any = '';
+  metodos_planificacion_id:  any = '';
+  estados_incidencias_id:  any = '';
 
-  ubicaciones_pacientes_id;
-  estados_pacientes_id;
-  triage_colores_id;
-  subcategorias_cie10_id;
-  turnos_id;
+  ubicaciones_pacientes_id:  any = '';
+  estados_pacientes_id:  any = '';
+  triage_colores_id:  any = '';
+  subcategorias_cie10_id:  any = '';
+  turnos_id:  any = '';
 
-  metodos_planificacion;
-  estados_incidencias;
-  estados_pacientes;
-  ubicaciones_pacientes;
-  triage_colores;
-  subcategorias_cie10;
-  turnos;
-  id;
+  metodos_planificacion:  any = '';
+  estados_incidencias:  any = '';
+  estados_pacientes:  any = '';
+  ubicaciones_pacientes:  any = '';
+  triage_colores:  any = '';
+  subcategorias_cie10:  any = '';
+  turnos:  any = '';
+  id:  any = '';
 
   //detalle seguimiento
-  fecha;
-  medico;
-  indi;
-  reporte;
-  estado_paciente;
-  no_incidencia;
-  sub_cie10;
-  color;
-  turno;
-  ubicacion_paciente;
+  fecha:  any = '';
+  medico:  any = '';
+  indi:  any = '';
+  reporte:  any = '';
+  estado_paciente:  any = '';
+  no_incidencia:  any = '';
+  sub_cie10:  any = '';
+  color:  any = '';
+  turno:  any = '';
+  ubicacion_paciente:  any = '';
 
   //referencia
-  medico_refiere_id;
-  diagnostico;
-  resumen_clinico;
-  clues_origen;
-  clues_destino;
-  private clues_origen_login
+  medico_refiere_id:  any = '';
+  diagnostico:  any = '';
+  resumen_clinico:  any = '';
+  clues_origen:  any = '';
+  clues_destino:  any = '';
+  private clues_origen_login:  any = '';
 
   //detalle referencia
-  folio_referencia;
-  origen_referencia;
-  destino_referencia;
-  diagnostico_referencia;
-  resumen_clinico_referencia;
-  img_referencia;
-  medico_reporta_referencia;
+  folio_referencia:  any = '';
+  origen_referencia:  any = '';
+  destino_referencia:  any = '';
+  diagnostico_referencia:  any = '';
+  resumen_clinico_referencia:  any = '';
+  img_referencia:  any = '';
+  medico_reporta_referencia:  any = '';
 
   //Alta
-  tipos_altas
-  tur_id;
-  tur;
-  me_planificacion;
+  tipos_altas:  any = '';
+  tur_id:  any = '';
+  tur:  any = '';
+  me_planificacion:  any = '';
   me_planificacion_id;
-  t_altas;
-  t_altas_id;
-  clues_regresa;
-  clues_contrarefiere;
+  t_altas:  any = '';
+  t_altas_id:  any = '';
+  clues_regresa:  any = '';
+  clues_contrarefiere:  any = '';
 
 
-  r_clinico;
-  i_recomendaciones;
-  diagnostico_ingreso;
+  r_clinico:  any = '';
+  i_recomendaciones:  any = '';
+  diagnostico_ingreso:  any = '';
 
-  me_reporta;
-  me_reporta_id;
+  me_reporta:  any = '';
+  me_reporta_id:  any = '';
 
-  cie10;
-  cie10_codigo;
+  cie10:  any = '';
+  cie10_codigo:  any = '';
 
   //detalle alta
-  clues_contrarefiere_alta;
-  clues_regresa_alta;
-  turno_alta;
-  tipo_alta;
-  medico_alta;
-  img_alta;
-  metodos_planificacion_alta;
+  clues_contrarefiere_alta:  any = '';
+  clues_regresa_alta:  any = '';
+  turno_alta:  any = '';
+  tipo_alta:  any = '';
+  medico_alta:  any = '';
+  img_alta:  any = '';
+  metodos_planificacion_alta:  any = '';
 
 
-  observaciones_ts_alta;
-  resumen_alta;
-  instrucciones_alta;
-  diagnostico_alta;
+  observaciones_ts_alta:  any = '';
+  resumen_alta:  any = '';
+  instrucciones_alta:  any = '';
+  diagnostico_alta:  any = '';
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //AUN LE APUNTA A SUVCATEGORIAS, AUN FALTA LA DE MEDICOS
   //public medicos_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
 
   public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
@@ -259,11 +244,10 @@ export class FormularioComponent {
           clues_destino: [''],
           diagnostico: [''],
           esContrareferencia: [0],
-          //img:[''],
           multimedias: this.fb.group({
             img:this.fb.array([])
           }),
-          medico_refiere_id: [''], //autocomplet
+          medico_refiere_id: [''],
           resumen_clinico: [''],
         }),
       ]),
@@ -289,9 +273,15 @@ export class FormularioComponent {
     });
 
 
-    //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
-    document.getElementById("catalogos").click();
+      //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
 
+      setTimeout(() => {
+        document.getElementById("catalogoSeguimiento").click();
+      }, 200);
+    
+      setTimeout(() => {
+        document.getElementById("catalogosAlta").click();
+      }, 200);
     
 }
 
@@ -303,7 +293,7 @@ export class FormularioComponent {
     this.reporte_medico = '';
     this.medico_reporta_id = '';
     this.turnos_id = '';
-    this.subcategorias_cie10 = '';
+    this.subcategorias_cie10_id = '';
     document.getElementById("nuevo_seguimiento").classList.remove('is-active');
   }
 
@@ -430,6 +420,8 @@ export class FormularioComponent {
 
 
     const mv: FormArray = <FormArray>this.dato.controls.movimientos_incidencias;
+
+    console.log(datomodal);
     mv.push(this.fb.group(datomodal));
 
     //asigna el estado de incidencia en proceso con numero 2
@@ -445,7 +437,7 @@ export class FormularioComponent {
     this.reporte_medico = '';
     this.medico_reporta_id = '';
     this.turnos_id = '';
-    this.subcategorias_cie10 = '';
+    this.subcategorias_cie10_id = '';
     this.cerrarModal();
 
   }
@@ -523,7 +515,7 @@ export class FormularioComponent {
     document.getElementById("detalle_referencia").classList.remove('is-active');
   }
 
-  error_archivo;
+  
   /*seleccionarImagenBase64(evt) {
     var files = evt.target.files;
     var esto = this;
@@ -545,6 +537,7 @@ export class FormularioComponent {
             })(file);
         }
   }*/
+  error_archivo = false;
   seleccionarImagenBase64(evt, modelo, multiple: boolean = false, index: number = 0) {
     var files = evt.target.files;
     var esto = this;
@@ -573,14 +566,14 @@ export class FormularioComponent {
         reader.onload = (function (theFile) {
           return function (e) {
             try {
-              modelo.push(btoa(e.target.result));
+              modelo.push({foto: btoa(e.target.result)});
             } catch (ex) {
               esto.error_archivo = true;
             }
           }
         })(f);
       }
-    }
+    }console.log(modelo);
   }
   
   img=[];
@@ -591,6 +584,7 @@ export class FormularioComponent {
     var datoReferencia = {
 
       nuevo: [1, [Validators.required]],
+
       medico_refiere_id: [this.medico_refiere_id, [Validators.required]],
       diagnostico: [this.diagnostico, [Validators.required]],
       resumen_clinico: [this.resumen_clinico, [Validators.required]],
@@ -611,7 +605,6 @@ export class FormularioComponent {
     const mv: FormArray = <FormArray>this.dato.controls.referencias;
     mv.push(this.fb.group(datoReferencia));
 
-    console.log(datoReferencia);
 
 
 
@@ -777,6 +770,11 @@ export class FormularioComponent {
     let html = `(${data.clues}) - ${data.nombre}`;
     return html;
   }
+
+  quitar_form_array(modelo, i: number) {
+    modelo.splice(i, 1);
+    //modelo.removeAt(i);
+}
 
 
   detalle_alta(data): void {

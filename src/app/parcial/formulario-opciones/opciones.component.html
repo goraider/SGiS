@@ -32,25 +32,6 @@
             </span>
             <span class="tooltiptext">Actualizar</span>
         </a>
-
-        
-        <a class="navbar-item tooltip" id="catalogos" *ngIf="ctrl.id"
-                (click)="ctrl.cargarCatalogo('triage_colores', 'triage-colores');
-                       ctrl.cargarCatalogo('metodos_planificacion','metodos-planificacion');
-                       ctrl.cargarCatalogo('subcategorias_cie10','grupos-cie10');
-                       ctrl.cargarCatalogo('turnos','turnos');
-                       ctrl.cargarCatalogo('estados_incidencias', 'estados-incidencias');
-                       ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
-                       ctrl.cargarCatalogo('tipos_altas', 'tipos-altas');
-                       ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes');
-                       ctrl.cargarCatalogo('triage_colores', 'triage-colores');
-                       ctrl.cargarCatalogo('grupos_cie10', 'grupos-cie10');">
-            <span class="icon fa-2x">
-                <i class="fa fa-retweet"></i>
-            </span>
-            <span class="tooltiptext">Cargar Catalogos</span>
-        </a> 
-
         <a class="navbar-item tooltip" routerLink="{{url_nuevo}}" *ngIf="(permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1) && ctrl.id">
             <span class="icon fa-2x">
                 <i class="fa fa-file"></i>

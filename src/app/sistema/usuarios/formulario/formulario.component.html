@@ -35,8 +35,8 @@
                         <div class="column is-one-quarter menu-persona is-hidden-touch">
                             <div>
                                 <figure class="image is-3by2">
-                                    <img *ngIf="!ctrl.subir[0]" [src]="ctrl.API_PATH+'/adjunto/usuario/'+ctrl.dato.get('foto').value" alt="Foto" />
-                                    <img *ngIf="ctrl.subir[0]" [src]="'data:image/jpg;base64,'+ctrl.dato.get('foto').value" alt="Foto" />
+                                    <img *ngIf="!ctrl.subir[0]" [src]="ctrl.API_PATH+'/adjunto/usuario/'+ctrl.dato.get('avatar').value" alt="Foto" />
+                                    <img *ngIf="ctrl.subir[0]" [src]="'data:image/jpg;base64,'+ctrl.dato.get('avatar').value" alt="Foto" />
                                 </figure>
                                 <div align="center">
                                     <strong>{{ctrl.dato.get('nombre').value}}</strong>
@@ -127,24 +127,20 @@
                                     </div>
                                 </div>
 
-                                <div class="columns">
-
+                                <div class="columns">                                                                    
                                     <div class="column is-6">
                                         <p class="control is-expanded has-icon has-icon-right">
                                             <label class="label">Municipio: </label>
                                             <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id, 'localidades', 'localidades'); autovalor_municipio();" [data]="ctrl.municipios"></select2>
-                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.municipios_id.valid">Este campo es requerido.</span>
                                         </p>
                                     </div>
-
+                
                                     <div class="column is-6">
                                         <p class="control is-expanded has-icon has-icon-right">
                                             <label class="label">Localidad: </label>
                                             <select2 name="localidades_id" [options]="ctrl.optionSelect" [value]="localidades_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.localidades_id); autovalor_localidad();" [data]="ctrl.localidades"></select2>
-                                            <span class="help is-danger" *ngIf="!ctrl.dato.controls.localidades_id.valid">Este campo es requerido.</span>
                                         </p>
                                     </div>
-
                                 </div>
 
                                 <div class="columns">
@@ -249,11 +245,11 @@
                                 <div class="field">
                                     <label class="label">Avatar:</label>
                                     <p class="control is-expanded  has-icon has-icon-right">
-                                        <input class="input" type="text" placeholder="Foto" formControlName="avatar">
+                                        <input class="input" id="foto_user" type="text" placeholder="Foto" formControlName="avatar" readonly>
                                     </p>
                                 </div>
 
-                                <div class="field">
+                                <!-- <div class="field">
                                     <label class="label">foto:</label>
                                     <p class="control is-expanded  has-icon has-icon-right" *ngIf="ctrl.dato.get('foto').value == ''">
                                         <input type="file" (change)="ctrl.seleccionarImagenBase64($event, ctrl.dato.controls.foto)" accept="image/x-png,image/gif,image/jpeg,image/jpg">
@@ -263,12 +259,12 @@
                                     <button type="button" class="button is-danger" (click)="ctrl.borrarImagen($event, ctrl.dato.controls.foto, 'usuario')" *ngIf="ctrl.dato.get('foto').value != ''">
 
                                         <span class="icon">
-                <i class="fa fa-trash"></i>
-            </span> &nbsp; Eliminar la foto
+                                            <i class="fa fa-trash"></i>
+                                        </span> &nbsp; Eliminar la foto
 
                                     </button>
 
-                                </div>
+                                </div> -->
 
                             </div>
 
@@ -296,14 +292,14 @@
                                 <div class="field">
                                     <label class="label">Contraseña:</label>
                                     <p class="control is-expanded  has-icon has-icon-right">
-                                        <input class="input" type="text" placeholder="Contraseña" formControlName="password">
+                                        <input class="input" type="password" placeholder="Contraseña" formControlName="password">
                                     </p>
                                 </div>
 
                                 <div class="field">
                                     <label class="label">Repetir Contraseña:</label>
                                     <p class="control is-expanded  has-icon has-icon-right">
-                                        <input class="input" type="text" placeholder="Repetir Contraseña" formControlName="confirmarPassword">
+                                        <input class="input" type="password" placeholder="Repetir Contraseña" formControlName="confirmarPassword">
                                     </p>
                                 </div>
                             </div>
@@ -321,8 +317,8 @@
                                         </tr>
                                     </thead>
                                     <tbody formArrayName="sis_usuarios_contactos">
-                                        <tr *ngFor="let medio of ctrl.dato.controls.sis_usuarios_contactos.controls; let suc=index" [formGroupName]="suc">
-                                            <td>{{ suc + 1 }}</td>
+                                        <tr *ngFor="let medio of ctrl.dato.controls.sis_usuarios_contactos.controls; let clu=index" [formGroupName]="clu">
+                                            <td>{{ clu + 1 }}</td>
                                             <td>
                                                 <div class="select">
                                                     <select class="select" name="tipos_medios_id" formControlName="tipos_medios_id">
@@ -332,15 +328,15 @@
                                             </td>
                                             <td>
                                                 <p class="control has-icon">
-                                                    <input class="input" formControlName="valor" placeholder="Valor" [ngClass]="{'is-danger': !ctrl.dato.controls.sis_usuarios_contactos.controls[suc].controls.valor.valid}" type="text">
+                                                    <input class="input" formControlName="valor" placeholder="Valor" [ngClass]="{'is-danger': !ctrl.dato.controls.sis_usuarios_contactos.controls[clu].controls.valor.valid}" type="text">
                                                     <span class="icon">
-                        <i [ngClass]="ctrl.tipos_medios[ctrl.dato.controls.sis_usuarios_contactos.controls[suc].controls.tipos_medios_id.value - 1].icon"></i>
-                    </span>
+                            <i [ngClass]="ctrl.tipos_medios[ctrl.dato.controls.sis_usuarios_contactos.controls[clu].controls.tipos_medios_id.value - 1].icon"></i>
+                            </span>
                                                 </p>
 
                                             </td>
                                             <td align="right">
-                                                <button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.sis_usuarios_contactos, suc)"><i class="fa fa-trash-o"></i></button>
+                                                <button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.sis_usuarios_contactos, clu)"><i class="fa fa-trash-o"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -434,10 +430,13 @@
                                 <div class="control is-grouped">
                                     <p class="control is-expanded  has-icon has-icon-right">
                                         <label class="label">Unidad Medica:</label>
-                                        <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue" id="clues_busqueda" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="select_clue_autocomplete(ctrl.dato.controls.sis_usuarios_clues.controls, $event)" min-chars="1" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('sis_usuarios_clues').hasError('required') && ctrl.dato.get('sis_usuarios_clues').touched}" placeholder="Unidad Medica">
+                                        <input ngui-auto-complete [source]="clues_term"
+                                        [list-formatter]="autocompleListFormatter"
+                                        [value-formatter]="valorFormato_clue" id="clues_busqueda" path-to-data=""
+                                        loading-text="Cargando..." autocomplete="false" no-match-found-text="No hay resultados."
+                                        (valueChanged)="select_clue_autocomplete(ctrl.dato.controls.sis_usuarios_clues.controls, $event)"
+                                        min-chars="4" class="input" type="text" placeholder="Unidad Medica">
 
-                                        <span class="icon is-small" *ngIf="ctrl.dato.get('sis_usuarios_clues').hasError('required')"><i class="fa fa-warning"></i></span>
-                                        <span class="help is-danger" *ngIf="ctrl.dato.get('sis_usuarios_clues').hasError('required')">Este campo es requerido.</span>
                                     </p>
                                 </div>
 

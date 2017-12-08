@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="column is-2">
                                     <label>Hasta:</label>
-                                    <input class="input" ngui-datetime-picker [(ngModel)]="fecha_fin" style="width:100%;" type="text" placeholder="2017-09-29">
+                                    <input class="input" ngui-datetime-picker [(ngModel)]="fecha_fin" style="width:100%;" type="text" placeholder="AAA-MM-DD">
                                 </div>
                                 <div class="column is-4">
                                     <label>Unidad Médica:</label>
@@ -66,7 +66,7 @@
                                         [value-formatter]="valorFormato_clue"
                                         id="clues" name="clues" [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                                         (valueChanged)="select_item_autocomplete(clues, 'clues', $event, flase);"                                                         
-                                        min-chars="1" class="input" type="text"
+                                        min-chars="4" class="input" type="text"
                                         placeholder="(Clues):">
                                 
                                 </div>
@@ -82,7 +82,7 @@
                                                 [value-formatter]="valorFormato_clue"
                                                 id="referencia_origen" name="referencia_origen" [(ngModel)]="referencia_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                                                 (valueChanged)="select_item_autocomplete(referencia_origen, 'clues', $event, flase);"                                                         
-                                                min-chars="1" class="input" type="text"
+                                                min-chars="4" class="input" type="text"
                                                 placeholder="(Origen):">
                                         
                                     </div>
@@ -95,7 +95,7 @@
                                                 [value-formatter]="valorFormato_clue"
                                                 id="referencia_destino" name="referencia_destino" [(ngModel)]="referencia_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                                                 (valueChanged)="select_item_autocomplete(referencia_destino, 'clues', $event, flase);"                                                         
-                                                min-chars="1" class="input" type="text"
+                                                min-chars="4" class="input" type="text"
                                                 placeholder="(Destino):">
                                         
                                     </div>
@@ -111,6 +111,7 @@
                                                 <label>Estado de Incidencia:</label>
                                                 <div class="select">
                                                     <select class="select" [(ngModel)]="edo_incidencia" name="edo_incidencia" style="width:100%;" id="edo_incidencia" >
+                                                        <option value="">Todos</option>
                                                         <option *ngFor="let ei of e_incidencias" value="{{ei.id}}" >{{ ei.nombre }}</option>
                                                     </select>
                                                 </div>
@@ -120,6 +121,7 @@
                                                 <label>Estado del Paciente:</label>
                                                 <div class="select">
                                                     <select class="select" [(ngModel)]="edo_paciente" name="edo_paciente" style="width:100%;" id="edo_paciente" >
+                                                        <option value="">Todos</option>
                                                         <option *ngFor="let ep of estados_pacientes" value="{{ep.id}}" >{{ ep.nombre }}</option>
                                                     </select>
                                                 </div>
@@ -129,6 +131,7 @@
                                                 <label>Color de Triage:</label>
                                                 <div class="select">
                                                     <select class="select" [(ngModel)]="color_triage" name="color_triage" style="width:100%;" id="color_triage" >
+                                                        <option value="">Todos</option>
                                                         <option *ngFor="let ct of c_triage" value="{{ct.id}}" >{{ ct.nombre }}</option>
                                                     </select>
                                                 </div>
@@ -138,6 +141,7 @@
                                                 <label>Turno en que se Realizo:</label>
                                                 <div class="select">
                                                     <select class="select" [(ngModel)]="turno" name="turno" style="width:100%;" id="turno" >
+                                                        <option value="">Todos</option>
                                                         <option *ngFor="let tur of turn" value="{{tur.id}}" >{{ tur.nombre }}</option>
                                                     </select>
                                                 </div>
@@ -147,6 +151,7 @@
                                                 <label>Tipo de Alta del Paciente:</label>
                                                 <div class="select">
                                                     <select class="select" [(ngModel)]="tipo_alta" name="tipo_alta" style="width:100%;" id="tipo_alta" >
+                                                        <option value="">Todos</option>
                                                         <option *ngFor="let ta of tipos_altas" value="{{ta.id}}" >{{ ta.nombre }}</option>
                                                     </select>
                                                 </div>
@@ -178,10 +183,11 @@
                                             Filtrar</button>
                                         </div>
 
-                                        <!-- <div class="column is-4">
-                                            <button class="button is-success is-medium tooltip" type="button">
+                                        <div class="column is-4">
+                                            <button class="button is-success is-medium tooltip" type="button"
+                                            (click)="limpiar_campos_busqueda();">
                                             Limpiar</button>
-                                        </div> -->
+                                        </div>
 
                                     </div>
 

@@ -100,8 +100,6 @@
         </section>
         <!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
         <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
-          
-          <a id="catalogos" (click)="cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('metodos_planificacion','metodos-planificacion'); cargarCatalogo('subcategorias_cie10','grupos-cie10'); cargarCatalogo('turnos','turnos'); cargarCatalogo('estados_incidencias', 'estados-incidencias'); cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes'); cargarCatalogo('tipos_altas', 'tipos-altas'); cargarCatalogo('estados_pacientes', 'estados-pacientes'); cargarCatalogo('triage_colores', 'triage-colores'); cargarCatalogo('grupos_cie10', 'grupos-cie10');"></a>
 
           <div class="tabs is-toggle is-fullwidth">
             <ul>
@@ -322,7 +320,25 @@
   <div class="modal-background"></div>
   <div class="modal-card" style="width: 80%;">
     <header class="modal-card-head">
-      <p class="modal-card-title">Nuevo Seguimiento</p>
+      <p class="modal-card-title">Nuevo Seguimiento
+
+        <a id="catalogoSeguimiento" style="float:right"
+          (click)="cargarCatalogo('turnos','turnos');
+          cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
+          cargarCatalogo('subcategorias_cie10','grupos-cie10');
+          cargarCatalogo('grupos_cie10', 'grupos-cie10');
+          cargarCatalogo('estados_pacientes', 'estados-pacientes');
+          cargarCatalogo('triage_colores', 'triage-colores');">
+
+          <span *ngIf="!ctrl.cargando" class="icon is-medium">
+              <i class="fa fa-refresh"></i>
+          </span>
+          <span *ngIf="ctrl.cargando" class="icon is-medium">
+              <i class="fa fa-refresh fa-spin"></i>
+          </span>
+        </a>
+
+      </p>
       <button class="delete" (click)="cerrarModal()"></button>
     </header>
     <section class="modal-card-body">
@@ -397,18 +413,16 @@
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico que Reporta:</label>
-            <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
-              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(medico_reporta_id, 'id', $event, true);"
-              min-chars="1" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_reporta_id">
+            <input name="medico_reporta_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_reporta_id">
           </p>
         </div>
 
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Subcategoria CIE10:</label>
-            <input ngui-auto-complete [source]="cie10_term" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
-              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, false);"
-              min-chars="1" class="input" type="text" placeholder="Subcategoria CIE10" [(ngModel)]="subcategorias_cie10_id">
+            <input ngui-auto-complete [source]="cie10_term" autocomplete="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
+              id="subcategorias_cie10_id" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, false);"
+              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar el CIE10:" [(ngModel)]="subcategorias_cie10_id">
           </p>
         </div>
 
@@ -534,7 +548,7 @@
                   <i class="fa fa-upload"></i>
                 </span>
                 <span class="file-label">
-                  Subir Imagen de la Referencia
+                  Subir Imagenes de la Referencia...
                 </span>
               </span>
             </label>
@@ -547,14 +561,14 @@
             <a class="button is-primary is-outlined" (click)="abrirModal('verFoto')">
               <span class="icon">
                 <i class="fa fa-eye"> </i>
-              </span> &nbsp; Ver referencia
+              </span> &nbsp; Ver Imagenes
             </a>
           </div>
           <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
             <div class="modal-background"></div>
             <div class="modal-content">
               <p class="image is-4by3" *ngFor="let im of img; let ix = index;">
-                <img [src]="'data:image/jpg;base64,'+im" alt="" />
+                <img [src]="'data:image/jpg;base64,'+im.foto" alt="" />
               </p>
             </div>
             <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
@@ -567,9 +581,7 @@
         <div class="column is-12">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico quien Refiere:</label>
-            <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
-              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(medico_refiere_id, 'id', $event, false);"
-              min-chars="5" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id">
+            <input name="medico_refiere_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id">
           </p>
         </div>
       </div>
@@ -607,11 +619,11 @@
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Unidad Médica donde Refieren a la Paciente (Destino):</label>
-            <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
+            <input ngui-auto-complete autocomplete="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
               id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
               (valueChanged)="ctrl.select_item_autocomplete(clues_destino, 'clues', $event, false);
                               select_destino_autocomplete($event)"
-              min-chars="5" class="input" type="text" placeholder="Escriba como mínimo 5 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_destino">
+              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_destino">
           </p>
         </div>
 
@@ -734,7 +746,20 @@
   <div class="modal-background"></div>
   <div class="modal-card" style="width: 80%; height:80%;">
     <header class="modal-card-head">
-      <p class="modal-card-title">Alta del Paciente</p>
+      <p class="modal-card-title">Alta del Paciente
+          <a id="catalogosAlta" style="float:right"
+            (click)="cargarCatalogo('triage_colores', 'triage-colores');
+              cargarCatalogo('metodos_planificacion','metodos-planificacion');
+              cargarCatalogo('tipos_altas', 'tipos-altas');">
+
+            <span *ngIf="!ctrl.cargando" class="icon is-medium">
+                <i class="fa fa-refresh"></i>
+            </span>
+            <span *ngIf="ctrl.cargando" class="icon is-medium">
+                <i class="fa fa-refresh fa-spin"></i>
+            </span>
+          </a>
+      </p>
       <button class="delete" (click)="cerrarModalAlta()"></button>
     </header>
     <section class="modal-card-body">
@@ -770,7 +795,7 @@
                 <div class="modal-background"></div>
                 <div class="modal-content">
                   <p class="image is-4by3" *ngFor="let im of imgalta; let ix = index;">
-                    <img [src]="'data:image/jpg;base64,'+im" alt="" />
+                    <img [src]="'data:image/jpg;base64,'+im.foto" alt="" />
                   </p>
                 </div>
                 <button type="button" class="modal-close" (click)="cancelarModal('verFotosAlta')"></button>
@@ -795,7 +820,7 @@
                     [value-formatter]="valorFormato_regresa"
                     id="clues_regresa" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                     (valueChanged)="ctrl.select_item_autocomplete(clues_regresa, 'clues', $event, false);"
-                    min-chars="5" class="input" type="text" placeholder="Unidad Médica a donde regresa, Escriba como mínimo 5 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_regresa">
+                    min-chars="4" class="input" type="text" placeholder="Unidad Médica a donde regresa, Escriba como mínimo 4 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_regresa">
                 </p>
               </div>
 
@@ -842,9 +867,7 @@
         <div class="column is-12">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico que Reporta:</label>
-            <input ngui-auto-complete [source]="medicos_term" [list-formatter]="autocompleMedicos" [value-formatter]="valorFormato_medico"
-              id="medico" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(me_reporta_id, 'id', $event, true);"
-              min-chars="1" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="me_reporta_id">
+            <input name="me_reporta_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="me_reporta_id">
           </p>
         </div>
       </div>

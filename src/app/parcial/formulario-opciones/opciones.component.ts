@@ -46,8 +46,6 @@ export class FormularioOpcionesComponent{
     this.icono = titulo_icono.icono;
     this.modulo_actual = titulo_icono.titulo;
 
-    document.getElementById("catalogos").click();
-
   }
 
   obtener_icono(url, controlador, menu) {

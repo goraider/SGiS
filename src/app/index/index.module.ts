@@ -22,9 +22,6 @@ import { IndexComponent } from './index.component';
     PipesModule,
     MenuModule
   ],
-  exports: [
-    
-  ],
   declarations: [IndexComponent]
 })
 export class IndexModule { }

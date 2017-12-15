@@ -6,7 +6,7 @@
         <div class="card-content">
             <div class="columns is-multiline is-mobile">
 
-                <div class="column is-one-quarter hub-principal" *ngFor="let item of menu; let i=index">
+                <div class="column is-3-desktop is-4-tablet is-6-mobile hub-principal" *ngFor="let item of menu; let i=index">
                     <a href="#" title="{{item.titulo}}" class="hub-item" routerLink="{{item.path}}" routerLinkActive="active">
                         <figure class="image " style="height: auto; width: 100%; ">
                            <i class="{{item.icono}}" style="font-size: 100px"></i>                            

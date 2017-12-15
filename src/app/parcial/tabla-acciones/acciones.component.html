@@ -11,7 +11,7 @@
             <i class="fa fa-circle-o-notch fa-spin"></i>
         </span>
 
-        <a class="navbar-item tooltip" *ngIf="!item.cargando || permisos.indexOf(controlador + '.destroy') > -1 || permisos.indexOf( 'Sis' + controlador + '.destroy') > -1"
+        <a class="navbar-item tooltip" *ngIf="!item.cargando && (permisos.indexOf(controlador + '.destroy') > -1 || permisos.indexOf( 'Sis' + controlador + '.destroy') > -1)"
             (click)="ctrl.eliminar(item, index)">
             <span class="icon fa-2x  has-text-danger">
                 <i class="fa fa-trash"></i>

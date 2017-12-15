@@ -6,7 +6,7 @@ import { OrderByPipe } from './orderBy.pipe';
 import { BuscarPipe } from './buscar.pipe';
 import { FormatoFechaPipe } from './formato-fecha.pipe';
 import { TranscurridoPipe } from './transcurrido.pipe';
-
+import { NgInit } from '../directives/ng-init.directive';
 @NgModule({
   imports: [
     CommonModule
@@ -17,8 +17,9 @@ import { TranscurridoPipe } from './transcurrido.pipe';
     OrderByPipe,
     BuscarPipe,
     FormatoFechaPipe,
-    TranscurridoPipe
+    TranscurridoPipe,
+    NgInit
   ],
-  declarations: [BuscarModuloPipe, GroupByPipe, OrderByPipe, BuscarPipe, FormatoFechaPipe, TranscurridoPipe]
+  declarations: [BuscarModuloPipe, GroupByPipe, OrderByPipe, BuscarPipe, FormatoFechaPipe, TranscurridoPipe, NgInit]
 })
 export class PipesModule { }

@@ -1,7 +1,7 @@
 <section class="hero is-primary">
     <div class="hero-head">
         <nav class="navbar">
-            <div class="navbar-brand">
+            <div class="navbar-brand is-flex-desktop-only">
 
                 <a class="navbar-item" routerLink="/{{menuactual}}" routerLinkActive="active">
                     <span class="icon fa-2x">
@@ -17,10 +17,10 @@
                 </span>
             </div>
 
-            <div id="navbarMenuHeroA" class="navbar-menu" [ngClass]="{'is-active': activar}" >
-                <div class="navbar-end">
-                    <a class="navbar-item is-active">
-                        <span class="nav-item is-hidden-mobile" style="font-size: 1.3em;"> 
+            <div id="navbarMenuHeroA" class="navbar-menu " [ngClass]="{'is-active': activar}" >
+                <div class="navbar-end is-flex-desktop-only">
+                    <a class="navbar-item is-hidden-mobile">
+                        <span class="nav-item"> 
                                 {{clues.clues}}   &nbsp;
                             <span class="icon">
                                 <i class="fa fa-caret-right"></i>
@@ -59,7 +59,7 @@
                             <img src="{{ usuario.avatar }}" alt="Image" class="profile">
                         </figure>
                         &nbsp;
-                        <span>{{ usuario.nombre }} {{ usuario.apellidos }}</span>
+                        <span class="is-hidden-mobile">{{ usuario.nombre }} {{ usuario.apellidos }}</span>
                         <span class="tooltiptext">Perfil</span>
                     </a>
                     <a class="navbar-item is-hidden-tablet tooltip" (click)="perfil.toggle()">

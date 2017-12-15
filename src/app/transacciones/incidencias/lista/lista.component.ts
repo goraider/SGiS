@@ -17,7 +17,8 @@ import { concat } from 'rxjs/operators/concat';
 
 @Component({
   selector: 'incidencias-lista',
-  templateUrl: './lista.component.html'
+  templateUrl: './lista.component.html',
+
 })
 
 export class ListaComponent {
@@ -44,6 +45,8 @@ export class ListaComponent {
     var url = location.href.split("/");
     this.carpeta = url[4];
     this.modulo = url[5];
+
+
     //this.modulo_actual = this.modulo.replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); }).replace(/[-_]+/g, ' ');
 
     var ctrl = "-" + this.modulo;
@@ -91,8 +94,19 @@ export class ListaComponent {
     }, 100);
   }
 
+  // cancelarModal(id) {
+  //   document.getElementById(id).classList.remove('is-active');
+  //   document.getElementById("confirmarPDF").classList.add('is-active');
+  // }
+
+
+
+  
+
     download(e, id) {
 
+      
+    
         this.crudService.ver(id, "incidencias").subscribe(
           resultado => {
             
@@ -100,7 +114,7 @@ export class ListaComponent {
 
             //console.log(fechaIngreso.format('DD/MM/YYYY, h:mm:ss a'));
 
-            console.log(resultado.data.movimientos_incidencias[0]);
+            console.log(resultado.data);
 
             
 
@@ -149,12 +163,12 @@ export class ListaComponent {
 
 
             if(resultado.data.pacientes[0].acompaniantes[1]){
-              if(resultado.data.pacientes[0].acompaniantes[0].personas.fecha_nacimiento == null){
+              
                 var columns_responsable = [
                 {title: "Nombre Completo", dataKey: "nombre_acompaniante"},
                 {title: "CURP", dataKey: "curp_acompaniante"},
                 {title: "Teléfono", dataKey: "telefono_acompaniante"},
-            ];
+              ];
               
               var rows_responsable = []; 
                 rows_responsable.push({
@@ -162,7 +176,7 @@ export class ListaComponent {
                   "curp_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.id,
                   "telefono_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.telefono,
                 });
-              }
+              
             }
 
           
@@ -184,14 +198,15 @@ export class ListaComponent {
             var rows_movimientos = []; 
             resultado.data.movimientos_incidencias.forEach(element => {
 
-              
+              console.log("aqui",element);
+
                 rows_movimientos.push({
                   "numero": num --,
                   "turno_ingreso_paciente": element.turnos.nombre,
                   "estado_paciente_movimiento": element.estados_pacientes.nombre,
                   "triage_acompaniante_movimiento": element.triage_colores.nombre,
                   "ubicacion_paciente_movimiento": element.ubicaciones_pacientes.nombre,
-                  "cie10_movimientos": element.subcategorias_cie10.nombre,
+                  "cie10_movimientos": element.subcategorias_cie10?element.subcategorias_cie10.nombre:'',
                 });;
               
             });
@@ -218,8 +233,6 @@ export class ListaComponent {
              let pdf = new jsPDF('l');
 
              var totalPagesExpPaciente = "{total_pages_count_string}";
-
-
              var pageContentPaciente = function (data) {
               // HEADER
               pdf.setFontSize(20);
@@ -289,7 +302,7 @@ export class ListaComponent {
                     pdf.setFontSize(13)
                     pdf.setFont('helvetica')
                     pdf.setFontType('bold')
-                    pdf.text(10, 132, 'Datos del Responsable:');
+                    pdf.text(10, 125, 'Datos del Responsable:');
       
                     pdf.autoTable(columns_responsable, rows_responsable, {
                       
@@ -385,5 +398,6 @@ export class ListaComponent {
     
         );
     }
+    
 
 }

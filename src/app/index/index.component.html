@@ -20,9 +20,9 @@
     </div>
 </section>
 <section style="padding: 1em; overflow:auto;" [style.maxHeight.px]="tamano-130">
-    <section class="contenedor columns is-multiline is-mobile" *ngFor="let val of menu">
-        <div *ngFor="let item of val.lista | buscarModulo: busqueda" [class]="item.lista ? 'column is-12' : val.lista.length > 7 ? '' : 'column is-2-desktop is-4-tablet is-6-mobile'">
-            <a *ngIf="!item.lista" href="#" title="{{ item.titulo}}" style="position: relative;" class="item menu-index menu-index-a {{val.lista.length > 6 ? 'menu-index-a-tamanio' : ''}}"
+    <section class="contenedor columns is-multiline is-mobile" *ngFor="let val of menu;">
+        <div *ngFor="let item of val.lista | buscarModulo: busqueda; let i = index" [ngClass]="item.lista ? 'column is-12' : val.lista.length-tiene < 6 ? 'column' : 'column is-2-desktop is-4-tablet is-6-mobile'">
+            <a *ngIf="!item.lista" href="#" title="{{ item.titulo}}" style="position: relative;" class="item menu-index menu-index-a "
                 routerLink="{{item.path}}" routerLinkActive="active">
 
                 <figure class="image " style="height: auto; width: 100%; ">
@@ -33,7 +33,7 @@
                     <small>{{ item.titulo}}</small>
                 </span>
             </a>
-            <span *ngIf="item.lista" class="menu-index-span">
+            <span *ngIf="item.lista" class="menu-index-span column is-2-desktop is-4-tablet is-6-mobile">
                 <figure class="image " style="height: auto; width: 100%; ">
                     <i class="{{item.icono}}" style="font-size: 100px"></i>
                 </figure>
@@ -43,7 +43,8 @@
                 </span>
             </span>
             <section *ngIf="item.lista" class="contenedor columns is-multiline is-mobile">
-                <div *ngFor="let valor of item.lista | buscarModulo: busqueda" class="column is-2-desktop is-4-tablet is-4-mobile menu-index">
+                <div *ngFor="let valor of item.lista | buscarModulo: busqueda;" [ngInit]="tiene_hijos()" class="menu-index menu-index-second"  
+                [ngClass]="item.lista.length < 6 ? 'column' : 'column is-2-desktop is-4-tablet is-12-mobile'">
                     <a href="#" title="{{ valor.titulo}}" style="position: relative;" class="item" routerLink="{{valor.path}}" routerLinkActive="active">
 
                         <figure class="image " style="height: auto; width: 100%; ">

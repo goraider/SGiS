@@ -52,7 +52,7 @@ export class FormularioOpcionesComponent{
 
     menu.map((element, key) => {
       if (typeof this.icono == 'undefined') {
-        if(element.lista == '') {
+        if(!element.lista) {
           this.icono = 'Seguimiento';
         }
         if (element.lista) {

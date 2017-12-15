@@ -46,6 +46,26 @@
                   <span class="tooltiptext">Regresar</span>
                 </a>
 
+                <a id="catalogos" class="navbar-item tooltip" (click)="ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos');
+                    ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');
+                    ctrl.cargarCatalogo('parentescos', 'parentescos');
+                    ctrl.cargarCatalogo('municipios', 'municipios');
+                    ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes');
+                    ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
+                    ctrl.cargarCatalogo('triage_colores', 'triage-colores');
+                    
+                    ctrl.cargarCatalogo('turnos_varios', 'turnos');">
+
+                    <span class="tooltiptext">Catálogos</span>
+
+                    <span *ngIf="!ctrl.cargando" class="icon fa-2x has-text-succes">
+                        <i class="fa fa-spinner"></i>
+                    </span>
+                    <span *ngIf="ctrl.cargando" class="icon fa-2x has-text-succes">
+                        <i class="fa fa-spinner fa-spin"></i>
+                    </span>
+                </a>
+
                 <a *ngIf="ctrl.id" id="cargar_datos_actualizar" class="navbar-item tooltip" (click)="cargarDatos();">
                   <span class="icon fa-2x">
                     <i class="fa fa-refresh"></i>
@@ -116,7 +136,7 @@
 
             <label class="label">N° Folio de la Incidencia</label>
             <div class="field is-grouped">
-              <p class="control">
+              <p *ngIf="mostrar_folio" class="control">
                 <a class="button is-primary" (click)="generar_folio(this.dato.controls.id, true);">Actualizar Folio</a>
               </p>
               <p class="control is-expanded">
@@ -135,20 +155,6 @@
               <div *ngFor="let item of ctrl.dato.controls.pacientes?.controls; let i=index" [formGroupName]="i">
                 <nav class="panel">
                   <div class="panel-heading column is-12">
-                    
-                        <a class="tooltip" id="catalogosPaciente" style="float:right" (click)="ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos');
-                                        ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');
-                                        ctrl.cargarCatalogo('parentescos', 'parentescos');
-                                        ctrl.cargarCatalogo('municipios', 'municipios');">
-
-                          <span *ngIf="!ctrl.cargando" class="icon fa-2x has-text-succes">
-                              <i class="fa fa-refresh"></i>
-                          </span>
-                          <span *ngIf="ctrl.cargando" class="icon fa-2x has-text-succes">
-                              <i class="fa fa-refresh fa-spin"></i>
-                          </span>
-                        </a>
-                      
                     Paciente
                   </div>
                   <div class="box">
@@ -220,6 +226,7 @@
                             <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !item.controls.personas.controls.telefono.valid}"
                               formControlName="telefono">
                             <span class="help is-danger" *ngIf="!item.controls.personas.controls.telefono.valid">Este campo es requerido.</span>
+                            <span class="help is-danger" *ngIf="item.controls.personas.controls.telefono.hasError('pattern')">Este campo debe contener un número celular, Ejemplo: <b>9671012030</b></span>
                           </p>
                         </div>
                         <div class="column is-8">
@@ -289,35 +296,35 @@
 
                         <div class="column is-6">
                           <label class="label">Derechohabiente: </label>
-                          <div class="control is-grouped has-icons-left">
-
-                            <span *ngIf="ctrl.cargando" class="tag is-primary is-large">Cargando Servicios Médicos...
-                              <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
-                            </span>
-
-                            <div *ngIf="ctrl.derechohabientes && !ctrl.cargando" class="control is-expanded has-icon-left">
-
-                              <span class="select" [ngClass]="{'is-danger': item.get('personas').get('derechohabientes_id').hasError('required')}">
-                                <select class="select" name="derechohabientes_id" formControlName="derechohabientes_id">
-                                  <option value="">Seleccione el Servicio Médico de la Paciente:</option>
-                                  <option *ngFor="let val of ctrl.derechohabientes" value="{{val.id}}">{{ val.nombre }}</option>
-                                </select>
-                              </span>
-
-                              <span class="icon is-small" *ngIf="!ctrl.cargando && item.get('personas').get('derechohabientes_id').hasError('required')">
-                                <i class="fa fa-warning"></i>
-                              </span>
-
-                              <span class="help is-danger" *ngIf="item.get('personas').get('derechohabientes_id').hasError('required')">
-                                Este campo es requerido.
-                              </span>
-
-                              <span class="icon is-small is-left" *ngIf="!ctrl.cargando && !item.get('personas').get('derechohabientes_id').hasError('required')">
-                                <i class="fa fa-id-card-o"></i>
-                              </span>
+                            <div class="control is-grouped has-icons-left">
+                        
+                                <span *ngIf="ctrl.cargando" class="tag is-primary is-large">Cargando Servicios Médicos...
+                                    <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+                                </span>
+                        
+                                <div *ngIf="ctrl.derechohabientes && !ctrl.cargando" class="control is-expanded has-icon-left">
+                        
+                                    <span class="select" [ngClass]="{'is-danger': item.get('personas').get('derechohabientes_id').hasError('required')}">
+                                        <select class="select" name="derechohabientes_id" formControlName="derechohabientes_id">
+                                            <option value="">Seleccione el Servicio Médico de la Paciente:</option>
+                                            <option *ngFor="let val of ctrl.derechohabientes" value="{{val.id}}">{{ val.nombre }}</option>
+                                        </select>
+                                    </span>
+                        
+                                    <span class="icon is-small" *ngIf="!ctrl.cargando && item.get('personas').get('derechohabientes_id').hasError('required')">
+                                        <i class="fa fa-warning"></i>
+                                    </span>
+                        
+                                    <span class="help is-danger" *ngIf="item.get('personas').get('derechohabientes_id').hasError('required')">
+                                        Este campo es requerido.
+                                    </span>
+                        
+                                    <span class="icon is-small is-left" *ngIf="!ctrl.cargando && !item.get('personas').get('derechohabientes_id').hasError('required')">
+                                        <i class="fa fa-id-card-o"></i>
+                                    </span>
+                                </div>
                             </div>
-                          </div>
-                        </div>
+                      </div>
 
 
                       </div>
@@ -334,10 +341,13 @@
                             <!--<label class="checkbox" style="float:right"><input type="checkbox" id= "checar" (change)="mostrar = !mostrar; mostrar ? ctrl.agregar_form_array(ctrl.dato.controls.acompaniantes.controls, form_responsable) : ctrl.quitar_form_array(ctrl.dato.controls.acompaniantes, 1); " formControlName="esResponsable">¿Es responsable?</label>-->
                             <label style="float:right" *ngIf="cont == 0">¿Es responsable de la Paciente?
                               <label class="radio">
-                                <input type="radio" name="esResponsable" (click)="quitar_form_array_responsable(ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes, 1); ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[cont].controls.esResponsable.patchValue(1);"
+                                <input type="radio" name="esResponsable"
+                                  (click)="quitar_form_array_responsable(ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes, 1); ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[cont].controls.esResponsable.patchValue(1);"
                                   [checked]="ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">Si</label>
                               <label class="radio">
-                                <input type="radio" name="esResponsable" (click)="agregar_form_array();" [checked]="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">No</label>
+                                <input type="radio" name="esResponsable"
+                                (click)="agregar_form_array();"
+                                [checked]="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">No</label>
                             </label>
                           </p>
                         </div>
@@ -437,85 +447,6 @@
                           </div>
                         </div>
                       </div>
-
-                      <!--<div *ngIf="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">
-                          <div >
-                            <div class="panel-heading column is-12">
-                              <p>
-                                Responsable
-                              </p>
-                            </div>
-                            <div class="box" formGroupName="1">
-                              <div class="columns">
-                                <div class="column is-6">
-                                  <p class="control is-expanded  has-icon has-icon-right">
-                                    <label class="label">Curp:</label>
-                                    <input class="input" autofocus type="text" (blur)="asignar_curp()" placeholder="CURP" formControlName="personas_id">
-                                  </p>
-                                </div>
-                                <div class="column is-6">
-                                  <p class="control is-expanded has-icon has-icon-right">
-                                    <label class="label">Parentesco: </label>
-                                    <span class="select">
-                                      <select class="select" name="parentescos_id" formControlName="parentescos_id" [ngClass]="{'is-danger': parentescos_id?.length == 0 }">
-                                        <option *ngFor="let val2 of ctrl.parentescos" value="{{val2.id}}">{{ val2.nombre }}</option>
-                                      </select>
-                                    </span>
-                                    <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[1].controls.parentescos_id.valid">Seleccione un parentesco.</span>
-                                                                           
-                                  </p>
-                                </div>
-                              </div>
-                              <div formGroupName="personas">
-                                <div class="columns">
-                                  <div class="column is-4">
-                                    <p class="control is-expanded  has-icon has-icon-right">
-                                      <label class="label">Nombre(s):</label>
-                                      <input class="input" autofocus type="text" placeholder="Nombre(s)" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.nombre.valid}"
-                                        formControlName="nombre">
-                                        <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[1].controls.personas.controls.nombre.valid">Este campo es requerido.</span>
-                                                                            
-                                    </p>
-                                  </div>
-                                  <div class="column is-4">
-                                    <p class="control is-expanded  has-icon has-icon-right">
-                                      <label class="label">Apellido Paterno:</label>
-                                      <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.paterno.valid}"
-                                        placeholder="Apellido Paterno" formControlName="paterno">
-                                        <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[1].controls.personas.controls.paterno.valid">Este campo es requerido.</span>
-                                    </p>
-                                  </div>
-                                  <div class="column is-4">
-                                    <p class="control is-expanded  has-icon has-icon-right">
-                                      <label class="label">Apellido Materno:</label>
-                                      <input class="input" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.materno.valid}"
-                                        placeholder="Apellido Materno" name="materno" formControlName="materno">
-                                        <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[1].controls.personas.controls.materno.valid">Este campo es requerido.</span>
-                                    </p>
-                                  </div>
-                                </div>
-                                <div class="columns">
-                                  <div class="column is-6">
-                                    <p class="control is-expanded has-icon has-icon-right">
-                                      <label class="label">Teléfono: </label>
-                                      <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.telefono.valid}"
-                                        formControlName="telefono">
-                                        <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[1].controls.personas.controls.telefono.valid">Este campo es requerido.</span>
-                                    </p>
-                                  </div>
-                                  <div class="column is-6">
-                                    <p class="control is-expanded has-icon has-icon-right">
-                                      <label class="label">Domicilio: </label>
-                                      <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !ctrl.dato.controls.pacientes.controls[i].controls.acompaniantes.controls[1].controls.personas.controls.domicilio.valid}"
-                                        formControlName="domicilio">
-                                        <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[1].controls.personas.controls.domicilio.valid">Este campo es requerido.</span>                                 
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>-->
                     </div>
 
                   </div>
@@ -529,20 +460,6 @@
           <div [ngClass]="{ 'is-hidden': tab != 2}">
             <nav class="panel">
               <p class="panel-heading column is-12">
-
-                  <a id="catalogosIngreso" style="float:right" (click)="ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes');
-                      ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
-                      ctrl.cargarCatalogo('triage_colores', 'triage-colores');
-                      ctrl.cargarCatalogo('turnos_varios', 'turnos');">
-
-                      <span *ngIf="!ctrl.cargando" class="icon fa-2x has-text-succes">
-                          <i class="fa fa-refresh"></i>
-                      </span>
-                      <span *ngIf="ctrl.cargando" class="icon fa-2x has-text-succes">
-                          <i class="fa fa-refresh fa-spin"></i>
-                      </span>
-                  </a>
-                
                 Ingreso
               </p>
               <div class="box">
@@ -551,16 +468,31 @@
 
                     <div class="columns">
                       <div class="column is-12">
-                        <p class="control is-expanded  has-icon has-icon-right">
-                          <label class="label">Subcategorias CIE-10:</label>
-                          <input ngui-auto-complete [source]="cie10_term" autocomplete="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
+
+                        <div *ngIf="mostrar_check">
+                          <input class="styled" type="checkbox" 
+                            value="true" id="mastar_cambiar_CIE10" (change)="checked_cambiar_cie10('mastar_cambiar_CIE10')"> &nbsp;¿Desea cambiar la Subcategoria CIE10?
+                        </div>
+
+                        <div *ngIf='mostrar==true || !mostrar_check' class="control is-expanded  has-icon has-icon-right">
+           
+                          <label class="label">Subcategoria CIE-10:</label>
+                          <input  ngui-auto-complete [source]="cie10_term" autocomplete="false" [accept-user-input]="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
                             id="cie10" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                             (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id, 'id', $event, true);"
-                            min-chars="4" class="input" type="text" [ngClass]="{'is-danger': !movimiento.controls.subcategorias_cie10_id.valid}"
-                            placeholder="Subcategorias CIE-10">
+                            min-chars="4" class="input" type="text" [ngClass]="{'is-danger': movimiento.controls.subcategorias_cie10_id.hasError('required')}"
+                            placeholder="Escriba como mínimo 4 letras para Buscar la Subcategoria CIE-10:">
+                          
+                          <span class="help is-danger" *ngIf="movimiento.controls.subcategorias_cie10_id.hasError('required')">Este campo es requerido.</span>
+                        </div>
 
-                          <span class="help is-danger" *ngIf="!movimiento.controls.subcategorias_cie10_id.valid">Este campo es requerido.</span>
-                        </p>
+                        <div *ngIf='mostrar==false && mostrar_check'>
+        
+                            <span class="input" type="text">
+                              {{cie10_var_temp}}
+                            </span>
+                        </div>
+
                       </div>
                     </div>
 
@@ -735,14 +667,16 @@
                   Referencia
                   <label style="float:right">¿El paciente tiene referencia?
                     <label class="radio">
-                      <input type="radio" name="tieneReferencia" (click)="si_tiene_referencia(); tiene_referencia=1" [ngClass]="{ 'is-active' : tiene_referencia == 1}"
-                        [checked]="ctrl.dato.tieneReferencia">Si</label>
+                      <input type="radio" name="tieneReferencia" (click)="this.dato.controls.tieneReferencia.patchValue(1);" [ngClass]="{ 'is-active' : ctrl.dato.value.tieneReferencia == 1}"
+                        [checked]="ctrl.dato.value.tieneReferencia">Si</label>
                     <label class="radio">
-                      <input type="radio" name="tieneReferencia" (click)="no_tiene_referencia(); tiene_referencia=2" [checked]="!ctrl.dato.tieneReferencia">No</label>
+                      <input type="radio" name="tieneReferencia" (click)="this.dato.controls.tieneReferencia.patchValue(0);"
+                      [checked]="!ctrl.dato.value.tieneReferencia">No</label>
+                      
                   </label>
                 </p>
               </div>
-              <div class="box" [ngClass]="{ 'is-hidden': tiene_referencia != 1}">
+              <div class="box" [ngClass]="{ 'is-hidden': ctrl.dato.value.tieneReferencia != 1}">
 
                 <div formArrayName="referencias">
                   <div *ngFor="let referencias of ctrl.dato.controls.referencias?.controls; let ref=index" [formGroupName]="ref">
@@ -765,7 +699,9 @@
                         </label>
                         <div class="file is-primary" *ngFor="let image of ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls; let ii=index">
                           <div class="column is-6" *ngIf="image">
-                              <img [src]="'data:image/jpg;base64,'+image.value.foto" alt="Imagen" width="100px" />                            
+                              
+                            <img [src]="url_img_referencia+image.value.foto" alt="Imagen" width="100px" *ngIf="image.value?.es_url"/>                            
+                            <img [src]="'data:image/jpg;base64,'+image.value?.foto" alt="Imagen" width="100px" *ngIf="!image.value?.es_url"/>                            
                           </div>
                           <div class="column is-6" *ngIf="image"> 
                             <div class="block">
@@ -774,17 +710,27 @@
                                   <i class="fa fa-eye"> </i>
                                 </span> &nbsp; Ver Imagen
                               </a>
-                              <a (click)="quitar_form_array(ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls,ii);">
+                              <a id="borrarId{{ref}}{{ii}}" (click)="quitar_form_array(ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls,ii);"></a>
+                              
+                              <a *ngIf="!image.value?.es_url || image.value?.foto ==''" (click)="quitar_form_array(ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls,ii);">
                                   <span class="icon fa-2x has-text-danger">
                                       <i class="fa fa-trash"></i>
                                   </span>
                               </a>
+                              
+                              <a *ngIf="image.value?.es_url && image.value?.foto !=''" (click)="ctrl.borrarImagen($event, ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls[ii].controls.foto, 'referencias', 'borrarId'+ref+''+ii);">
+                                  <span class="icon fa-2x has-text-danger">
+                                    <i class="fa fa-trash"></i>
+                                  </span>
+                              </a>
+
                             </div>
                             <div class="modal" id="verFoto{{ref}}{{ii}}" (click)="cancelarModal('verFoto'+ref+''+ii)">
                               <div class="modal-background"></div>
                               <div class="modal-content">
                                 <p class="image is-4by3">
-                                  <img [src]="'data:image/jpg;base64,'+image.value.foto" alt="Imagen" />
+                                  <img [src]="url_img_referencia+image.value.foto" alt="Imagen" width="100px" *ngIf="image.value?.es_url"/>                            
+                                  <img [src]="'data:image/jpg;base64,'+image.value?.foto" alt="Imagen" width="100px" *ngIf="!image.value?.es_url"/>  
                                 </p>
                               </div>
                               <button type="button" class="modal-close" (click)="cancelarModal('verFoto'+ref+''+ii)"></button>
@@ -813,7 +759,7 @@
                         <p class="control is-expanded  has-icon has-icon-right">
                           <label class="label">Unidad Medica de Origen (De donde viene el Paciente):</label>
 
-                          <input ngui-auto-complete autocomplete="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
+                          <input ngui-auto-complete autocomplete="false" [accept-user-input]="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
                             id="clues_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                             (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.referencias.controls[ref].controls.clues_origen, 'clues', $event, false);"
                             min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Medica:"

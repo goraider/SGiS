@@ -42,8 +42,8 @@
                                             <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue"
                                                 id="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                                                 (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
-                                                min-chars="5" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched}"
-                                                placeholder="Escriba como mínimo 5 letras para encontrar la Unidad Medica:" >
+                                                min-chars="4" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched}"
+                                                placeholder="Escriba como mínimo 4 letras para encontrar la Unidad Medica:" >
 
                                             <span class="icon is-small" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched"><i class="fa fa-warning"></i></span>
                                             <span class="help is-danger" *ngIf="ctrl.dato.get('clues').hasError('required') && ctrl.dato.get('clues').touched">Este campo es requerido.</span>

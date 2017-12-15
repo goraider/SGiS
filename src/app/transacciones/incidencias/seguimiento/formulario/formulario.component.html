@@ -249,13 +249,17 @@
             </table>
           </div>
 
-          <div [ngClass]="{ 'is-hidden': tab != 3}">
+          <div [ngClass]="{ 'is-hidden': tab != 3}" >
 
-            <a class="button is-success" (click)="nueva_alta()">
-              <span class="icon">
-                <i class="fa fa-plus"></i>
-              </span>&nbsp; Generar Alta</a>
+          <div *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
 
+              <a class="button is-success" (click)="nueva_alta()">
+                  <span class="icon">
+                    <i class="fa fa-plus"></i>
+                  </span>&nbsp; Generar Alta
+                </a>
+            
+          </div>
 
             <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
               <thead>
@@ -347,14 +351,17 @@
           <div class="field column is-12">
               <label class="label">Turno en el que se realiza:</label>
               <p class="control has-icons-left">
-                <span class="select">
-                  <select class="select" [(ngModel)]="turnos_id" name="turnos_id" [ngClass]="{'is-danger': turnos_id?.length == 0 }">
+                <span class="select" [ngClass]="{'is-danger': turnos_id == '' }">
+                  <select class="select" [(ngModel)]="turnos_id" name="turnos_id">
                       <option value="">Elija el Turno Laboral</option>
                       <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
                   </select>
                 </span>
                 <span class="icon is-small is-left">
                   <i class="fa fa-clock-o"></i>
+                </span>
+                <span class="help is-danger" *ngIf="turnos_id == ''">
+                  Este campo es requerido.
                 </span>
               </p>
           </div>
@@ -366,7 +373,7 @@
         <div class="column is-4">
           <label class="label">Ubicación del Paciente:</label>
           <p class="control has-icons-left">
-            <span class="select">
+            <span class="select" [ngClass]="{'is-danger': ubicaciones_pacientes_id == '' }">
               <select class="select" [(ngModel)]="ubicaciones_pacientes_id" name="ubicaciones_pacientes_id" [ngClass]="{'is-danger': ubicaciones_pacientes_id?.length == 0 }">
                   <option value="">Elija la Ubicación de la Paciente</option>
                 <option *ngFor="let val of ubicaciones_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
@@ -375,13 +382,16 @@
             <span class="icon is-small is-left">
                 <i class="fa fa-heartbeat"></i>
             </span>
+            <span class="help is-danger" *ngIf="ubicaciones_pacientes_id == ''">
+              Este campo es requerido.
+            </span>
           </p>
         </div>
 
         <div class="column is-4">
           <label class="label">Estado del Paciente:</label>
           <p class="control has-icons-left">
-            <span class="select">
+            <span class="select" [ngClass]="{'is-danger': estados_pacientes_id == '' }">
               <select class="select" [(ngModel)]="estados_pacientes_id" name="estados_pacientes_id" [ngClass]="{'is-danger': estados_pacientes_id?.length == 0 }">
                   <option value="">Elija el Estado de la Paciente</option>
                 <option *ngFor="let val of estados_pacientes" value="{{val.id}}">{{ val.nombre }}</option>
@@ -390,12 +400,15 @@
             <span class="icon is-small is-left">
                 <i class="fa fa-hourglass-half"></i>
             </span>
+            <span class="help is-danger" *ngIf="estados_pacientes_id == ''">
+              Este campo es requerido.
+            </span>
           </p>
         </div>
         <div class="column is-4">
           <label class="label">Triage Obstetrico:</label>
           <p class="control has-icons-left">
-            <span class="select">
+            <span class="select" [ngClass]="{'is-danger': triage_colores_id == '' }">
               <select class="select" [(ngModel)]="triage_colores_id" name="triage_colores_id" [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
                 <option value="">Elija el Triage de la Paciente</option>
                 <option *ngFor="let val of triage_colores" value="{{val.id}}">{{ val.nombre }}</option>
@@ -403,6 +416,9 @@
             </span>
             <span class="icon is-small is-left">
                 <i class="fa fa-tasks"></i>
+            </span>
+            <span class="help is-danger" *ngIf="triage_colores_id == ''">
+              Este campo es requerido.
             </span>
           </p>
         </div>
@@ -413,16 +429,24 @@
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico que Reporta:</label>
-            <input name="medico_reporta_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_reporta_id">
+            <input name="medico_reporta_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_reporta_id" [ngClass]="{'is-danger': medico_reporta_id == '' }">
+
+            <span class="help is-danger" *ngIf="medico_reporta_id == ''">
+              Este campo es requerido.
+            </span>
           </p>
         </div>
 
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Subcategoria CIE10:</label>
-            <input ngui-auto-complete [source]="cie10_term" autocomplete="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
+            <input ngui-auto-complete [source]="cie10_term" autocomplete="false" [accept-user-input]="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
               id="subcategorias_cie10_id" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, false);"
-              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar el CIE10:" [(ngModel)]="subcategorias_cie10_id">
+              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar el CIE10:" [(ngModel)]="subcategorias_cie10_id" [ngClass]="{'is-danger': subcategorias_cie10_id == '' }">
+
+            <span class="help is-danger" *ngIf="subcategorias_cie10_id == ''">
+              Este campo es requerido.
+            </span>
           </p>
         </div>
 
@@ -433,14 +457,22 @@
         <div class="control is-grouped column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Atención Brindada (Indicaciones): </label>
-            <textarea class="textarea" [(ngModel)]="indicaciones" name="indicaciones" autofocus type="text" placeholder="Atención Brindada (Indicaciones)"></textarea>
+            <textarea class="textarea" [(ngModel)]="indicaciones" name="indicaciones" type="text" placeholder="Atención Brindada (Indicaciones)" [ngClass]="{'is-danger': indicaciones == '' }"></textarea>
+            
+            <span class="help is-danger" *ngIf="indicaciones == ''">
+              Este campo es requerido.
+            </span>
           </p>
         </div>
 
         <div class="control is-grouped column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Reporte Médico (Descripción): </label>
-            <textarea class="textarea" [(ngModel)]="reporte_medico" name="reporte_medico" autofocus type="text" placeholder="Reporte Médico (Descripción)"></textarea>
+            <textarea class="textarea" [(ngModel)]="reporte_medico" name="reporte_medico" type="text" placeholder="Reporte Médico (Descripción)" [ngClass]="{'is-danger': reporte_medico == '' }"></textarea>
+
+            <span class="help is-danger" *ngIf="reporte_medico == ''">
+              Este campo es requerido.
+            </span>
           </p>
         </div>
       </div>
@@ -525,6 +557,26 @@
   </div>
 </div>
 
+<!--MODAL VALIDACION SEGUIMIENTO-->
+<div class="modal" id="seguimiento_datos_vacios">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+        <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
+        <button class="delete" (click)="cerrarModalValidacionSeguimiento();"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="content">
+                <h1>¡Debe llenar todos los datos del Seguimiento!</h1>
+                <p>Verifique cada uno de los campos</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+        <a class="button is-success" (click)="cerrarModalValidacionSeguimiento();">Continuar</a>
+        </footer>
+    </div>
+</div>
+
 
 <!--REFERENCIA-->
 
@@ -581,7 +633,11 @@
         <div class="column is-12">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico quien Refiere:</label>
-            <input name="medico_refiere_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id">
+            <input name="medico_refiere_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_refiere_id" [ngClass]="{'is-danger': medico_refiere_id == '' }">
+
+            <span class="help is-danger" *ngIf="medico_refiere_id == ''">
+              Este campo es requerido.
+            </span>
           </p>
         </div>
       </div>
@@ -591,7 +647,11 @@
           <div class="control is-grouped">
             <p class="control is-expanded  has-icon has-icon-right">
               <label class="label">Diagnóstico: </label>
-              <textarea class="textarea" [(ngModel)]="diagnostico" name="diagnostico" autofocus type="text" placeholder="Diagnostico"></textarea>
+              <textarea class="textarea" [(ngModel)]="diagnostico" name="diagnostico" autofocus type="text" placeholder="Diagnostico" [ngClass]="{'is-danger': diagnostico == '' }"></textarea>
+
+              <span class="help is-danger" *ngIf="diagnostico == ''">
+                Este campo es requerido.
+              </span>
             </p>
           </div>
         </div>
@@ -599,8 +659,11 @@
           <div class="control is-grouped">
             <p class="control is-expanded  has-icon has-icon-right">
               <label class="label">Resumen Clínico: </label>
-              <textarea class="textarea" [(ngModel)]="resumen_clinico" name="resumen_clinico" autofocus type="text" placeholder="Resumen Clínico"></textarea>
+              <textarea class="textarea" [(ngModel)]="resumen_clinico" name="resumen_clinico" autofocus type="text" placeholder="Resumen Clínico" [ngClass]="{'is-danger': resumen_clinico == '' }"></textarea>
 
+              <span class="help is-danger" *ngIf="resumen_clinico == ''">
+                Este campo es requerido.
+              </span>
               
             </p>
           </div>
@@ -619,11 +682,16 @@
         <div class="column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Unidad Médica donde Refieren a la Paciente (Destino):</label>
-            <input ngui-auto-complete autocomplete="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
+            <input ngui-auto-complete autocomplete="false" [accept-user-input]="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
               id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
               (valueChanged)="ctrl.select_item_autocomplete(clues_destino, 'clues', $event, false);
                               select_destino_autocomplete($event)"
-              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_destino">
+              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_destino" [ngClass]="{'is-danger': clues_destino == '' }">
+
+              <span class="help is-danger" *ngIf="clues_destino == ''">
+                Este campo es requerido.
+              </span>
+              
           </p>
         </div>
 
@@ -688,7 +756,7 @@
                        <div class="modal-background"></div>
                        <div class="modal-content">
                            <p class="image is-4by3" *ngFor="let img of img_referencia; let imi = index;">
-                               <img [src]="'http://api.sgis.ismchiapas.org/adjunto/referencias/'+img.url" alt="" />
+                               <img [src]="url_img_referencias+img.url" alt="" />
                            </p>
                        </div>
                        <button type="button" class="modal-close" (click)="cerrarModalDetalle('verReferencia')"></button>
@@ -738,6 +806,26 @@
 
     </section>
   </div>
+</div>
+
+<!--MODAL VALIDACION REFERENCIA-->
+<div class="modal" id="referencia_datos_vacios">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+        <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
+        <button class="delete" (click)="cerrarModalValidacionReferencia();"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="content">
+                <h1>¡Debe llenar todos los datos de la Referencia!</h1>
+                <p>Verifique cada uno de los campos</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+        <a class="button is-success" (click)="cerrarModalValidacionReferencia();">Continuar</a>
+        </footer>
+    </div>
 </div>
 
 <!--ALTA-->
@@ -818,9 +906,14 @@
                   <input ngui-auto-complete [source]="clues_term"
                     [list-formatter]="autocompleListFormatterRegresa"
                     [value-formatter]="valorFormato_regresa"
-                    id="clues_regresa" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                    id="clues_regresa" path-to-data="" autocomplete="false" [accept-user-input]="false" loading-text="Cargando..." no-match-found-text="No hay resultados."
                     (valueChanged)="ctrl.select_item_autocomplete(clues_regresa, 'clues', $event, false);"
-                    min-chars="4" class="input" type="text" placeholder="Unidad Médica a donde regresa, Escriba como mínimo 4 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_regresa">
+                    min-chars="4" class="input" type="text" placeholder="Unidad Médica a donde regresa, Escriba como mínimo 4 letras para encontrar la Unidad Medica:"
+                    [(ngModel)]="clues_regresa" [ngClass]="{'is-danger': clues_regresa == '' }">
+
+                    <span class="help is-danger" *ngIf="clues_regresa == ''">
+                      Este campo es requerido.
+                    </span>
                 </p>
               </div>
 
@@ -832,14 +925,18 @@
         <div class="field column is-6">
           <label class="label">Turno en el que se realiza el alta:</label>
           <p class="control has-icons-left">
-            <span class="select">
-              <select class="select" [(ngModel)]="tur_id" name="tur_id" [ngClass]="{'is-danger': tur_id?.length == 0 }">
+            <span class="select" [ngClass]="{'is-danger': tur_id == '' }">
+              <select class="select" [(ngModel)]="tur_id" name="tur_id">
                 <option  value="">Elija el Turno Laboral</option>
                 <option *ngFor="let val of turnos" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
             <span class="icon is-small is-left">
                 <i class="fa fa-clock-o"></i>
+            </span>
+
+            <span class="help is-danger" *ngIf="tur_id == ''">
+              Este campo es requerido.
             </span>
           </p>
         </div>
@@ -848,14 +945,18 @@
         <div class="field column is-6">
           <label class="label">Tipo de Alta:</label>
           <p class="control has-icons-left">
-            <span class="select">
-              <select class="select" [(ngModel)]="t_altas_id" name="t_altas_id" [ngClass]="{'is-danger': t_altas_id?.length == 0 }">
+            <span class="select" [ngClass]="{'is-danger': t_altas_id == '' }">
+              <select class="select" [(ngModel)]="t_altas_id" name="t_altas_id">
                 <option value="">Elija el Tipo de Alta de la Paciente</option>
                 <option *ngFor="let val of tipos_altas" value="{{val.id}}">{{ val.nombre }}</option>tipos_altas
               </select>
             </span>
             <span class="icon is-small is-left">
                 <i class="fa fa-sign-out"></i>
+            </span>
+
+            <span class="help is-danger" *ngIf="t_altas_id == ''">
+              Este campo es requerido.
             </span>
           </p>
         </div>
@@ -867,7 +968,12 @@
         <div class="column is-12">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico que Reporta:</label>
-            <input name="me_reporta_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="me_reporta_id">
+            <input name="me_reporta_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="me_reporta_id" [ngClass]="{'is-danger': me_reporta_id == '' }">
+
+            <span class="help is-danger" *ngIf="me_reporta_id == ''">
+              Este campo es requerido.
+            </span>
+            
           </p>
         </div>
       </div>
@@ -881,7 +987,11 @@
               <p class="control is-expanded  has-icon has-icon-right">
                 <label class="label">Resumen Clinico: </label>
                 <textarea class="textarea" [(ngModel)]="r_clinico" name="r_clinico" autofocus type="text"
-                  placeholder="Resumen Clinico"></textarea>
+                  placeholder="Resumen Clinico" [ngClass]="{'is-danger': r_clinico == '' }"></textarea>
+
+                  <span class="help is-danger" *ngIf="r_clinico == ''">
+                    Este campo es requerido.
+                  </span>
               </p>
           </div>
 
@@ -889,7 +999,11 @@
             <p class="control is-expanded  has-icon has-icon-right">
               <label class="label">Diagnóstico de Egreso: </label>
               <textarea class="textarea" [(ngModel)]="diagnostico_egreso" name="diagnostico_egreso" autofocus type="text"
-                placeholder="Diagnóstico de Egreso"></textarea>
+                placeholder="Diagnóstico de Egreso" [ngClass]="{'is-danger': diagnostico_egreso == '' }"></textarea>
+
+                <span class="help is-danger" *ngIf="diagnostico_egreso == ''">
+                  Este campo es requerido.
+                </span>
             </p>
           </div>
 
@@ -900,14 +1014,19 @@
         <div class="field column is-6">
           <label class="label">Método de Planificación:</label>
           <p class="control has-icons-left">
-            <span class="select">
-              <select class="select" [(ngModel)]="me_planificacion_id" name="me_planificacion_id" [ngClass]="{'is-danger': me_planificacion_id?.length == 0 }">
+            <span class="select" [ngClass]="{'is-danger': me_planificacion_id == '' }">
+              <select class="select" [(ngModel)]="me_planificacion_id" name="me_planificacion_id">
                 <option  value="">Elija el Método de Planificación</option>
                 <option *ngFor="let val of metodos_planificacion" value="{{val.id}}">{{ val.nombre }}</option>
               </select>
             </span>
+          
             <span class="icon is-small is-left">
                 <i class="fa fa-calendar-check-o"></i>
+            </span>
+
+            <span class="help is-danger" *ngIf="me_planificacion_id == ''">
+              Este campo es requerido.
             </span>
           </p>
         </div>
@@ -916,7 +1035,11 @@
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Observación de Trabajo Social: </label>
             <textarea class="textarea" [(ngModel)]="observacion_trabajo_social" name="observacion_trabajo_social"
-              autofocus type="text" placeholder="Observación de Trabajo Social"></textarea>
+              autofocus type="text" placeholder="Observación de Trabajo Social" [ngClass]="{'is-danger': observacion_trabajo_social == '' }"></textarea>
+
+              <span class="help is-danger" *ngIf="observacion_trabajo_social == ''">
+                Este campo es requerido.
+              </span>
           </p>
         </div>
 
@@ -926,8 +1049,13 @@
         <div class="control is-grouped column is-12">
             <p class="control is-expanded  has-icon has-icon-right">
               <label class="label">Instrucciones y Recomendaciones para el manejo del paciente en su unidad de adscripción:</label>
-              <textarea class="textarea" [(ngModel)]="i_recomendaciones" name="i_recomendaciones" autofocus type="text"
-                placeholder="Instrucciones y Recomendaciones"></textarea>
+              <textarea class="textarea" [(ngModel)]="i_recomendaciones" name="i_recomendaciones" required autofocus type="text"
+                placeholder="Instrucciones y Recomendaciones" [ngClass]="{'is-danger': i_recomendaciones == '' }"></textarea>
+                
+                <span class="help is-danger" *ngIf="i_recomendaciones == ''">
+                  Este campo es requerido.
+                </span>
+                
             </p>
           </div>
       </div>
@@ -945,6 +1073,7 @@
 
 <!--DETALLE ALTA-->
 <div class="modal" id="detalle_alta">
+
     <div class="modal-background"></div>
     <div class="modal-card" style="width: 60%; height:80%">
       <header class="modal-card-head">
@@ -976,7 +1105,7 @@
                       <div class="modal-background"></div>
                       <div class="modal-content">
                           <p class="image is-4by3" *ngFor="let alta of img_alta; let imi = index;">
-                              <img [src]="'http://api.sgis.ismchiapas.org/adjunto/contrareferencias/'+alta.url" alt="" />
+                              <img [src]="url_img_altas+alta.url" alt="" />
                           </p>
                       </div>
                       <button type="button" class="modal-close" (click)="cerrarModalDetalle('verAlta')"></button>
@@ -1055,4 +1184,28 @@
   
       </section>
     </div>
-  </div>
+</div>
+
+
+
+
+
+  <!--MODAL VALIDACION ALTA-->
+<div class="modal" id="alta_datos_vacios">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+        <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
+        <button class="delete" (click)="cerrarModalValidacionAlta();"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="content">
+                <h1>¡Debe llenar todos los datos del Alta!</h1>
+                <p>Verifique cada uno de los campos</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+        <a class="button is-success" (click)="cerrarModalValidacionAlta();">Continuar</a>
+        </footer>
+    </div>
+</div>

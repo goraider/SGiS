@@ -51,7 +51,7 @@ import { Select2TemplateFunction, Select2OptionData } from 'ng2-select2';
                 </div>
             </section>
             <footer class="modal-card-foot">
-            <a class="button is-success" (click)="eliminarImagen(borrarItemFoto, borrarItemCarpeta)" [ngClass]="{'is-loading': borrarCargando}">Continuar</a>
+            <a class="button is-success" (click)="eliminarImagen(borrarItemFoto, borrarItemCarpeta, borrarId)" [ngClass]="{'is-loading': borrarCargando}">Continuar</a>
             <a class="button" (click)="cancelarModal('confirmarEliminarFoto')">Cancelar</a>
             </footer>
         </div>
@@ -1022,9 +1022,12 @@ export class FormularioComponent implements OnInit {
      */
     borrarItemFoto;
     borrarItemCarpeta;
-    borrarImagen(evt, modelo, carpeta, index): void {
+    borrarId;
+    borrarImagen(evt, modelo, carpeta, id): void {
+        this.borrarId = id;
         this.borrarItemFoto = modelo;
         this.borrarItemCarpeta = carpeta;
+
         document.getElementById("confirmarEliminarFoto").classList.add('is-active');
     }
 
@@ -1035,7 +1038,7 @@ export class FormularioComponent implements OnInit {
      * @param multiple bandera que determina si el campo es multiple
      * @return void
      */
-    eliminarImagen(modelo, carpeta) {
+    eliminarImagen(modelo, carpeta, id='') {
         var foto = modelo.value;
 
         var json = this.fb.group({ 'file': foto, 'ruta': carpeta }).getRawValue();
@@ -1044,6 +1047,13 @@ export class FormularioComponent implements OnInit {
                 this.cargando = false;
                 modelo.patchValue('');
                 this.cancelarModal('confirmarEliminarFoto');
+
+                if (id != "") {
+                    setTimeout(() => {
+                        document.getElementById(id).click();
+                    }, 300);
+                }
+                
             },
             error => {
                 this.cargando = false;

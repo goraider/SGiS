@@ -89,6 +89,7 @@ export class FormularioComponent {
   clues_origen:  any = '';
   clues_destino:  any = '';
   private clues_origen_login:  any = '';
+  img = [];
 
   //detalle referencia
   folio_referencia:  any = '';
@@ -98,6 +99,7 @@ export class FormularioComponent {
   resumen_clinico_referencia:  any = '';
   img_referencia:  any = '';
   medico_reporta_referencia:  any = '';
+  
 
   //Alta
   tipos_altas:  any = '';
@@ -109,6 +111,8 @@ export class FormularioComponent {
   t_altas_id:  any = '';
   clues_regresa:  any = '';
   clues_contrarefiere:  any = '';
+  clues_contrareferencia: any = '';
+  imgalta = [];
 
 
   r_clinico:  any = '';
@@ -142,6 +146,10 @@ export class FormularioComponent {
   public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
 
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
+
+  public url_img_referencias: string = `${environment.API_PATH}/adjunto/referencias/`;
+
+  public url_img_altas: string = `${environment.API_PATH}/adjunto/contrareferencias/`;
 
   constructor(
             private router: Router,
@@ -272,6 +280,9 @@ export class FormularioComponent {
 
     });
 
+    
+    
+
 
       //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
 
@@ -299,6 +310,10 @@ export class FormularioComponent {
 
   nuevo_seguimiento() {
     document.getElementById("nuevo_seguimiento").classList.add('is-active');
+  }
+
+  validar_seguimiento() {
+    document.getElementById("seguimiento_datos_vacios").classList.add('is-active');
   }
 
   detalle_seguimiento(data): void {
@@ -336,110 +351,125 @@ export class FormularioComponent {
   agregarSeguimiento() {
 
 
-    var tcp = 0;
-    for (let item of this.triage_colores) {
-      if (this.triage_colores_id == item.id)
-        break;
-      tcp++;
-    };
-
-    var ep = 0;
-    for (let item of this.estados_pacientes) {
-      if (this.estados_pacientes_id == item.id)
-        break;
-      ep++;
-    };
-
-    var up = 0;
-    for (let item of this.ubicaciones_pacientes) {
-      if (this.ubicaciones_pacientes_id == item.id)
-        break;
-      up++;
-
-    };
-
-    var tur = 0;
-    if (this.turnos)
-      for (let item of this.turnos) {
-        if (this.turnos_id == item.id)
-          break;
-        tur++;
-      };
-
-    var sci10 = 0;
-    if (this.subcategorias_cie10)
-      for (let item of this.subcategorias_cie10) {
-        if (this.subcategorias_cie10_id == item.id)
-          break;
-        sci10++;
-      };
+  if(this.turnos_id != "" && this.ubicaciones_pacientes_id != ""
+  && this.estados_pacientes_id != "" && this.triage_colores_id != ""
+  && this.medico_reporta_id != "" && this.subcategorias_cie10_id !=""
+  && this.indicaciones != "" && this.reporte_medico != ""){
 
 
 
-    var datomodal = {
+          var tcp = 0;
+          for (let item of this.triage_colores) {
+            if (this.triage_colores_id == item.id)
+              break;
+            tcp++;
+          };
+      
+          var ep = 0;
+          for (let item of this.estados_pacientes) {
+            if (this.estados_pacientes_id == item.id)
+              break;
+            ep++;
+          };
+      
+          var up = 0;
+          for (let item of this.ubicaciones_pacientes) {
+            if (this.ubicaciones_pacientes_id == item.id)
+              break;
+            up++;
+      
+          };
+      
+          var tur = 0;
+          if (this.turnos)
+            for (let item of this.turnos) {
+              if (this.turnos_id == item.id)
+                break;
+              tur++;
+            };
+      
+          var sci10 = 0;
+          if (this.subcategorias_cie10)
+            for (let item of this.subcategorias_cie10) {
+              if (this.subcategorias_cie10_id == item.id)
+                break;
+              sci10++;
+            };
+      
+      
+      
+          var datomodal = {
+      
+            id: [''],
+      
+            nuevo: [1, [Validators.required]],
+      
+            turnos: [this.turnos[tur], [Validators.required]],
+            turnos_id: [this.turnos_id, [Validators.required]],
+      
+            ubicaciones_pacientes: [this.ubicaciones_pacientes[up], [Validators.required]],
+            ubicaciones_pacientes_id: [this.ubicaciones_pacientes_id, [Validators.required]],
+      
+            estados_pacientes: [this.estados_pacientes[ep], [Validators.required]],
+            estados_pacientes_id: [this.estados_pacientes_id, [Validators.required]],
+      
+            triage_colores: [this.triage_colores[tcp], [Validators.required]],
+            triage_colores_id: [this.triage_colores_id, [Validators.required]],
+      
+            medico_reporta_id: [this.medico_reporta_id, [Validators.required]],
+      
+            subcategorias_cie10_id: [this.subcategorias_cie10_id.id, [Validators.required]],
+            subcategorias_cie10: [this.subcategorias_cie10[sci10], [Validators.required]],
+      
+            indicaciones: [this.indicaciones, [Validators.required]],
+            reporte_medico: [this.reporte_medico, [Validators.required]],
+      
+            //asignaciones a las variables que recorren el objeto para obtener sus valores        
+          };
+      
+      
+      
+          if (this.subcategorias_cie10)
+            datomodal["subcategorias_cie10"] = this.subcategorias_cie10[sci10];
+          if (this.turnos)
+            datomodal["turnos"] = this.turnos[tur];
+      
+          // if(this.estados_incidencias)      
+          //   datomodal["estados_incidencias"] = this.estados_incidencias[ei];
+      
+      
+      
+          //agrega al array de movimientos_incidencias para que estos tengan valores respecto a sus variables en cada seguimiento que se le realice al paciente
+      
+      
+          const mv: FormArray = <FormArray>this.dato.controls.movimientos_incidencias;
+      
+          mv.push(this.fb.group(datomodal));
+      
+          //asigna el estado de incidencia en proceso con numero 2
+          this.dato.controls['estados_incidencias_id'].setValue(2);
+          this.dato.controls['tieneReferencia'].setValue(0);
+      
+      
+      
+          this.ubicaciones_pacientes_id = '';
+          this.estados_pacientes_id = '';
+          this.triage_colores_id = '';
+          this.indicaciones = '';
+          this.reporte_medico = '';
+          this.medico_reporta_id = '';
+          this.turnos_id = '';
+          this.subcategorias_cie10_id = '';
+          this.cerrarModal();
 
-      id: [''],
+    }else
+    {
+      this.validar_seguimiento();
+    }
 
-      nuevo: [1, [Validators.required]],
-
-      turnos: [this.turnos[tur], [Validators.required]],
-      turnos_id: [this.turnos_id, [Validators.required]],
-
-      ubicaciones_pacientes: [this.ubicaciones_pacientes[up], [Validators.required]],
-      ubicaciones_pacientes_id: [this.ubicaciones_pacientes_id, [Validators.required]],
-
-      estados_pacientes: [this.estados_pacientes[ep], [Validators.required]],
-      estados_pacientes_id: [this.estados_pacientes_id, [Validators.required]],
-
-      triage_colores: [this.triage_colores[tcp], [Validators.required]],
-      triage_colores_id: [this.triage_colores_id, [Validators.required]],
-
-      medico_reporta_id: [this.medico_reporta_id, [Validators.required]],
-
-      subcategorias_cie10_id: [this.subcategorias_cie10_id.id, [Validators.required]],
-      subcategorias_cie10: [this.subcategorias_cie10[sci10], [Validators.required]],
-
-      indicaciones: [this.indicaciones, [Validators.required]],
-      reporte_medico: [this.reporte_medico, [Validators.required]],
-
-      //asignaciones a las variables que recorren el objeto para obtener sus valores        
-    };
-
-
-    if (this.subcategorias_cie10)
-      datomodal["subcategorias_cie10"] = this.subcategorias_cie10[sci10];
-    if (this.turnos)
-      datomodal["turnos"] = this.turnos[tur];
-
-    // if(this.estados_incidencias)      
-    //   datomodal["estados_incidencias"] = this.estados_incidencias[ei];
-
-
-
-    //agrega al array de movimientos_incidencias para que estos tengan valores respecto a sus variables en cada seguimiento que se le realice al paciente
-
-
-    const mv: FormArray = <FormArray>this.dato.controls.movimientos_incidencias;
-
-    console.log(datomodal);
-    mv.push(this.fb.group(datomodal));
-
-    //asigna el estado de incidencia en proceso con numero 2
-    this.dato.controls['estados_incidencias_id'].setValue(2);
-    this.dato.controls['tieneReferencia'].setValue(0);
-
-
-
-    this.ubicaciones_pacientes_id = '';
-    this.estados_pacientes_id = '';
-    this.triage_colores_id = '';
-    this.indicaciones = '';
-    this.reporte_medico = '';
-    this.medico_reporta_id = '';
-    this.turnos_id = '';
-    this.subcategorias_cie10_id = '';
-    this.cerrarModal();
-
+  }
+  cerrarModalValidacionSeguimiento() {
+    document.getElementById("seguimiento_datos_vacios").classList.remove('is-active');
   }
 
   //carga la lista de catalogos de manera local
@@ -497,6 +527,7 @@ export class FormularioComponent {
 
   detalle_referencia(data): void {
 
+    console.log("detalle referencias",data);
 
     this.folio_referencia = data.incidencias_id;
     this.origen_referencia = '('+data.clues_origen+')'+ " - "+ data.clues_origen_o.nombre;
@@ -576,50 +607,62 @@ export class FormularioComponent {
     }console.log(modelo);
   }
   
-  img=[];
+  
+
+  validar_referencia() {
+    document.getElementById("referencia_datos_vacios").classList.add('is-active');
+  }
 
   agregarReferencia() {
 
+    if(this.medico_refiere_id != "" && this.diagnostico !="" && this.resumen_clinico !="" && this.clues_destino != ""){
 
-    var datoReferencia = {
-
-      nuevo: [1, [Validators.required]],
-
-      medico_refiere_id: [this.medico_refiere_id, [Validators.required]],
-      diagnostico: [this.diagnostico, [Validators.required]],
-      resumen_clinico: [this.resumen_clinico, [Validators.required]],
-
-      clues_origen: [this.clues_origen_login.clues, [Validators.required]],
-      clues_destino: [this.clues_destino.clues, [Validators.required]],
-
-      multimedias: this.fb.group({
-        img:this.fb.array(this.img)
-      }),
-
-      esContrareferencia: [0],
-
-    };
-
-
-
-    const mv: FormArray = <FormArray>this.dato.controls.referencias;
-    mv.push(this.fb.group(datoReferencia));
-
-
-
-
-    //asigna el estado de incidencia en proceso con numero 2
-    this.dato.controls['estados_incidencias_id'].setValue(2);
-    this.dato.controls['tieneReferencia'].setValue(1);
-
-    this.medico_refiere_id = '';
-    this.diagnostico = '';
-    this.resumen_clinico = '';
-    this.clues_destino = '';
-   
-    this.cerrarModalReferencia();
-
-
+        var datoReferencia = {
+    
+          nuevo: [1, [Validators.required]],
+    
+          medico_refiere_id: [this.medico_refiere_id, [Validators.required]],
+          diagnostico: [this.diagnostico, [Validators.required]],
+          resumen_clinico: [this.resumen_clinico, [Validators.required]],
+    
+          clues_origen: [this.clues_origen_login.clues, [Validators.required]],
+          clues_destino: [this.clues_destino.clues, [Validators.required]],
+    
+          multimedias: this.fb.group({
+            img:this.fb.array(this.img)
+          }),
+    
+          esContrareferencia: [0],
+    
+        };
+    
+    
+    
+        const mv: FormArray = <FormArray>this.dato.controls.referencias;
+        mv.push(this.fb.group(datoReferencia));
+    
+    
+    
+    
+        //asigna el estado de incidencia en proceso con numero 2
+        this.dato.controls['estados_incidencias_id'].setValue(2);
+        this.dato.controls['tieneReferencia'].setValue(1);
+    
+        this.medico_refiere_id = '';
+        this.diagnostico = '';
+        this.resumen_clinico = '';
+        this.clues_destino = '';
+        this.img = [];
+        
+        this.cerrarModalReferencia();
+      
+      }
+      else{
+        this.validar_referencia();
+      }
+  }
+  cerrarModalValidacionReferencia() {
+    document.getElementById("referencia_datos_vacios").classList.remove('is-active');
   }
 
 
@@ -724,6 +767,7 @@ export class FormularioComponent {
     this.diagnostico = '';
     this.resumen_clinico = '';
     this.clues_destino = '';
+    this.img = [];
     document.getElementById("referencia").classList.remove('is-active');
   }
 
@@ -779,7 +823,6 @@ export class FormularioComponent {
 
   detalle_alta(data): void {
 
-
     this.folio_referencia = data.incidencias_id;
     this.medico_alta = data.medico_reporta_id;
     this.img_alta = data.multimedias;
@@ -814,6 +857,8 @@ export class FormularioComponent {
     this.observacion_trabajo_social = '';
     this.me_planificacion_id = '';
     this.i_recomendaciones = '';
+    this.imgalta = [];
+    
     document.getElementById("alta").classList.remove('is-active');
 
   }
@@ -832,96 +877,114 @@ export class FormularioComponent {
     document.getElementById(id).classList.add('is-active');
   }
 
+  validar_alta() {
+    document.getElementById("alta_datos_vacios").classList.add('is-active');
+  }
 
-  imgalta=[];
 
   agregarAlta() {
 
-    var ta = 0;
-    for (let item of this.tipos_altas) {
-      if (this.t_altas_id == item.id)
-        break;
-      ta++;
-    };
+    if(this.clues_regresa !="" && this.tur_id !="" && this.t_altas_id !="" && this.me_reporta_id !=""
+      && this.r_clinico !="" &&  this.diagnostico_egreso !="" && this.me_planificacion_id !="" && this.observacion_trabajo_social !=""
+      && this.i_recomendaciones !=""){
 
-    var mp = 0;
-    for (let item of this.metodos_planificacion) {
-      if (this.me_planificacion_id == item.id)
-        break;
-      mp++;
-    };
 
-    var tur = 0;
-    for (let item of this.turnos) {
-      if (this.tur_id == item.id)
-        break;
-      tur++;
-    };
-
+        var ta = 0;
+        for (let item of this.tipos_altas) {
+          if (this.t_altas_id == item.id)
+            break;
+          ta++;
+        };
     
-
-    var datoAlta = {
-
-      nuevo: [1, [Validators.required]],
-
-      multimedias: this.fb.group({
-        img:this.fb.array(this.imgalta)
-      }),
-      
-      medico_reporta_id: [this.me_reporta_id, [Validators.required]],
-
-      turnos: [this.turnos[tur], [Validators.required]],
-      turnos_id: [this.tur_id, [Validators.required]],
-      
-      tipos_altas: [this.tipos_altas[ta], [Validators.required]],
-      tipos_altas_id: [this.t_altas_id, [Validators.required]],
-
-      diagnostico_egreso: [this.diagnostico_egreso, [Validators.required]],
-      observacion_trabajo_social: [this.observacion_trabajo_social, [Validators.required]],
-      clues_contrarefiere: [this.clues_contrarefiere.clues, [Validators.required]],
-      clues_regresa: [this.clues_regresa.clues, [Validators.required]],
-      resumen_clinico:[this.r_clinico, [Validators.required]],
-      //diagnostico_ingreso:[this.diagnostico_ingreso,[Validators.required]],
-      instrucciones_recomendaciones:[this.i_recomendaciones, [Validators.required]],
-      metodos_planificacion: [this.metodos_planificacion[mp], [Validators.required]],
-      metodos_planificacion_id: [this.me_planificacion_id, [Validators.required]],
-
-    };
-
-
-
-    const mv: FormArray = <FormArray>this.dato.controls.altas_incidencias;
-    mv.push(this.fb.group(datoAlta));
+        var mp = 0;
+        for (let item of this.metodos_planificacion) {
+          if (this.me_planificacion_id == item.id)
+            break;
+          mp++;
+        };
+    
+        var tur = 0;
+        for (let item of this.turnos) {
+          if (this.tur_id == item.id)
+            break;
+          tur++;
+        };
+    
+        
+    
+        var datoAlta = {
+    
+          nuevo: [1, [Validators.required]],
+    
+          multimedias: this.fb.group({
+            img:this.fb.array(this.imgalta)
+          }),
+          
+          medico_reporta_id: [this.me_reporta_id, [Validators.required]],
+    
+          turnos: [this.turnos[tur], [Validators.required]],
+          turnos_id: [this.tur_id, [Validators.required]],
+          
+          tipos_altas: [this.tipos_altas[ta], [Validators.required]],
+          tipos_altas_id: [this.t_altas_id, [Validators.required]],
+    
+          diagnostico_egreso: [this.diagnostico_egreso, [Validators.required]],
+          observacion_trabajo_social: [this.observacion_trabajo_social, [Validators.required]],
+          clues_contrarefiere: [this.clues_contrarefiere.clues, [Validators.required]],
+          clues_regresa: [this.clues_regresa.clues, [Validators.required]],
+          resumen_clinico:[this.r_clinico, [Validators.required]],
+          //diagnostico_ingreso:[this.diagnostico_ingreso,[Validators.required]],
+          instrucciones_recomendaciones:[this.i_recomendaciones, [Validators.required]],
+          metodos_planificacion: [this.metodos_planificacion[mp], [Validators.required]],
+          metodos_planificacion_id: [this.me_planificacion_id, [Validators.required]],
+    
+        };
     
     
-    const ref: FormArray = <FormArray>this.dato.controls.referencias;
+    
+        const mv: FormArray = <FormArray>this.dato.controls.altas_incidencias;
+        mv.push(this.fb.group(datoAlta));
+        
+        
+        const ref: FormArray = <FormArray>this.dato.controls.referencias;
+    
+        if(ref.length > -1){
+    
+          this.dato.controls['tieneReferencia'].setValue(1);
+    
+        }else{
+          this.dato.controls['tieneReferencia'].setValue(0);
+        }
+    
+    
+    
+        //asigna el estado de incidencia en finalizado con numero 3
+        this.dato.controls['estados_incidencias_id'].setValue(3);
+    
+        this.clues_regresa = '';
+        this.t_altas_id = '';
+        this.tur_id = '';
+        this.me_reporta_id = '';
+        this.r_clinico = '';
+        this.diagnostico_egreso = '';
+        this.observacion_trabajo_social = '';
+        this.me_planificacion_id = '';
+        this.i_recomendaciones = '';
+        this.imgalta = [];
+    
+        this.cerrarModalAlta();
+    
+      }
+      else{
+        this.validar_alta();
+      }
 
-    if(ref.length > -1){
+}
 
-      this.dato.controls['tieneReferencia'].setValue(1);
+cerrarModalValidacionAlta() {
+  document.getElementById("alta_datos_vacios").classList.remove('is-active');
+}
 
-    }else{
-      this.dato.controls['tieneReferencia'].setValue(0);
-    }
-
-
-
-    //asigna el estado de incidencia en finalizado con numero 3
-    this.dato.controls['estados_incidencias_id'].setValue(3);
-
-    this.clues_regresa = '';
-    this.t_altas_id = '';
-    this.tur_id = '';
-    this.me_reporta_id = '';
-    this.r_clinico = '';
-    this.diagnostico_egreso = '';
-    this.observacion_trabajo_social = '';
-    this.me_planificacion_id = '';
-    this.i_recomendaciones = '';
-
-    this.cerrarModalAlta();
-
-  }
 
 
 }

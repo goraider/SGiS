@@ -161,3 +161,23 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="confirmarPDF">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+            <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
+            <button class="delete" (click)="cancelarModal('confirmarPDF')"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="content">
+                    <h1>¿Desea generar el Archivo PDF?</h1>
+                    <p>Se guardara el archivo PDF en su Computadora</p>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+            <a class="button is-success" (click)="download($event, item.id)" >Continuar</a>
+            <a class="button" (click)="cancelarModal('confirmarPDF')">Cancelar</a>
+            </footer>
+        </div>
+</div>

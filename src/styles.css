@@ -430,11 +430,16 @@ input[type="checkbox"] .styled:checked + label::after {
 
 .menu-index, .menu-index-span{
   box-shadow: 0px 1px 2px #ccc;
-  margin: 5px;
+  /*margin: 2.45em;
   min-width: 110px;
-  max-width: 176px;
+  max-width: 176px;*/
   background: snow;
   border-radius: 10px;
+}
+.menu-index-second{
+    margin-left: 19px;
+    margin-bottom: 19px;
+    width: calc(100vw/6.5) !important;
 }
 .menu-index:hover{
   background: lavender;
@@ -442,7 +447,7 @@ input[type="checkbox"] .styled:checked + label::after {
 .menu-index-span{
   float: left;
     text-align: -webkit-center;
-    height: 153px;
+    height: 143px;
     padding: 7px 36px;
 }
 .menu-index-a{
@@ -505,6 +510,14 @@ input[disabled], fieldset[disabled], button[disabled] {
 
 .no-match-found, .ngui-auto-complete ul li{
   color:black;
+}
+
+.tachar_texto td{
+      text-decoration: line-through;
+}
+
+app-hub .modal{
+  z-index: 9999 !important;
 }
 
 .pusher-notificacion {

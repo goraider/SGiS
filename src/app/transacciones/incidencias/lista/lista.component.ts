@@ -114,7 +114,6 @@ export class ListaComponent {
 
             //console.log(fechaIngreso.format('DD/MM/YYYY, h:mm:ss a'));
 
-            console.log(resultado.data);
 
             
 
@@ -197,8 +196,6 @@ export class ListaComponent {
     
             var rows_movimientos = []; 
             resultado.data.movimientos_incidencias.forEach(element => {
-
-              console.log("aqui",element);
 
                 rows_movimientos.push({
                   "numero": num --,

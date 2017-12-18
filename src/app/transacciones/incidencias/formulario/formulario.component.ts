@@ -469,7 +469,7 @@ export class FormularioComponent {
                         }
                             this.curp_viejo = resultado.data.pacientes[0]['personas_id'];
 
-                            console.log(this.curp_viejo);
+                            
                     
 
                         

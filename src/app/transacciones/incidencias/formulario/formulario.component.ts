@@ -106,6 +106,7 @@ export class FormularioComponent {
 
 
         this.iniciarFormulario();
+        this.valorInicial_municipio_localidad();
 
 
         var url = location.href.split("/");
@@ -177,25 +178,6 @@ export class FormularioComponent {
         // }, 200);
 
 
-        var im = 0, il = 0;
-
-        //        const pacientes = <FormArray>this.dato.controls.pacientes['controls']['personas']['controls']['municipios_id'];
-
-        this.dato.controls['pacientes']['controls']['0']['controls']['personas']['controls']['municipios_id'].valueChanges.
-            subscribe(val => {
-                if (val && im == 0) {
-                    im++;
-                    this.temp_municipios_id = val;
-                }
-            });
-
-        this.dato.controls.pacientes['controls']['0']['controls']['personas']['controls']['localidades_id'].valueChanges.
-            subscribe(val => {
-                if (val && il == 0) {
-                    il++;
-                    this.temp_localidades_id = val;
-                }
-            });
 
         this.route.params.subscribe(params => {
             this.id = params['id']; // Se puede agregar un simbolo + antes de la variable params para volverlo number
@@ -328,38 +310,42 @@ export class FormularioComponent {
         });
 
 
-        // var cie10 = 0;
-        
-        // this.dato.controls.movimientos_incidencias['controls'][0]['controls']['subcategorias_cie10_id'].valueChanges.
-        //     subscribe(valCIE10 => {
-        //         if (valCIE10 && cie10 == 0) {
-        //             cie10++;
-        //             this.temp_cie10_id = valCIE10;
-        //         }
-                
-        // });
+    }
 
+
+
+    valorInicial_municipio_localidad(){
         
+        this.autovalor_municipio();
+        this.autovalor_localidad();
 
         var im = 0, il = 0;
-
+        
         this.dato.controls['pacientes']['controls']['0']['controls']['personas']['controls']['municipios_id'].valueChanges.
             subscribe(val => {
                 if (val && im == 0) {
                     im++;
                     this.temp_municipios_id = val;
+
+                    console.log("valor muni", this.temp_municipios_id);
                 }
             });
 
+
+        
+        
+    
         this.dato.controls.pacientes['controls']['0']['controls']['personas']['controls']['localidades_id'].valueChanges.
             subscribe(val => {
                 if (val && il == 0) {
                     il++;
                     this.temp_localidades_id = val;
+
+                    console.log("valor localidad", this.temp_localidades_id);
                 }
             });
 
-
+        
     }
 
     //this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].value);
@@ -459,6 +445,10 @@ export class FormularioComponent {
                         this.mostrar_check = true;
                         this.mostrar_folio = false;
                         
+                        this.iniciarFormulario();
+                        this.valorInicial_municipio_localidad();
+
+                        
                         //validar todos los key que tengan el array                          
                         if (document.getElementById("catalogos"))
 
@@ -469,22 +459,9 @@ export class FormularioComponent {
                         }
                             this.curp_viejo = resultado.data.pacientes[0]['personas_id'];
 
-                            
-                    
 
                         
                         
-                        //resultado.data.pacientes[0]['personas']['editar_curp'] = this.editar_curp;
-
-
-
-                        this.iniciarFormulario();
-                        this.autovalor_municipio();
-                        this.autovalor_localidad();
-                        
-
-                        
-
 
                         this.dato.controls.id.patchValue(resultado.data.id);
                         this.dato.controls.clues.patchValue(resultado.data.clues);
@@ -596,22 +573,18 @@ export class FormularioComponent {
           
     }
 
-    autovalor_cie10() {
-        setTimeout(() => {
-            this.sub_CIE10_id = this.temp_cie10_id;
-        }, 2000);
-    }
-
     autovalor_municipio() {
         setTimeout(() => {
             this.municipios_id = this.temp_municipios_id;
         }, 2000);
+
     }
 
     autovalor_localidad() {
         setTimeout(() => {
             this.localidades_id = this.temp_localidades_id;
         }, 2000);
+
     }
 
     agregar_form_array() {
@@ -693,6 +666,11 @@ export class FormularioComponent {
 
     select_datosPaciente_autocomplete(data: any, value) {
         if (data.id) {
+
+            //asgina el valor viejo de la curp para que no se duplique
+            this.dato.controls.pacientes['controls'][0]['controls']['personas_id_viejo'].patchValue(data.id);
+            
+            
             //Se asigna en variables el formulario formulario reactivo, respecto si es un FormArray o un FormGroup
             const pacientes = <FormArray>this.dato.controls.pacientes;
             const posicion = <FormGroup>pacientes.controls[0];
@@ -735,6 +713,11 @@ export class FormularioComponent {
 
             const municipios = <FormGroup>personas.controls.municipios_id;
             municipios.patchValue(data.municipios_id);
+            
+            this.valorInicial_municipio_localidad();
+
+            console.log("bueno", this.autovalor_municipio());
+            
 
         }
 

@@ -28,6 +28,7 @@ export class ListaComponent {
   
     private url_nuevo: string = '';
     private permisos = JSON.parse(localStorage.getItem("permisos"));
+    private clues = JSON.parse(localStorage.getItem("clues"));    
     private carpeta;
     private modulo;
     private controlador;
@@ -38,10 +39,9 @@ export class ListaComponent {
 
   constructor(public crudService: CrudService){ }
 
-  clues = JSON.parse(localStorage.getItem("clues"));
-
   ngOnInit() {
-
+    
+    this.clues;
     var url = location.href.split("/");
     this.carpeta = url[4];
     this.modulo = url[5];

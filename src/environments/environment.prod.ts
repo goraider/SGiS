@@ -22,6 +22,38 @@ export const environment = {
       "path": "/dashboard",
       "icono": "fa fa-dashboard",
       "lista": []
+    },
+    {
+      "titulo": "Sistema",
+      "key": "UsuarioController.index",
+      "path": "/sistema",
+      "icono": "fa fa-laptop",
+      "lista": [
+        {
+          "titulo": "Grupo",
+          "key": "SisGrupoController.index",
+          "path": "/sistema/grupo/lista",
+          "icono": "fa fa-group"
+        },
+        {
+          "titulo": "Modulo",
+          "key": "SisModuloController.index",
+          "path": "/sistema/modulo/lista",
+          "icono": "fa fa-th"
+        },
+        {
+          "titulo": "Usuarios",
+          "key": "SisUsuarioController.index",
+          "path": "/sistema/usuario/lista",
+          "icono": "fa fa-user"
+        },
+        {
+          "titulo": "Version APP",
+          "key": "VersionAppController.index",
+          "path": "/sistema/version-app/lista",
+          "icono": "fa fa-android"
+        },
+      ]
     },    
     {
       "titulo": "Catalogos",
@@ -92,9 +124,9 @@ export const environment = {
               "icono": "fa fa-hourglass-half"
             },
             {
-              "titulo": "Valoración de Pacientes",
-              "key": "ValoracionPacienteController.index",
-              "path": "/catalogos/valoracion-paciente/lista",
+              "titulo": "Ubicación de Pacientes",
+              "key": "UbicacionPacienteController.index",
+              "path": "/catalogos/ubicacion-paciente/lista",
               "icono": "fa fa-heartbeat"
             },
             {
@@ -115,11 +147,17 @@ export const environment = {
               "path": "/catalogos/estado-embarazo/lista",
               "icono": "fa fa-female" 
             },
+            {
+              "titulo": "Tipo de Altas",
+              "key": "TipoAltaController.index",
+              "path": "/catalogos/tipo-alta/lista",
+              "icono": "fa fa-ticket" 
+            },
           ]
         },
         {
           "titulo": "Triage",
-          "key": "TriageColorController.show",
+          "key": "TriageColorController.index",
           "path": "",
           "icono": "fa fa-history",
           "lista": [
@@ -165,21 +203,21 @@ export const environment = {
         },
         {
           "titulo": "Estados de Incidencias",
-          "key": "EstadoIncidenciaController.show",
+          "key": "EstadoIncidenciaController.index",
           "path": "/catalogos/estado-incidencia/lista",
-          "icono": "fa fa-globe",
+          "icono": "fa fa-line-chart",
         },
         {
           "titulo": "Tipo de Notificaciones",
           "key": "TipoNotificacionController.index",
           "path": "/catalogos/tipo-notificacion/lista",
-          "icono": "fa fa-globe",
+          "icono": "fa fa-comments-o",
         },
         {
           "titulo": "CIE 10",
           "key": "GrupoCie10Controller.show",
           "path": "/catalogos/grupo-cie10/lista",
-          "icono": "fa fa-globe",
+          "icono": "fa fa-bug",
         },
         {
           "titulo": "Rutas",
@@ -193,145 +231,47 @@ export const environment = {
    {
     "titulo": "Transacciones",
     "key": "IncidenciaController.index",
-    "path": "",
+    "path": "/transacciones/incidencia/lista",
     "icono": "fa fa-user-md",
     "lista": [
       {
         "titulo": "Incidencias",
         "key": "IncidenciaController.index",
-        "path": "/transacciones/incidencias/lista",
+        "path": "/transacciones/incidencia/lista",
         "icono": "fa fa-volume-control-phone",
-        "lista": []
       },
       {
         "titulo": "Estado de Fuerza",
         "key": "EstadoFuerzaController.index",
         "path": "/transacciones/estado-fuerza/lista",
         "icono": "fa fa-medkit",
-        "lista": []
       },
       {
         "titulo": "Directorio",
         "key": "DirectorioController.index",
         "path": "/transacciones/directorio/lista",
         "icono": "fa fa-address-book",
-        "lista": []
       },
       {
         "titulo": "Censo de Mujeres",
         "key": "CensoPersonaController.index",
         "path": "/transacciones/censo-persona/lista",
         "icono": "fa fa-odnoklassniki",
-        "lista": []
       },
       {
         "titulo": "Directorio de Apoyos",
         "key": "DirectorioApoyoController.index",
         "path": "/transacciones/directorio-apoyo/lista",
         "icono": "fa fa-book",
-        "lista": []
       },
       {
         "titulo": "Base de Conocimiento",
         "key": "BaseConocimientoController.index",
         "path": "/transacciones/base-conocimiento/lista",
-        "icono": "fa fa-connectdevelo",
-        "lista": []
+        "icono": "fa fa-wheelchair-alt",
       },
     ]
    },
-    {
-      "titulo": "Incidencias",
-      "key": "IncidenciaController.index",
-      "path": "/transacciones/incidencia/lista",
-      "icono": "fa fa-volume-control-phone",
-      "lista": []
-    },
-    {
-      "titulo": "Estado de Fuerza",
-      "key": "EstadoFuerzaController.index",
-      "path": "/transacciones/estado-fuerza/lista",
-      "icono": "fa fa-medkit",
-      "lista": []
-    },
-    {
-      "titulo": "Directorio",
-      "key": "DirectorioController.index",
-      "path": "/transacciones/directorio/lista",
-      "icono": "fa fa-address-book",
-      "lista": []
-    },
-    {
-      "titulo": "Censo de Mujeres",
-      "key": "CensoPersonaController.index",
-      "path": "/transacciones/censo-persona/lista",
-      "icono": "fa fa-odnoklassniki",
-      "lista": []
-    },
-    {
-      "titulo": "Directorio de Apoyos",
-      "key": "DirectorioApoyoController.index",
-      "path": "/transacciones/directorio-apoyo/lista",
-      "icono": "fa fa-book",
-      "lista": []
-    },
-    {
-      "titulo": "Base de Conocimiento",
-      "key": "BaseConocimientoController.index",
-      "path": "/transacciones/base-conocimiento/lista",
-      "icono": "fa fa-book",
-      "lista": []
-    },
-    {
-      "titulo": "Sistema",
-      "key": "UsuarioController.index",
-      "path": "/sistema",
-      "icono": "fa fa-laptop",
-      "lista": [
-        {
-          "titulo": "Grupo",
-          "key": "SisGrupoController.index",
-          "path": "/sistema/grupo/lista",
-          "icono": "fa fa-group"
-        },
-        {
-          "titulo": "Modulo",
-          "key": "SisModuloController.index",
-          "path": "/sistema/modulo/lista",
-          "icono": "fa fa-th"
-        },
-        {
-          "titulo": "Usuarios",
-          "key": "SisUsuarioController.index",
-          "path": "/sistema/usuario/lista",
-          "icono": "fa fa-user"
-        },
-        {
-          "titulo": "Version APP",
-          "key": "VersionAppController.index",
-          "path": "/sistema/version-app/lista",
-          "icono": "fa fa-android"
-        },
-        {
-          "titulo": "Dashboards",
-          "key": "SisDashboardController.index",
-          "path": "/sistema/dashboard/lista",
-          "icono": "fa fa-dashboard" 
-        },
-        {
-          "titulo": "Reportes",
-          "key": "SisReporteController.index",
-          "path": "/sistema/reporte/lista",
-          "icono": "fa fa-list-alt"
-        },
-        {
-          "titulo": "Escalamiento de Notificaciones",
-          "key": "EscalamientoNotificacionController.index",
-          "path": "/sistema/escalamiento-notificacion/lista",
-          "icono": "fa fa-list-alt"
-        },
-      ]
-    },
     {
       "titulo": "Descargar APP",
       "key": "VersionAppController.descargar",
@@ -342,10 +282,18 @@ export const environment = {
 
     {
       "titulo": "Reportes",
-      "key": "ReporteController.index",
-      "path": "/reporte",
+      "key": "ReporteController.incidencias",
+      "path": "/reporte/incidencia/lista",
       "icono": "fa fa-list-alt",
-      "lista": []
+      "lista": [
+        {
+          "titulo": "Reporte de Incidencias",
+          "key": "ReporteController.incidencias",
+          "path": "/reporte/incidencia/lista",
+          "icono": "fa fa-volume-control-phone"
+        }
+      ]
     },
+
   ]
 };

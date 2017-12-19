@@ -12,10 +12,9 @@
         </span>
     </p>
     <nav class="pagination is-centered" >
-        
-        <a class="pagination-previous" [ngClass]="{'is-disabled': 1 == ctrl.paginaActual }" (click)="ctrl.paginaAnterior()">Anterior</a>
-        <a class="pagination-next"  [ngClass]="{'is-disabled': ctrl.paginasTotales <= ctrl.paginaActual }" (click)="ctrl.paginaSiguiente()">Siguiente</a>
 
+            <a class="pagination-previous" [ngClass]="{'is-disabled': 1 == ctrl.paginaActual }" (click)="ctrl.paginaAnterior()">Anterior</a>
+            <a class="pagination-next"  [ngClass]="{'is-disabled': ctrl.paginasTotales <= ctrl.paginaActual }" (click)="ctrl.paginaSiguiente()">Siguiente</a>
 
         <ul class="pagination-list" *ngIf="ctrl.paginasTotales<=7">
             <li *ngFor="let i of ctrl.indicePaginas">

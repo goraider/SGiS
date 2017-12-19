@@ -597,14 +597,20 @@ export class FormularioComponent {
         reader.onload = (function (theFile) {
           return function (e) {
             try {
-              modelo.push({foto: btoa(e.target.result)});
+              modelo.push(
+                          {
+                            foto: btoa(e.target.result),
+                            es_url:false
+                          }
+                        );
+
             } catch (ex) {
               esto.error_archivo = true;
             }
           }
         })(f);
       }
-    }console.log(modelo);
+    }
   }
   
   
@@ -630,6 +636,7 @@ export class FormularioComponent {
     
           multimedias: this.fb.group({
             img:this.fb.array(this.img)
+            
           }),
     
           esContrareferencia: [0],
@@ -640,6 +647,7 @@ export class FormularioComponent {
     
         const mv: FormArray = <FormArray>this.dato.controls.referencias;
         mv.push(this.fb.group(datoReferencia));
+
     
     
     

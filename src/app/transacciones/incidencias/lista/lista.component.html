@@ -1,5 +1,5 @@
 <!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
-<listar #ctrl URL="incidencias?clues={{clues.clues}}&edo_incidencia={{edo_incidencia}}" titulo="Incidencias / Transacciones" ></listar>
+<listar #ctrl URL="incidencias?edo_incidencia={{edo_incidencia}}" titulo="Incidencias / Transacciones" ></listar>
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
@@ -10,7 +10,7 @@
         <!-- Menu izquierda del modulo enviroment" -->
         <sistema-menu-aside ></sistema-menu-aside>
     </div>
-    <div class="column" style="padding:1em;">
+    <div class="column" style="padding:0.5em;">
         <div style="background: #FFF; border-radius: 1em; ">
             
             <!-- Opciones y busqueda -->
@@ -30,7 +30,6 @@
             
                         <!-- Right side -->
                         <div class="level-right ">
-                            
                             <div class="level-item">
                                 <div class="field">
                                     <label>Buscar por Paciente:</label>

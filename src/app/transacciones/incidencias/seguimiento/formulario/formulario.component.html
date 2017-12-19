@@ -620,7 +620,7 @@
             <div class="modal-background"></div>
             <div class="modal-content">
               <p class="image is-4by3" *ngFor="let im of img; let ix = index;">
-                <img [src]="'data:image/jpg;base64,'+im.foto" alt="" />
+                <img [src]="'data:image/jpg;base64,'+im.foto.url" alt="" />
               </p>
             </div>
             <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>

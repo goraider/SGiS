@@ -400,12 +400,15 @@ export class ListarComponent implements OnInit {
      * @return void
      */
     paginaSiguiente(): void {console.log(this.paginaActual);
-        if(this.busquedaActivada){
-            var term = <HTMLInputElement> document.getElementById("search-box");
-            this.listarBusqueda(term.value, this.paginaActualBusqueda + 1);
-        }else{
-            this.listar(this.paginaActual + 1);
+        if(this.total > 15){
+            if(this.busquedaActivada){
+                var term = <HTMLInputElement> document.getElementById("search-box");
+                this.listarBusqueda(term.value, this.paginaActualBusqueda + 1);
+            }else{
+                this.listar(this.paginaActual + 1);
+            }
         }
+
         
     }
 
@@ -414,12 +417,16 @@ export class ListarComponent implements OnInit {
      * @return void
      */
     paginaAnterior(): void {
-        if(this.busquedaActivada){
-            var term = <HTMLInputElement> document.getElementById("search-box");
-            this.listarBusqueda(term.value, this.paginaActualBusqueda - 1);
-        }else{
-            this.listar(this.paginaActual - 1);
-        }        
+        if(this.paginaActual > 1){
+            console.log(this.paginaActual);
+            if(this.busquedaActivada){
+                var term = <HTMLInputElement> document.getElementById("search-box");
+                this.listarBusqueda(term.value, this.paginaActualBusqueda - 1);
+            }else{
+                this.listar(this.paginaActual - 1);
+            }
+        }   
+          
     }
 
     /**

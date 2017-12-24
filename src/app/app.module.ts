@@ -34,7 +34,7 @@ import { ModulosModule } from './sistema/modulos/modulos.module';
 import { SisDashboardModule } from './sistema/dashboard/sis-dashboard.module';
 import { SisReporteModule } from './sistema/reporte/sis-reporte.module';
 import { SucursalModule } from './sistema/sucursal/sucursal.module';
-import { ConfiguracionSucursalModule } from './sistema/configuracion-sucursal/sucursal.module';
+//import { ConfiguracionSucursalModule } from './sistema/configuracion-sucursal/sucursal.module';
 
 
 //catalogos
@@ -150,7 +150,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     SisDashboardModule,
     SisReporteModule,
     SucursalModule,
-    ConfiguracionSucursalModule,
+    //ConfiguracionSucursalModule,
     
     TipoRedSocialModule,
     TipoMedioModule,

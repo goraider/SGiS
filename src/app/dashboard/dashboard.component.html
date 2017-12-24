@@ -1,12 +1,21 @@
-<sistema-menu ></sistema-menu>
+<sistema-menu></sistema-menu>
 
 <section style="padding: 1em;">
    
-    <section class="contenedor columns is-multiline is-mobile" *ngFor="let val of menu">
+    <section class="contenedor columns is-multiline is-mobile" *ngFor="let val of menu"></section>
 
-        
-    </section>
 </section>
+
+<div class="triage">
+    <canvas baseChart
+        [data]="doughnutChartData"
+        [labels]="doughnutChartLabels"
+        [chartType]="doughnutChartType"
+        [colors]="doughnutChartColors"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+</div>
 
 <app-hub #hub></app-hub>
 <app-perfil #perfil></app-perfil>

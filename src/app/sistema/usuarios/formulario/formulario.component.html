@@ -432,6 +432,8 @@
                                         <label class="label">Unidad Medica:</label>
                                         <input ngui-auto-complete [source]="clues_term"
                                         [list-formatter]="autocompleListFormatter"
+                                        [accept-user-input]="false"
+                                        autocomplete="false"
                                         [value-formatter]="valorFormato_clue" id="clues_busqueda" path-to-data=""
                                         loading-text="Cargando..." autocomplete="false" no-match-found-text="No hay resultados."
                                         (valueChanged)="select_clue_autocomplete(ctrl.dato.controls.sis_usuarios_clues.controls, $event)"

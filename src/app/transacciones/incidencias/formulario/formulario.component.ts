@@ -143,7 +143,7 @@ export class FormularioComponent {
                 //indice 0;
                 id: [''],
                 personas_id: [''],
-                parentescos_id: ['', [Validators.required]],
+                parentescos_id: [''],
                 esResponsable: [1],
             }),
 
@@ -151,11 +151,11 @@ export class FormularioComponent {
             this.form_persona_responsable =
             this.fb.group({
                 id: [''],
-                nombre: ['', [Validators.required]],
-                paterno: ['', [Validators.required]],
-                materno: ['', [Validators.required]],
-                telefono: ['', [Validators.required]],
-                domicilio: ['', [Validators.required]],
+                nombre: [''],
+                paterno: [''],
+                materno: [''],
+                telefono: [''],
+                domicilio: [''],
                 fecha_nacimiento: [null],
             }),
 
@@ -608,6 +608,8 @@ export class FormularioComponent {
 
 
         }
+
+        console.log(this.dato.value);
 
 
     }

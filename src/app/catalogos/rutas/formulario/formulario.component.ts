@@ -261,7 +261,7 @@ dibujarMarker(clues){
   let markers = [];
   let neighborhoods = [];
   let map;
-  let image = "./assets/icono-clues.svg";
+  let image = "./assets/iconos/icono-clues.svg";
 
   for (let j = 0; j < clues.length; j++){
 

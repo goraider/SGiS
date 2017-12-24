@@ -7,7 +7,7 @@
 /node_modules
 
 #local configuration files
-/src/environments/environment.ts
+#/src/environments/environment.ts
 
 # IDEs and editors
 /.idea

@@ -29,6 +29,7 @@ export class FormularioComponent {
     tab: number = 1;
     tiene_referencia: number = 0;
     mostrar : boolean = false;
+    mostrar_clue : boolean = false;
 
     form_responsable: any;
     form_persona_responsable: any;
@@ -53,37 +54,36 @@ export class FormularioComponent {
     tiempo: any = '';
     observaciones: any = '';
 
-    private usuario_clue;
+    usuario_clue;
 
-    private cargando: boolean = false;
+    cargando: boolean = false;
 
-    private municipios_id: number = null;
-    private temp_municipios_id: number = null;
-
-    private sub_CIE10_id: number = null;
-    private temp_cie10_id: number = null;
+    sub_CIE10_id: number = null;
+    temp_cie10_id: number = null;
     
     mostrar_check = false;
     mostrar_folio = true;
+    mostrar_check_clue = false;
+    //ocultar_pregunta_referencia = false;
 
     public curp_viejo:any = '';
     public cie10_var_temp: any = '';
+    public clues_origen_temp: any = '';
+    
 
-    private localidades_id: number = null;
-    private temp_localidades_id: number = null;
-    private selectedDeal;
+    selectedDeal;
 
-    private id;
+    id;
 
-    private url_nuevo: string = '';
-    private url_editar: string = '';
-    private permisos = JSON.parse(localStorage.getItem("permisos"));
-    private carpeta;
-    private modulo;
-    private controlador;
-    private modulo_actual;
-    private icono;
-    private activarOp = false;
+    url_nuevo: string = '';
+    url_editar: string = '';
+    permisos = JSON.parse(localStorage.getItem("permisos"));
+    carpeta;
+    modulo;
+    controlador;
+    modulo_actual;
+    icono;
+    activarOp = false;
 
     public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
@@ -106,7 +106,6 @@ export class FormularioComponent {
 
 
         this.iniciarFormulario();
-        this.valorInicial_municipio_localidad();
 
 
         var url = location.href.split("/");
@@ -143,7 +142,7 @@ export class FormularioComponent {
                 //indice 0;
                 id: [''],
                 personas_id: [''],
-                parentescos_id: [''],
+                parentescos_id: ['', [Validators.required]],
                 esResponsable: [1],
             }),
 
@@ -151,15 +150,20 @@ export class FormularioComponent {
             this.form_persona_responsable =
             this.fb.group({
                 id: [''],
-                nombre: [''],
-                paterno: [''],
-                materno: [''],
-                telefono: [''],
-                domicilio: [''],
+                nombre: ['', [Validators.required]],
+                paterno: ['', [Validators.required]],
+                materno: ['', [Validators.required]],
+                telefono: ['', [Validators.required]],
+                domicilio: ['', [Validators.required]],
                 fecha_nacimiento: [null],
             }),
 
             this.generar_folio(this.dato.controls.id, true);
+
+            //const municipioPaciente = <FormGroup>personas.controls.derechohabientes_id;
+
+
+                                     //this.dato.controls.pacientes['controls']['0']['controls']['personas']['controls']['localidades_id']
 
 
         /*
@@ -217,8 +221,6 @@ export class FormularioComponent {
 
     iniciarFormulario() {
         
-        
-
 
         this.dato = this.fb.group({
 
@@ -248,8 +250,8 @@ export class FormularioComponent {
 
                         estados_embarazos_id: ['', [Validators.required]],
                         derechohabientes_id: ['', [Validators.required]],
-                        municipios_id: [''],
-                        localidades_id: [''],
+                        municipios_id: ['', [Validators.required]],
+                        localidades_id: ['', [Validators.required]],
                     }),
                     acompaniantes: this.fb.array([
                         this.fb.group({
@@ -314,40 +316,6 @@ export class FormularioComponent {
 
 
 
-    valorInicial_municipio_localidad(){
-        
-        this.autovalor_municipio();
-        this.autovalor_localidad();
-
-        var im = 0, il = 0;
-        
-        this.dato.controls['pacientes']['controls']['0']['controls']['personas']['controls']['municipios_id'].valueChanges.
-            subscribe(val => {
-                if (val && im == 0) {
-                    im++;
-                    this.temp_municipios_id = val;
-
-                    console.log("valor muni", this.temp_municipios_id);
-                }
-            });
-
-
-        
-        
-    
-        this.dato.controls.pacientes['controls']['0']['controls']['personas']['controls']['localidades_id'].valueChanges.
-            subscribe(val => {
-                if (val && il == 0) {
-                    il++;
-                    this.temp_localidades_id = val;
-
-                    console.log("valor localidad", this.temp_localidades_id);
-                }
-            });
-
-        
-    }
-
     //this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].value);
     asignar_curp() {
         //asigna curp al id que tiene referenciado de la curp del acompañante/paciente.
@@ -384,6 +352,8 @@ export class FormularioComponent {
     }
     error_archivo = false;
     seleccionarImagenBase64(evt, modelo, multiple: boolean = false, index: number = 0) {
+        const imagenes = <FormArray>this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'];
+        
         var files = evt.target.files;
         var esto = this; var fotos = [];
         esto.error_archivo = false; 
@@ -414,20 +384,28 @@ export class FormularioComponent {
                     return function (e) {
                         try {
                             modelo.push(este.fb.group(
+                                
                                     {
                                         foto: [btoa(e.target.result)],
                                         es_url:false
                                     }
                                 )
                             );
+
+                            imagenes.patchValue(modelo);
+                            
                         } catch (ex) {
                             esto.error_archivo = true;
                         }
                     }
+
                 })(f);
             }
         }
-        console.log(modelo);
+
+        //console.log(this.dato.value);
+
+        
     }
 
     cargarDatos() {
@@ -440,13 +418,18 @@ export class FormularioComponent {
                 this.crudService.ver(this.id, "incidencias").subscribe(
                     resultado => {
 
+                        //console.log("datos del editar",resultado);
+
+                                            
                                             
                         this.cargando = false;
                         this.mostrar_check = true;
+                        this.mostrar_check_clue = true;
                         this.mostrar_folio = false;
+                        //this.ocultar_pregunta_referencia = true;
                         
                         this.iniciarFormulario();
-                        this.valorInicial_municipio_localidad();
+                        
 
                         
                         //validar todos los key que tengan el array                          
@@ -457,6 +440,15 @@ export class FormularioComponent {
                         if(resultado.data.movimientos_incidencias[0]['subcategorias_cie10']['nombre']){
                             this.cie10_var_temp = resultado.data.movimientos_incidencias[0]['subcategorias_cie10']['nombre'];
                         }
+
+                        if(resultado.data.referencias.length > 0){
+
+                            this.clues_origen_temp = resultado.data.referencias[resultado.data.referencias.length -1]['clues_origen_o']['nombre'];
+
+                        }
+
+
+
                             this.curp_viejo = resultado.data.pacientes[0]['personas_id'];
 
 
@@ -487,8 +479,12 @@ export class FormularioComponent {
                         this.dato.controls.pacientes['controls'][0]['controls']['personas']['controls']['localidades_id'].patchValue(resultado.data.pacientes[0]['personas']['localidades_id']);
 
                         var cont = 0;
-                        this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes'] = this.fb.array([]);
+                        if(!this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']){
+                           this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes'] = this.fb.array([]);
+                        }
+
                         resultado.data.pacientes[0]['acompaniantes'].forEach(element => {
+                            
                             if (!this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]) {
                                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont] = this.fb.group({
                                     id: [''],
@@ -507,6 +503,7 @@ export class FormularioComponent {
                                 });
                             }
 
+                            this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['id'].patchValue(element['id']);
                             this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['personas_id'].patchValue(element['personas_id']);
                             this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['esResponsable'].patchValue(element['esResponsable']);
                             this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][cont]['controls']['parentescos_id'].patchValue(element['parentescos_id']);
@@ -538,16 +535,15 @@ export class FormularioComponent {
                         this.dato.controls.referencias['controls'][0]['controls']['clues_origen'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['clues_origen']);
                         this.dato.controls.referencias['controls'][0]['controls']['clues_destino'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['clues_destino']);
                         
-                     
-
 
                         resultado.data.referencias[resultado.data.referencias.length -1].multimedias.forEach(element => {
 
-                            this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'].controls.push(this.fb.group({foto: element.url, es_url:true}));
+                            //this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'] = this.fb.array([]);
 
+                            this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'].push(this.fb.group({foto: element.url, es_url:true}));
+
+            
                         });
-
-                        
 
                         this.dato.controls.referencias['controls'][0]['controls']['esContrareferencia'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['esContrareferencia']);
 
@@ -563,29 +559,27 @@ export class FormularioComponent {
     }
 
       checked_cambiar_cie10(value){
-        if( (<HTMLInputElement>document.getElementById('mastar_cambiar_CIE10')).checked == true ){
+        if( (<HTMLInputElement>document.getElementById('mostrar_cambiar_CIE10')).checked == true ){
           this.mostrar= true;
         }
-        else{ ( (<HTMLInputElement>document.getElementById('mastar_cambiar_CIE10')).checked == false)
+        else{ ( (<HTMLInputElement>document.getElementById('mostrar_cambiar_CIE10')).checked == false)
           this.mostrar= false;       
           
         }
           
     }
 
-    autovalor_municipio() {
-        setTimeout(() => {
-            this.municipios_id = this.temp_municipios_id;
-        }, 2000);
-
+    checked_cambiar_clue_referencia(value){
+        if( (<HTMLInputElement>document.getElementById('mostrar_cambiar_clue_origen')).checked == true ){
+          this.mostrar_clue= true;
+        }
+        else{ ( (<HTMLInputElement>document.getElementById('mostrar_cambiar_clue_origen')).checked == false)
+          this.mostrar_clue= false;       
+          
+        }
+          
     }
 
-    autovalor_localidad() {
-        setTimeout(() => {
-            this.localidades_id = this.temp_localidades_id;
-        }, 2000);
-
-    }
 
     agregar_form_array() {
 
@@ -716,10 +710,6 @@ export class FormularioComponent {
             const municipios = <FormGroup>personas.controls.municipios_id;
             municipios.patchValue(data.municipios_id);
             
-            this.valorInicial_municipio_localidad();
-
-            console.log("bueno", this.autovalor_municipio());
-            
 
         }
 
@@ -755,7 +745,7 @@ export class FormularioComponent {
 
     valorFormato_origen(data: any) {
 
-        let html = `${data.clues}`;
+        let html = `${data.nombre}`;
         return html;
     }
 

@@ -41,7 +41,8 @@
                                 <p class="control is-expanded  has-icon has-icon-right column is-6">
                                     <label class="label">Unidad Médica de Origen:</label>
                                     <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen" id="clues_origen"
-                                            path-to-data="" autocomplete="false" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_origen, 'clues', $event, true); select_origen_autocomplete($event)"
+                                            path-to-data="" autocomplete="false" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_origen, 'clues', $event, false); select_origen_autocomplete($event);"
                                             min-chars="4" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues_origen').hasError('required')}"
                                             placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Médica de Origen:">
                                     <span class="help is-danger" *ngIf="ctrl.dato.get('clues_origen').hasError('required')">Este campo es requerido.</span>
@@ -50,7 +51,8 @@
                                 <p class="control is-expanded  has-icon has-icon-right column is-6">
                                     <label class="label">Unidad Médica de Destino:</label>
                                     <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino" id="clues_destino"
-                                            path-to-data="" autocomplete="false" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_destino, 'clues', $event, true); select_destino_autocomplete($event)"
+                                            path-to-data="" autocomplete="false" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_destino, 'clues', $event); select_destino_autocomplete($event);"
                                             min-chars="4" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues_destino').hasError('required')}"
                                             placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Médica de Destino:">
                                     <span class="help is-danger" *ngIf="ctrl.dato.get('clues_destino').hasError('required')">Este campo es requerido.</span>

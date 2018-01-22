@@ -1,5 +1,5 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
+import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormControl, FormArray, FormsModule } from '@angular/forms';
 import { CrudService } from '../../../../crud/crud.service';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
@@ -88,7 +88,7 @@ export class FormularioComponent {
   resumen_clinico:  any = '';
   clues_origen:  any = '';
   clues_destino:  any = '';
-  private clues_origen_login:  any = '';
+  clues_origen_login:  any = '';
   img = [];
 
   //detalle referencia
@@ -139,6 +139,7 @@ export class FormularioComponent {
   resumen_alta:  any = '';
   instrucciones_alta:  any = '';
   diagnostico_alta:  any = '';
+  false;
 
 
   //public medicos_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
@@ -304,7 +305,7 @@ export class FormularioComponent {
     this.reporte_medico = '';
     this.medico_reporta_id = '';
     this.turnos_id = '';
-    this.subcategorias_cie10_id = '';
+    this.subcategorias_cie10_id = "";
     document.getElementById("nuevo_seguimiento").classList.remove('is-active');
   }
 
@@ -440,7 +441,6 @@ export class FormularioComponent {
       
       
           //agrega al array de movimientos_incidencias para que estos tengan valores respecto a sus variables en cada seguimiento que se le realice al paciente
-      
       
           const mv: FormArray = <FormArray>this.dato.controls.movimientos_incidencias;
       
@@ -743,6 +743,15 @@ export class FormularioComponent {
 
     this.trazarRuta();
      
+  }
+
+  select_item_autocomplete(modelo, item, datos, esmodelo: boolean): any {
+    if (!esmodelo)
+        modelo = datos[item];
+    else{
+        if(datos)
+          modelo.patchValue(datos[item]);        
+    }
   }
 
   trazarRuta() {

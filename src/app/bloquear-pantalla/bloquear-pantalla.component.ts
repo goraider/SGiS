@@ -23,10 +23,10 @@ export class BloquearPantallaComponent implements OnInit {
 
   mostrar:Boolean;
   
-  private bloquearPantallaSuscription: Subscription;
-  private API_PATH = environment.API_PATH;
+   bloquearPantallaSuscription: Subscription;
+   API_PATH = environment.API_PATH;
   
-  private configuracion;
+   configuracion;
   constructor(
     private router: Router,
     private authService:AuthService,

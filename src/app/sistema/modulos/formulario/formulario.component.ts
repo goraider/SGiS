@@ -11,10 +11,10 @@ import { environment } from '../../../../environments/environment';
 
 export class FormularioComponent {
   dato: FormGroup;
-  private tieneid: boolean = false;
-  private form_metodos;
-  private tamano;
-  private activar_super;
+  tieneid: boolean = false;
+  form_metodos;
+  tamano;
+  activar_super;
 
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer) { }
 

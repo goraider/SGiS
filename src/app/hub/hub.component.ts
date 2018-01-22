@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hub.component.css']
 })
 export class HubComponent implements OnInit {
-  private mostrar: boolean = false;
+   mostrar: boolean = false;
   menu:any[] = [];
   constructor() { }
 

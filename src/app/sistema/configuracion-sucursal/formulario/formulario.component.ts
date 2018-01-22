@@ -7,14 +7,14 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 
 export class FormularioComponent {
   dato: FormGroup;
-  private tab = 1;
-  private tab2 = 1;
-  private tamano = document.body.clientHeight;
-  private form_contactos;
-  private form_redes_sociales;
-  private form_rfcs;
+   tab = 1;
+   tab2 = 1;
+   tamano = document.body.clientHeight;
+   form_contactos;
+   form_redes_sociales;
+   form_rfcs;
 
-  private CkeditorConfig = {
+   CkeditorConfig = {
     height:document.body.clientHeight - 460
   }
   constructor(private fb: FormBuilder) { }

@@ -24,9 +24,13 @@ export class ReporteEstadoFuerzaComponent{
   fecha_fin = "";
   clues = "";
   turno = "";
+  busquedaActivada;
+  turn;
+  false;
+  url;
   
 
-  public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
+  clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
 
   constructor(
@@ -38,9 +42,9 @@ export class ReporteEstadoFuerzaComponent{
 
   
   tamano = document.body.clientHeight;
-  private rangos_fecha;
-  private filtro;
-  private orden;
+   rangos_fecha;
+   filtro;
+   orden;
 
   //edo_incidencia: any [] = [];
   //colores_triage: any [] = [];

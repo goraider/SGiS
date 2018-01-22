@@ -6,7 +6,15 @@
 
 
 <div class="contenedor columns " style="height:100%; ">
-    <a id="catalogos" (click)="ctrl.cargarCatalogo('municipios', 'municipios'); ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos'); ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');"></a>
+    <a id="catalogos"
+        (click)="ctrl.cargarCatalogo('municipios_e', 'municipios', 'localidades');
+                 ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos');
+                 ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');">
+    </a>
+
+    <a id="localidades"
+        (click)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.municipios_id.value)">
+    </a>
     <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
@@ -71,16 +79,28 @@
 
                         <div class="columns">                                                                    
                             <div class="column is-6">
+                                <label class="label">Municipio: </label>
                                 <p class="control is-expanded has-icon has-icon-right">
-                                    <label class="label">Municipio: </label>
-                                    <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id, 'localidades', 'localidades'); autovalor_municipio();" [data]="ctrl.municipios"></select2>
+                                    <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('municipios_id').hasError('required')}">
+                                        <select class="select" formControlName="municipios_id" (change)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.municipios_id.value)"> 
+                                            <option value="">Seleccione el Municipio</option>                                       
+                                            <option *ngFor="let item of ctrl.municipios_e" value="{{item.id}}">{{item.nombre}}</option>                                        
+                                        </select>
+                                    </span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('municipios_id').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
         
                             <div class="column is-6">
+                                <label class="label">Localidad: </label>
                                 <p class="control is-expanded has-icon has-icon-right">
-                                    <label class="label">Localidad: </label>
-                                    <select2 name="localidades_id" [options]="ctrl.optionSelect" [value]="localidades_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.localidades_id); autovalor_localidad();" [data]="ctrl.localidades"></select2>
+                                    <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('localidades_id').hasError('required')}">
+                                        <select class="select" formControlName="localidades_id"> 
+                                            <option value="">Seleccione la Localidad</option>                                       
+                                            <option *ngFor="let item of ctrl.localidades_o" value="{{item.id}}">{{item.nombre}}</option>
+                                        </select>
+                                    </span>
+                                    <span class="help is-danger" *ngIf="ctrl.dato.get('localidades_id').hasError('required')">Este campo es requerido.</span>
                                 </p>
                             </div>
                         </div>
@@ -128,26 +148,29 @@
 
                             <div class="column is-6">
                                     <label class="label">Estado del Embarazo:</label>
-                                <span  class="select">
                                     <p class="control is-expanded  has-icon has-icon-right">
-                                        <select class="select" name="estados_embarazos_id" formControlName="estados_embarazos_id" [ngClass]="{'is-warning': estados_embarazos_id?.length ==0 }">
-                                            <option *ngFor="let val of ctrl.estados_embarazos" value="{{val.id}}" >{{ val.nombre }}</option>
-                                        </select>
+                                        <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('estados_embarazos_id').hasError('required')}">
+                                            <select class="select" name="estados_embarazos_id" formControlName="estados_embarazos_id" [ngClass]="{'is-warning': estados_embarazos_id?.length ==0 }">
+                                                <option value="">Seleccione su Estado de Embarazo</option>
+                                                <option *ngFor="let val of ctrl.estados_embarazos" value="{{val.id}}" >{{ val.nombre }}</option>
+                                            </select>
+                                        </span>
                                         <span class="help is-danger" *ngIf="!ctrl.dato.controls.estados_embarazos_id.valid">Este campo es requerido.</span>
                                     </p>
-                                </span>
                             </div>
                             
                             <div class="column is-6">
                                     <label class="label">Derechohabiente:</label>
-                                <span  class="select">
                                     <p class="control is-expanded  has-icon has-icon-right">
-                                        <select class="select" name="derechohabientes_id" formControlName="derechohabientes_id" [ngClass]="{'is-warning': derechohabientes_id?.length ==0 }">
-                                            <option *ngFor="let val of ctrl.derechohabientes" value="{{val.id}}" >{{ val.nombre }}</option>
-                                        </select>
+                                        <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('derechohabientes_id').hasError('required')}">
+                                            <select class="select" name="derechohabientes_id" formControlName="derechohabientes_id" [ngClass]="{'is-warning': derechohabientes_id?.length ==0 }">
+                                                <option value="">Seleccione su Servicio Médico</option>
+                                                <option *ngFor="let val of ctrl.derechohabientes" value="{{val.id}}" >{{ val.nombre }}</option>
+                                            </select>
+                                        </span>
                                         <span class="help is-danger" *ngIf="!ctrl.dato.controls.derechohabientes_id.valid">Este campo es requerido.</span>
                                     </p>
-                                </span>
+                                
                             </div>
 
                         </div>

@@ -10,17 +10,21 @@ export class FiltrosReportesComponent{
   
   @Input() ctrl: any; 
 
-  private permisos;
-  private rangos_fecha;
-  private tipo_rango = 1;
+  permisos;
+  rangos_fecha;
+  tipo_rango = 1;
   fecha_inicial;
   fecha_final;
   tipo_venta;
-  private carpeta;
-  private modulo;
-  private controlador;
-  private modulo_actual;
-  private icono;
+  carpeta;
+  modulo;
+  controlador;
+  modulo_actual;
+  icono;
+  busquedaActivada;
+  tipos_movimientos;
+  cargando;
+  rango_fecha;
 
   ngOnInit() {
     var url = location.href.split("/");

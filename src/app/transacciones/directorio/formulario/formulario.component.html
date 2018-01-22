@@ -13,6 +13,9 @@
     </div>
     <div class="column" style="padding:1em;">
         <div style="background: #FFF; border-radius: 1em; ">
+            <a id="catalogos"
+                (click)="ctrl.cargarCatalogo('cargos', 'cargos');">
+            </a>
 
             <!-- formulario -->
             <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
@@ -100,14 +103,15 @@
                         </div>
                     
                         <div class="field">
-                                <label class="label" id="catalogos" (click)="ctrl.cargarCatalogo('cargos', 'cargos');">Cargo:</label>
+                            <label class="label">Cargo:</label>
                             <p class="control is-expanded  has-icon has-icon-right">
-                                <span class="select">
-                                    <select class="select" name="cargos_id" formControlName="cargos_id" [ngClass]="{'is-warning': cargos_id?.length ==0 }">
+                                <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('cargos_id').hasError('required')}">
+                                    <select class="select" name="cargos_id" formControlName="cargos_id">
+                                        <option value="">Seleccione el Cargo del Empleado</option>
                                         <option *ngFor="let val of ctrl.cargos" value="{{val.id}}" >{{ val.nombre }}</option>
                                     </select>
-                                    <span class="help is-danger" *ngIf="!ctrl.dato.controls.cargos_id.valid">Este campo es requerido.</span>
                                 </span>
+                                <span class="help is-danger" *ngIf="ctrl.dato.get('cargos_id').hasError('required')">Este campo es requerido.</span>
                             </p>
                         </div>
 

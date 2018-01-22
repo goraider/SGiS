@@ -15,26 +15,26 @@ import { CrudService } from '../../../crud/crud.service';
 
 export class FormularioComponent {
   dato: FormGroup;
-  private cambiarPassword: boolean = false;
-  private mostrarCambiarPassword: boolean = false;
-  private tab: number = 1;
-  private tieneid: boolean = false;
+   cambiarPassword: boolean = false;
+   mostrarCambiarPassword: boolean = false;
+   tab: number = 1;
+   tieneid: boolean = false;
 
-  private estados_id: number = null;
-  private municipios_id: number = null;
-  private localidades_id: number = null;
+   estados_id: number = null;
+   municipios_id: number = null;
+   localidades_id: number = null;
 
-  private temp_estados_id: number = null;
-  private temp_municipios_id: number = null;
-  private temp_localidades_id: number = null;
+   temp_estados_id: number = null;
+   temp_municipios_id: number = null;
+   temp_localidades_id: number = null;
 
-  private form_sis_usuarios_contactos;
-  private tamano;
-  private usuario;
-  private activar_super;
+   form_sis_usuarios_contactos;
+   tamano;
+   usuario;
+   activar_super;
 
-  private clues_sel = [];
-  private sucursal_sel = [];
+   clues_sel = [];
+   sucursal_sel = [];
 
   cargando: boolean = false;
 

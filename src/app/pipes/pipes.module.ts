@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BuscarModuloPipe } from './buscar-modulo.pipe';
+import { BuscarModuloPipe } from './buscar-modulo.pipe'
 import { GroupByPipe } from './groupBy.pipe';
 import { OrderByPipe } from './orderBy.pipe';
 import { BuscarPipe } from './buscar.pipe';

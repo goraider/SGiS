@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class ListaComponent{
-  private tamano;
+  tamano;
   ngOnInit() {
     this.tamano = document.body.clientHeight;
   }

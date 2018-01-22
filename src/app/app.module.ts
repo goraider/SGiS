@@ -1,4 +1,5 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -79,7 +80,6 @@ import { TriageColoresModule } from './catalogos/triage-colores/triage-colores.m
 import { RutasModule } from './catalogos/rutas/rutas.module';
 
 //notificaciones
-import { EscalamientosNotificacionesModule } from './sistema/escalamientos-notificaciones/escalamientos-notificaciones.module';
 import { TiposNotificacionesModule } from './catalogos/tipos-notificaciones/tipos-notificaciones.module';
 
 //estados de incidencia
@@ -99,7 +99,6 @@ import { BaseConocimientosModule } from './transacciones/base-conocimientos/base
 
 
 //reportes
-import { ReporteVentaModule } from './reporte/resumen/reporte-venta.module';
 import { ReporteArticuloModule } from './reporte/inventario/reporte-articulo.module';
 
 import { ReporteIncidenciaModule } from './reporte/incidencias/reporte-incidencia.module';
@@ -132,6 +131,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     NotFoundComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -193,7 +193,6 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     CensoPersonasModule,
     BaseConocimientosModule,
     
-    ReporteVentaModule,
     ReporteArticuloModule,
 
     ReporteIncidenciaModule,
@@ -202,7 +201,6 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     //ChartModule,
     
     TiposNotificacionesModule,
-    EscalamientosNotificacionesModule,
     
     WildcardRoutingModule, // Este siempre debe ir al final para que no haga conflicto con otras rutas    
   ],

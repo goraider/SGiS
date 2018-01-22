@@ -9,12 +9,12 @@ export class TablaAccionesComponent implements OnInit {
   @Input() item: any;
   @Input() index: number;
   @Input() ctrl: any;
-  private url_editar: string = '';
-  private url_imprimir: string = '';
-  private permisos = JSON.parse(localStorage.getItem("permisos"));
-  private carpeta;
-  private modulo;
-  private controlador;
+  url_editar: string = '';
+  url_imprimir: string = '';
+  permisos = JSON.parse(localStorage.getItem("permisos"));
+  carpeta;
+  modulo;
+  controlador;
 
   ngOnInit() {
     var url = location.href.split("/");

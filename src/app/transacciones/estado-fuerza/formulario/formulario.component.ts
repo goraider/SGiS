@@ -19,9 +19,9 @@ export class FormularioComponent {
 
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
-  private usuario = JSON.parse(localStorage.getItem("usuario"));
+   usuario = JSON.parse(localStorage.getItem("usuario"));
 
-  private clues_login = JSON.parse(localStorage.getItem("clues"));
+   clues_login = JSON.parse(localStorage.getItem("clues"));
 
   constructor(private crudService: CrudService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
   fecha = new Date();

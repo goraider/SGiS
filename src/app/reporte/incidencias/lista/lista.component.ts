@@ -34,6 +34,14 @@ export class ReporteIncidenciaComponent{
   referencia_destino: any = "";
   cie10: any = "";
   tipo_alta: any = "";
+  busquedaActivada;
+  estados_pacientes;
+  c_triage: any = "";
+  turn: any = "";
+  tipos_altas: any = "";
+  url: any = "";
+  e_incidencias: any = "";
+  false;
   
 
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
@@ -49,9 +57,9 @@ export class ReporteIncidenciaComponent{
 
   
   tamano = document.body.clientHeight;
-  private rangos_fecha;
-  private filtro;
-  private orden;
+   rangos_fecha;
+   filtro;
+   orden;
 
   //edo_incidencia: any [] = [];
   //colores_triage: any [] = [];

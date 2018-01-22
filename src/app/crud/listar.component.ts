@@ -6,7 +6,7 @@
 * interactua con el servicio crud
 * </p>
 *
-* @author  Eliecer Ramirez Esquinca
+* @author  Javier Alejandro Gosain Díaz
 * @version 1.0
 * @since   2017-05-08 
 */
@@ -73,29 +73,29 @@ export class ListarComponent implements OnInit {
     respuesta: any[] = [];
     mensajeResponse: Mensaje = new Mensaje(true);
 
-    private paginaActual = 1;
-    private resultadosPorPagina = 15;
-    private total = 0;
-    private paginasTotales = 0;
-    private indicePaginas: number[] = []
+    paginaActual = 1;
+    resultadosPorPagina = 15;
+    total = 0;
+    paginasTotales = 0;
+    indicePaginas: number[] = []
     // # FIN SECCION
 
     // # SECCION: Resultados de búsqueda
-    private ultimoTerminoBuscado = "";
-    private terminosBusqueda = new Subject<string>();
-    private resultadosBusqueda: any[] = [];
-    private busquedaActivada: boolean = false;
-    private paginaActualBusqueda = 1;
-    private resultadosPorPaginaBusqueda = 15;
-    private totalBusqueda = 0;
-    private paginasTotalesBusqueda = 0;
-    private indicePaginasBusqueda: number[] = [];
-    private tipo_grid;
+    ultimoTerminoBuscado = "";
+    terminosBusqueda = new Subject<string>();
+    resultadosBusqueda: any[] = [];
+    busquedaActivada: boolean = false;
+    paginaActualBusqueda = 1;
+    resultadosPorPaginaBusqueda = 15;
+    totalBusqueda = 0;
+    paginasTotalesBusqueda = 0;
+    indicePaginasBusqueda: number[] = [];
+    tipo_grid;
     // # FIN SECCION
-    private API_PATH = environment.API_PATH;
+    API_PATH = environment.API_PATH;
 
-    private permisos = JSON.parse(localStorage.getItem("permisos"));
-    private configuracion = JSON.parse(localStorage.getItem("configuracion"));
+    permisos = JSON.parse(localStorage.getItem("permisos"));
+    configuracion = JSON.parse(localStorage.getItem("configuracion"));
 
     @Input() URL: string;
     @Input() titulo: string;

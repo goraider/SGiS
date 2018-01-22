@@ -10,6 +10,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@ang
 export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
+  municipios_id;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {

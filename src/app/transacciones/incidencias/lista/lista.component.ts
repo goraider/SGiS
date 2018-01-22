@@ -26,14 +26,15 @@ export class ListaComponent {
 
     tamano = document.body.clientHeight;
   
-    private url_nuevo: string = '';
-    private permisos = JSON.parse(localStorage.getItem("permisos"));
-    private clues = JSON.parse(localStorage.getItem("clues"));    
-    private carpeta;
-    private modulo;
-    private controlador;
-    private modulo_actual;
-    private icono;
+    url_nuevo: string = '';
+    permisos = JSON.parse(localStorage.getItem("permisos"));
+    clues = JSON.parse(localStorage.getItem("clues"));    
+    carpeta;
+    modulo;
+    controlador;
+    modulo_actual;
+    icono;
+    edo_incidencia;
 
   
 

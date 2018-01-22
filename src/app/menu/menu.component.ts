@@ -15,7 +15,8 @@ export class MenuComponent implements OnInit {
   configuracion: any = {};
   clues;
   usuario_clues;
-  private API_PATH = environment.API_PATH;
+  API_PATH = environment.API_PATH;
+  activar;
   constructor(private fb: FormBuilder, private notificacion: NotificationsService) { }
 
   menuactual: string;
@@ -23,7 +24,7 @@ export class MenuComponent implements OnInit {
   menuicono: string;
   mostrar = [];
   @Input() ctrl: any;
-  private mensaje_cambiar_clues:string = '';
+  mensaje_cambiar_clues:string = '';
   ngOnInit() {
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
     this.usuario_clues = JSON.parse(localStorage.getItem("usuario_clues"));

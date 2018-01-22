@@ -18,8 +18,9 @@ export class DashboardComponent implements OnInit {
 
   @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
-  private usuario: any = {}
+  usuario: any = {}
   datos: any[] = [];
+  menu;
 
   public doughnutChartLabels:string[] = [];
   public doughnutChartData:number[] = [];

@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class FormularioComponent {
   dato: FormGroup;
   tab = 1;
+  tamano;
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {

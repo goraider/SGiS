@@ -9,10 +9,12 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 
 export class QrComponent {
+  tamano;
   dato: FormGroup;
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.tamano = document.body.clientHeight;
     this.dato = this.fb.group({
       id: [''],
       qr: ['']

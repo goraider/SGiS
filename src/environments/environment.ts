@@ -18,6 +18,9 @@
 // "OAUTH_SERVER": "http://api.oa2.che",
 // "OAUTH_DISPONIBLE": false,
 
+
+// UCP ISM CHIAPAS
+
 // "production": false,
 // "API_URL": "http://api.sgis.ismchiapas.org/api/v1",
 // "API_PATH": "http://api.sgis.ismchiapas.org",
@@ -34,14 +37,24 @@
 // "OAUTH_SERVER": "http://api.oa2.che",
 // "OAUTH_DISPONIBLE": false,
 
+//API INDEPENDIENTE
+
+
+// "production": false,
+// "API_URL": "http://api.ugus.bid/public/api/v1",
+// "API_PATH": "http://api.ugus.bid",
+// "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
+// "OAUTH_SERVER": "http://api.oa2.che",
+// "OAUTH_DISPONIBLE": false,
+
 
 
 export const environment = {
 
   "production": false,
-  "API_URL": "http://api.sgis.saludchiapas.gob.mx/api/v1",
-  "API_PATH": "http://api.sgis.saludchiapas.gob.mx",
-  "OAUTH_CLIENTE": "http://api.sgis.saludchiapas.gob.mx/api/sync",
+  "API_URL": "http://api.ugus.bid/public/api/v1",
+  "API_PATH": "http://api.ugus.bid",
+  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
   

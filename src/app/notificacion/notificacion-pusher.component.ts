@@ -7,7 +7,7 @@ import { CrudService } from '../crud/crud.service';
 
 @Component({
     selector: 'notificacion-pusher',
-    template: require('./notificacion-pusher.component.html'),
+    templateUrl: './notificacion-pusher.component.html',
     providers: [PusherService]
 })
 export class NotificacionPusherComponent {
@@ -17,7 +17,7 @@ export class NotificacionPusherComponent {
     total = 0;
     mostrar_notificacion = false;
 
-    private API_PATH = environment.API_PATH;
+     API_PATH = environment.API_PATH;
     
     public options = {
         position: ["bottom", "left"],

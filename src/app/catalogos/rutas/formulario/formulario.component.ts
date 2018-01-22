@@ -20,6 +20,7 @@ export class FormularioComponent implements OnInit {
 
   
   dato: FormGroup;
+  true;
   tamano = document.body.clientHeight;
   latInicial:any = 16.7569;
   longInicial:any = -93.1292;
@@ -45,6 +46,7 @@ export class FormularioComponent implements OnInit {
 
   numeroLatitud_destino: any;
   numeroLongitud_destino: any;
+  
 
 
 

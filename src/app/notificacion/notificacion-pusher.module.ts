@@ -22,7 +22,6 @@ import { CrudModule }  from '../crud/crud.module';
 //fin crud
 import { Select2Module } from 'ng2-select2';
 import { NguiDatetimePickerModule} from '@ngui/datetime-picker';
-import { PDF417BarcodeModule } from 'angular2-pdf417-barcode';
 
 
 @NgModule({
@@ -41,7 +40,6 @@ import { PDF417BarcodeModule } from 'angular2-pdf417-barcode';
     Select2Module,
     PipesModule,
     NguiDatetimePickerModule,
-    PDF417BarcodeModule,
   ],
   declarations: [ 
     ListaComponent

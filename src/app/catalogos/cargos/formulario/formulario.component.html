@@ -36,15 +36,25 @@
                         </p>
                     </div>
                     <br>
+
+                    <!-- <editor-texto [elementId]="''" (onEditorKeyup)="onBodyTextEditorKeyUp($event)">
+
+                    </editor-texto> -->
+
                     <div class="control is-grouped">
                         <p class="control is-expanded  has-icon has-icon-right">
                             <label class="label">Descripción</label>
-                            <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': ctrl.dato.get('descripcion').hasError('required')}"
-                             placeholder="Descripción" formControlName="descripcion"></textarea>
-                         <span class="icon is-small" *ngIf="ctrl.dato.get('descripcion').hasError('required')"><i class="fa fa-warning"></i></span>
-                         <span class="help is-danger" *ngIf="ctrl.dato.get('descripcion').hasError('required')">Este campo es requerido.</span>
+
+                            <ckeditor placeholder="Descripción" formControlName="descripcion" debounce="50"
+                                      [config]="CkeditorConfig" [ngClass]="{'is-danger': ctrl.dato.get('descripcion').hasError('required')}">
+                            </ckeditor>
+
+                            <span class="icon is-small" *ngIf="ctrl.dato.get('descripcion').hasError('required')"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" *ngIf="ctrl.dato.get('descripcion').hasError('required')">Este campo es requerido.</span>
                         </p>
                     </div>
+
+                    
                     
                 </section>
             </form>

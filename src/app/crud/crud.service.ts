@@ -6,7 +6,7 @@
 * con la api envia y obtiene valores para las vistas
 * </p>
 *
-* @author  Eliecer Ramirez Esquinca
+* @author  Javier Alejandro Gosain Díaz
 * @version 1.0
 * @since   2017-05-08 
 */

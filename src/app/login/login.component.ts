@@ -9,14 +9,15 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private oauth_disponible: boolean;
-  private credenciales: any = {};
-  private loading: boolean = false;
-  private returnUrl: string;
-  private mensaje: string = "";
-  private mostrarMensaje: boolean = false;
-  private configuracion;
-  private API_PATH = environment.API_PATH;
+   oauth_disponible: boolean;
+   credenciales: any = {};
+   loading: boolean = false;
+   returnUrl: string;
+   mensaje: string = "";
+   mostrarMensaje: boolean = false;
+   configuracion;
+   saludIdDisponible;
+   API_PATH = environment.API_PATH;
   constructor(
     private route: ActivatedRoute,
     private router: Router,

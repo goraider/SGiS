@@ -10,22 +10,22 @@ import { Router } from '@angular/router';
 
 export class FormularioComponent {
   dato: FormGroup;
-  private cambiarPassword: boolean = false;
-  private mostrarCambiarPassword: boolean = false;
-  private tab: number = 1;
-  private tieneid: boolean = false;
+  cambiarPassword: boolean = false;
+  mostrarCambiarPassword: boolean = false;
+  tab: number = 1;
+  tieneid: boolean = false;
 
-  private paises_id: number = null;
-  private estados_id: number = null;
-  private municipios_id: number = null;
+  paises_id: number = null;
+  estados_id: number = null;
+  municipios_id: number = null;
 
-  private temp_paises_id: number = null;
-  private temp_estados_id: number = null;
-  private temp_municipios_id: number = null;
+  temp_paises_id: number = null;
+  temp_estados_id: number = null;
+  temp_municipios_id: number = null;
 
-  private form_sis_usuarios_contactos;
-  private form_sis_usuarios_rfcs;
-  private tamano;
+  form_sis_usuarios_contactos;
+  form_sis_usuarios_rfcs;
+  tamano;
   
   constructor(private fb: FormBuilder, private route: ActivatedRoute) { }
 

@@ -13,10 +13,7 @@
 
             <!-- cargar los catalogos que se requieran parametro 1 modelo donde se guarda el catalogo, parametro 2 ruta de la api -->
 
-            <a id="catalogos" (click)="cargarCatalogo('turn', 'turnos');
-
-            
-            "></a>
+            <a id="catalogos" (click)="cargarCatalogo('turn', 'turnos');"></a>
 
             <section class="hero" [ngClass]=" {'is-dark': busquedaActivada, 'is-primary': !busquedaActivada } ">
                     
@@ -62,12 +59,13 @@
                                         [list-formatter]="autocompleListFormatter"
                                         [value-formatter]="valorFormato_clue"
                                         id="clues" name="clues" [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                        (valueChanged)="select_item_autocomplete(clues, 'clues', $event, flase);"                                                         
+                                        (valueChanged)="select_item_autocomplete(clues, 'clues', $event, false);"                                                         
                                         min-chars="1" class="input" type="text"
                                         placeholder="(Clues):">
                                 
                                 </div>
                             </div>
+                        </div>
 
                             <!-- <div class="columns">
 

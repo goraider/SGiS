@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnDestroy, AfterViewInit, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,6 +24,8 @@ import { CrudService } from '../../crud/crud.service';
 import { CrudModule } from '../../crud/crud.module';
 //fin crud
 
+import { CKEditorModule } from 'ng2-ckeditor';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { CrudModule } from '../../crud/crud.module';
     PipesModule,
     MenuModule,
     ParcialModule,
-    CrudModule
+    CrudModule,
+    CKEditorModule
   ],
   declarations: [
     ListaComponent,

@@ -7,12 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  private usuario: any = JSON.parse(localStorage.getItem("usuario"));
+  usuario: any = JSON.parse(localStorage.getItem("usuario"));
+  menuactual;
+  activar;
+  mostrarMenuAside: boolean = false;
   
   constructor() { }
 
   ngOnInit() {
     
+  }
+  toggleMenuAside() {
+    this.mostrarMenuAside = !this.mostrarMenuAside;
   }
 
 }

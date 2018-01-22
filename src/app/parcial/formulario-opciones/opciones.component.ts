@@ -9,16 +9,16 @@ export class FormularioOpcionesComponent{
   @Input() id: number;
   @Input() ctrl: any; 
 
-  private url_nuevo: string = '';
-  private url_editar: string = '';
-  private url_imprimir: string = '';
-  private permisos = JSON.parse(localStorage.getItem("permisos"));
-  private carpeta;
-  private modulo;
-  private controlador;
-  private modulo_actual;
-  private icono;
-  private activarOp = false;
+  url_nuevo: string = '';
+  url_editar: string = '';
+  url_imprimir: string = '';
+  permisos = JSON.parse(localStorage.getItem("permisos"));
+  carpeta;
+  modulo;
+  controlador;
+  modulo_actual;
+  icono;
+  activarOp = false;
   ngOnInit() {
     var url = location.href.split("/");
     this.carpeta = url[4];

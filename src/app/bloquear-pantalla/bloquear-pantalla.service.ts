@@ -3,7 +3,7 @@ import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
 export class BloquearPantallaService {
-   private bloquearPantallaSource = new Subject<boolean>();
+    bloquearPantallaSource = new Subject<boolean>();
 
     pantallaBloqueada$ = this.bloquearPantallaSource.asObservable();
     

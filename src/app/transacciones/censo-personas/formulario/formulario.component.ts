@@ -11,12 +11,14 @@ export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
 
-  private municipios_id: number = null;
-  private temp_municipios_id: number = null;
+  municipios_id: number = null;
+  temp_municipios_id: number = null;
 
-  private localidades_id: number = null;
-  private temp_localidades_id: number = null;
-  private selectedDeal;
+  localidades_id: number = null;
+  temp_localidades_id: number = null;
+  selectedDeal;
+  estados_embarazos_id;
+  derechohabientes_id;
 
   constructor(private fb: FormBuilder) { }
 

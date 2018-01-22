@@ -8,13 +8,13 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SimpleOpcionesComponent{
   @Input() ctrl: any; 
 
-  private url_nuevo: string = '';
-  private permisos = JSON.parse(localStorage.getItem("permisos"));
-  private carpeta;
-  private modulo;
-  private controlador;
-  private modulo_actual;
-  private icono;
+  url_nuevo: string = '';
+  permisos = JSON.parse(localStorage.getItem("permisos"));
+  carpeta;
+  modulo;
+  controlador;
+  modulo_actual;
+  icono;
 
   ngOnInit() {
     var url = location.href.split("/");

@@ -12,8 +12,12 @@ import { environment } from '../../../../environments/environment';
 export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
+  ubicaciones_pacientes_id;
+  triage_colores_id;
+  estados_pacientes_id;
+  
 
-  public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
+  cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
   constructor(private fb: FormBuilder, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
 
   ngOnInit() {

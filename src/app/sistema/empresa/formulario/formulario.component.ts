@@ -11,6 +11,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class FormularioComponent {
   dato: FormGroup;
   tab = 1;
+  tamano;
   constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {

@@ -96,6 +96,11 @@
 
             <!-- Opciones  -->
             <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+
+            <a id="actualizar"
+              (click)="cargarDatos();">
+            </a>
+
           </div>
         </section>
         <!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
@@ -133,10 +138,13 @@
 
           <div [ngClass]="{ 'is-hidden': tab != 1}">
 
-            <a class="button is-success" (click)="nuevo_seguimiento()">
-              <span class="icon">
-                <i class="fa fa-plus"></i>
-              </span>&nbsp; Agregar Nuevo Seguimiento</a>
+            <div *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
+              <a class="button is-success" (click)="nuevo_seguimiento()">
+                <span class="icon">
+                  <i class="fa fa-plus"></i>
+                </span>&nbsp; Agregar Nuevo Seguimiento
+              </a>
+            </div>
 
             <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
               <thead>
@@ -152,6 +160,7 @@
               </thead>
               <tbody *ngIf="ctrl.dato">
                 <tr *ngFor="let item of ctrl.dato.controls.movimientos_incidencias.controls; let i=index">
+                  
                   <th style="vertical-align: middle;"><a>{{ i+1 }}</a>
                   </th>
                   <td style="vertical-align: middle;">
@@ -192,10 +201,17 @@
           </div>
 
           <div [ngClass]="{ 'is-hidden': tab != 2}">
-            <a class="button is-success" (click)="nueva_referencia(); cargarMapa();">
-              <span class="icon">
-                <i class="fa fa-plus"></i>
-              </span>&nbsp; Agregar Nueva Referencia</a>
+
+            <div *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
+
+              <a class="button is-success" (click)="nueva_referencia(); cargarMapa();">
+                <span class="icon">
+                  <i class="fa fa-plus"></i>
+                </span>&nbsp; Agregar Nueva Referencia
+              </a>
+
+            </div>
+
             <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
               <thead>
                 <tr>
@@ -236,6 +252,19 @@
                     <a *ngIf="!item.value.nuevo" title="Detalle del la Referencia" class="button is-info tooltip" (click)="detalle_referencia(item.value)">
                         <i class="fa fa-file-text-o"></i>
                     </a>
+
+                    <a *ngIf="clues_origen_login != item.value.clues_origen"
+                        title="Viene de una Unidad Medica"
+                        class="button is-black is-rounded">
+                      <i class="fa fa-arrow-circle-left"></i>
+                    </a>
+
+                    <a *ngIf="clues_origen_login == item.value.clues_origen"
+                      title="Se encuentra en Referencia"
+                      class="button is-black is-rounded">
+                      <i class="fa fa-arrow-circle-right"></i>
+                    </a>
+
 
                   </td>
 
@@ -619,9 +648,11 @@
           <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
             <div class="modal-background"></div>
             <div class="modal-content">
+
               <p class="image is-4by3" *ngFor="let im of img; let ix = index;">
-                <img [src]="'data:image/jpg;base64,'+im.foto.url" alt="" />
+                <img [src]="'data:image/jpg;base64,'+im.foto" alt="" />
               </p>
+
             </div>
             <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
           </div>
@@ -684,8 +715,8 @@
             <label class="label">Unidad Médica donde Refieren a la Paciente (Destino):</label>
             <input ngui-auto-complete autocomplete="false" [accept-user-input]="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino"
               id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-              (valueChanged)="ctrl.select_item_autocomplete(clues_destino, 'clues', $event, false);
-                              select_destino_autocomplete($event)"
+              (valueChanged)="select_item_autocomplete(clues_destino, 'clues', $event, false);
+                              select_destino_autocomplete($event);"
               min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar la Unidad Medica:" [(ngModel)]="clues_destino" [ngClass]="{'is-danger': clues_destino == '' }">
 
               <span class="help is-danger" *ngIf="clues_destino == ''">
@@ -1185,8 +1216,6 @@
       </section>
     </div>
 </div>
-
-
 
 
 

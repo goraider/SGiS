@@ -49,11 +49,10 @@
                 <a id="catalogos" class="navbar-item tooltip" (click)="ctrl.cargarCatalogo('estados_embarazos', 'estados-embarazos');
                     ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');
                     ctrl.cargarCatalogo('parentescos', 'parentescos');
-                    ctrl.cargarCatalogo('municipios', 'municipios');
+                    ctrl.cargarCatalogo('municipios_e', 'municipios', 'localidades');
                     ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes');
                     ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
                     ctrl.cargarCatalogo('triage_colores', 'triage-colores');
-                    
                     ctrl.cargarCatalogo('turnos_varios', 'turnos');">
 
                     <span class="tooltiptext">Catálogos</span>
@@ -64,6 +63,10 @@
                     <span *ngIf="ctrl.cargando" class="icon fa-2x has-text-succes">
                         <i class="fa fa-spinner fa-spin"></i>
                     </span>
+                </a>
+                
+                <a id="localidades"
+                    (click)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.pacientes?.controls[0].controls.personas.controls.municipios_id.value)">
                 </a>
 
                 <a *ngIf="ctrl.id" id="cargar_datos_actualizar" class="navbar-item tooltip" (click)="cargarDatos();">
@@ -242,21 +245,65 @@
 
 
                       <div class="columns">
+
                         <div class="column is-6">
-                          <p class="control is-expanded has-icon has-icon-right">
-                            <label class="label">Municipio: </label>
-                            <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, item.controls.personas.controls.municipios_id, 'localidades', 'localidades'); autovalor_municipio();"
-                              [data]="ctrl.municipios">
-                            </select2>
-                          </p>
+                          <label class="label">Municipio: </label>
+                            <div class="control is-grouped has-icons-left">
+
+                                <span *ngIf="ctrl.cargando" class="tag is-primary is-large">Cargando Municipios...
+                                    <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+                                </span>
+
+                                <div *ngIf="ctrl.municipios_e && !ctrl.cargando" class="control is-expanded has-icon-left">
+
+                                  <span class="select" [ngClass]="{'is-danger': item.get('personas').get('municipios_id').hasError('required')}">
+                                    <select class="select" name="municipios_id" formControlName="municipios_id" (change)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.pacientes?.controls[0].controls.personas.controls.municipios_id.value)"> 
+                                        <option value="">Seleccione el Municipio de la Paciente</option>                                       
+                                        <option *ngFor="let item of ctrl.municipios_e" value="{{item.id}}">{{item.nombre}}</option>                                        
+                                    </select>
+                                  </span>
+
+                                  <span class="icon is-small" *ngIf="!ctrl.cargando && item.get('personas').get('municipios_id').hasError('required')">
+                                    <i class="fa fa-warning"></i>
+                                  </span>
+    
+                                  <span class="help is-danger" *ngIf="item.get('personas').get('municipios_id').hasError('required')">
+                                    Este campo es requerido.
+                                  </span>
+    
+                                  <span class="icon is-small is-left" *ngIf="!ctrl.cargando && !item.get('personas').get('municipios_id').hasError('required')">
+                                    <i class="fa fa-globe"></i>
+                                  </span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="column is-6">
-                          <p class="control is-expanded has-icon has-icon-right">
-                            <label class="label">Localidad: </label>
-                            <select2 name="localidades_id" [options]="ctrl.optionSelect" [value]="localidades_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, item.controls.personas.controls.localidades_id); autovalor_localidad();"
-                              [data]="ctrl.localidades"></select2>
-                          </p>
+                          <label class="label">Localidad: </label>
+                          <div class="control is-grouped has-icons-left">
+
+                            <div *ngIf="ctrl.localidades_o" class="control is-expanded has-icon-left">
+
+                              <span class="select" [ngClass]="{'is-danger': item.get('personas').get('localidades_id').hasError('required')}">
+                                <select class="select" formControlName="localidades_id"> 
+                                    <option value="">Seleccione la Localidad de la Paciente</option>                                       
+                                    <option *ngFor="let item of ctrl.localidades_o" value="{{item.id}}">{{item.nombre}}</option>                                        
+                                </select>
+                              </span>
+
+                              <span class="icon is-small" *ngIf="item.get('personas').get('localidades_id').hasError('required')">
+                                  <i class="fa fa-warning"></i>
+                              </span>
+
+                              <span class="help is-danger" *ngIf="item.get('personas').get('localidades_id').hasError('required')">
+                                  Este campo es requerido.
+                              </span>
+
+                              <span class="icon is-small is-left" *ngIf="!item.get('personas').get('localidades_id').hasError('required')">
+                                  <i class="fa fa-globe"></i>
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
 
@@ -265,6 +312,7 @@
                         <div class="column is-6">
                           <label class="label">Estado de Embarazo: </label>
                           <div class="control is-grouped has-icons-left">
+
                             <span *ngIf="ctrl.cargando" class="tag is-primary is-large">Cargando Estados de Embarazo...
                               <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
                             </span>
@@ -471,7 +519,7 @@
 
                         <div *ngIf="mostrar_check">
                           <input class="styled" type="checkbox" 
-                            value="true" id="mastar_cambiar_CIE10" (change)="checked_cambiar_cie10('mastar_cambiar_CIE10')"> &nbsp;¿Desea cambiar la Subcategoria CIE10?
+                            value="true" id="mostrar_cambiar_CIE10" (change)="checked_cambiar_cie10('mostrar_cambiar_CIE10')"> &nbsp;¿Desea cambiar la Subcategoria CIE10?
                         </div>
 
                         <div *ngIf='mostrar==true || !mostrar_check' class="control is-expanded  has-icon has-icon-right">
@@ -665,7 +713,7 @@
 
                 <p>
                   Referencia
-                  <label style="float:right">¿El paciente tiene referencia?
+                  <label style="float:right" *ngIf="!ocultar_pregunta_referencia">¿El paciente tiene referencia?
                     <label class="radio">
                       <input type="radio" name="tieneReferencia" (click)="this.dato.controls.tieneReferencia.patchValue(1);" [ngClass]="{ 'is-active' : ctrl.dato.value.tieneReferencia == 1}"
                         [checked]="ctrl.dato.value.tieneReferencia">Si</label>
@@ -696,13 +744,16 @@
                               Subir Imagenes de la Referencia…
                             </span>
                           </span>
+
                         </label>
                         <div class="file is-primary" *ngFor="let image of ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls; let ii=index">
+                          
                           <div class="column is-6" *ngIf="image">
                               
-                            <img [src]="url_img_referencia+image.value.foto" alt="Imagen" width="100px" *ngIf="image.value?.es_url"/>                            
+                            <img [src]="url_img_referencia+image.value?.foto" alt="Imagen" width="100px" *ngIf="image.value?.es_url"/>                            
                             <img [src]="'data:image/jpg;base64,'+image.value?.foto" alt="Imagen" width="100px" *ngIf="!image.value?.es_url"/>                            
                           </div>
+
                           <div class="column is-6" *ngIf="image"> 
                             <div class="block">
                               <a class="button is-primary is-outlined" (click)="abrirModal('verFoto'+ref+''+ii)">
@@ -754,17 +805,27 @@
                     </div>
 
                     <div class="columns">
-
                       <div class="column is-12">
-                        <p class="control is-expanded  has-icon has-icon-right">
-                          <label class="label">Unidad Medica de Origen (De donde viene el Paciente):</label>
 
-                          <input ngui-auto-complete autocomplete="false" [accept-user-input]="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
-                            id="clues_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.referencias.controls[ref].controls.clues_origen, 'clues', $event, false);"
-                            min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Medica:"
-                            formControlName="clues_origen">
-                        </p>
+                          <div *ngIf="mostrar_check_clue">
+                              <input class="styled" type="checkbox" 
+                                value="true" id="mostrar_cambiar_clue_origen" (change)="checked_cambiar_clue_referencia('mostrar_cambiar_clue_origen')"> &nbsp;¿Desea cambiar la Unidad Médica de Donde Viene el Paciente?
+                          </div>
+
+                          <div *ngIf='mostrar_clue==true || !mostrar_check_clue' class="control is-expanded  has-icon has-icon-right">
+                            <label class="label">Unidad Medica de Origen (De donde viene el Paciente):</label>
+                            <input ngui-auto-complete autocomplete="false" [accept-user-input]="false" [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen"
+                              id="clues_origen" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                              (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.referencias.controls[ref].controls.clues_origen, 'clues', $event, true);"
+                              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Medica:">
+                          </div>
+
+                          <div *ngIf='mostrar_clue==false && mostrar_check_clue'>
+        
+                              <span class="input" type="text">
+                                {{clues_origen_temp}}
+                              </span>
+                          </div>
 
                       </div>
 

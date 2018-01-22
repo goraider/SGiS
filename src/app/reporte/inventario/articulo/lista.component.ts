@@ -7,8 +7,8 @@ import { Component, OnInit } from '@angular/core';
 
 export class ReporteArticuloComponent{
   tamano = document.body.clientHeight;
-  private filtro;
-  private orden;
+   filtro;
+   orden;
   ngOnInit(){
     document.getElementById("catalogos").click();
   }

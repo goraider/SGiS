@@ -10,12 +10,14 @@ import { TablaAccionesComponent } from './tabla-acciones/acciones.component';
 import { SimpleOpcionesComponent } from './simple-opciones/simple-opciones.component';
 import { FiltrosReportesComponent } from './filtros-reportes/filtros-reportes.component';
 
+import { EditorTexto } from './editor-texto/editor-texto.component';
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule
   ],
-  declarations: [FormularioOpcionesComponent, TablaOpcionesComponent, TablaAccionesComponent, SimpleOpcionesComponent, FiltrosReportesComponent],
-  exports: [FormularioOpcionesComponent, TablaOpcionesComponent, TablaAccionesComponent, SimpleOpcionesComponent, FiltrosReportesComponent]
+  declarations: [FormularioOpcionesComponent, TablaOpcionesComponent, TablaAccionesComponent, SimpleOpcionesComponent, FiltrosReportesComponent, EditorTexto],
+  exports: [FormularioOpcionesComponent, TablaOpcionesComponent, TablaAccionesComponent, SimpleOpcionesComponent, FiltrosReportesComponent, EditorTexto]
 })
 export class ParcialModule { }

@@ -10,6 +10,10 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
+
+  private CkeditorConfig = {
+    height:document.body.clientHeight - 460
+  }
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -20,6 +24,14 @@ export class FormularioComponent {
 
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     //document.getElementById("catalogos").click();
+  }
+
+  onBodyTextEditorKeyUp(event){
+    console.log("texto modificado", event);
+
+    console.log("valor dato descripcion",this.dato.controls.descripcion.value);
+
+    console.log("valor dato nombre",this.dato.controls.nombre.value);
   }
 
 }

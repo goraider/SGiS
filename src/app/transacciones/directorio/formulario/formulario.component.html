@@ -33,9 +33,14 @@
                             <div class="column is-12">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                     <label class="label">Unidad Médica (Clues):</label>
-                                    <input ngui-auto-complete autofocus [source]="clues_term"  [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue_usuario" id="directorio_clue"
-                                            path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
-                                            min-chars="1" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required')}"
+                                    <input ngui-auto-complete autofocus [source]="clues_term"
+                                            [list-formatter]="autocompleListFormatter"
+                                            autocomplete="false"
+                                            [value-formatter]="valorFormato_clue_usuario"
+                                            id="clues"
+                                            path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues, 'clues', $event, true);"
+                                            min-chars="4" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues').hasError('required')}"
                                             placeholder="Unidad Medica">
                                     
                                     <span class="icon is-small" *ngIf="ctrl.dato.get('clues').hasError('required')"><i class="fa fa-warning"></i></span>

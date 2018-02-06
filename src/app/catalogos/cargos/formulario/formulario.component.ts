@@ -12,8 +12,9 @@ export class FormularioComponent {
   tamano = document.body.clientHeight;
 
   private CkeditorConfig = {
-    height:document.body.clientHeight - 460
+    height:document.body.clientHeight - 760
   }
+  
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -26,12 +27,12 @@ export class FormularioComponent {
     //document.getElementById("catalogos").click();
   }
 
-  onBodyTextEditorKeyUp(event){
-    console.log("texto modificado", event);
+  // onBodyTextEditorKeyUp(event){
+  //   console.log("texto modificado", event);
 
-    console.log("valor dato descripcion",this.dato.controls.descripcion.value);
+  //   console.log("valor dato descripcion",this.dato.controls.descripcion.value);
 
-    console.log("valor dato nombre",this.dato.controls.nombre.value);
-  }
+  //   console.log("valor dato nombre",this.dato.controls.nombre.value);
+  // }
 
 }

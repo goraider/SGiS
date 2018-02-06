@@ -16,7 +16,7 @@
             <!-- Opciones y busqueda -->
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
 
-            <span style="overflow-y:auto; display:block; overflow-x:hidden;" [style.maxHeight.px]="tamano-285">
+            <span id="exportar_datos" style="overflow-y:auto; overflow-x: hidden; display:block;"[style.maxHeight.px]="tamano-285">
 
                 <!--Tabla -->
                 <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
@@ -26,7 +26,7 @@
                             <th>Turno Laboral</th>
                             <th>Nombre del Usuario</th>
                             <th>Fecha de Registro</th>
-                            <th width="1%">Opciones</th>
+                            <th width="1%" class="no_pdf">Opciones</th>
                         </tr>
                     </thead>
 
@@ -37,7 +37,7 @@
                             <td style="vertical-align: middle;">{{ item.sis_usuarios.nombre}}</td>
                             <td style="vertical-align: middle;">{{ item.created_at }}</td>
 
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle;" class="has-text-centered no_pdf">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                             </td>
@@ -87,4 +87,32 @@
 
         </div>
     </div>
+</div>
+
+<div id="imprimir" style="display:none">
+        
+        <span *ngIf="ctrl.json">
+            <a>
+                {{ctrl.json.turnos.nombre}}
+            </a>
+
+
+
+                <table class="table is-striped is-fullwidth"style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+                        <thead>
+                            <tr>
+                                <th>Servicio</th>
+                            </tr>
+                        </thead>
+    
+                        <tbody>
+                            <tr *ngFor="let item of ctrl.json.respuesta_estados_fuerza; let i=index">
+                                <td *ngIf="item.respuesta == 1" style="vertical-align: middle;">{{item.items.nombre}}</td>
+                            </tr>
+                        </tbody>
+    
+                    </table>
+
+
+        </span>
 </div>

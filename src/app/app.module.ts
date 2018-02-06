@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 //Graficos
@@ -135,6 +136,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     BrowserModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     ChartsModule,
     AppRoutingModule,
     HubModule,

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 //modulos
 import { HubModule } from '../../hub/hub.module';
@@ -29,7 +31,7 @@ import { CrudService } from '../../crud/crud.service';
 import { CrudModule }  from '../../crud/crud.module';
 //fin crud
 
-import { Select2Module } from 'ng2-select2';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 
 @NgModule({
@@ -37,6 +39,8 @@ import { Select2Module } from 'ng2-select2';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpModule,
+    HttpClientModule,
     IncidenciasRoutingModule,
     HubModule,
     PerfilModule,
@@ -46,7 +50,7 @@ import { Select2Module } from 'ng2-select2';
     MenuModule,
     ParcialModule,
     CrudModule,
-    Select2Module,
+    CKEditorModule,
     NguiAutoCompleteModule
   ],
   declarations: [

@@ -23,6 +23,11 @@ export class FormularioComponent {
   
   dato: FormGroup;
   tamano = document.body.clientHeight;
+  
+  private CkeditorConfig = {
+    height:document.body.clientHeight - 760
+  }
+  
   personas: any;
   tab: number = 1;
 
@@ -90,6 +95,7 @@ export class FormularioComponent {
   clues_destino:  any = '';
   clues_origen_login:  any = '';
   img = [];
+  esDetalle:boolean = true;
 
   //detalle referencia
   folio_referencia:  any = '';
@@ -252,12 +258,13 @@ export class FormularioComponent {
           clues_origen: [''],
           clues_destino: [''],
           diagnostico: [''],
-          esContrareferencia: [0],
+          esIngreso: [0],
           multimedias: this.fb.group({
             img:this.fb.array([])
           }),
           medico_refiere_id: [''],
           resumen_clinico: [''],
+          esQuitar: []
         }),
       ]),
 
@@ -351,6 +358,8 @@ export class FormularioComponent {
 
   agregarSeguimiento() {
 
+    this.esDetalle = false;
+
 
   if(this.turnos_id != "" && this.ubicaciones_pacientes_id != ""
   && this.estados_pacientes_id != "" && this.triage_colores_id != ""
@@ -404,7 +413,9 @@ export class FormularioComponent {
             id: [''],
       
             nuevo: [1, [Validators.required]],
-      
+
+            esQuitar: true,
+                  
             turnos: [this.turnos[tur], [Validators.required]],
             turnos_id: [this.turnos_id, [Validators.required]],
       
@@ -441,6 +452,8 @@ export class FormularioComponent {
       
       
           //agrega al array de movimientos_incidencias para que estos tengan valores respecto a sus variables en cada seguimiento que se le realice al paciente
+
+          console.log("dato seguimiento",datomodal);
       
           const mv: FormArray = <FormArray>this.dato.controls.movimientos_incidencias;
       
@@ -620,12 +633,17 @@ export class FormularioComponent {
   }
 
   agregarReferencia() {
+    
+    this.esDetalle = false;
+
 
     if(this.medico_refiere_id != "" && this.diagnostico !="" && this.resumen_clinico !="" && this.clues_destino != ""){
 
         var datoReferencia = {
     
           nuevo: [1, [Validators.required]],
+          
+          esQuitar: true,
     
           medico_refiere_id: [this.medico_refiere_id, [Validators.required]],
           diagnostico: [this.diagnostico, [Validators.required]],
@@ -639,9 +657,13 @@ export class FormularioComponent {
             
           }),
     
-          esContrareferencia: [0],
+          esIngreso: [0],
+
+
     
         };
+
+        console.log("DATO DEL PUSH HTML",datoReferencia);
     
     
     
@@ -661,8 +683,12 @@ export class FormularioComponent {
         this.resumen_clinico = '';
         this.clues_destino = '';
         this.img = [];
-        
+        // const botonBorrar = <FormArray>this.dato.controls.referencias['controls'][this.dato.controls.referencias['controls'].length -1]['controls']['esQuitar'];
+
+        // botonBorrar.setValue(1);
+        console.log("dato", this.dato.value);
         this.cerrarModalReferencia();
+        
       
       }
       else{
@@ -901,6 +927,8 @@ export class FormularioComponent {
 
   agregarAlta() {
 
+    this.esDetalle = false;
+
     if(this.clues_regresa !="" && this.tur_id !="" && this.t_altas_id !="" && this.me_reporta_id !=""
       && this.r_clinico !="" &&  this.diagnostico_egreso !="" && this.me_planificacion_id !="" && this.observacion_trabajo_social !=""
       && this.i_recomendaciones !=""){
@@ -932,6 +960,8 @@ export class FormularioComponent {
         var datoAlta = {
     
           nuevo: [1, [Validators.required]],
+          
+          esQuitar: true,
     
           multimedias: this.fb.group({
             img:this.fb.array(this.imgalta)

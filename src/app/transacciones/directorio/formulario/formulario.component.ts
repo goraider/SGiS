@@ -49,8 +49,10 @@ autocompleListFormatter = (data: any) => {
 }
 
 valorFormato_clue_usuario(data: any)  {
+
       let html = `${data.nombre}`;
       return html;
 }
+
 
 }

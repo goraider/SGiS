@@ -67,7 +67,7 @@
                 <br>
             </div>
                 
-            <span style="overflow-y:auto; display:block; overflow-x:hidden;" [style.maxHeight.px]="tamano-285">
+            <span id="exportar_datos" style="overflow-y:auto; overflow-x: hidden; display:block;"[style.maxHeight.px]="tamano-285">
                     
                 <!--Lista -->
                 <span *ngIf="!ctrl.cargando">
@@ -78,6 +78,8 @@
                                     <img [src]="item.mensaje.usuario.foto ? ctrl.API_PATH+'/adjunto/usuario/' + item.mensaje.usuario.foto : item.mensaje.usuario.avatar">
                                 </figure>
                             </div>
+
+                            {{item.value | json}}
                             <div class="media-content">
                                 <div class="content">
                                 <p>

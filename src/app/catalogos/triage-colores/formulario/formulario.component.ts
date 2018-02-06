@@ -10,14 +10,19 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
+
+  private CkeditorConfig = {
+    height:document.body.clientHeight - 760
+  }
+  
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.dato = this.fb.group({
       nombre: ['', [Validators.required]],
-      descripcion: [''],
-      tiempo_minimo: ['', [Validators.required]],
-      tiempo_maximo: ['', [Validators.required]]
+      descripcion: ['', [Validators.required]],
+      tiempo_minimo: ['', [Validators.required, Validators.pattern("[0-9-:]*")]],
+      tiempo_maximo: ['', [Validators.required, Validators.pattern("[0-9-:]*")]]
     });
 
 

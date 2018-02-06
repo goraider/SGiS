@@ -7,7 +7,7 @@
 * </p>
 *
 * @author  Javier Alejandro Gosain Díaz
-* @version 1.0
+* @version 2.0
 * @since   2017-05-08 
 */
 

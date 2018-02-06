@@ -26,7 +26,7 @@
                             <th>Nombre</th>
                             <th>Correo</th>
                             <th>Grupos</th>
-                            <th width="1%">Opciones</th>
+                            <th width="1%" class="no_pdf">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,7 +39,7 @@
                                 <span *ngFor="let val of item.sis_usuarios_grupos" class="tag is-success"><i class="fa fa-check"></i> &nbsp; {{ val.nombre }}</span>
 
                             </td>
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle;" class="has-text-centered no_pdf">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                             </td>

@@ -26,6 +26,11 @@ export class FormularioComponent {
     private c = JSON.parse(localStorage.getItem("clues"));
     
     tamano = document.body.clientHeight;
+
+    private CkeditorConfig = {
+        height:document.body.clientHeight - 760
+      }
+      
     tab: number = 1;
     tiene_referencia: number = 0;
     mostrar : boolean = false;
@@ -108,6 +113,7 @@ export class FormularioComponent {
         this.iniciarFormulario();
 
 
+
         var url = location.href.split("/");
         this.carpeta = url[4];
         this.modulo = url[5];
@@ -153,7 +159,7 @@ export class FormularioComponent {
                 nombre: ['', [Validators.required]],
                 paterno: ['', [Validators.required]],
                 materno: ['', [Validators.required]],
-                telefono: ['', [Validators.required]],
+                telefono: ['', [Validators.required, Validators.pattern("[0-9]*")]],
                 domicilio: ['', [Validators.required]],
                 fecha_nacimiento: [null],
             }),
@@ -305,7 +311,7 @@ export class FormularioComponent {
                     multimedias: this.fb.group({
                         img: this.fb.array([])
                     }),
-                    esContrareferencia: [0],
+                    esIngreso: [1]
                 }),
             ]),
 
@@ -545,7 +551,7 @@ export class FormularioComponent {
             
                         });
 
-                        this.dato.controls.referencias['controls'][0]['controls']['esContrareferencia'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['esContrareferencia']);
+                        this.dato.controls.referencias['controls'][0]['controls']['esIngreso'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['esIngreso']);
 
 
                     },
@@ -587,6 +593,7 @@ export class FormularioComponent {
         const aco = <FormGroup>pac.controls[0];
 
         const pos = <FormArray>aco.controls.acompaniantes;
+
 
         if (!pos.controls[1]) {
 
@@ -661,10 +668,16 @@ export class FormularioComponent {
     }
 
     select_datosPaciente_autocomplete(data: any, value) {
+
         if (data.id) {
 
             //asgina el valor viejo de la curp para que no se duplique
             this.dato.controls.pacientes['controls'][0]['controls']['personas_id_viejo'].patchValue(data.id);
+
+            if (document.getElementById("catalogos"))
+
+            document.getElementById("catalogos").click();
+
             
             
             //Se asigna en variables el formulario formulario reactivo, respecto si es un FormArray o un FormGroup

@@ -2,6 +2,11 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListarComponent } from '../../../crud/listar.component';
 import { CrudService } from '../../../crud/crud.service';
+import { formatoHtmlPipe } from '../../../pipes/formatoHtml.pipe';
+
+import { SecurityContext} from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 
 import * as jsPDF from 'jspdf';
 import * as autoTable from 'jspdf-autotable';
@@ -18,6 +23,8 @@ import { concat } from 'rxjs/operators/concat';
 @Component({
   selector: 'incidencias-lista',
   templateUrl: './lista.component.html',
+  //template: `[innerHTML]='texto'`,
+  providers: [formatoHtmlPipe]
 
 })
 
@@ -25,7 +32,8 @@ export class ListaComponent {
     @Input() ctrl: any; 
 
     tamano = document.body.clientHeight;
-  
+
+    texto: any = '';
     url_nuevo: string = '';
     permisos = JSON.parse(localStorage.getItem("permisos"));
     clues = JSON.parse(localStorage.getItem("clues"));    
@@ -38,9 +46,15 @@ export class ListaComponent {
 
   
 
-  constructor(public crudService: CrudService){ }
+  constructor(
+              public crudService: CrudService,
+              public formatohtml: formatoHtmlPipe,
+              private _sanitizer: DomSanitizer 
+            ){ }
 
   ngOnInit() {
+
+    
     
     this.clues;
     var url = location.href.split("/");
@@ -106,10 +120,14 @@ export class ListaComponent {
 
     download(e, id) {
 
+      //this.formatohtml.transform();
+
       
     
         this.crudService.ver(id, "incidencias").subscribe(
           resultado => {
+
+            console.log("data",resultado);
             
             var fechaIngreso = moment(resultado.data.created_at);
 
@@ -170,7 +188,7 @@ export class ListaComponent {
                 {title: "Teléfono", dataKey: "telefono_acompaniante"},
               ];
               
-              var rows_responsable = []; 
+              var rows_responsable = [];
                 rows_responsable.push({
                   "nombre_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.nombre+" "+resultado.data.pacientes[0].acompaniantes[1].personas.paterno+" "+resultado.data.pacientes[0].acompaniantes[1].personas.materno,
                   "curp_acompaniante": resultado.data.pacientes[0].acompaniantes[1].personas.id,
@@ -195,8 +213,17 @@ export class ListaComponent {
             ];
 
     
-            var rows_movimientos = []; 
+            var rows_movimientos = [];
+          
             resultado.data.movimientos_incidencias.forEach(element => {
+
+
+              // let texto = this.formatohtml.transform(element.indicaciones);
+
+
+
+              // console.log(texto['SafeHtmlImpl']);
+
 
                 rows_movimientos.push({
                   "numero": num --,
@@ -229,6 +256,8 @@ export class ListaComponent {
             require('jspdf-autotable');
 
              let pdf = new jsPDF('l');
+
+             console.log("pdf", pdf.table);
 
              var totalPagesExpPaciente = "{total_pages_count_string}";
              var pageContentPaciente = function (data) {
@@ -361,8 +390,8 @@ export class ListaComponent {
               
               var data = rows_movimientos;
 
-              
 
+              
 
               pdf.autoTable(columns_movimientos, data, {
 
@@ -376,6 +405,8 @@ export class ListaComponent {
 
 
               });
+
+              
 
 
 

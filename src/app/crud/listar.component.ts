@@ -7,7 +7,7 @@
 * </p>
 *
 * @author  Javier Alejandro Gosain Díaz
-* @version 1.0
+* @version 2.0
 * @since   2017-05-08 
 */
 
@@ -399,7 +399,7 @@ export class ListarComponent implements OnInit {
      * Este método es intermediario para el listado incrementa en uno la paginación
      * @return void
      */
-    paginaSiguiente(): void {console.log(this.paginaActual);
+    paginaSiguiente(): void {
         if(this.total > 15){
             if(this.busquedaActivada){
                 var term = <HTMLInputElement> document.getElementById("search-box");
@@ -418,7 +418,6 @@ export class ListarComponent implements OnInit {
      */
     paginaAnterior(): void {
         if(this.paginaActual > 1){
-            console.log(this.paginaActual);
             if(this.busquedaActivada){
                 var term = <HTMLInputElement> document.getElementById("search-box");
                 this.listarBusqueda(term.value, this.paginaActualBusqueda - 1);
@@ -489,55 +488,103 @@ export class ListarComponent implements OnInit {
     }
 
     json;
-    imprimir_cargando= false;
+    imprimir_cargando = false;
     contador;
-    imprimir(json, contador) {
-      /*let pdf = new jsPDF('p', 'pt', 'letter');
-      pdf.setProperties({
-        title: 'Ticket',
-        subject: 'YOURSOFT',
-        author: 'Eliecer Ramirez Esquinca',
-        keywords: 'yoursoft, web, mobile, desarrollo, agil',
-        creator: 'www.yoursoft.com.mx'
-      });
-      var elementHandler = {
-        '.equis': function (element, renderer) {
-          return true;
-        }
-      };
-      pdf.fromHTML($('body')[0], 5, 5, {
-        'width': 170,
-        'elementHandlers': elementHandler
-      });
-  
-      pdf.output('dataurlnewwindow')*/
-      this.json = json;
-      
-      if(document.getElementById("funcion_secundaria"+contador))
-        document.getElementById("funcion_secundaria"+contador).click();
+    imprimir(json, contador, titulo = '') {
+        /*let pdf = new jsPDF('p', 'pt', 'letter');
+        pdf.setProperties({
+          title: 'Ticket',
+          subject: 'YOURSOFT',
+          author: 'Eliecer Ramirez Esquinca',
+          keywords: 'yoursoft, web, mobile, desarrollo, agil',
+          creator: 'www.yoursoft.com.mx'
+        });
+        let elementHandler = {
+          '.equis': function (element, renderer) {
+            return true;
+          }
+        };
+        pdf.fromHTML($('body')[0], 5, 5, {
+          'width': 170,
+          'elementHandlers': elementHandler
+        });
 
-      this.contador = contador;
-      this.imprimir_cargando = true;
-      setTimeout(()=> {
-        var html = document.getElementById("imprimir").innerHTML;
-        html = '<html lang="es">' + ' <head>' + ' <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' + ' <meta name="charset" content="UTF-8">' + ' <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">' + ' <meta name="apple-mobile-web-app-capable" content="yes">' + ' <title>PDF</title> <meta name="viewport" content="initial-scale=1" />' + ' <style>html { font-size: .9em;} body{font-size: .9em;} select::-ms-expand {display: none;}</style>' + ' </head>' + ' <body>' + html + ' </body>' + ' </html>';
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute("id", "printf");
-        iframe.setAttribute("style", "display:none");
-        document.body.appendChild(iframe);
-    
-        var mywindow = <HTMLSelectElement>document.getElementById('printf');
-        mywindow.contentWindow.document.write(html);
-        setTimeout(()=> {
-          // lanzar la sentencia imprimir   
-          this.imprimir_cargando = false;    
-          mywindow.contentWindow.print();
-        }, 500);
-        setTimeout(()=> {
-          // remover el contenedor de impresión
-          document.body.removeChild(iframe);
-        }, 2000);
-      }, 300);
-      
+        pdf.output('dataurlnewwindow')*/
+        this.json = json;
+console.log(this.json);
+        if (document.getElementById('funcion_secundaria' + contador)) {
+            document.getElementById('funcion_secundaria' + contador).click();
+        }
+
+        this.contador = contador;
+        this.imprimir_cargando = true;
+        if(titulo != '') {
+            titulo = '<section class="hero is-primary">'
+                + '<div class="hero-body">'
+                + '    <nav class="level ">'
+                + '        <div class="level-left ">'
+                + '            <div class="level-item">'
+                + '                <p class="title">'  
+                +                       titulo
+                + '                </p>'
+                + '            </div>'            
+                + '        </div>'
+                + '    </nav>'
+                + '</div></section>';
+        }
+        setTimeout(() => {
+            let html = document.getElementById('exportar_datos').innerHTML;
+            if (this.json) {
+                html = document.getElementById('imprimir').innerHTML;
+            }            
+
+            html = '<html lang="es">'
+                + ' <head>'
+                + ' <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />'
+                + ' <meta name="charset" content="UTF-8">'
+                + ' <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">'
+                + ' <meta name="apple-mobile-web-app-capable" content="yes">'
+                + ' <title>PDF</title> <meta name="viewport" content="initial-scale=1" />'
+                + ' <link rel="stylesheet" href="https://bulma.io/css/bulma-docs.css?v=201712202318">'
+                + ' <style>html { font-size: 1em; font-weight: 900; color: #000000;} body {font-size: 1em; font-weight: 900; color: #000000;} select::-ms-expand {display: none;} '
+                + ' table{font-size: .9em}'
+                + '.figure-border { border-radius: 5px; box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);'
+                + ' min-height: 159px;} .hr{ margin: .85rem 0 !important;} .sellos_sat{ font-size:8.5pt !important;}'
+                + '.columns{margin:0px !important} .column{padding: .2em !important}'
+                + '.equis, .no_pdf {  display: none!important; height: 0!important;  width: 0!important;  margin: 0!important; padding: 0!important; }</style>'
+                + ' </head>'
+                + ' <body>'
+                + titulo
+                + html
+                + ' </body>'
+                + ' </html>';
+
+            let iframe = document.createElement('iframe');
+            iframe.setAttribute('id', 'printf');
+            iframe.setAttribute('style', 'display:none');
+            document.body.appendChild(iframe);
+
+            let mywindow = <HTMLSelectElement>document.getElementById('printf');
+            mywindow.contentWindow.document.write(html);
+            setTimeout(() => {
+                // lanzar la sentencia imprimir
+                this.imprimir_cargando = false;
+                mywindow.contentWindow.print();
+            }, 500);
+            setTimeout(() => {
+                // remover el contenedor de impresión
+                document.body.removeChild(iframe);
+            }, 2000);
+        }, 300);
+
+    }
+
+    excel(titulo) {
+        let colspan = document.getElementsByTagName('table')[0].children[0].children[0].childElementCount;        
+        let excelData = "<table><tr><th colspan='" + colspan + "'><h1>" + titulo + " <h1></th></tr></table>";
+
+        excelData += document.getElementById('exportar_datos').innerHTML;
+        let blob = new Blob([excelData], { type: "text/comma-separated-values;charset=utf-8" });
+        saveAs(blob, titulo + ".xls");
     }
 }

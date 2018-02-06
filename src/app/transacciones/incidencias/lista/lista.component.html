@@ -76,6 +76,29 @@
                                 </span>
                                 <span class="tooltiptext">Nuevo</span>
                             </a>
+
+                            <a class="navbar-item tooltip" (click)="ctrl.excel(modulo_actual);">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-file-excel-o"></i>
+                                </span>
+                                <span class="tooltiptext">Exportar Excel</span>
+                            </a>
+            
+                            <a class="navbar-item tooltip" (click)="ctrl.imprimir(null, '', modulo_actual);">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-print"></i>
+                                </span>
+                                <span class="tooltiptext">Imprimir</span>
+                            </a>
+
+                            <a class="navbar-item  tooltip" (click)="ctrl.cambiar_vista();">
+                                <span class="icon fa-2x">
+                                    <i class="fa fa-table" *ngIf="!ctrl.tipo_grid"></i>
+                                    <i class="fa fa-list" *ngIf="ctrl.tipo_grid"></i>
+                                </span>
+                                <span class="tooltiptext" *ngIf="!ctrl.tipo_grid">Cambiar a tabla</span>
+                                <span class="tooltiptext" *ngIf="ctrl.tipo_grid">Cambiar a lista</span>
+                            </a>
             
             
                             <a class="navbar-item  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
@@ -97,72 +120,125 @@
                 </div>
 
 
-            <span style="overflow-y:auto; overflow-x:hidden; display:block" [style.maxHeight.px]="tamano-285">
+            <span id="exportar_datos" style="overflow-y:auto; overflow-x: hidden; display:block;" [style.maxHeight.px]="tamano-285">
 
-                    <span *ngIf="ctrl.tipo_grid && !ctrl.cargando ">
-                            <div class="box" *ngFor="let item of ctrl.dato; let i=index" style="margin-bottom:0.1rem;" [style.background]="i%2 == 0 ? '#fafafa' : '#ffffff'">
-                                <article *ngIf="(i+1)<ctrl.dato.length" class="media">
+                <!--Tabla -->
+                <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;">
+                        <thead>
+                            <tr>
+                                <th>N° Folio</th>
+                                <th>Paciente</th>
+                                <th>Triage</th>
+                                <th>Estado de Incidencia</th>
+                                <th>Antiguedad</th>
+                                <th width="1%" class="no_pdf">Seguimientos</th>
+                                <th width="1%" class="no_pdf">Opciones</th>
+                            </tr>
+                        </thead>
 
-                                    <div *ngIf="(i+1)<ctrl.dato.length" class="media-left is-medium">
-                                        <figure class="image is-64x64">
-                                            <img src="../assets/iconos/persona.jpg">
-                                        </figure>
+                        <tbody>
+                            <tr *ngFor="let item of ctrl.dato; let i=index">
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.id }}</strong></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" disabled><strong>{{ item.estados_incidencias.nombre }}</strong></div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.antiguedad }}</strong></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"  class="has-text-centered no_pdf">
+
+                                    <div class="level-left">
+                                        <a class="navbar-item tooltip"  (click)="download($event, item.id);">
+                                            <span class="icon fa-2x  has-text-danger ">
+                                                <i class="fa fa-file-pdf-o"></i>
+                                            </span>
+                                            <span class="tooltiptext">PDF</span>
+                                        </a>
+                                        
+                                        <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
+                                            <span class="icon fa-2x has-text-info">
+                                                <i class="fa fa-exchange"></i>
+                                            </span>
+                                            <span class="tooltiptext">Seguimiento</span>
+                                        </a>
                                     </div>
-                                    <div *ngIf="(i+1)<ctrl.dato.length" class="media-content" >
-                                        <div class="content" *ngIf="(i+1)<ctrl.dato.length">
-                                        <p *ngIf="(i+1)<ctrl.dato.length">
+                                </td>
 
-                                            <a *ngIf="(i+1)<ctrl.dato.length" title="Paciente">
-                                                <div *ngFor="let val of item.pacientes" class="is-medium fa-2x">
-                                                    <strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong>
-                                                </div>
-                                            </a>
-                                            <a *ngIf="(i+1)<ctrl.dato.length"  title="N° Folio">
-                                                    <strong>{{item.id}}</strong>
-                                            </a>
-                                            <br>
-                                            <a *ngIf="(i+1)<ctrl.dato.length"  title="Antigüedad">
-                                                <small>
-                                                    <i class="fa fa-clock-o"></i>
-                                                    <strong>{{ item.antiguedad }}</strong>
-                                                </small>
-                                            </a>
-                                            <br>
-                                            <a *ngIf="(i+1)<ctrl.dato.length" class="tag is-medium fa-2x" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}" title="Triage">
-                                            
-                                                <strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong>
-        
-                                            </a>
-                                        </p>
-                                        </div> 
-                                        <nav *ngIf="(i+1)<ctrl.dato.length" class="level is-mobile" style="float:right">
+                                <td *ngIf="(i+1)<ctrl.dato.length"  style="vertical-align: middle;" class="has-text-centered no_pdf">
+                                    <!-- acciones -->
+                                    <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
+                                </td>
 
-                                        <div *ngIf="(i+1)<ctrl.dato.length" class="level-left" >
+                            </tr>
+                            <tr *ngIf="ctrl.dato.length == 0">
+                                <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                            </tr>
+                        </tbody>
 
-                                            <a class="navbar-item tooltip" (click)="download($event, item.id);">
-                                                    <span class="icon fa-2x  has-text-danger ">
-                                                        <i class="fa fa-file-pdf-o"></i>
-                                                    </span>
-                                                    <span class="tooltiptext">PDF</span>
-                                            </a>
+                    </table>
 
-                                            <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
-                                                <span class="icon fa-2x has-text-info">
-                                                        <i class="fa fa-exchange"></i>
-                                                </span>
-                                                <span class="tooltiptext">Seguimiento</span>
-                                            </a>
-                                            
+                    <!--Lista -->
+                <span *ngIf="!ctrl.tipo_grid && !ctrl.cargando">
+                    <div class="box" *ngFor="let item of ctrl.dato; let i=index" style="margin-bottom:0.1rem;" [style.background]="i%2 == 0 ? '#fafafa' : '#ffffff'">
+                        <article *ngIf="(i+1)<ctrl.dato.length" class="media">
 
-                                            <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
-
-                                        </div>
-
-                                        </nav>           
-                                    </div>
-                                </article>
+                            <div *ngIf="(i+1)<ctrl.dato.length" class="media-left is-medium">
+                                <figure class="image is-64x64">
+                                    <img src="../assets/iconos/persona.jpg">
+                                </figure>
                             </div>
-                        </span>
+                            <div *ngIf="(i+1)<ctrl.dato.length" class="media-content" >
+                                <div class="content" *ngIf="(i+1)<ctrl.dato.length">
+                                <p *ngIf="(i+1)<ctrl.dato.length">
+
+                                    <a *ngIf="(i+1)<ctrl.dato.length" title="Paciente">
+                                        <div *ngFor="let val of item.pacientes" class="is-medium fa-2x">
+                                            <strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong>
+                                        </div>
+                                    </a>
+                                    <a *ngIf="(i+1)<ctrl.dato.length"  title="N° Folio">
+                                            <strong>{{item.id}}</strong>
+                                    </a>
+                                    <br>
+                                    <a *ngIf="(i+1)<ctrl.dato.length"  title="Antigüedad">
+                                        <small>
+                                            <i class="fa fa-clock-o"></i>
+                                            <strong>{{ item.antiguedad }}</strong>
+                                        </small>
+                                    </a>
+                                    <br>
+                                    <a *ngIf="(i+1)<ctrl.dato.length" class="tag is-medium fa-2x" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}" title="Triage">
+                                    
+                                        <strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong>
+
+                                    </a>
+                                </p>
+                                </div> 
+                                <nav *ngIf="(i+1)<ctrl.dato.length" class="level is-mobile" style="float:right">
+
+                                <div *ngIf="(i+1)<ctrl.dato.length" class="level-left no_pdf" >
+
+                                    <a class="navbar-item tooltip" (click)="download($event, item.id);">
+                                            <span class="icon fa-2x  has-text-danger ">
+                                                <i class="fa fa-file-pdf-o"></i>
+                                            </span>
+                                            <span class="tooltiptext">PDF</span>
+                                    </a>
+
+                                    <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
+                                        <span class="icon fa-2x has-text-info">
+                                                <i class="fa fa-exchange"></i>
+                                        </span>
+                                        <span class="tooltiptext">Seguimiento</span>
+                                    </a>
+                                    
+                                    <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
+
+                                </div>
+
+                                </nav>           
+                            </div>
+                        </article>
+                    </div>
+                </span>
 
 
                 <!--Lista -->
@@ -174,6 +250,43 @@
         </div>
     </div>
 </div>
+
+<!-- <div id="imprimir" style="display:none">
+        
+        <a *ngIf="ctrl.json">
+            <span style="color:blue;" [innerHTML]='ctrl.json.motivo_ingreso | formatoHtml'></span>
+        </a>
+</div> -->
+
+
+
+<!-- <div id="imprimir" style="display:none">
+        
+    <span *ngIf="ctrl.json">
+        <a>
+            {{ctrl.json.turnos.nombre}}
+        </a>
+
+
+
+            <table class="table is-striped is-fullwidth"style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of ctrl.json.respuesta_estados_fuerza; let i=index">
+                            <td *ngIf="item.respuesta == 1" style="vertical-align: middle;">{{item.items.nombre}}</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+
+    </span>
+</div> -->
 
 <!-- <div class="modal" id="confirmarPDF">
         <div class="modal-background"></div>

@@ -16,7 +16,7 @@
             <!-- Opciones y busqueda -->
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
                 
-            <span style="overflow-y:auto; display:block; overflow-x:hidden;" [style.maxHeight.px]="tamano-285">
+            <span id="exportar_datos" style="overflow-y:auto; overflow-x: hidden; display:block;"[style.maxHeight.px]="tamano-285">
                     
                 <!--Tabla -->
                 <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
@@ -30,7 +30,7 @@
                             <th>prefijo teléfono</th>
                             <th>Ultima actualización</th>
                             
-                            <th width="1%">Opciones</th>
+                            <th width="1%" class="no_pdf">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,7 +42,7 @@
                             <td style="vertical-align: middle;">{{ item.clave_N3 }} </td>
                             <td style="vertical-align: middle;">{{ item.prefijo_telefono }} </td>
                             <td style="vertical-align: middle;">{{ item.updated_at }} </td>
-                            <td style="vertical-align: middle;">
+                            <td style="vertical-align: middle;" class="has-text-centered no_pdf">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
                             </td>

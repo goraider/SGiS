@@ -93,7 +93,7 @@ export class FormularioComponent {
         this.toggleCambiarPassword();
     });
 
-    var il = 0, ie = 0, im = 0, sue = 0;
+    var sue = 0;
     
 
     this.dato.controls.sis_usuarios_clues.valueChanges.
@@ -107,37 +107,11 @@ export class FormularioComponent {
         }
       });
 
-    this.dato.controls.municipios_id.valueChanges.
-      subscribe(val => {
-        if (val && im == 0) {
-          im++;
-          this.temp_municipios_id = val;
-        }
-      });
-
-      this.dato.controls.localidades_id.valueChanges.
-      subscribe(val => {
-        if (val && il == 0) {
-          il++;
-          this.temp_localidades_id = val;
-        }
-      });
 
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     document.getElementById("catalogos").click();
 
 
-  }
-  autovalor_municipio() {
-    setTimeout(() => {
-      this.municipios_id = this.temp_municipios_id;
-    }, 3000);
-  }
-
-  autovalor_localidad() {
-    setTimeout(() => {
-      this.localidades_id = this.temp_localidades_id;
-    }, 3000);
   }
 
   toggleCambiarPassword() {

@@ -28,6 +28,8 @@ import { CrudService } from '../../crud/crud.service';
 import { CrudModule }  from '../../crud/crud.module';
 //fin crud
 
+import { CKEditorModule } from 'ng2-ckeditor';
+
 
 @NgModule({
   imports: [
@@ -42,7 +44,8 @@ import { CrudModule }  from '../../crud/crud.module';
     PipesModule,
     MenuModule,
     ParcialModule,
-    CrudModule
+    CrudModule,
+    CKEditorModule
   ],
   declarations: [
     ListaComponent,

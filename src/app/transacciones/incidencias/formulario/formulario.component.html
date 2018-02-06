@@ -103,8 +103,8 @@
         </section>
 
         <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
-
-          <div class="tabs is-toggle is-fullwidth is-large">
+<!--is-desktop is-tablet is-hidden-mobile-->
+          <div class="tabs is-toggle is-fullwidth">
             <ul>
               <li [ngClass]="{ 'is-active' : tab == 1}">
                 <a (click)="tab=1">
@@ -166,9 +166,15 @@
 
                         <p class="control is-expanded  has-icon has-icon-right">
                           <label class="label">Curp:</label>
-                          <input ngui-auto-complete autocomplete="false" [source]="personas_term" [list-formatter]="autocompleFormatoCurp" [value-formatter]="valorFormato_curp"
-                            id="curp" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.pacientes.controls[i].controls.personas_id, 'id', $event, false);
-                            select_datosPaciente_autocomplete($event)" min-chars="4" class="input" type="text" placeholder="CURP"
+                          <input ngui-auto-complete autocomplete="false"
+                            [source]="personas_term"
+                            [list-formatter]="autocompleFormatoCurp"
+                            [value-formatter]="valorFormato_curp"
+                            [tab-to-select]="false"
+                            id="curp" path-to-data="" loading-text="Cargando..."
+                            no-match-found-text="No hay resultados."
+                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.pacientes.controls[i].controls.personas_id, 'id', $event, false);
+                            select_datosPaciente_autocomplete($event, 'id');" min-chars="4" class="input" type="text" placeholder="CURP"
                             (blur)="asignar_curp();" [ngClass]="{'is-danger': !item.controls.personas_id.valid}" formControlName="personas_id">
 
                           <span class="help is-danger" *ngIf="!item.controls.personas_id.valid">Este campo es requerido.</span>
@@ -686,21 +692,32 @@
                 </div>
 
                 <div class="columns">
-                  <div class="column is-6">
-                    <p class="control is-expanded  has-icon has-icon-right">
-                      <label class="label">Motivo del Ingreso</label>
-                      <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.motivo_ingreso.valid}" placeholder="Motivo Ingreso"
-                        formControlName="motivo_ingreso"></textarea>
-                      <span class="help is-danger" *ngIf="!ctrl.dato.controls.motivo_ingreso.valid">Este campo es requerido.</span>
+                  <div class="column is-12">
+                    <p class="control is-expanded has-icon has-icon-right">
+                        <label class="label">Motivo del Ingreso:</label>
+
+                        <ckeditor placeholder="Descripción" autofocus formControlName="motivo_ingreso" debounce="50"
+                                  [config]="CkeditorConfig" [ngClass]="{'is-danger': ctrl.dato.get('motivo_ingreso').hasError('required')}">
+                        </ckeditor>
+
+                        <span class="icon is-small" *ngIf="ctrl.dato.get('motivo_ingreso').hasError('required')"><i class="fa fa-warning"></i></span>
+                        <span class="help is-danger" *ngIf="ctrl.dato.get('motivo_ingreso').hasError('required')">Este campo es requerido.</span>
                     </p>
                   </div>
-                  <div class="column is-6">
-                    <p class="control is-expanded  has-icon has-icon-right">
-                      <label class="label">Impresión Diagnostica</label>
-                      <textarea class="textarea" autofocus type="text" [ngClass]="{'is-danger': !ctrl.dato.controls.impresion_diagnostica.valid}"
-                        placeholder="Impresion Diagnostica" formControlName="impresion_diagnostica"></textarea>
-                      <span class="help is-danger" *ngIf="!ctrl.dato.controls.impresion_diagnostica.valid">Este campo es requerido.</span>
-                    </p>
+                </div>
+
+                <div class="columns">
+                  <div class="column is-12">
+                      <p class="control is-expanded has-icon has-icon-right">
+                          <label class="label">Impresión Diagnostica:</label>
+
+                          <ckeditor placeholder="Descripción" autofocus formControlName="impresion_diagnostica" debounce="50"
+                                    [config]="CkeditorConfig" [ngClass]="{'is-danger': ctrl.dato.get('impresion_diagnostica').hasError('required')}">
+                          </ckeditor>
+
+                          <span class="icon is-small" *ngIf="ctrl.dato.get('impresion_diagnostica').hasError('required')"><i class="fa fa-warning"></i></span>
+                          <span class="help is-danger" *ngIf="ctrl.dato.get('impresion_diagnostica').hasError('required')">Este campo es requerido.</span>
+                      </p>
                   </div>
                 </div>
               </div>
@@ -713,7 +730,7 @@
 
                 <p>
                   Referencia
-                  <label style="float:right" *ngIf="!ocultar_pregunta_referencia">¿El paciente tiene referencia?
+                  <label style="float:right" *ngIf="ctrl.dato.value.tieneReferencia == 0">¿El paciente tiene referencia?
                     <label class="radio">
                       <input type="radio" name="tieneReferencia" (click)="this.dato.controls.tieneReferencia.patchValue(1);" [ngClass]="{ 'is-active' : ctrl.dato.value.tieneReferencia == 1}"
                         [checked]="ctrl.dato.value.tieneReferencia">Si</label>
@@ -796,11 +813,12 @@
                     <div class="columns">
                       <div class="column is-12">
                         <p class="control is-expanded  has-icon has-icon-right">
+                          
                           <label class="label">Medico quien Refiere:</label>
                           <input id="medico" class="input" type="text" placeholder="Medico que reporta" formControlName="medico_refiere_id">
 
-
                         </p>
+                  
                       </div>
                     </div>
 
@@ -833,21 +851,29 @@
                     </div>
 
                     <div class="columns">
-                      <div class="column is-6">
+                      <div class="column is-12">
                         <div class="control is-grouped">
                           <p class="control is-expanded  has-icon has-icon-right">
                             <label class="label">Diagnóstico: </label>
-                            <textarea class="textarea" formControlName="diagnostico" name="diagnostico" autofocus type="text" placeholder="Diagnostico"></textarea>
-
+                
+                            <ckeditor autofocus formControlName="diagnostico" debounce="50"
+                              [config]="CkeditorConfig">
+                            </ckeditor>
 
                           </p>
                         </div>
                       </div>
-                      <div class="column is-6">
+                    </div>
+                    <div class="columns">
+                      <div class="column is-12">
                         <div class="control is-grouped">
                           <p class="control is-expanded  has-icon has-icon-right">
                             <label class="label">Resumen Clínico: </label>
-                            <textarea class="textarea" formControlName="resumen_clinico" name="resumen_clinico" autofocus type="text" placeholder="Resumen Clínico"></textarea>
+
+                            <ckeditor autofocus formControlName="resumen_clinico" debounce="50"
+                              [config]="CkeditorConfig">
+                            </ckeditor>
+                            
 
                           </p>
                         </div>

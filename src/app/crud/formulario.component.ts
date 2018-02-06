@@ -143,6 +143,8 @@ export class FormularioComponent implements OnInit {
     enviar(regresar: boolean = true, reset_form: boolean = false) {
         if (this.id)
             this.actualizarDatos();
+
+
         else
             this.guardarDatos(regresar, reset_form);
     }
@@ -155,7 +157,6 @@ export class FormularioComponent implements OnInit {
 
         this.cargando = true;
         this.guardado = false;
-        console.log(this.dato);
         var json = this.dato.getRawValue();
         this.crudService.crear(json, this.URL).subscribe(
             resultado => {
@@ -165,6 +166,7 @@ export class FormularioComponent implements OnInit {
                     this.location.back();
                 if (reset_form)
                     this.reset_form();
+                    console.log("pampas");
             },
             error => {
                 this.cargando = false;
@@ -226,6 +228,7 @@ export class FormularioComponent implements OnInit {
                 this.mensajeResponse.mostrar = true;
                 this.mensajeResponse.clase = "success";
                 this.mensaje(2);
+                document.getElementById('cargar_datos_actualizar').click();
             },
             error => {
                 this.cargando = false;

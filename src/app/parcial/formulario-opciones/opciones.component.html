@@ -40,12 +40,14 @@
         </a>
 
         <button class="navbar-item  is-success tooltip" type="submit" [ngClass]="{'is-loading': ctrl.cargando}"
-            [disabled]="ctrl.dato.invalid" *ngIf="(permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis'+ controlador + '.store') > -1 || permisos.indexOf(controlador + '.update') > -1 || permisos.indexOf( 'Sis' + controlador + '.update') > -1)">
+            [disabled]="ctrl.dato.invalid"
+            *ngIf="(permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis'+ controlador + '.store') > -1 || permisos.indexOf(controlador + '.update') > -1 || permisos.indexOf( 'Sis' + controlador + '.update') > -1)">
             <span class="icon fa-2x has-text-success">
                 <i class="fa fa-save"> </i>
             </span>
             <span class="tooltiptext">Guardar</span>
         </button>
+        
         <button class="navbar-item  is-danger tooltip" type="button" [ngClass]="{'is-loading': ctrl.cargando}"
             (click)="ctrl.eliminar(ctrl.id)" *ngIf="(permisos.indexOf(controlador + '.destroy') > -1 || permisos.indexOf( 'Sis' + controlador + '.destroy') > -1) && ctrl.id">
             <span class="icon fa-2x has-text-danger">

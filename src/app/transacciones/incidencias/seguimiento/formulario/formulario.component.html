@@ -97,11 +97,10 @@
             <!-- Opciones  -->
             <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
 
-            <a id="actualizar"
-              (click)="cargarDatos();">
-            </a>
 
           </div>
+
+
         </section>
         <!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
         <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
@@ -155,7 +154,7 @@
                   <th>Antiguedad</th>
                   <th>Triage</th>
                   <th>Ubicación del Paciente</th>
-                  <th>Opciones</th>
+                  <th>Detalle</th>
                 </tr>
               </thead>
               <tbody *ngIf="ctrl.dato">
@@ -221,7 +220,8 @@
                   <th>Resumen Clinico</th>
                   <th>Unidad Medica de Origen</th>
                   <th>Unidad Medica de Destino</th>
-                  <th>Opciones</th>
+                  <th>Detalle</th>
+                  <th>Estado</th>
                 </tr>
               </thead>
               <tbody *ngIf="ctrl.dato">
@@ -245,26 +245,31 @@
                     <a>{{item.value.clues_destino}}</a>
                   </td>
                   <td>
-                    <a *ngIf="item.value.nuevo" title="Quitar Referencia" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
+                    
+                    <a *ngIf="item.value.esQuitar == true" title="Quitar Referencia" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.referencias, i);">
                         <i class="fa fa-trash-o"></i>
                     </a>
 
-                    <a *ngIf="!item.value.nuevo" title="Detalle del la Referencia" class="button is-info tooltip" (click)="detalle_referencia(item.value)">
+                    <a *ngIf="item.value.esIngreso || esDetalle == true" title="Detalle del la Referencia" class="button is-info tooltip" (click)="detalle_referencia(item.value)">
                         <i class="fa fa-file-text-o"></i>
                     </a>
 
-                    <a *ngIf="clues_origen_login != item.value.clues_origen"
+
+                  </td>
+
+                  <td>
+
+                    <a *ngIf="item.value.esIngreso == '1'"
                         title="Viene de una Unidad Medica"
                         class="button is-black is-rounded">
                       <i class="fa fa-arrow-circle-left"></i>
                     </a>
 
-                    <a *ngIf="clues_origen_login == item.value.clues_origen"
+                    <a *ngIf="item.value.esIngreso == '0'"
                       title="Se encuentra en Referencia"
                       class="button is-black is-rounded">
                       <i class="fa fa-arrow-circle-right"></i>
                     </a>
-
 
                   </td>
 
@@ -323,11 +328,11 @@
                     <a>{{ item.value.observacion_trabajo_social }}</a>
                   </td>
                   <td>
-                    <a *ngIf="item.value.nuevo" title="Quitar Alta" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
+                    <a *ngIf="item.value.esQuitar == true" title="Quitar Alta" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias, j);">
                         <i class="fa fa-trash-o"></i>
                     </a>
 
-                    <a *ngIf="!item.value.nuevo" title="Detalle del Alta" class="button is-info tooltip" (click)="detalle_alta(item.value)">
+                    <a *ngIf="item.value.id || esDetalle == true" title="Detalle del Alta" class="button is-info tooltip" (click)="detalle_alta(item.value)">
                       <i class="fa fa-file-text-o"></i>
                     </a>
 
@@ -486,7 +491,10 @@
         <div class="control is-grouped column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Atención Brindada (Indicaciones): </label>
-            <textarea class="textarea" [(ngModel)]="indicaciones" name="indicaciones" type="text" placeholder="Atención Brindada (Indicaciones)" [ngClass]="{'is-danger': indicaciones == '' }"></textarea>
+            
+            <ckeditor autofocus [(ngModel)]="indicaciones" debounce="50"
+              [config]="CkeditorConfig">
+            </ckeditor>
             
             <span class="help is-danger" *ngIf="indicaciones == ''">
               Este campo es requerido.
@@ -497,7 +505,10 @@
         <div class="control is-grouped column is-6">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Reporte Médico (Descripción): </label>
-            <textarea class="textarea" [(ngModel)]="reporte_medico" name="reporte_medico" type="text" placeholder="Reporte Médico (Descripción)" [ngClass]="{'is-danger': reporte_medico == '' }"></textarea>
+            
+            <ckeditor autofocus [(ngModel)]="reporte_medico" debounce="50"
+              [config]="CkeditorConfig">
+            </ckeditor>
 
             <span class="help is-danger" *ngIf="reporte_medico == ''">
               Este campo es requerido.
@@ -570,11 +581,11 @@
           <div class="columns">
             <div class="column is-6">
               <h3>Indicaciones:</h3>
-              <blockquote>{{indi}}</blockquote>
+              <blockquote [innerHTML]='indi | formatoHtml'></blockquote>
             </div>
             <div class="column is-6">
               <h3>Reporte Medico:</h3>
-              <blockquote>{{reporte}}</blockquote>
+              <blockquote [innerHTML]='reporte | formatoHtml'></blockquote>
             </div>
           </div>
 

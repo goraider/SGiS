@@ -1,0 +1,306 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+<formulario #ctrl URL="visitas-puerperales" titulo="Visitas / Transacciones" [dato]="dato"></formulario>
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+
+
+<div class="contenedor columns " style="height:100%; ">
+  <!--DATOS DEL PACIENTE-->
+  <div class="column is-3">
+
+    <div>
+      <div style="padding:1em;">
+        <div class="card" style="border-radius:3%" *ngIf="ctrl.dato">
+          <div class="card-content" *ngFor="let item of ctrl.dato.get('pacientes').value; let i=index">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <img src="./assets/iconos/icono-detalle-seguimiento.svg" alt="Image">
+                </figure>
+              </div>
+
+              <div class="media-content">
+                <p class="title is-6">
+                  {{item.personas.nombre}} {{item.personas.paterno}} {{item.personas.materno}}
+                </p>
+                <p>
+                <p class="subtitle is-7">
+                  <strong>CURP: </strong> {{item.personas.id}}
+                </p>
+              </div>
+            </div>
+            <div align="left">
+              <p class="content">
+                <strong>Fecha de Nacimiento: </strong> {{item.personas.fecha_nacimiento | date: 'dd/MM/yyyy'}}
+                <br>
+                <strong>Telefono: </strong> {{item.personas.telefono}}
+                <br>
+                <strong>Domicilio: </strong> {{item.personas.domicilio}}
+              </p>
+              <p class="content">
+                <strong>Municipio: </strong> {{item.personas.municipios.nombre}}
+                <br>
+                <strong>Localidad: </strong> {{item.personas.localidades.nombre}}
+              </p>
+            </div>
+          </div>
+        </div>
+        <br>
+        <!-- <div *ngIf="ctrl.dato.get('pacientes').value.length">
+          <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index"
+            style="margin-top:10px">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img src="./assets/iconos/icono-acompaniante-paciente.svg" alt="Image">
+                  </figure>
+                </div>
+    
+                <div class="media-content">
+                  <div class="title is-6">
+                    <div *ngIf="val.esResponsable == 1">
+                      <strong>Responsable: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
+                    </div>
+                    <div *ngIf="val.esResponsable == 0">
+                      <strong>Acompañante: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
+                    </div>
+                  </div>
+    
+                </div>
+              </div>
+              <div class="card-content">
+                <p class="content">
+                  <strong>Telefono: </strong> {{val.personas.telefono}}
+                  <br>
+                  <strong>Domicilio: </strong> {{val.personas.domicilio}}
+                </p>
+    
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    
+    </div>
+
+  </div>
+  <div class="column" style="padding:1em;">
+    <div style="background: #FFF; border-radius: 1em; ">
+
+      <!-- formulario -->
+      <form name="form" novalidate [formGroup]="dato" (ngSubmit)="ctrl.enviar()">
+        <section class="hero is-primary">
+          <div class="hero-body">
+
+            <!-- Opciones  -->
+            <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+
+
+          </div>
+
+
+        </section>
+        <!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
+        <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
+
+          <div class="tabs is-toggle is-fullwidth">
+            <ul>
+              <li [ngClass]="{ 'is-active' : tab == 1}">
+                <a (click)="tab=1">
+                  <span class="icon is-small">
+                    <i class="fa fa-list-ol"></i>
+                  </span>
+                  <span>Visitas</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div [ngClass]="{ 'is-hidden': tab != 1}">
+
+              <a class="button is-success" (click)="nueva_visita()">
+                <span class="icon">
+                  <i class="fa fa-plus"></i>
+                </span>&nbsp; Agregar Nueva Visita
+              </a>
+     
+            <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Fecha de Visita</th>
+
+                  <th>Detalle</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="ctrl.dato">
+                <tr *ngFor="let item of ctrl.dato.controls.altas_incidencias.controls[0].controls.visitas_puerperales.controls; let i=index">
+                  
+                  <th style="vertical-align: middle;"><a>{{ i+1 }}</a>
+                  </th>
+                  <td style="vertical-align: middle;">
+                    <a>{{ item.value.fecha_visita | date: ' dd/MM/yyyy ' }}</a>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    
+                    <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.movimientos_incidencias, i);">
+                        <i class="fa fa-trash-o"></i>
+                    </a>
+
+                    <a *ngIf="!item.value.nuevo" title="Detalle del Seguimiento" class="button is-info tooltip" (click)="detalle_seguimiento(item.value)">
+                        <i class="fa fa-file-text-o"></i>
+                    </a>
+
+                  </td>
+
+                </tr>
+                <tr *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
+                  <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!--VISITAS-->
+
+<div class="modal" id="visita">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 80%;">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Nueva Visita</p>
+      <button class="delete" (click)="cerrarModal()"></button>
+    </header>
+    <section class="modal-card-body">
+
+
+      <div class="columns">
+        <div class="column is-6">
+          <label>Fecha de la Visita:</label>
+          <input class="input" ngui-datetime-picker [(ngModel)]="fecha_visita" style="width:100%;" type="text" placeholder="AAA-MM-DD">
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="control is-grouped column is-12">
+          <p class="control is-expanded  has-icon has-icon-right">
+            <label class="label">Observaciones: </label>
+            
+            <ckeditor autofocus name="observaciones" [(ngModel)]="observaciones" debounce="50"
+              [config]="CkeditorConfig">
+            </ckeditor>
+            
+            <span class="help is-danger" *ngIf="observaciones == ''">
+              Este campo es requerido.
+            </span>
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-accent" (click)="agregarVisita();">Agregar</button>
+      <button class="button" (click)="cerrarModal()">Cancelar</button>
+    </footer>
+  </div>
+</div>
+
+<!-- DETALLE SEGUIMIENTO
+<div class="modal" id="detalle_visita">
+  <div class="modal-background"></div>
+  <div class="modal-card" style="width: 70%; height: 70%">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Detalle del Seguimiento</p>
+      <button class="delete" (click)="cerrarModalDetalleSeguimiento()"></button>
+    </header>
+    <section class="modal-card-body">
+
+      <div class="media-content">
+        <div class="content is-center">
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Turno del seguimiento:</h3>
+              <blockquote>{{turno}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Medico que reporta:</h3>
+              <blockquote>{{medico}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>N° Incidencia:</h3>
+              <blockquote>{{no_incidencia}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Fecha del seguimiento:</h3>
+              <blockquote>{{fecha | date: ' dd / MM / yyyy '}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Estado:</h3>
+              <blockquote>{{estado_paciente}}</blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Ubicación:</h3>
+              <blockquote>{{ubicacion_paciente}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-12">
+              <h3>Subcategorias CIE10:</h3>
+              <blockquote>{{cie10_codigo}} : {{cie10}}</blockquote>
+            </div>
+          </div>
+
+          <div class="columns">
+            <div class="column is-6">
+              <h3>Indicaciones:</h3>
+              <blockquote [innerHTML]='indi | formatoHtml'></blockquote>
+            </div>
+            <div class="column is-6">
+              <h3>Reporte Medico:</h3>
+              <blockquote [innerHTML]='reporte | formatoHtml'></blockquote>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div> -->
+
+<!--MODAL VALIDACION SEGUIMIENTO-->
+<div class="modal" id="visita_datos_vacios">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+        <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
+        <button class="delete" (click)="cerrarModalValidacionSeguimiento();"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="content">
+                <h1>¡Debe llenar todos los datos del Seguimiento!</h1>
+                <p>Verifique cada uno de los campos</p>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+        <a class="button is-success" (click)="cerrarModalValidacionSeguimiento();">Continuar</a>
+        </footer>
+    </div>
+</div>

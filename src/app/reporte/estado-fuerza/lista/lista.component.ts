@@ -78,6 +78,7 @@ export class ReporteEstadoFuerzaComponent{
     this.cargando = true;
     this.crudService.lista_general(url).subscribe(
         resultado => {
+          console.log("e.fuerza", resultado);
             this.cargando = false;
             this.datos = resultado as any[];
             
@@ -92,7 +93,7 @@ export class ReporteEstadoFuerzaComponent{
 lista_incidencias(url){
  
 
-    this.listar('reportes/estadoFuerza?fecha_inicio='+this.fecha_inicio+'&fecha_fin='+
+    this.listar('reportes/estado-fuerza?fecha_inicio='+this.fecha_inicio+'&fecha_fin='+
     this.fecha_fin+'&clues='+this.clues+'&turno='+this.turno
     );
 

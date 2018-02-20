@@ -4,10 +4,11 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
+
   "production": true,
-  "API_URL": "http://api.sgis.saludchiapas.gob.mx/api/v1",
-  "API_PATH": "http://api.sgis.saludchiapas.gob.mx",
-  "OAUTH_CLIENTE": "http://api.sgis.saludchiapas.gob.mx/api/sync",
+  "API_URL": "http://api.ugus.bid/public/api/v1",
+  "API_PATH": "http://api.ugus.bid",
+  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
 
@@ -270,6 +271,12 @@ export const environment = {
         "path": "/transacciones/base-conocimiento/lista",
         "icono": "fa fa-wheelchair-alt",
       },
+      {
+        "titulo": "Visita Puerperal",
+        "key": "VisitaPuerperalController.index",
+        "path": "/transacciones/visitas-puerperales/lista",
+        "icono": "fa fa-calendar-check-o",
+      },
     ]
    },
     {
@@ -283,15 +290,33 @@ export const environment = {
     {
       "titulo": "Reportes",
       "key": "ReporteController.incidencias",
-      "path": "/reporte/incidencia/lista",
+      "path": "/reporte/incidencia-ingresos/lista",
       "icono": "fa fa-list-alt",
       "lista": [
         {
-          "titulo": "Reporte de Incidencias",
+          "titulo": "Reporte de Ingresos",
           "key": "ReporteController.incidencias",
-          "path": "/reporte/incidencia/lista",
+          "path": "/reporte/incidencia-ingresos/lista",
           "icono": "fa fa-volume-control-phone"
-        }
+        },
+        {
+          "titulo": "Reporte de Altas",
+          "key": "ReporteController.incidenciasAlta",
+          "path": "/reporte/incidencia-altas/lista",
+          "icono": "fa fa-heart"
+        },
+        {
+          "titulo": "Reporte de Referencias",
+          "key": "ReporteController.incidenciasReferencia",
+          "path": "/reporte/incidencia-referencias/lista",
+          "icono": "fa fa-ambulance"
+        },
+        // {
+        //   "titulo": "Reporte Estado de Fuerza",
+        //   "key": "ReporteController.estadoFuerza",
+        //   "path": "/reporte/estado-fuerza/lista",
+        //   "icono": "fa fa-volume-control-phone"
+        // }
       ]
     },
 

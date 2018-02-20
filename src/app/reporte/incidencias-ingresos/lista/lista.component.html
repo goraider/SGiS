@@ -3,7 +3,7 @@
 <sistema-menu></sistema-menu>
 
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+    <div class="column is-2 is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
         <sistema-menu-aside ></sistema-menu-aside>
@@ -21,29 +21,50 @@
             
             "></a>
 
-            <section class="hero">
+            <section class="hero is-primary">
                     
                     <div class="hero-body" style="position:relative;">
                 
                         <div class="field is-grouped" style="position:absolute; top:0.5em; right:0em;">
                 
-                            <p class="control">
-                                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"  (click)="imprimir_pdf(datos);">
-                                    <span class="icon ">
+                            <p class="navbar-item tooltip" *ngIf="!cargando">
+                                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"  (click)="generate();">
+                                    <span class="icon fa-2x">
                                         <i class="fa fa-print"></i>
                                     </span>
                                     <span class="tooltiptext">Imprimir</span>
                                 </a>
                             </p>
+
+                            <p class="navbar-item tooltip" *ngIf="!cargando">
+                                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"
+                                (click)="lista_incidencias(url, $event);">
+                                    <span class="icon fa-2x">
+                                        <i class="fa fa-filter"></i>
+                                    </span>
+                                    <span class="tooltiptext">Filtrar</span>
+                                </a>
+                            </p>
+
+                            <p class="navbar-item tooltip" *ngIf="!cargando">
+                                <button class="button is-primary is-medium tooltip" type="button"
+                                (click)="limpiar_campos_busqueda();">
+                                Limpiar</button>
+                            </p>
+
+                            <p class="navbar-item tooltip" *ngIf="cargando">
+                                <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span></span>
+                            </p>
                 
-                            <p class="control" *ngIf="busquedaActivada">
+                            <!-- <p class="navbar-item tooltip" *ngIf="!cargando">
                                 <a class="button is-dark tooltip"  (click)="listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar">
-                                    <span class="icon ">
+                                    <span class="icon fa-2x">
                                         <i class="fa fa-refresh"></i>
                                     </span>
                                     <span class="tooltiptext">Actualizar</span>
                                 </a>
-                            </p>
+                            </p> -->
+
                 
                         </div>
                 
@@ -64,15 +85,15 @@
                                         [source]="clues_term"
                                         [list-formatter]="autocompleListFormatter"
                                         [value-formatter]="valorFormato_clue"
-                                        id="clues" name="clues" [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                        (valueChanged)="select_item_autocomplete(clues, 'clues', $event, false);"                                                         
+                                        [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                                        (valueChanged)="select_clue_autocomplete(clues, 'clues', $event, false);"                                                         
                                         min-chars="4" class="input" type="text"
-                                        placeholder="(Clues):">
+                                        placeholder="Escriba como mínimo 4 letras encontrar la Unidad Médica que está buscando:">
                                 
                                 </div>
                             </div>
 
-                            <div class="columns">
+                            <!-- <div class="columns">
 
                                     <div class="column is-4">
                                             <label>Unidad Médica de Origen:</label>
@@ -100,14 +121,14 @@
                                         
                                     </div>
 
-                            </div>
+                            </div> -->
                 
                             <div class="control">
             
 
                                     <div class="columns">
 
-                                        <div class="column is-2">
+                                        <!-- <div class="column is-2">
                                                 <label>Estado de Incidencia:</label>
                                                 <div class="select">
                                                     <select class="select" [(ngModel)]="edo_incidencia" name="edo_incidencia" style="width:100%;" id="edo_incidencia" >
@@ -115,7 +136,7 @@
                                                         <option *ngFor="let ei of e_incidencias" value="{{ei.id}}" >{{ ei.nombre }}</option>
                                                     </select>
                                                 </div>
-                                        </div>
+                                        </div> -->
 
                                         <div class="column is-2">
                                                 <label>Estado del Paciente:</label>
@@ -147,7 +168,7 @@
                                                 </div>
                                         </div>
 
-                                        <div class="column is-2">
+                                        <!-- <div class="column is-2">
                                                 <label>Tipo de Alta del Paciente:</label>
                                                 <div class="select">
                                                     <select class="select" [(ngModel)]="tipo_alta" name="tipo_alta" style="width:100%;" id="tipo_alta" >
@@ -155,31 +176,34 @@
                                                         <option *ngFor="let ta of tipos_altas" value="{{ta.id}}" >{{ ta.nombre }}</option>
                                                     </select>
                                                 </div>
-                                        </div>
+                                        </div> -->
                                         
 
                                     </div>
 
                                     <div class="columns">
-                                        <div class="column is-10">
+                                        <div class="column is-8">
                                             <label>Subcategorias CIE-10:</label>
                                             <input ngui-auto-complete [source]="cie10_term"
                                                 [list-formatter]="autocompleFormatoSubcategoriasCIE10"
                                                 [value-formatter]="valorFormato_SubcategoriasCIE10"
-                                                id="cie10" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                                [(ngModel)]="cie10"
-                                                (valueChanged)="select_item_autocomplete(cie10, 'categorias_cie10_id', $event, false);"
-                                                min-chars="1" class="input" type="text"
-                                                placeholder="Subcategorias CIE-10">
+                                                [accept-user-input]="false"
+                                                autocomplete="false"
+                                                path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
+                                                [(ngModel)]="cie10_temp"
+                                                (valueChanged)="select_cie10_autocomplete(cie10_temp, 'id', $event, false);"
+                                                min-chars="4" class="input" type="text"
+                                                placeholder="Escriba como mínimo 4 letras para Buscar la Subcategoria CIE-10:">
+
                                         </div>
                                     </div>
                         
 
-                                    <div class="columns">
+                                    <!-- <div class="columns">
 
                                         <div class="column is-4">
                                             <button class="button is-success is-medium tooltip" type="button"
-                                            (click)="lista_incidencias(url);">
+                                            (click)="lista_incidencias(url, $event);">
                                             Filtrar</button>
                                         </div>
 
@@ -189,7 +213,7 @@
                                             Limpiar</button>
                                         </div>
 
-                                    </div>
+                                    </div> -->
 
                                 
                             </div>
@@ -207,35 +231,65 @@
 
             
             
-            <div id="imprimir"  style="overflow:auto;" [style.maxHeight.px]="tamano-180">                    
+            <div  style="overflow:auto;" [style.maxHeight.px]="tamano-180">                    
                 <!--Tabla -->
-
-                <table  class="table is-striped is-fullwidth" *ngIf="!cargando " >
+                <table class="table is-striped is-fullwidth" *ngIf="!cargando">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Estados de Incidencia</th>
+                            <th>N°</th>
+                            <th>Folio de la Incidencia</th>
+                            <th>Fecha de Ingreso</th>
                             <th>Colores Triage</th>
                             <th>Estado del Paciente</th>
+                            <th>Subcategoria CIE-10</th>
                             <th>Motivo del Ingreso</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let item of datos; let i=index">
-                            <th style="vertical-align: middle;">{{ item.id }}</th>
-                            <td style="vertical-align: middle;">{{item.estados_incidencias.nombre}}</td>
+                            <th style="vertical-align: middle;">{{i + 1}}</th>
+                            <td style="vertical-align: middle;">{{ item.id }}</td>
+                            <td style="vertical-align: middle;">{{item.created_at | date: ' dd/MM/yyyy '}}</td>
                             <td style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre }}</strong></div></td>
-                            <td style="vertical-align: middle;">{{item.movimientos_incidencias[0].estados_pacientes.nombre}}</td>
-                            <td style="vertical-align: middle;">{{item.motivo_ingreso}}</td>
+                            <td style="vertical-align: middle;">{{item.movimientos_incidencias[item.movimientos_incidencias.length -1].estados_pacientes.nombre}}</td>
+                            <td style="vertical-align: middle;">{{item.movimientos_incidencias[item.movimientos_incidencias.length -1].subcategorias_cie10.nombre}}</td>
+                            <td style="vertical-align: middle;" [innerHTML]='item.motivo_ingreso | formatoHtml'></td>
                         </tr>
                          <tr *ngIf="datos.length == 0">
                             <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
                         </tr> 
                     </tbody>
-
                 </table>
             </div>
+
         </div>
     </div>
 </div>
+
+<table id="datosReporte" class="table is-striped is-fullwidth" *ngIf="!cargando">
+    <thead>
+        <tr>
+            <th>N°.</th>
+            <th>Folio de Incidencia</th>
+            <th>Fecha de Ingreso</th>
+            <th>Colores Triage</th>
+            <th>E.Paciente</th>
+            <th>Motivo del Ingreso</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of datos; let i=index">
+            <td style="vertical-align: middle;">{{i + 1}}</td>
+            <td style="vertical-align: middle;">{{item.id}}</td>
+            <td style="vertical-align: middle;">{{item.created_at | date: ' dd/MM/yyyy '}}</td>
+            <td style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre }}</strong></div></td>
+            <td style="vertical-align: middle;">{{item.movimientos_incidencias[item.movimientos_incidencias.length -1].estados_pacientes.nombre}}</td>
+            <td style="vertical-align: middle;" [innerHTML]='item.motivo_ingreso | formatoHtml'></td>
+        </tr>
+         <tr *ngIf="datos.length == 0">
+            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+        </tr> 
+    </tbody>
+</table>

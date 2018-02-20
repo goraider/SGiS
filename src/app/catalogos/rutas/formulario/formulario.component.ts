@@ -47,11 +47,11 @@ export class FormularioComponent implements OnInit {
   numeroLatitud_destino: any;
   numeroLongitud_destino: any;
   
-
-
-
   latitud: any;
   longitud: any;
+
+  data: any = "";
+  clues: any = "";
   
 
 
@@ -171,7 +171,7 @@ setTimeout(() => {
 
 
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
-    document.getElementById("catalogos").click();
+    //document.getElementById("catalogos").click();
   }
 
 

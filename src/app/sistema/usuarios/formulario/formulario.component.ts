@@ -35,6 +35,7 @@ export class FormularioComponent {
 
    clues_sel = [];
    sucursal_sel = [];
+   permisos_all: any[] = [];
 
   cargando: boolean = false;
 
@@ -69,7 +70,9 @@ export class FormularioComponent {
       // sis_usuarios_dashboards: this.fb.array([]),
       // sis_usuarios_reportes: this.fb.array([]),
       sis_usuarios_grupos: this.fb.array([]),
-      sis_usuarios_notificaciones: this.fb.array([])
+      sis_usuarios_notificaciones: this.fb.array([]),
+      permisos: [{}],
+      permisos_grupos: [{}]
     });
 
     this.form_sis_usuarios_contactos = {
@@ -107,11 +110,31 @@ export class FormularioComponent {
         }
       });
 
+    // permisos indi
+    this.dato.controls.permisos_grupos.valueChanges.
+    subscribe(val => {
+      if (val) {
+        if (this.dato.controls.permisos.value) {
+          this.dato.controls.permisos.patchValue(JSON.parse(this.dato.controls.permisos.value));
+        }
+      }
+    });
+    this.activar_super = JSON.parse(localStorage.getItem('usuario')).es_super;
+
 
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     document.getElementById("catalogos").click();
 
+  }
 
+  modificar_permisos_individuales() {
+    if (this.dato.get('permisos').value != '') {
+      this.dato.controls.permisos.patchValue('');
+    } else {
+
+      this.dato.controls.permisos.patchValue(JSON.parse(this.dato.controls.permisos_grupos.value));
+
+    }
   }
 
   toggleCambiarPassword() {
@@ -165,7 +188,7 @@ export class FormularioComponent {
     return html;
   }
   select_clue_autocomplete(modelo, data) {
-    console.log(data);
+
     const um =<FormArray> this.dato.controls.sis_usuarios_clues;
     if(data == ""){
       (<HTMLInputElement>document.getElementById('clues_busqueda')).value = "";
@@ -178,6 +201,34 @@ export class FormularioComponent {
   }
   quitar_form_array(modelo, i) {
     modelo.removeAt(i);
+  }
+
+    // permisos individuales
+
+  todosAccion(padre, accion, modelo) {
+    if (typeof this.dato.controls.permisos.value == 'string') {
+      this.dato.controls.permisos.patchValue(JSON.parse(this.dato.controls.permisos.value));
+    }
+    if (!this.permisos_all[padre])
+      this.permisos_all[padre] = false;
+
+    this.permisos_all[padre] = !this.permisos_all[padre];
+    var valor = this.permisos_all[padre];
+
+    accion.forEach(function (value, key) {
+      if (!valor) {
+        delete modelo.value[padre + "." + value.recurso];
+      }
+      else {
+        modelo.value[padre + "." + value.recurso] = valor ? 1 : 0;
+      }
+    });
+  }
+  agregar_accion(clave) {
+    if (this.dato.controls.permisos.value[clave])
+      delete this.dato.controls.permisos.value[clave];
+    else
+      this.dato.controls.permisos.value[clave] = 1;
   }
   
 }

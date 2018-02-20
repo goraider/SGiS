@@ -1,0 +1,210 @@
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+
+<div class="contenedor columns " style="height:100%; ">
+    <div class="column is-2 is-hidden-mobile menu-izquierda">
+
+        <!-- Menu izquierda del modulo enviroment" -->
+        <sistema-menu-aside ></sistema-menu-aside>
+    </div>
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+
+            <!-- cargar los catalogos que se requieran parametro 1 modelo donde se guarda el catalogo, parametro 2 ruta de la api -->
+
+            <a id="catalogos" (click)="cargarCatalogo('metodos_planificacion', 'metodos-planificacion');
+                                       cargarCatalogo('turn', 'turnos');
+                                       cargarCatalogo('tipos_altas', 'tipos-altas');
+            
+            "></a>
+
+            <section class="hero is-primary">
+                    
+                    <div class="hero-body" style="position:relative;">
+                
+                        <div class="field is-grouped" style="position:absolute; top:0.5em; right:0em;">
+                
+                            <p class="navbar-item tooltip" *ngIf="!cargando">
+                                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"  (click)="generate();">
+                                    <span class="icon fa-2x">
+                                        <i class="fa fa-print"></i>
+                                    </span>
+                                    <span class="tooltiptext">Imprimir</span>
+                                </a>
+                            </p>
+
+                            <p class="navbar-item tooltip" *ngIf="!cargando">
+                                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"
+                                (click)="lista_referencias(url, $event);">
+                                    <span class="icon fa-2x">
+                                        <i class="fa fa-filter"></i>
+                                    </span>
+                                    <span class="tooltiptext">Filtrar</span>
+                                </a>
+                            </p>
+
+                            <p class="navbar-item tooltip" *ngIf="!cargando">
+                                <button class="button is-primary is-medium tooltip" type="button"
+                                (click)="limpiar_campos_busqueda();">
+                                Limpiar</button>
+                            </p>
+
+                            <p class="navbar-item tooltip" *ngIf="cargando">
+                                <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span></span>
+                            </p>
+                
+                        </div>
+                
+                        <div class="container is-fluid">
+
+                            <div class="columns">
+
+                                <div class="column is-2">
+                                    <label>Desde:</label>
+                                    <input class="input" ngui-datetime-picker [(ngModel)]="fecha_inicio" style="width:100%;" type="text" placeholder="AAA-MM-DD">
+                                </div>
+                                <div class="column is-2">
+                                    <label>Hasta:</label>
+                                    <input class="input" ngui-datetime-picker [(ngModel)]="fecha_fin" style="width:100%;" type="text" placeholder="AAA-MM-DD">
+                                </div>
+
+
+                                <div class="column is-2">
+                                    <label>Tipo de Referencia:</label>
+                                    <br>
+                                    <label class="radio styled">
+                                        <input type="radio" name="question" (click)="esIngreso();">
+                                        <strong>Ingreso</strong>
+                                    </label>
+
+                                    <label class="radio styled">
+                                        <input type="radio" name="question" (click)="esEnvio();">
+                                        <strong>Envio</strong>
+                                    </label>
+                                </div>
+
+
+
+                            </div>
+                
+                            <div class="control">
+        
+                                <div class="columns">
+
+                                    <div class="column is-4">
+                                        <label>Unidad Médica de Origen:</label>
+                                        <input ngui-auto-complete
+                                            [source]="clues_term"
+                                            [list-formatter]="autocompleOrigenFormatter"
+                                            [value-formatter]="valorFormato_clueOrigen"
+                                            [accept-user-input]="false"
+                                            autocomplete="false"
+                                            [(ngModel)]="clues_temp_origen"
+                                            path-to-data=""
+                                            loading-text="Cargando..."
+                                            no-match-found-text="No hay resultados."
+                                            (valueChanged)="select_clue_origen_autocomplete(clues_temp_origen, 'clues', $event, false);"                                                         
+                                            min-chars="4" class="input" type="text"
+                                            placeholder="Escriba como mínimo 4 letras encontrar la Unidad Médica que está buscando:">
+                                    </div>
+
+                                    <div class="column is-4">
+                                        <label>Unidad Médica de Destino:</label>
+                                        <input ngui-auto-complete
+                                            [source]="clues_term"
+                                            [list-formatter]="autocompleDestinoFormatter"
+                                            [value-formatter]="valorFormato_clueDestino"
+                                            [accept-user-input]="false"
+                                            autocomplete="false"
+                                            [(ngModel)]="clues_temp_destino"
+                                            path-to-data=""
+                                            loading-text="Cargando..."
+                                            no-match-found-text="No hay resultados."
+                                            (valueChanged)="select_clue_destino_autocomplete(clues_temp_destino, 'clues', $event, false);"                                                         
+                                            min-chars="4" class="input" type="text"
+                                            placeholder="Escriba como mínimo 4 letras encontrar la Unidad Médica que está buscando:">
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+                        </div>
+                
+                    </div>
+                </section>
+                
+                <div class="is-fullwidth has-text-centered" *ngIf="cargando">
+                    <br>
+                    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+                    <br>
+                    <br>
+                </div>
+
+            
+            
+            <div  style="overflow:auto;" [style.maxHeight.px]="tamano-180">                    
+                <!--Tabla -->
+                <table class="table is-striped is-fullwidth" *ngIf="!cargando">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Folio de la Incidencia</th>
+                            <th>Médico que Refirió</th>
+                            <th>Diagnostico</th>
+                            <th>Origen</th>
+                            <th>Destino</th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of datos; let i=index">
+                            <th style="vertical-align: middle;">{{i + 1}}</th>
+                            <td style="vertical-align: middle;">{{ item.id }}</td>
+                            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].medico_refiere_id}}</td>
+                            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].diagnostico}}</td>
+                            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].clues_origen_o.nombre}}</td>
+                            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].clues_destino_o.nombre}}</td>
+
+                            
+                        </tr>
+                         <tr *ngIf="datos.length == 0">
+                            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<table id="datosReporte" class="table is-striped is-fullwidth" *ngIf="!cargando">
+    <thead>
+        <tr>
+            <th>N°</th>
+            <th>Folio de la Incidencia</th>
+            <th>Médico que Refirió</th>
+            <th>Diagnostico</th>
+            <th>Origen</th>
+            <th>Destino</th>
+                        
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of datos; let i=index">
+            <th style="vertical-align: middle;">{{i + 1}}</th>
+            <td style="vertical-align: middle;">{{ item.id }}</td>
+            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].medico_refiere_id}}</td>
+            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].diagnostico}}</td>
+            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].clues_origen_o.nombre}}</td>
+            <td style="vertical-align: middle;">{{item.referencias[item.referencias.length -1].clues_destino_o.nombre}}</td>
+            
+        </tr>
+            <tr *ngIf="datos.length == 0">
+            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+        </tr> 
+    </tbody>
+</table>

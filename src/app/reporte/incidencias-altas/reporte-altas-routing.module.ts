@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ReporteIncidenciaComponent } from './lista/lista.component';
+import { ReporteAltaComponent } from './lista/lista.component';
 import { AuthGuard } from '../../auth-guard.service';
 
 const routes: Routes = [
-  { path: 'reporte/incidencia/lista', redirectTo: '/reporte/incidencia/lista', pathMatch: 'full' },
+  { path: 'reporte/incidencia-altas/lista', redirectTo: '/reporte/incidencia-altas/lista', pathMatch: 'full' },
   {
-    path: 'reporte/incidencia',
+    path: 'reporte/incidencia-altas',
     children: [
-       { path: 'lista', component: ReporteIncidenciaComponent}
+       { path: 'lista', component: ReporteAltaComponent}
     ],
     canActivate: [AuthGuard]
   }
@@ -20,5 +20,5 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class ReporteIncidenciaRoutingModule { }
+export class ReporteAltaRoutingModule { }
 

@@ -11,7 +11,7 @@ export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
 
-  private CkeditorConfig = {
+  CkeditorConfig = {
     height:document.body.clientHeight - 760
   }
 

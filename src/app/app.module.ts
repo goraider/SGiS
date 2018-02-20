@@ -86,9 +86,11 @@ import { TiposNotificacionesModule } from './catalogos/tipos-notificaciones/tipo
 //estados de incidencia
 import { EstadosIncidenciasModule } from './catalogos/estados-incidencias/estados-incidencias.module';
 
-//operaciones
+//transacciones
 import { IncidenciasModule } from './transacciones/incidencias/incidencias.module';
 import { SeguimientosModule } from './transacciones/incidencias/seguimiento/seguimientos.module';
+import { VisitasModule } from './transacciones/visitas-puerperales/visitas/visitas.module';
+import { VisitaPuerperalModule } from './transacciones/visitas-puerperales/visitas-puerperales.module';
 import { EstadoFuerzaModule } from './transacciones/estado-fuerza/estado-fuerza.module';
 import { DirectorioModule } from './transacciones/directorio/directorio.module';
 import { DirectorioApoyosModule } from './transacciones/directorio-apoyos/directorio-apoyos.module';
@@ -102,7 +104,9 @@ import { BaseConocimientosModule } from './transacciones/base-conocimientos/base
 //reportes
 import { ReporteArticuloModule } from './reporte/inventario/reporte-articulo.module';
 
-import { ReporteIncidenciaModule } from './reporte/incidencias/reporte-incidencia.module';
+import { ReporteIncidenciaModule } from './reporte/incidencias-ingresos/reporte-incidencia.module';
+import { ReporteAltaModule } from './reporte/incidencias-altas/reporte-altas.module';
+import { ReporteReferenciaModule } from './reporte/incidencias-referencias/reporte-referencias.module';
 import { ReporteEstadoFuerzaModule } from './reporte/estado-fuerza/reporte-estado-fuerza.module';
 
 //Notificacion Pusher
@@ -188,6 +192,8 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     RutasModule,
     EstadosIncidenciasModule,
     SeguimientosModule,
+    VisitaPuerperalModule,
+    VisitasModule,
     IncidenciasModule,
     EstadoFuerzaModule,
     DirectorioModule,
@@ -198,6 +204,9 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     ReporteArticuloModule,
 
     ReporteIncidenciaModule,
+    ReporteAltaModule,
+    ReporteReferenciaModule,
+    ReporteEstadoFuerzaModule,
 
     NotificacionPusherModule,
     //ChartModule,

@@ -166,7 +166,6 @@ export class FormularioComponent implements OnInit {
                     this.location.back();
                 if (reset_form)
                     this.reset_form();
-                    console.log("pampas");
             },
             error => {
                 this.cargando = false;
@@ -598,7 +597,7 @@ export class FormularioComponent implements OnInit {
      * @param index  indica la posicion del elemento en la lista cargada  
      * @return void
      */
-    borrar(item: any): void {
+    borrar(item: any, id = ''): void {
         this.borrarCargando = true;
         this.crudService.eliminar(item, this.URL).subscribe(
             data => {
@@ -999,7 +998,7 @@ export class FormularioComponent implements OnInit {
      * @param esmodelo Bandera que determina si el modelo es un formGroup 
      * @return void
      */
-    select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false) {
+    select_item_autocomplete(modelo, item, datos, esmodelo: boolean = false): any {
         if (!esmodelo)
             modelo = datos[item];
         else{

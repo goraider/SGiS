@@ -6,7 +6,7 @@
 
 <div class="contenedor columns " style="height:100%; ">
 
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+    <div class="column is-1 is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
         <sistema-menu-aside></sistema-menu-aside>
@@ -34,6 +34,7 @@
                                               ctrl.iniciar_izquierda('g');
                                               ctrl.iniciar_derecha('n');
                                               ctrl.iniciar_izquierda('n');
+                                              ctrl.cargarCatalogo('catalogo', 'permiso');
                                               ctrl.cargarCatalogo('municipios', 'municipios', 'localidades');
                                               ctrl.cargarCatalogo('sis_usuarios_grupos', 'sisGrupo', 'initMover');
                                               ctrl.cargarCatalogo('tipo_notificacion', 'tipos-notificaciones', 'initMoverNotificacion');
@@ -111,6 +112,15 @@
                                         <a (click)="tab=6">
                                             <span class="icon"><i class="fa fa-commenting"></i></span>
                                             <span class="is-hidden-touch">Notificaciónes</span>
+                                        </a>
+                                    </li>
+
+                                    <li [ngClass]="{ 'is-active' : tab == 7}">
+                                        <a (click)="tab=7">
+                                            <span class="icon">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                            <span class="is-hidden-touch">Permisos individuales</span>
                                         </a>
                                     </li>
 
@@ -470,7 +480,8 @@
                                 <div class="control is-grouped">
                                     <p class="control is-expanded  has-icon has-icon-right">
                                         <label class="label">Unidad Medica:</label>
-                                        <input ngui-auto-complete [source]="clues_term"
+                                        <input ngui-auto-complete
+                                        [source]="clues_term"
                                         [list-formatter]="autocompleListFormatter"
                                         [accept-user-input]="false"
                                         autocomplete="false"
@@ -584,6 +595,81 @@
                                 <!-- ejecuta el movimiento de los datos que ya existen en el lado derecho, parametro 1 formulario reactivo que se guarda en la BD parametro 2 el catalogo en el evento ngAfterViewInit en el .ts  -->
                                 <a (click)="ctrl.initMover(ctrl.dato.controls.sis_usuarios_notificaciones.controls, ctrl.tipo_notificacion); " id="initMoverNotificacion"></a>
 
+                            </div>
+
+                            <!--permisos individuales -->
+                            <div [ngClass]="{ 'is-hidden': tab != 7}">
+                                <div class="field">
+                                    <div class="b-checkbox">
+                                        <input id="modificar_permiso" class="styled" [checked]="this.dato.get('permisos').value != '' ? true : false" 
+                                        (click)="modificar_permisos_individuales()"
+                                            type="checkbox">
+                                        <label for="modificar_permiso">
+                                            Marcar esta casilla si se necesita agregar o quitar permisos especificos a la cuenta de este 'USUARIO'
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="container" *ngIf="this.dato.get('permisos').value">
+                                    <section class="hero is-light">
+                                        <div class="hero-body">
+                                            <div class="container" style="margin: -18px 18px;">
+                                                <h1 class="title">
+                                                    <span class="icon is-medium">
+                                                        <i class="fa fa-lock"></i>
+                                                    </span> Permisos
+                                                </h1>
+                                                <h2 class="subtitle">
+                                                    Selecciona el o los permisos que estaran disponibles para el usuario
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <br>
+                                    <div class="tabs is-boxed">
+                                        <ul>
+                                            <li [ngClass]="{ 'is-active' : tab2 == i}" *ngFor="let padre of ctrl.catalogo; let i = index;">
+                                                <a (click)="tab2=i">
+                                                    <span>{{padre.nombre}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="columns">
+                                        <div [ngClass]="{ 'is-hidden': tab2 != i2}" *ngFor="let padre of ctrl.catalogo; let i2 = index;">
+                                            <span *ngIf="padre.es_super ? activar_super ? true : false : true">
+                                                <div class="column is-4" *ngFor="let hijos of padre.hijos" style="float:left; min-width:300px">
+                                                    <nav class="panel">
+                                                        <div class="panel-heading">
+                                                            <div class="field">
+                                                                <div class="b-checkbox is-info">
+                                                                    <input id="{{hijos.controlador}}" class="styled" type="checkbox" (click)="todosAccion(hijos.controlador, hijos.accion, ctrl.dato.controls.permisos)">
+                                                                    <label for="{{hijos.controlador}}">
+                                                                        {{hijos.nombre}}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <label class="panel-block" *ngFor="let accion of hijos.accion">
+                                                            <div class="field" *ngIf="accion.es_super ? activar_super ? true : false : true">
+                                                                <div class="b-checkbox">
+                                                                    <input id="{{accion.id}}" class="styled" [checked]="ctrl.dato.controls.permisos?.value[hijos?.controlador+'.'+accion?.recurso] == 1"
+                                                                        (click)="agregar_accion(hijos?.controlador+'.'+accion?.recurso)"
+                                                                        type="checkbox">
+                                                                    <label for="{{accion.id}}">
+                                                                        {{accion.nombre}}
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+
+                                                        </label>
+                                                    </nav>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

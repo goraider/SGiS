@@ -5,7 +5,7 @@
 <sistema-menu></sistema-menu>
 
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+    <div class="column is-2 is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
         <sistema-menu-aside ></sistema-menu-aside>
@@ -22,22 +22,27 @@
                 <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
                     <thead>
                         <tr>
-                            <th>Unidad Medica (Clue)</th>
                             <th>Nombre</th>
                             <th>Cargo</th>
-                            <th>Telefono</th>
-                            <th>Email (Correo Electrònico)</th>
+                            <th>Medios de Contacto</th>
+                            <th>Unidad Médica</th>
+                            <th>Jurisdicción</th>
                             <th width="1%" class="no_pdf">Opciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
-                            <th style="vertical-align: middle;">({{ item.clues.clues }}) - {{ item.clues.nombre }}</th>
-                            <td style="vertical-align: middle;">{{ item.nombre }} {{ item.paterno }} {{ item.materno }}</td>
-                            <td style="vertical-align: middle;">{{item.cargos.nombre}}</td>
-                            <td style="vertical-align: middle;">{{ item.celular }}</td>
-                            <td style="vertical-align: middle;">{{ item.id }}</td>                            
+                            <td style="vertical-align: middle;">{{ item.nombre }}</td>
+                            <td style="vertical-align: middle;"><strong>{{item.cargos.nombre}}</strong></td>
+                            <td style="vertical-align: middle;">
+                                    <span *ngFor="let medioContacto of item.sis_usuarios_contactos; let mc=index" class="tag is-success">
+                                        <i class="fa fa-check"></i> 
+                                        &nbsp; {{ medioContacto.valor }}
+                                    </span>                                
+                            </td>
+                            <td style="vertical-align: middle;">({{item.sis_usuarios_clues[0].clues}}) - {{item.sis_usuarios_clues[0].nombre}}</td>
+                            <td style="vertical-align: middle;">{{item.sis_usuarios_clues[0].jurisdicciones.nombre}}</td>                           
                             <td style="vertical-align: middle;" class="has-text-centered no_pdf">
                                 <!-- acciones -->
                                 <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>

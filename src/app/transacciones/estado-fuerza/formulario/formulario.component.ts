@@ -20,15 +20,14 @@ export class FormularioComponent {
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
    usuario = JSON.parse(localStorage.getItem("usuario"));
-
    clues_login = JSON.parse(localStorage.getItem("clues"));
-
+   
   constructor(private crudService: CrudService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
   fecha = new Date();
 
   ngOnInit() {
     this.dato = this.fb.group({
-      clues: ['', [Validators.required]],
+      clues: [this.clues_login.clues, [Validators.required]],
       sis_usuarios_id: [this.usuario.id, [Validators.required]],
       usuario: [this.usuario.nombre],
       turnos_id: ['', [Validators.required]],
@@ -56,9 +55,22 @@ export class FormularioComponent {
       if(this.dato.get("sis_usuarios_id").value == ""){
         this.dato.controls.sis_usuarios_id.patchValue(this.usuario.id);
         this.dato.controls.usuario.patchValue(this.usuario.nombre);
+        this.dato.controls.clues.patchValue(this.clues_login.clues);
         this.dato.controls.created_at.patchValue(this.fecha);
       }
     }, 3000);
+
+    const servicios: FormArray = <FormArray>this.dato.controls.cartera_servicios;
+    const posicion:  FormGroup = <FormGroup>servicios.controls[0];
+    const elementos: FormGroup = <FormGroup>posicion.controls.items;
+    const posicionItems:  FormGroup = <FormGroup>elementos.controls[0];
+    const res = <FormGroup>posicionItems.controls.respuesta;
+
+
+    
+    // items.valueChanges.subscribe(val => {
+    //   (<HTMLInputElement>document.getElementById("respuesta")).checked = true;
+    // });
 
   }
 
@@ -84,8 +96,5 @@ export class FormularioComponent {
       }
 
   }
-
-
-
  
 }

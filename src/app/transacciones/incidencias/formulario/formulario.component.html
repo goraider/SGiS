@@ -391,8 +391,8 @@
 
                         <div class="panel-heading column is-12">
                           <p>
-                            {{cont == 0 ? 'Acompañante' : 'Responsable'}}
-                            <!--<label class="checkbox" style="float:right"><input type="checkbox" id= "checar" (change)="mostrar = !mostrar; mostrar ? ctrl.agregar_form_array(ctrl.dato.controls.acompaniantes.controls, form_responsable) : ctrl.quitar_form_array(ctrl.dato.controls.acompaniantes, 1); " formControlName="esResponsable">¿Es responsable?</label>-->
+                            {{cont == 0 ? 'Acompañante / Responsable' : 'Responsable'}}
+                            <!-- // COMENTAR <label class="checkbox" style="float:right"><input type="checkbox" id= "checar" (change)="mostrar = !mostrar; mostrar ? ctrl.agregar_form_array(ctrl.dato.controls.acompaniantes.controls, form_responsable) : ctrl.quitar_form_array(ctrl.dato.controls.acompaniantes, 1); " formControlName="esResponsable">¿Es responsable?</label>
                             <label style="float:right" *ngIf="cont == 0">¿Es responsable de la Paciente?
                               <label class="radio">
                                 <input type="radio" name="esResponsable"
@@ -400,9 +400,9 @@
                                   [checked]="ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">Si</label>
                               <label class="radio">
                                 <input type="radio" name="esResponsable"
-                                (click)="agregar_form_array();"
+                                (click)="agregar_responsable_array();"
                                 [checked]="!ctrl.dato.get('pacientes').value[i].acompaniantes[0].esResponsable">No</label>
-                            </label>
+                            </label> -->
                           </p>
                         </div>
 
@@ -455,26 +455,26 @@
                               <div class="column is-4">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                   <label class="label">Nombre(s):</label>
-                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[cont].controls.personas.controls.nombre.valid}"
+                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': item.controls.acompaniantes.controls[cont].controls.personas.controls.nombre.hasError('required')}"
                                     placeholder="Nombre(s)" formControlName="nombre">
-                                  <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[cont].controls.personas.controls.nombre.valid">Este campo es requerido.</span>
+                                  <span class="help is-danger" *ngIf="item.controls.acompaniantes.controls[cont].controls.personas.controls.nombre.hasError('required')">Este campo es requerido.</span>
                                 </p>
                               </div>
 
                               <div class="column is-4">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                   <label class="label">Apellido Paterno:</label>
-                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[cont].controls.personas.controls.paterno.valid}"
+                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': item.controls.acompaniantes.controls[cont].controls.personas.controls.paterno.hasError('required')}"
                                     placeholder="Apellido Paterno" formControlName="paterno">
-                                  <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[cont].controls.personas.controls.paterno.valid">Este campo es requerido.</span>
+                                  <span class="help is-danger" *ngIf="item.controls.acompaniantes.controls[cont].controls.personas.controls.paterno.hasError('required')">Este campo es requerido.</span>
                                 </p>
                               </div>
                               <div class="column is-4">
                                 <p class="control is-expanded  has-icon has-icon-right">
                                   <label class="label">Apellido Materno:</label>
-                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[cont].controls.personas.controls.materno.valid}"
+                                  <input class="input" autofocus type="text" [ngClass]="{'is-danger': item.controls.acompaniantes.controls[cont].controls.personas.controls.materno.hasError('required')}"
                                     placeholder="Apellido Materno" name="materno" formControlName="materno">
-                                  <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[cont].controls.personas.controls.materno.valid">Este campo es requerido.</span>
+                                  <span class="help is-danger" *ngIf="item.controls.acompaniantes.controls[cont].controls.personas.controls.materno.hasError('required')">Este campo es requerido.</span>
                                 </p>
                               </div>
                             </div>
@@ -484,17 +484,17 @@
                               <div class="column is-6">
                                 <p class="control is-expanded has-icon has-icon-right">
                                   <label class="label">Teléfono: </label>
-                                  <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[cont].controls.personas.controls.telefono.valid}"
+                                  <input class="input" type="text" placeholder="Teléfono" [ngClass]="{'is-danger': item.controls.acompaniantes.controls[cont].controls.personas.controls.telefono.hasError('required')}"
                                     formControlName="telefono">
-                                  <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[cont].controls.personas.controls.telefono.valid">Este campo es requerido.</span>
+                                  <span class="help is-danger" *ngIf="item.controls.acompaniantes.controls[cont].controls.personas.controls.telefono.hasError('required')">Este campo es requerido.</span>
                                 </p>
                               </div>
                               <div class="column is-6">
                                 <p class="control is-expanded has-icon has-icon-right">
                                   <label class="label">Domicilio: </label>
-                                  <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': !item.controls.acompaniantes.controls[cont].controls.personas.controls.domicilio.valid}"
+                                  <input class="input" type="text" placeholder="Domicilio" [ngClass]="{'is-danger': item.controls.acompaniantes.controls[cont].controls.personas.controls.domicilio.hasError('required')}"
                                     formControlName="domicilio">
-                                  <span class="help is-danger" *ngIf="!item.controls.acompaniantes.controls[cont].controls.personas.controls.domicilio.valid">Este campo es requerido.</span>
+                                  <span class="help is-danger" *ngIf="item.controls.acompaniantes.controls[cont].controls.personas.controls.domicilio.hasError('required')">Este campo es requerido.</span>
                                 </p>
                               </div>
                             </div>
@@ -531,11 +531,18 @@
                         <div *ngIf='mostrar==true || !mostrar_check' class="control is-expanded  has-icon has-icon-right">
            
                           <label class="label">Subcategoria CIE-10:</label>
-                          <input  ngui-auto-complete [source]="cie10_term" autocomplete="false" [accept-user-input]="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
-                            id="cie10" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id, 'id', $event, true);"
-                            min-chars="4" class="input" type="text" [ngClass]="{'is-danger': movimiento.controls.subcategorias_cie10_id.hasError('required')}"
-                            placeholder="Escriba como mínimo 4 letras para Buscar la Subcategoria CIE-10:">
+                          <input  ngui-auto-complete
+                          [source]="cie10_term"
+                          autocomplete="false"
+                          [accept-user-input]="false"
+                          [list-formatter]="autocompleFormatoSubcategoriasCIE10"
+                          [value-formatter]="valorFormato_SubcategoriasCIE10"
+                          id="cie10" path-to-data=""
+                          loading-text="Cargando..."
+                          no-match-found-text="No hay resultados."
+                          (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id, 'id', $event, true);"
+                          min-chars="4" class="input" type="text" [ngClass]="{'is-danger': movimiento.controls.subcategorias_cie10_id.hasError('required')}"
+                          placeholder="Escriba como mínimo 4 letras para Buscar la Subcategoria CIE-10:">
                           
                           <span class="help is-danger" *ngIf="movimiento.controls.subcategorias_cie10_id.hasError('required')">Este campo es requerido.</span>
                         </div>

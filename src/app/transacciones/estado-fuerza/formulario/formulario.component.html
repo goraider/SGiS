@@ -6,7 +6,7 @@
 
 
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+    <div class="column is-2 is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
         <sistema-menu-aside></sistema-menu-aside>
@@ -36,7 +36,7 @@
                             </header>
                             <div class="card-content">
                                 <div class="content">
-                                    <div class="field is-grouped">
+                                    <!-- <div class="field is-grouped">
                                         <p class="control is-expanded  has-icon has-icon-right">
                                             <label class="label">Unidad medica: </label>
                                             <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_clue"
@@ -60,7 +60,7 @@
                                             <label class="label">Usuario: </label>
                                             <input class="input" autofocus type="text" placeholder="Nombre" formControlName="usuario" readonly>                                        
                                         </p>
-                                    </div>
+                                    </div> -->
 
                                     <div class="columns">
                                         <div class="column is-6">
@@ -126,7 +126,7 @@
                                             <div class="content" formArrayName="items">
                                                 <div class="control" *ngFor="let val of ctrl.dato.controls.cartera_servicios.controls[i].controls.items.controls; let i2=index"  [formGroupName]="i2">                                              
                                                     <div class="b-checkbox is-info" *ngIf="val.value.tipos_items_id == 1" style="margin-bottom: 5px;">
-                                                        <input id="respuesta{{i}}{{i2}}" class="styled" type="checkbox" formControlName="respuesta">
+                                                        <input id="respuesta{{i}}{{i2}}" value="true" class="styled" type="checkbox" formControlName="respuesta">
                                                         <label for="respuesta{{i}}{{i2}}">
                                                             {{ val.value.nombre }} 
                                                         </label>

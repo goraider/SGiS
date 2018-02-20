@@ -6,7 +6,7 @@
 
 
 <div class="contenedor columns " style="height:100%; ">
-    <div class="column is-one-quarter is-hidden-mobile menu-izquierda">
+    <div class="column is-2 is-hidden-mobile menu-izquierda">
 
         <!-- Menu izquierda del modulo enviroment" -->
         <sistema-menu-aside></sistema-menu-aside>
@@ -25,7 +25,7 @@
                 </section>
 
                 <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
-                        <a id="catalogos" (click)="ctrl.cargarCatalogo('clues','clues')"></a>
+                        <!-- <a id="catalogos" (click)="ctrl.cargarCatalogo('clues','clues')"></a> -->
 
                         <div class="control is-grouped">
                                 <p class="control is-expanded  has-icon has-icon-right">
@@ -40,21 +40,37 @@
                              
                                 <p class="control is-expanded  has-icon has-icon-right column is-6">
                                     <label class="label">Unidad Médica de Origen:</label>
-                                    <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_origen" id="clues_origen"
-                                            path-to-data="" autocomplete="false" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_origen, 'clues', $event, false); select_origen_autocomplete($event);"
+                                    <input ngui-auto-complete [source]="clues_term"
+                                            [list-formatter]="autocompleListFormatter"
+                                            [value-formatter]="valorFormato_origen"
+                                            id="clues_origen"
+                                            path-to-data="" 
+                                            autocomplete="false" 
+                                            loading-text="Cargando..." 
+                                            no-match-found-text="No hay resultados."
+                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_origen, 'clues', $event, true);
+                                            select_origen_autocomplete($event, $event, $event, $event);"
                                             min-chars="4" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues_origen').hasError('required')}"
-                                            placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Médica de Origen:">
+                                            placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Médica de Origen:"
+                                            formControlName = "clues_origen">
                                     <span class="help is-danger" *ngIf="ctrl.dato.get('clues_origen').hasError('required')">Este campo es requerido.</span>
                                 </p>
                                 
                                 <p class="control is-expanded  has-icon has-icon-right column is-6">
                                     <label class="label">Unidad Médica de Destino:</label>
-                                    <input ngui-auto-complete [source]="clues_term" [list-formatter]="autocompleListFormatter" [value-formatter]="valorFormato_destino" id="clues_destino"
-                                            path-to-data="" autocomplete="false" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_destino, 'clues', $event); select_destino_autocomplete($event);"
+                                    <input ngui-auto-complete [source]="clues_term" 
+                                            [list-formatter]="autocompleListFormatter" 
+                                            [value-formatter]="valorFormato_destino"
+                                            id="clues_destino"
+                                            path-to-data="" 
+                                            autocomplete="false" 
+                                            loading-text="Cargando..." 
+                                            no-match-found-text="No hay resultados."
+                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.clues_destino, 'clues', $event, true);
+                                            select_destino_autocomplete($event, $event, $event, $event);"
                                             min-chars="4" class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('clues_destino').hasError('required')}"
-                                            placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Médica de Destino:">
+                                            placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Médica de Destino:"
+                                            formControlName = "clues_destino">
                                     <span class="help is-danger" *ngIf="ctrl.dato.get('clues_destino').hasError('required')">Este campo es requerido.</span>
                                 </p>
                          </div>

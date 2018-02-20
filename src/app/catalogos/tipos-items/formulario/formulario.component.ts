@@ -10,6 +10,10 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
+
+  CkeditorConfig = {
+    height:document.body.clientHeight - 760
+  }
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {

@@ -317,6 +317,12 @@ export const environment = {
         "path": "/transacciones/base-conocimiento/lista",
         "icono": "fa fa-wheelchair-alt",
       },
+      {
+        "titulo": "Visita Puerperal",
+        "key": "VisitaPuerperalController.index",
+        "path": "/transacciones/visitas-puerperales/lista",
+        "icono": "fa fa-calendar-check-o",
+      },
     ]
    },
     {
@@ -330,15 +336,33 @@ export const environment = {
     {
       "titulo": "Reportes",
       "key": "ReporteController.incidencias",
-      "path": "/reporte/incidencia/lista",
+      "path": "/reporte/incidencia-ingresos/lista",
       "icono": "fa fa-list-alt",
       "lista": [
         {
-          "titulo": "Reporte de Incidencias",
+          "titulo": "Reporte de Ingresos",
           "key": "ReporteController.incidencias",
-          "path": "/reporte/incidencia/lista",
+          "path": "/reporte/incidencia-ingresos/lista",
           "icono": "fa fa-volume-control-phone"
-        }
+        },
+        {
+          "titulo": "Reporte de Altas",
+          "key": "ReporteController.incidenciasAlta",
+          "path": "/reporte/incidencia-altas/lista",
+          "icono": "fa fa-heart"
+        },
+        {
+          "titulo": "Reporte de Referencias",
+          "key": "ReporteController.incidenciasReferencia",
+          "path": "/reporte/incidencia-referencias/lista",
+          "icono": "fa fa-ambulance"
+        },
+        // {
+        //   "titulo": "Reporte Estado de Fuerza",
+        //   "key": "ReporteController.estadoFuerza",
+        //   "path": "/reporte/estado-fuerza/lista",
+        //   "icono": "fa fa-volume-control-phone"
+        // }
       ]
     },
 

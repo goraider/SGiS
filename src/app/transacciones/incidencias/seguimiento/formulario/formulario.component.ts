@@ -24,7 +24,7 @@ export class FormularioComponent {
   dato: FormGroup;
   tamano = document.body.clientHeight;
   
-  private CkeditorConfig = {
+  CkeditorConfig = {
     height:document.body.clientHeight - 760
   }
   
@@ -94,10 +94,18 @@ export class FormularioComponent {
   clues_origen:  any = '';
   clues_destino:  any = '';
   clues_origen_login:  any = '';
+  clues_destino_nombre: any = '';
+
   img = [];
   esDetalle:boolean = true;
 
+
+  //Estado de Fuerza
+  estado_fuerza_disponible = [];
+  mostrar_estado_fuerza = false;
+
   //detalle referencia
+  fecha_alta: any = '';
   folio_referencia:  any = '';
   origen_referencia:  any = '';
   destino_referencia:  any = '';
@@ -146,11 +154,16 @@ export class FormularioComponent {
   instrucciones_alta:  any = '';
   diagnostico_alta:  any = '';
   false;
+  data: any = '';
+
+
 
 
   //public medicos_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
 
   public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
+
+  public clues_estado_fuerza: string = `${environment.API_URL}/clues-fuerza-auto?term=:keyword`;
 
   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
@@ -256,9 +269,12 @@ export class FormularioComponent {
         this.fb.group({
 
           clues_origen: [''],
+          clues_origen_o: [''],
           clues_destino: [''],
+          clues_destino_o: [''],
           diagnostico: [''],
           esIngreso: [0],
+          validar: [],
           multimedias: this.fb.group({
             img:this.fb.array([])
           }),
@@ -301,6 +317,9 @@ export class FormularioComponent {
       setTimeout(() => {
         document.getElementById("catalogosAlta").click();
       }, 200);
+
+      console.log(this.dato.get('referencias').value);
+
     
 }
 
@@ -453,7 +472,6 @@ export class FormularioComponent {
       
           //agrega al array de movimientos_incidencias para que estos tengan valores respecto a sus variables en cada seguimiento que se le realice al paciente
 
-          console.log("dato seguimiento",datomodal);
       
           const mv: FormArray = <FormArray>this.dato.controls.movimientos_incidencias;
       
@@ -539,8 +557,6 @@ export class FormularioComponent {
 
 
   detalle_referencia(data): void {
-
-    console.log("detalle referencias",data);
 
     this.folio_referencia = data.incidencias_id;
     this.origen_referencia = '('+data.clues_origen+')'+ " - "+ data.clues_origen_o.nombre;
@@ -651,19 +667,21 @@ export class FormularioComponent {
     
           clues_origen: [this.clues_origen_login.clues, [Validators.required]],
           clues_destino: [this.clues_destino.clues, [Validators.required]],
+
+          clues_origen_o: [this.clues_origen_login.nombre, [Validators.required]],
+          clues_destino_o: [this.clues_destino_nombre, [Validators.required]],
     
           multimedias: this.fb.group({
             img:this.fb.array(this.img)
-            
           }),
     
           esIngreso: [0],
 
+          validar: [true]
+
 
     
         };
-
-        console.log("DATO DEL PUSH HTML",datoReferencia);
     
     
     
@@ -675,18 +693,21 @@ export class FormularioComponent {
     
     
         //asigna el estado de incidencia en proceso con numero 2
-        this.dato.controls['estados_incidencias_id'].setValue(2);
+        this.dato.controls['estados_incidencias_id'].setValue(4);
         this.dato.controls['tieneReferencia'].setValue(1);
+
+        console.log(this.dato.value);
     
         this.medico_refiere_id = '';
         this.diagnostico = '';
         this.resumen_clinico = '';
         this.clues_destino = '';
         this.img = [];
+        this.estado_fuerza_disponible = [];
+        this.mostrar_estado_fuerza = false;
         // const botonBorrar = <FormArray>this.dato.controls.referencias['controls'][this.dato.controls.referencias['controls'].length -1]['controls']['esQuitar'];
 
         // botonBorrar.setValue(1);
-        console.log("dato", this.dato.value);
         this.cerrarModalReferencia();
         
       
@@ -766,18 +787,21 @@ export class FormularioComponent {
     this.longDestino = data.numeroLongitud;
 
     this.select_origen_autocomplete(this.clues_origen_login, this.latOrigen, this.longOrigen);
-
     this.trazarRuta();
+
+    this.mostrar_estado_fuerza = true;
      
   }
 
-  select_item_autocomplete(modelo, item, datos, esmodelo: boolean): any {
+  select_item_autocomplete(modelo, item, datos, esmodelo: boolean) {
+    
     if (!esmodelo)
         modelo = datos[item];
-    else{
-        if(datos)
-          modelo.patchValue(datos[item]);        
-    }
+        this.clues_destino_nombre = datos.nombre;
+//pasamos los datos a un arreglo para iterar el estado de fuerza de la unidad medica que estemos buscando
+    if(datos.estado_fuerza.cartera_servicios)
+        this.estado_fuerza_disponible.push(datos.estado_fuerza.cartera_servicios);
+
   }
 
   trazarRuta() {
@@ -811,12 +835,14 @@ export class FormularioComponent {
     this.resumen_clinico = '';
     this.clues_destino = '';
     this.img = [];
+    this.estado_fuerza_disponible = [];
+    this.mostrar_estado_fuerza = false;
     document.getElementById("referencia").classList.remove('is-active');
   }
 
   nueva_referencia() {
     document.getElementById("referencia").classList.add('is-active');
-    (<HTMLInputElement>document.getElementById('clues_origen')).value = "("+this.clues_origen_login.clues+")"+" - "+this.clues_origen_login.nombre;
+    //(<HTMLInputElement>document.getElementById('clues_origen')).value = "("+this.clues_origen_login.clues+")"+" "+this.clues_origen_login.nombre;
   }
 
   autocompleListFormatter = (data: any) => {
@@ -833,7 +859,7 @@ export class FormularioComponent {
 
   valorFormato_destino(data: any) {
 
-    let html = `(${data.clues}) - ${data.nombre}`;
+    let html = `(${data.clues}) ${data.nombre}`;
     return html;
   }
 
@@ -866,11 +892,12 @@ export class FormularioComponent {
 
   detalle_alta(data): void {
 
+    this.fecha_alta = data.created_at;
     this.folio_referencia = data.incidencias_id;
     this.medico_alta = data.medico_reporta_id;
     this.img_alta = data.multimedias;
-    this.clues_contrarefiere_alta = data.clues_contrarefiere;
-    this.clues_regresa_alta = data.clues_regresa;
+    this.clues_contrarefiere_alta = '('+data.clues_contrarefiere+')'+ " - "+data.clues_contrarefiere_o.nombre;
+    this.clues_regresa_alta = '('+data.clues_regresa+')'+ " - "+data.clues_regresa_o.nombre;
     this.turno_alta = data.turnos.nombre;
     this.tipo_alta = data.tipos_altas.nombre;
     this.resumen_alta = data.resumen_clinico;
@@ -878,10 +905,6 @@ export class FormularioComponent {
     this.metodos_planificacion_alta = data.metodos_planificacion.nombre;
     this.observaciones_ts_alta = data.observacion_trabajo_social;
     this.instrucciones_alta = data.instrucciones_recomendaciones;
-
-
-
-
 
     document.getElementById("detalle_alta").classList.add('is-active');
   }
@@ -1028,8 +1051,40 @@ export class FormularioComponent {
 
 }
 
-cerrarModalValidacionAlta() {
-  document.getElementById("alta_datos_vacios").classList.remove('is-active');
+  cerrarModalValidacionAlta() {
+    document.getElementById("alta_datos_vacios").classList.remove('is-active');
+  }
+
+  llevaControl(){
+    this.dato.controls['estados_incidencias_id'].setValue(5);
+
+  }
+  nollevaControl(){
+    this.dato.controls['estados_incidencias_id'].setValue(3);
+  }
+
+//ESTADO DE FUERZA
+
+verEstadoFuerza(){
+  document.getElementById("estado_fuerza").classList.add('is-active');
+
+
+
+
+  // this.estado_fuerza_disponible.forEach(Estados => {
+
+  //   Estados.forEach(element => {
+    
+  //     console.log(element);
+      
+  //   });
+    
+  // });
+}
+
+cerrarModalEstadoFuerza() {
+  this.estado_fuerza_disponible = [];
+  document.getElementById("estado_fuerza").classList.remove('is-active');
 }
 
 

@@ -27,7 +27,7 @@ export class FormularioComponent {
     
     tamano = document.body.clientHeight;
 
-    private CkeditorConfig = {
+    CkeditorConfig = {
         height:document.body.clientHeight - 760
       }
       
@@ -36,8 +36,8 @@ export class FormularioComponent {
     mostrar : boolean = false;
     mostrar_clue : boolean = false;
 
-    form_responsable: any;
-    form_persona_responsable: any;
+    form_responsable: any = {};
+    form_persona_responsable: any = {};
     datos_persona: any;
 
     nombre_origen: any = '';
@@ -337,6 +337,7 @@ export class FormularioComponent {
                 this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas']['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][1]['controls']['personas_id'].value);
 
             }
+
         }
 
     }
@@ -587,33 +588,31 @@ export class FormularioComponent {
     }
 
 
-    agregar_form_array() {
+    // agregar_responsable_array() {
 
-        const pac = <FormArray>this.dato.controls.pacientes;
-        const aco = <FormGroup>pac.controls[0];
+    //     let pac = <FormArray>this.dato.controls.pacientes;
+    //     let aco = <FormGroup>pac.controls[0];
 
-        const pos = <FormArray>aco.controls.acompaniantes;
-
-
-        if (!pos.controls[1]) {
-
-            pos.controls.push(this.form_responsable);
-
-            const po1 = <FormGroup>pos.controls[1];
-
-            po1.addControl("personas", this.form_persona_responsable);
-
-            //signacion para mandar al control si es responsable.
-            const po0 = <FormGroup>pos.controls[0];
-            po0.controls.esResponsable.patchValue(0);
+    //     let pos = <FormArray>aco.controls.acompaniantes;
 
 
-        }
+    //     if (!pos.controls[1]) {
 
-        console.log(this.dato.value);
+    //         pos.controls.push(this.form_responsable);
+
+    //         let po1 = <FormGroup>pos.controls[1];
+
+    //         po1.addControl("personas", this.form_persona_responsable);
+
+    //         //signacion para mandar al control si es responsable.
+    //         let po0 = <FormGroup>pos.controls[0];
+    //         po0.controls.esResponsable.patchValue(0);
+    //     }
+
+    //     console.log("dato",this.dato.value);
 
 
-    }
+    // }
     private dateChanged(newDate) {
         this.selectedDeal.EndDate = new Date(newDate);
         console.log(this.selectedDeal.EndDate); // <-- for testing
@@ -773,10 +772,6 @@ export class FormularioComponent {
         let html = `(${data.id}) - ${data.nombre}`;
         return html;
     }
-
-
-
-
 
     cancelarModal(id) {
         document.getElementById(id).classList.remove('is-active');

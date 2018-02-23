@@ -7,9 +7,9 @@ import { AuthGuard } from '../../../auth-guard.service';
 
 
 const routes: Routes = [
-  // { path: 'incidencias/seguimiento', redirectTo: 'incidencias/seguimiento/lista/:id', pathMatch: 'full' },
+  // { path: 'incidencias/visita', redirectTo: 'incidencias/visita/lista/:id', pathMatch: 'full' },
   {
-    path: 'transacciones/visitas',
+    path: 'transacciones/visita-puerperal',
     children: [
        { path: 'lista/:id', component: ListaComponent},
        { path: 'nuevo/:id', component: FormularioComponent },

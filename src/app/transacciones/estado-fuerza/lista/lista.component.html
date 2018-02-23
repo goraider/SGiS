@@ -96,22 +96,56 @@
                 {{ctrl.json.turnos.nombre}}
             </a>
 
-
-
-                <table class="table is-striped is-fullwidth"style="overflow:auto;" [style.maxHeight.px]="tamano-285">
-                        <thead>
-                            <tr>
-                                <th>Servicio</th>
-                            </tr>
-                        </thead>
-    
-                        <tbody>
-                            <tr *ngFor="let item of ctrl.json.respuesta_estados_fuerza; let i=index">
-                                <td *ngIf="item.respuesta == 1" style="vertical-align: middle;">{{item.items.nombre}}</td>
-                            </tr>
-                        </tbody>
-    
-                    </table>
+            <div>
+                    <header>
+                        <p>
+                           {{ctrl.json.clues.nombre}}
+                        </p>
+                    </header>
+                    <div>
+                        <div>
+                            <!-- cartera -->
+  
+                            <div  *ngFor="let serv of ctrl.json.respuesta_estados_fuerza; let s=index">
+                                <header>
+                                    <p>
+                                      {{serv.cartera_servicios.nombre}}
+                                      <br>
+                                      
+                                      
+                                    </p>                                        
+                                </header>
+                                <div>
+                                    <div>
+                                        <div>                                              
+                                            <div *ngIf="serv.items.tipos_items_id == 1" style="margin-bottom: 5px;">
+                                                <label>
+                                                    {{serv.items.nombre}}
+                                                  <br>
+                                                    <a *ngIf="serv.respuesta == 1" >
+                                                        <span class="tag is-success"><i class="fa fa-check"></i> &nbsp; Si</span>
+                                                    </a>
+                                                    
+                                                    <a *ngIf="serv.respuesta == 0" >
+                                                        <span class="tag is-danger"><i class="fa fa-window-close"></i> &nbsp; No</span>
+                                                    </a>
+                                                </label>
+                                            </div>  
+                                            <span *ngIf="serv.items.tipos_items_id == 2">
+                                                    {{serv.items.nombre}}
+                                                    <br>
+                                                    {{serv.respuesta}}                                    
+                                          
+                                            </span> 
+  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
 
 
         </span>

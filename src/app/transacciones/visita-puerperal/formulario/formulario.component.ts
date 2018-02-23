@@ -7,7 +7,7 @@ import { ActivatedRoute, Params } from '@angular/router'
 import { environment } from '../../../../environments/environment';
 
 @Component({
-  selector: 'visitas-puerperales',
+  selector: 'visita-puerperal-formulario',
   templateUrl: './formulario.component.html',
   styleUrls:["./formulario.component.css"]
 })
@@ -100,6 +100,7 @@ constructor(private fb: FormBuilder, private router: Router, private route: Acti
 
       altas_incidencias: this.fb.array([
         this.fb.group({
+          id:[''],
           medico_reporta_id: [''],
           metodos_planificacion_id: [''],
           tipos_altas_id:[''],
@@ -110,7 +111,15 @@ constructor(private fb: FormBuilder, private router: Router, private route: Acti
           clues_regresa:[''],
           resumen_clinico:[''],
           instrucciones_recomendaciones:[''],
-          visitas_puerperiales: this.fb.array([]),
+          visitas_puerperales: this.fb.array([
+            this.fb.group({
+              id: [''],
+              fecha_visita:  [''],
+              observaciones: [''],
+              seAtendio:[''],
+              porque:[''],
+            }),
+          ]),
           multimedias: this.fb.group({
             img:this.fb.array([])
           }),

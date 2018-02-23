@@ -97,6 +97,8 @@
             <!-- Opciones  -->
             <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
 
+            
+
 
           </div>
 
@@ -297,16 +299,13 @@
 
           <div [ngClass]="{ 'is-hidden': tab != 3}" >
 
-          <div [ngClass]="{ 'is-hidden':ctrl.dato.get('referencias').length > 1 || ctrl.dato.get('altas_incidencias').length > 0}">
-
-                <a class="button is-success" (click)="nueva_alta()">
-                  <span class="icon">
-                    <i class="fa fa-plus"></i>
-                  </span>&nbsp; Generar Alta
-                </a>
-            
-          </div>
-
+              <div [ngClass]="{ 'is-hidden':ctrl.dato.get('referencias').length > 1 || ctrl.dato.get('altas_incidencias').length > 0}">
+                  <a class="button is-success" (click)="nueva_alta()">
+                    <span class="icon">
+                      <i class="fa fa-plus"></i>
+                    </span>&nbsp; Generar Alta
+                  </a>
+              </div>
 
             <table class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
               <thead>
@@ -357,6 +356,7 @@
                 </tr>
               </tbody>
             </table>
+
           </div>
         </section>
       </form>
@@ -1048,12 +1048,12 @@
             <label class="label">¿Llevara Control Puerperal?</label>
             <br>
             <label class="radio styled">
-                <input type="radio" name="pregunta" (click)="llevaControl();">
+                <input #llevaControl type="radio" name="pregunta" checked>
                 <strong>Si</strong>
             </label>
   
             <label class="radio styled">
-                <input type="radio" name="pregunta" (click)="nollevaControl();">
+                <input #nollevaControl type="radio" name="pregunta">
                 <strong>No</strong>
             </label>
         </div>

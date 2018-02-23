@@ -7,13 +7,11 @@ import { AuthGuard } from '../../auth-guard.service';
 
 const routes: Routes = [
 
-  { path: 'transacciones/visitas-puerperales', redirectTo: '/transacciones/visitas-puerperales/lista', pathMatch: 'full' },
+  { path: 'transacciones/visita-puerperal', redirectTo: '/transacciones/visita-puerperal/lista', pathMatch: 'full' },
   {
-    path: 'transacciones/visitas-puerperales',
+    path: 'transacciones/visita-puerperal',
     children: [
        { path: 'lista', component: ListaComponent},
-       { path: 'nuevo', component: FormularioComponent },
-       { path: 'editar/:id', component: FormularioComponent},
     ],
     canActivate: [AuthGuard]
   }

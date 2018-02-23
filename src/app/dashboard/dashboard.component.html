@@ -6,16 +6,43 @@
 
 </section>
 
-<div class="triage">
-    <canvas baseChart
-        [data]="doughnutChartData"
-        [labels]="doughnutChartLabels"
-        [chartType]="doughnutChartType"
-        [colors]="doughnutChartColors"
-        (chartHover)="chartHovered($event)"
-        (chartClick)="chartClicked($event)">
-    </canvas>
+<div class="columns">
+
+    <div class="column is-6">
+        <canvas baseChart
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+            [colors]="doughnutChartColors"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+
+    </div>
+
+    <div class="column is-6">
+            <canvas baseChart
+                    [data]="pieChartData"
+                    [labels]="pieChartLabels"
+                    [chartType]="pieChartType"
+                    [colors]="pieChartColors"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)">
+            </canvas>
+    </div>
+
 </div>
+
+
 
 <app-hub #hub></app-hub>
 <app-perfil #perfil></app-perfil>
+
+
+    <div class="column is-2">
+        <p><strong>Total de Ingresos: {{Triage}}</strong></p>
+    </div>
+
+    <div class="column is-2">
+        <p><strong>Total de Altas: {{Altas}}</strong></p>
+    </div>

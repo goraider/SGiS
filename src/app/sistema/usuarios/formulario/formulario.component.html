@@ -160,14 +160,22 @@
             
                                             <div *ngIf="ctrl.municipios && !ctrl.cargando" class="control is-expanded has-icon-left">
             
-                                              <span class="select">
+                                              <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('municipios_id').hasError('required')}">
                                                 <select class="select" name="municipios_id" formControlName="municipios_id" (change)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.municipios_id.value)"> 
-                                                    <option value="">Seleccione su Municipio</option>                                       
+                                                    <option value="">Seleccione el Municipio de la Paciente</option>                                       
                                                     <option *ngFor="let item of ctrl.municipios" value="{{item.id}}">{{item.nombre}}</option>                                        
                                                 </select>
                                               </span>
+            
+                                              <span class="icon is-small" *ngIf="!ctrl.cargando && ctrl.dato.get('municipios_id').hasError('required')">
+                                                <i class="fa fa-warning"></i>
+                                              </span>
                 
-                                              <span class="icon is-small is-left" *ngIf="!ctrl.cargando">
+                                              <span class="help is-danger" *ngIf="ctrl.dato.get('municipios_id').hasError('required')">
+                                                Este campo es requerido.
+                                              </span>
+                
+                                              <span class="icon is-small is-left" *ngIf="!ctrl.cargando && !ctrl.dato.get('municipios_id').hasError('required')">
                                                 <i class="fa fa-globe"></i>
                                               </span>
                                             </div>
@@ -177,21 +185,31 @@
                                     <div class="column is-6">
                                       <label class="label">Localidad: </label>
                                       <div class="control is-grouped has-icons-left">
-                       
-                                          <span class="select">
+            
+                                        <div *ngIf="ctrl.localidades_o" class="control is-expanded has-icon-left">
+            
+                                          <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('localidades_id').hasError('required')}">
                                             <select class="select" formControlName="localidades_id"> 
-                                                <option value="">Seleccione su Localidad</option>                                       
+                                                <option value="">Seleccione la Localidad de la Paciente</option>                                       
                                                 <option *ngFor="let item of ctrl.localidades_o" value="{{item.id}}">{{item.nombre}}</option>                                        
                                             </select>
                                           </span>
             
-                                          <span class="icon is-small is-left">
+                                          <span class="icon is-small" *ngIf="ctrl.dato.get('localidades_id').hasError('required')">
+                                              <i class="fa fa-warning"></i>
+                                          </span>
+            
+                                          <span class="help is-danger" *ngIf="ctrl.dato.get('localidades_id').hasError('required')">
+                                              Este campo es requerido.
+                                          </span>
+            
+                                          <span class="icon is-small is-left" *ngIf="!ctrl.dato.get('localidades_id').hasError('required')">
                                               <i class="fa fa-globe"></i>
                                           </span>
-                                    
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
+                                </div>
 
                                 <div class="columns">
                                     <div class="column is-6">

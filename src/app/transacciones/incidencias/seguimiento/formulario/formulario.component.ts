@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray, FormsModule } from '@angular/forms';
 import { CrudService } from '../../../../crud/crud.service';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
@@ -20,6 +20,9 @@ declare var google: any;
 })
 
 export class FormularioComponent {
+
+  @ViewChild('llevaControl') llevaControl: ElementRef;
+  @ViewChild('nollevaControl') nollevaControl: ElementRef;
   
   dato: FormGroup;
   tamano = document.body.clientHeight;
@@ -286,6 +289,7 @@ export class FormularioComponent {
 
       altas_incidencias: this.fb.array([
         this.fb.group({
+          id: [''],
           medico_reporta_id: [''],
           metodos_planificacion_id: [''],
           tipos_altas_id:[''],
@@ -318,7 +322,6 @@ export class FormularioComponent {
         document.getElementById("catalogosAlta").click();
       }, 200);
 
-      console.log(this.dato.get('referencias').value);
 
     
 }
@@ -688,15 +691,12 @@ export class FormularioComponent {
         const mv: FormArray = <FormArray>this.dato.controls.referencias;
         mv.push(this.fb.group(datoReferencia));
 
-    
-    
-    
+
     
         //asigna el estado de incidencia en proceso con numero 2
         this.dato.controls['estados_incidencias_id'].setValue(4);
         this.dato.controls['tieneReferencia'].setValue(1);
 
-        console.log(this.dato.value);
     
         this.medico_refiere_id = '';
         this.diagnostico = '';
@@ -1009,27 +1009,44 @@ export class FormularioComponent {
           metodos_planificacion_id: [this.me_planificacion_id, [Validators.required]],
     
         };
+
+        if(this.llevaControl.nativeElement.checked == true){
+
+          this.dato.controls['estados_incidencias_id'].setValue(5);
+        }
+        else{
+          this.dato.controls['estados_incidencias_id'].setValue(3);
+        }
+
+        
     
     
     
         const mv: FormArray = <FormArray>this.dato.controls.altas_incidencias;
         mv.push(this.fb.group(datoAlta));
+
+        console.log(this.dato.value);
         
         
         const ref: FormArray = <FormArray>this.dato.controls.referencias;
     
-        if(ref.length > -1){
+        if(ref.length > 0){
     
           this.dato.controls['tieneReferencia'].setValue(1);
     
         }else{
           this.dato.controls['tieneReferencia'].setValue(0);
         }
+
+       
+
+        
+          
+          
     
-    
-    
-        //asigna el estado de incidencia en finalizado con numero 3
-        this.dato.controls['estados_incidencias_id'].setValue(3);
+
+        
+
     
         this.clues_regresa = '';
         this.t_altas_id = '';
@@ -1041,6 +1058,8 @@ export class FormularioComponent {
         this.me_planificacion_id = '';
         this.i_recomendaciones = '';
         this.imgalta = [];
+        this.llevaControl.nativeElement = '';
+        this.nollevaControl.nativeElement = '';
     
         this.cerrarModalAlta();
     
@@ -1051,17 +1070,13 @@ export class FormularioComponent {
 
 }
 
+  
+
   cerrarModalValidacionAlta() {
     document.getElementById("alta_datos_vacios").classList.remove('is-active');
   }
 
-  llevaControl(){
-    this.dato.controls['estados_incidencias_id'].setValue(5);
 
-  }
-  nollevaControl(){
-    this.dato.controls['estados_incidencias_id'].setValue(3);
-  }
 
 //ESTADO DE FUERZA
 

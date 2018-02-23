@@ -8,6 +8,7 @@ import { Input } from '@angular/core/src/metadata/directives';
 
 
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -22,6 +23,9 @@ export class DashboardComponent implements OnInit {
   datos: any[] = [];
   menu;
 
+  Triage: any = '';
+  Altas: any = '';
+
   public doughnutChartLabels:string[] = [];
   public doughnutChartData:number[] = [];
   public doughnutChartColors:{}[] = [{backgroundColor: ["#009933", "#e6e600", "#e84351"]}];
@@ -29,6 +33,14 @@ export class DashboardComponent implements OnInit {
 
   public color:  any;
   public totales: any;
+
+  public pieChartLabels:string[] = ['Mejoria', 'Voluntaria', 'Defunsion'];
+  public pieChartData:number[] = [226, 8, 0];
+  public pieChartColors:{}[] = [{backgroundColor: ["#009933", "#e6e600", "#e84351"]}];
+  public pieChartType:string = 'pie';
+
+  public nombre:  any;
+  public total: any;
 
   cargando: boolean = false;
 
@@ -77,7 +89,10 @@ export class DashboardComponent implements OnInit {
             
             console.log("datos",this.datos);
 
-            this.datos[0].triage.forEach(element => {
+            this.Triage = this.datos[0].totalTriage;
+            this.Altas = this.datos[2].totalAltas;
+
+            this.datos[1].triage.forEach(element => {
                 
 
 
@@ -88,19 +103,28 @@ export class DashboardComponent implements OnInit {
                 this.doughnutChartData.push(this.totales);
                 
 
-                setTimeout(() => {
-                  if (this.chart && this.chart.chart && this.chart.chart.config) {
-                    console.log(this.chart);
-                    this.chart.chart.update();
-                  }
-                  });
+            });
+
+          //   this.datos[3].altas.forEach(dete => {
+                
 
 
+          //     this.nombre = dete.nombre;
+          //     this.total = dete.total;
 
+
+              
+
+          // });
+
+            setTimeout(() => {
+              if (this.chart && this.chart.chart && this.chart.chart.config) {
+                console.log(this.chart);
+                this.chart.chart.update();
+              }
+            });
 
             
-
-            });
 
         },
         error => {

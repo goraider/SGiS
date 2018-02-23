@@ -4,7 +4,7 @@ import { ListarComponent } from '../../../../crud/listar.component';
 import { CrudService } from '../../../../crud/crud.service';
 
 @Component({
-  selector: 'seguimiento-lista',
+  selector: 'visitas-lista',
   templateUrl: './lista.component.html'
 })
 

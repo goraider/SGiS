@@ -105,7 +105,7 @@ export const environment = {
     {
       "titulo": "Catalogos",
       "key": "",
-      "path": "/catalogos",
+      "path": "/catalogos/clues/lista",
       "icono": "fa fa-folder-open",
       "lista": [
         {
@@ -320,7 +320,7 @@ export const environment = {
       {
         "titulo": "Visita Puerperal",
         "key": "VisitaPuerperalController.index",
-        "path": "/transacciones/visitas-puerperales/lista",
+        "path": "/transacciones/visita-puerperal/lista",
         "icono": "fa fa-calendar-check-o",
       },
     ]
@@ -357,12 +357,12 @@ export const environment = {
           "path": "/reporte/incidencia-referencias/lista",
           "icono": "fa fa-ambulance"
         },
-        // {
-        //   "titulo": "Reporte Estado de Fuerza",
-        //   "key": "ReporteController.estadoFuerza",
-        //   "path": "/reporte/estado-fuerza/lista",
-        //   "icono": "fa fa-volume-control-phone"
-        // }
+        {
+          "titulo": "Reporte Estado de Fuerza",
+          "key": "ReporteController.estadoFuerza",
+          "path": "/reporte/estado-fuerza/lista",
+          "icono": "fa fa-volume-control-phone"
+        }
       ]
     },
 

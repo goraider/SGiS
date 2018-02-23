@@ -89,8 +89,8 @@ import { EstadosIncidenciasModule } from './catalogos/estados-incidencias/estado
 //transacciones
 import { IncidenciasModule } from './transacciones/incidencias/incidencias.module';
 import { SeguimientosModule } from './transacciones/incidencias/seguimiento/seguimientos.module';
-import { VisitasModule } from './transacciones/visitas-puerperales/visitas/visitas.module';
-import { VisitaPuerperalModule } from './transacciones/visitas-puerperales/visitas-puerperales.module';
+import { VisitasModule } from './transacciones/visita-puerperal/visitas/visitas.module';
+import { VisitaPuerperalModule } from './transacciones/visita-puerperal/visita-puerperal.module';
 import { EstadoFuerzaModule } from './transacciones/estado-fuerza/estado-fuerza.module';
 import { DirectorioModule } from './transacciones/directorio/directorio.module';
 import { DirectorioApoyosModule } from './transacciones/directorio-apoyos/directorio-apoyos.module';

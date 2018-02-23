@@ -1,5 +1,5 @@
 <!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
-<formulario #ctrl URL="visitas-puerperales" titulo="Visitas / Transacciones" [dato]="dato"></formulario>
+<formulario #ctrl URL="visitas-puerperales" titulo="Visitas Puerperales / Transacciones" [dato]="dato"></formulario>
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
@@ -46,41 +46,7 @@
             </div>
           </div>
         </div>
-        <br>
-        <!-- <div *ngIf="ctrl.dato.get('pacientes').value.length">
-          <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index"
-            style="margin-top:10px">
-            <div class="card-content">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img src="./assets/iconos/icono-acompaniante-paciente.svg" alt="Image">
-                  </figure>
-                </div>
-    
-                <div class="media-content">
-                  <div class="title is-6">
-                    <div *ngIf="val.esResponsable == 1">
-                      <strong>Responsable: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
-                    </div>
-                    <div *ngIf="val.esResponsable == 0">
-                      <strong>Acompañante: </strong> {{val.personas.nombre}} {{val.personas.paterno}} {{val.personas.materno}}
-                    </div>
-                  </div>
-    
-                </div>
-              </div>
-              <div class="card-content">
-                <p class="content">
-                  <strong>Telefono: </strong> {{val.personas.telefono}}
-                  <br>
-                  <strong>Domicilio: </strong> {{val.personas.domicilio}}
-                </p>
-    
-              </div>
-            </div>
-          </div>
-        </div> -->
+
       </div>
     
     </div>
@@ -96,6 +62,7 @@
 
             <!-- Opciones  -->
             <formulario-opciones [ctrl]="ctrl" [id]="ctrl.dato.id"></formulario-opciones>
+            
 
 
           </div>
@@ -105,14 +72,14 @@
         <!--cargarCatalogo('metodos_planificacion?alta=1','metodos-planificacion');-->
         <section class="section" style="padding: 2rem 2rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">
 
-          <div class="tabs is-toggle is-fullwidth">
+          <div class="tabs is-large is-fullwidth ">
             <ul>
               <li [ngClass]="{ 'is-active' : tab == 1}">
                 <a (click)="tab=1">
                   <span class="icon is-small">
-                    <i class="fa fa-list-ol"></i>
+                    <i class="fa fa-calendar-check-o"></i>
                   </span>
-                  <span>Visitas</span>
+                  <span>Visitas Puerperales</span>
                 </a>
               </li>
             </ul>
@@ -131,32 +98,47 @@
                 <tr>
                   <th>No.</th>
                   <th>Fecha de Visita</th>
-
+                  <th>Recibio Atención</th>
+                  <th>Observaciones</th>  
                   <th>Detalle</th>
                 </tr>
               </thead>
               <tbody *ngIf="ctrl.dato">
                 <tr *ngFor="let item of ctrl.dato.controls.altas_incidencias.controls[0].controls.visitas_puerperales.controls; let i=index">
                   
-                  <th style="vertical-align: middle;"><a>{{ i+1 }}</a>
+                  <th style="vertical-align: middle;">
+                    <a>{{ i+1 }}</a>
                   </th>
                   <td style="vertical-align: middle;">
                     <a>{{ item.value.fecha_visita | date: ' dd/MM/yyyy ' }}</a>
                   </td>
                   <td style="vertical-align: middle;">
+                    <span *ngIf="item.value.seAtendio == 1">
+                      <a>Si</a>
+                    </span>
+                    <span *ngIf="item.value.seAtendio == 0">
+                      <a>No</a>
+                    </span>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <a [innerHTML]='item.value.observaciones | formatoHtml'></a>
+                  </td>
+
+                  <td style="vertical-align: middle;">
                     
-                    <a *ngIf="item.value.nuevo" title="Quitar Seguimiento" class="button is-danger tooltip" (click)="ctrl.quitar_form_array(ctrl.dato.controls.movimientos_incidencias, i);">
+                    <a *ngIf="item.value.nuevo" title="Quitar Visita" class="button is-danger tooltip"
+                        (click)="ctrl.quitar_form_array(ctrl.dato.controls.altas_incidencias.controls[0].controls.visitas_puerperales, i);">
                         <i class="fa fa-trash-o"></i>
                     </a>
 
-                    <a *ngIf="!item.value.nuevo" title="Detalle del Seguimiento" class="button is-info tooltip" (click)="detalle_seguimiento(item.value)">
+                    <a *ngIf="!item.value.nuevo" title="Detalle de la Visita" class="button is-info tooltip" (click)="detalle_visita(item.value)">
                         <i class="fa fa-file-text-o"></i>
                     </a>
 
                   </td>
 
                 </tr>
-                <tr *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
+                <tr *ngIf="ctrl.dato.controls.altas_incidencias.controls[0].controls.visitas_puerperales.length == 0">
                   <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
                 </tr>
               </tbody>
@@ -182,9 +164,48 @@
 
 
       <div class="columns">
-        <div class="column is-6">
-          <label>Fecha de la Visita:</label>
-          <input class="input" ngui-datetime-picker [(ngModel)]="fecha_visita" style="width:100%;" type="text" placeholder="AAA-MM-DD">
+        <div class="column is-12">
+          <label class="label">Fecha de la Visita:</label>
+          <input class="input" ngui-datetime-picker
+                 date-only="true"
+                 [(ngModel)]="fecha_visita"
+                 style="width:100%;"
+                 date-format="MM/DD/YYYY"
+                 type="text"
+                 placeholder="MM/DD/YYYY">
+        </div>
+      </div>
+
+      <div class="field columns">
+        <div class="control column is-6">
+            <label class="label">¿Se Atendio?</label>
+            <br>
+            <label class="radio">
+                <input #seAtendio type="radio" class="styled" name="pregunta" (click)="atencionVisita();">
+                <strong>Si</strong>
+            </label>
+  
+            <label class="radio">
+                <input #noAtendio type="radio" class="styled" name="pregunta" (click)="atencionVisita();">
+                <strong>No</strong>
+            </label>
+        </div>
+      </div>
+
+
+      <div class="columns" [ngClass]="{ 'is-hidden': ReciboAtencion == 1}">
+        <div class="control is-grouped column is-12">
+            <p class="control is-expanded  has-icon has-icon-right">
+              <label class="label">¿Por Qué?: </label>
+              
+              <ckeditor autofocus name="porque" [(ngModel)]="porque" debounce="50"
+                [config]="CkeditorConfig">
+              </ckeditor>
+              
+              <span class="help is-danger" *ngIf="porque == ''">
+                Este campo es requerido.
+              </span>
+            </p>
         </div>
       </div>
 
@@ -213,77 +234,75 @@
   </div>
 </div>
 
-<!-- DETALLE SEGUIMIENTO
+<!--DETALLE VISITA-->
 <div class="modal" id="detalle_visita">
   <div class="modal-background"></div>
   <div class="modal-card" style="width: 70%; height: 70%">
     <header class="modal-card-head">
-      <p class="modal-card-title">Detalle del Seguimiento</p>
-      <button class="delete" (click)="cerrarModalDetalleSeguimiento()"></button>
+      <p class="modal-card-title">Detalle de la Visita</p>
+      <button class="delete" (click)="cerrarModalDetalleVisita()"></button>
     </header>
     <section class="modal-card-body">
 
       <div class="media-content">
         <div class="content is-center">
 
-          <div class="columns">
+          <div class="columns"> 
             <div class="column is-6">
-              <h3>Turno del seguimiento:</h3>
-              <blockquote>{{turno}}</blockquote>
+                <h3>Fecha de la Visita:</h3>
+                <blockquote>
+                    <span class="icon is-small">
+                        <i class="fa fa-calendar-check-o"></i>
+                    </span>
+                    <span> {{fecha_detalle | date: 'dd/MM/yyyy '}}</span>
+                </blockquote>
             </div>
-            <div class="column is-6">
-              <h3>Medico que reporta:</h3>
-              <blockquote>{{medico}}</blockquote>
-            </div>
-          </div>
 
-          <div class="columns">
             <div class="column is-6">
-              <h3>N° Incidencia:</h3>
-              <blockquote>{{no_incidencia}}</blockquote>
-            </div>
-            <div class="column is-6">
-              <h3>Fecha del seguimiento:</h3>
-              <blockquote>{{fecha | date: ' dd / MM / yyyy '}}</blockquote>
-            </div>
-          </div>
+                <h3>Recibio Atención:</h3>
 
-          <div class="columns">
-            <div class="column is-6">
-              <h3>Estado:</h3>
-              <blockquote>{{estado_paciente}}</blockquote>
+                <blockquote *ngIf="seAtendio_detalle == 1">
+                    <span class="icon is-small">
+                        <i class="fa fa-check"></i>
+                    </span>
+                    <span>Si</span>
+                </blockquote>
+
+                <blockquote *ngIf="seAtendio_detalle == 0">
+                    <span class="icon is-small">
+                        <i class="fa fa-close"></i>
+                    </span>
+                    <span>No</span>
+                </blockquote>
+
             </div>
-            <div class="column is-6">
-              <h3>Ubicación:</h3>
-              <blockquote>{{ubicacion_paciente}}</blockquote>
-            </div>
+
+          </div>
+          
+          <div class="columns" *ngIf="porque_detalle != null">
+              <div class="column is-12">
+                <h3>¿Por qué no recibió atención?</h3>
+                <blockquote>
+                    <span [innerHTML]='porque_detalle | formatoHtml'></span>
+                </blockquote>
+              </div>
           </div>
 
           <div class="columns">
             <div class="column is-12">
-              <h3>Subcategorias CIE10:</h3>
-              <blockquote>{{cie10_codigo}} : {{cie10}}</blockquote>
+              <h3>Observación:</h3>
+              <blockquote>
+                  <span [innerHTML]='observaciones_detalle | formatoHtml'></span>
+              </blockquote>
             </div>
           </div>
-
-          <div class="columns">
-            <div class="column is-6">
-              <h3>Indicaciones:</h3>
-              <blockquote [innerHTML]='indi | formatoHtml'></blockquote>
-            </div>
-            <div class="column is-6">
-              <h3>Reporte Medico:</h3>
-              <blockquote [innerHTML]='reporte | formatoHtml'></blockquote>
-            </div>
-          </div>
-
 
         </div>
       </div>
 
     </section>
   </div>
-</div> -->
+</div>
 
 <!--MODAL VALIDACION SEGUIMIENTO-->
 <div class="modal" id="visita_datos_vacios">
@@ -291,16 +310,16 @@
     <div class="modal-card">
         <header class="modal-card-head">
         <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
-        <button class="delete" (click)="cerrarModalValidacionSeguimiento();"></button>
+        <button class="delete" (click)="cerrarModalValidacionVisita();"></button>
         </header>
         <section class="modal-card-body">
             <div class="content">
-                <h1>¡Debe llenar todos los datos del Seguimiento!</h1>
+                <h1>¡Debe llenar todos los datos de la Visita!</h1>
                 <p>Verifique cada uno de los campos</p>
             </div>
         </section>
         <footer class="modal-card-foot">
-        <a class="button is-success" (click)="cerrarModalValidacionSeguimiento();">Continuar</a>
+        <a class="button is-success" (click)="cerrarModalValidacionVisita();">Continuar</a>
         </footer>
     </div>
 </div>

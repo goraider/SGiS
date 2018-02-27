@@ -89,9 +89,66 @@
     </div>
 </div>
 
-<div id="imprimir" style="display:none">
-        
-        <span *ngIf="ctrl.json">
+<div id="imprimir" style="display:none"> 
+
+    <div *ngIf="ctrl.json" style="width: 100%;">
+
+        <img src="../assets/iconos/salud.png">
+        <div style="text-align: center;">
+            <h1 style="font-size:30px;">Estado de Fueza</h1>
+            <p>{{(ctrl.json.clues.clues)}} - {{ctrl.json.clues.nombre}}</p>
+            <p>Fecha de Creación: {{ctrl.json.created_at | date: ' dd/MM/yyyy H:mm:ss '}}</p>
+        </div>
+        <br>
+        <div  *ngFor="let serv of ctrl.json.respuesta_estados_fuerza; let s=index">
+                <div *ngIf="s == 0">
+                    <h1 style="font-size:30px;">
+                        <strong>{{serv.cartera_servicios.nombre}}</strong>
+                    </h1>
+                </div>
+                <div *ngIf="s > 0">
+                    <h1 style="font-size:30px;" *ngIf="ctrl.json.respuesta_estados_fuerza[s -1].cartera_servicios_id != serv.cartera_servicios_id" >
+                       <strong>{{serv.cartera_servicios.nombre}}</strong>
+                    </h1>
+                </div>
+                
+                <table style="width: 100%;">
+                    <tbody >
+                        <tr *ngIf="serv.items.tipos_items_id == 1">
+                            <td style="width: 90%;">
+                                {{serv.items.nombre}}
+                            </td>
+                            <td style="width: 10%; padding: 4px;">
+                                <a *ngIf="serv.respuesta == 1" >
+                                    <span class="tag is-success">&nbsp; Si</span>
+                                </a>
+                                            
+                                <a *ngIf="serv.respuesta == 0" >
+                                    <span class="tag is-danger">&nbsp; No</span>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr *ngIf="serv.items.tipos_items_id == 2">
+                            <td style="width: 90%;">
+                                    {{serv.items.nombre}}
+                            </td>
+
+                            <td style="width: 10%; padding: 4px;">
+                                <a *ngIf="serv.respuesta >= 0" >
+                                    <span class="tag"> &nbsp; <strong>{{serv.respuesta}}</strong></span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+        </div>
+    </div>
+
+
+
+        <!-- <span *ngIf="ctrl.json">
             <a>
                 {{ctrl.json.turnos.nombre}}
             </a>
@@ -104,7 +161,7 @@
                     </header>
                     <div>
                         <div>
-                            <!-- cartera -->
+                           
   
                             <div  *ngFor="let serv of ctrl.json.respuesta_estados_fuerza; let s=index">
                                 <header>
@@ -148,5 +205,5 @@
                 </div>
 
 
-        </span>
+        </span> -->
 </div>

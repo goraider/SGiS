@@ -1,5 +1,5 @@
 <!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
-<formulario #ctrl URL="incidencias" titulo="Seguimiento / Catálogo" [dato]="dato"></formulario>
+<formulario #ctrl URL="incidencias" titulo="Seguimiento / Módulo" [dato]="dato"></formulario>
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
@@ -1318,6 +1318,10 @@
           Estado de Fuerza de la Unidad Médica:
           <br><br>
           {{clues_destino}}
+          <br><br>
+          <span *ngIf="estado_fuerza_creado">
+            Fecha y Hora del ultimo Estado de Fuerza: {{estado_fuerza_creado | date: ' dd/MM/yyyy H:mm:ss'}} Hrs.
+          </span>
         </p>
         <button class="delete" (click)="cerrarModalEstadoFuerza()"></button>
       </header>
@@ -1326,7 +1330,7 @@
         <!-- <div class="media">
           <figure class="image is-64x64">
             <img class="is-medium" src="./assets/iconos/icono-detalle-referencia.svg" alt="Referencia">
-          </figure>
+          </figure> 
         </div> --> 
   
         <div class="media-content">
@@ -1334,8 +1338,9 @@
           <div class="content">
             <div>
 
-              <a class="content is-center" *ngIf="estado_fuerza_disponible.length == 0 ">
-                  <h1>NO TIENE UN ESTADO DE FUERZA ACTUALIZADO</h1>
+              <a style="text-align: center;" *ngIf="estado_fuerza_disponible.length == 0">
+                  <h1 style="color:#B40404">NO TIENE UN ESTADO DE FUERZA ACTUALIZADO</h1>
+                  <img src="../assets/iconos/icono-clues.png">
               </a>
 
               <div class="card is-center" *ngFor="let serv of estado_fuerza_disponible; let s=index">

@@ -106,6 +106,7 @@ export class FormularioComponent {
   //Estado de Fuerza
   estado_fuerza_disponible = [];
   mostrar_estado_fuerza = false;
+  estado_fuerza_creado: any = '';
 
   //detalle referencia
   fecha_alta: any = '';
@@ -794,13 +795,23 @@ export class FormularioComponent {
   }
 
   select_item_autocomplete(modelo, item, datos, esmodelo: boolean) {
+    this.estado_fuerza_disponible = [];
+    this.estado_fuerza_creado = '';
     
     if (!esmodelo)
         modelo = datos[item];
         this.clues_destino_nombre = datos.nombre;
 //pasamos los datos a un arreglo para iterar el estado de fuerza de la unidad medica que estemos buscando
-    if(datos.estado_fuerza.cartera_servicios)
+    if(datos.estado_fuerza.cartera_servicios){
+      if( datos.estado_fuerza.cartera_servicios != ''){
+
+        this.estado_fuerza_creado = datos.estado_fuerza.created_at;
+
         this.estado_fuerza_disponible.push(datos.estado_fuerza.cartera_servicios);
+
+      }
+      
+    }    
 
   }
 
@@ -1098,7 +1109,7 @@ verEstadoFuerza(){
 }
 
 cerrarModalEstadoFuerza() {
-  this.estado_fuerza_disponible = [];
+  //this.estado_fuerza_disponible = [];
   document.getElementById("estado_fuerza").classList.remove('is-active');
 }
 

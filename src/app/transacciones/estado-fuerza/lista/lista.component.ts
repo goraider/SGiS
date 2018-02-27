@@ -3,7 +3,7 @@ import { ListarComponent } from '../../../crud/listar.component';
 
 @Component({
   selector: 'estado-fuerza-lista',
-  templateUrl: './lista.component.html'
+  templateUrl: './lista.component.html',
 })
 
 export class ListaComponent{

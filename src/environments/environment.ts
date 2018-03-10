@@ -357,12 +357,12 @@ export const environment = {
           "path": "/reporte/incidencia-referencias/lista",
           "icono": "fa fa-ambulance"
         },
-        {
-          "titulo": "Reporte Estado de Fuerza",
-          "key": "ReporteController.estadoFuerza",
-          "path": "/reporte/estado-fuerza/lista",
-          "icono": "fa fa-volume-control-phone"
-        }
+        // {
+        //   "titulo": "Reporte Estado de Fuerza",
+        //   "key": "ReporteController.estadoFuerza",
+        //   "path": "/reporte/estado-fuerza/lista",
+        //   "icono": "fa fa-volume-control-phone"
+        // }
       ]
     },
 

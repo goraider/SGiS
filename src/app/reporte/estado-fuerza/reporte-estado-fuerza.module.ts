@@ -21,7 +21,6 @@ import { AuthService } from '../../auth.service';
 import { CrudService } from '../../crud/crud.service';
 import { CrudModule }  from '../../crud/crud.module';
 //fin crud
-import { Select2Module } from 'ng2-select2';
 import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
 
 @NgModule({
@@ -37,7 +36,6 @@ import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
     ParcialModule,
     PaginacionModule,
     CrudModule,
-    Select2Module,
     NguiAutoCompleteModule,
     NguiDatetimePickerModule
 

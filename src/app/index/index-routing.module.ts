@@ -27,7 +27,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'reportes',
+    path: 'reporte',
     component: IndexComponent,
     canActivate: [AuthGuard]
   }

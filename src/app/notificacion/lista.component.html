@@ -16,7 +16,7 @@
                     <div class="control is-grouped" style="position:absolute; top:0.5em; right:0em;">                        
                         <p class="control" *ngIf="!ctrl.busquedaActivada">
                             <a class="button is-primary tooltip"  (click)="ctrl.listar(1)">
-                                <span class="icon ">
+                                <span class="icon fa-2x">
                                     <i class="fa fa-refresh"></i>
                                 </span>
                                 <span class="tooltiptext">Actualizar</span>
@@ -25,7 +25,7 @@
             
                         <p class="control" *ngIf="ctrl.busquedaActivada">
                             <a class="button is-dark tooltip"  (click)="ctrl.listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar">
-                                <span class="icon ">
+                                <span class="icon fa-2x">
                                     <i class="fa fa-refresh"></i>
                                 </span>
                                 <span class="tooltiptext">Actualizar</span>
@@ -33,7 +33,7 @@
                         </p>
                         <p class="control">
                             <a class="button  is-dark tooltip" *ngIf="ctrl.busquedaActivada" (click)="ctrl.cerrar_busqueda(searchBox)">
-                                <span class="icon ">
+                                <span class="icon fa-2x">
                                     <i class="fa fa-close"></i>
                                 </span>
                                 <span class="tooltiptext">Cerrar Busqueda</span>

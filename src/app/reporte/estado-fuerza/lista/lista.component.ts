@@ -41,7 +41,7 @@ export class ReporteEstadoFuerzaComponent{
   ){}
 
   
-  tamano = document.body.clientHeight;
+   tamano = document.body.clientHeight;
    rangos_fecha;
    filtro;
    orden;
@@ -53,12 +53,8 @@ export class ReporteEstadoFuerzaComponent{
 
   ngOnInit(){
 
-
     document.getElementById("catalogos").click();
 
-
-
-    
   }
 
   cargarCatalogo(item, url) {

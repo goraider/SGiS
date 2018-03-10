@@ -8,10 +8,11 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 //Graficos
 import { ChartsModule } from 'ng2-charts';
+import { DashModule } from './dashboard/dashboard.module'
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+// import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './parcial/not-found/not-found.component';
 
 import { AuthGuard } from './auth-guard.service';
@@ -33,9 +34,9 @@ import { IndexModule } from './index/index.module';
 import { UsuariosModule } from './sistema/usuarios/usuarios.module';
 import { GruposModule } from './sistema/grupos/grupos.module';
 import { ModulosModule } from './sistema/modulos/modulos.module';
-import { SisDashboardModule } from './sistema/dashboard/sis-dashboard.module';
-import { SisReporteModule } from './sistema/reporte/sis-reporte.module';
-import { SucursalModule } from './sistema/sucursal/sucursal.module';
+//import { SisDashboardModule } from './sistema/dashboard/sis-dashboard.module';
+//import { SisReporteModule } from './sistema/reporte/sis-reporte.module';
+//import { SucursalModule } from './sistema/sucursal/sucursal.module';
 //import { ConfiguracionSucursalModule } from './sistema/configuracion-sucursal/sucursal.module';
 
 
@@ -132,7 +133,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent,
+    // DashboardComponent,
     NotFoundComponent,
   ],
   imports: [
@@ -142,6 +143,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     HttpModule,
     HttpClientModule,
     ChartsModule,
+    DashModule,
     AppRoutingModule,
     HubModule,
     MenuModule,
@@ -153,9 +155,9 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     UsuariosModule,
     GruposModule,
     ModulosModule,
-    SisDashboardModule,
-    SisReporteModule,
-    SucursalModule,
+    // SisDashboardModule,
+    // SisReporteModule,
+    // SucursalModule,
     //ConfiguracionSucursalModule,
     
     TipoRedSocialModule,

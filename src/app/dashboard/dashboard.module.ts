@@ -1,47 +1,56 @@
-import { NgModule, OnInit } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+//modulos
 import { HubModule } from '../hub/hub.module';
 import { PerfilModule } from '../perfil/perfil.module';
 import { BloquearPantallaModule } from '../bloquear-pantalla/bloquear-pantalla.module';
-import { NotificacionPusherRoutingModule } from './notificacion-pusher-routing.module';
 import { PaginacionModule } from '../parcial/paginacion/paginacion.module';
 
-import { PipesModule }             from '../pipes/pipes.module';
-import { ParcialModule } from '../parcial/parcial.module';
-import { MenuModule } from '../menu/menu.module';
-import { ListaComponent } from './lista.component';
 
+//componentes del dash
+import { PipesModule }             from '../pipes/pipes.module';
+import { ChartsModule } from 'ng2-charts';
+import { GraficasModule } from '../graficas/graficas.module'
+import { DashboardComponent } from './dashboard.component';
+
+//servicios
 import { AuthService } from '../auth.service';
+
+import { MenuModule } from '../menu/menu.module';
+import { ParcialModule } from '../parcial/parcial.module';
+
 
 //crud
 import { CrudService } from '../crud/crud.service';
 import { CrudModule }  from '../crud/crud.module';
 //fin crud
-import { NguiDatetimePickerModule} from '@ngui/datetime-picker';
+
+import { CKEditorModule } from 'ng2-ckeditor';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ChartsModule,
+    GraficasModule,
     ReactiveFormsModule,
-    NotificacionPusherRoutingModule,
     HubModule,
     PerfilModule,
     BloquearPantallaModule,
-    MenuModule, 
-    ParcialModule,
     PaginacionModule,
-    CrudModule,
     PipesModule,
-    NguiDatetimePickerModule,
+    MenuModule,
+    ParcialModule,
+    CrudModule,
+    CKEditorModule
   ],
-  declarations: [ 
-    ListaComponent
+  declarations: [
+    DashboardComponent, 
   ],
-  providers: [ AuthService, CrudService ]
+  providers: [ AuthService, CrudService ],
 })
-export class NotificacionPusherModule { }
+export class DashModule { }

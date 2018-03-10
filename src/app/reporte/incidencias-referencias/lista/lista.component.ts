@@ -200,7 +200,7 @@ select_clue_destino_autocomplete(modelo, item, datos, esmodelo: boolean = false)
           
         }
 
-        doc.text("Reporte de Altas", data.settings.margin.left + 110, 9);
+        doc.text("Reporte de Referencias", data.settings.margin.left + 110, 9);
         doc.setFontSize(8)
         doc.setFont('helvetica')
         doc.text("Sistema para la Gestión de Incidencias en Salud (SGiS)", data.settings.margin.left + 111, 13);

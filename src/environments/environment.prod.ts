@@ -6,9 +6,9 @@
 export const environment = {
 
   "production": true,
-  "API_URL": "http://api.sgis.ismchiapas.org/api/v1",
-  "API_PATH": "http://api.sgis.ismchiapas.org",
-  "OAUTH_CLIENTE": "http://api.sgis.ismchiapas.org/api/sync",
+  "API_URL": "http://api.ugus.bid/public/api/v1",
+  "API_PATH": "http://api.ugus.bid",
+  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
 
@@ -311,12 +311,12 @@ export const environment = {
           "path": "/reporte/incidencia-referencias/lista",
           "icono": "fa fa-ambulance"
         },
-        {
-          "titulo": "Reporte Estado de Fuerza",
-          "key": "ReporteController.estadoFuerza",
-          "path": "/reporte/estado-fuerza/lista",
-          "icono": "fa fa-volume-control-phone"
-        }
+        // {
+        //   "titulo": "Reporte Estado de Fuerza",
+        //   "key": "ReporteController.estadoFuerza",
+        //   "path": "/reporte/estado-fuerza/lista",
+        //   "icono": "fa fa-volume-control-phone"
+        // }
       ]
     },
 

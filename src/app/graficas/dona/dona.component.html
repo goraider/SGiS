@@ -1,1 +1,27 @@
-<h1>oushiit men!!!</h1>
+<div>
+        <canvas baseChart
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+            [colors]="doughnutChartColors"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+        <br>
+        <div class="card center" style="border-radius: 25px;">
+            <div class="card-content">
+                <p class="subtitle">
+                    <strong>Con un total de {{totalIncidencias}} Ingresos</strong>
+                </p>
+                <div>
+                    <a class="content" *ngFor="let color of nombreColor; let i=index">
+                        El <strong>{{color.total*100/totalIncidencias | number : '1.2-2'}} %</strong> de Ingresos son <strong>Triage</strong> Color <span class="tag" [ngClass]="{'is-success' : color.nombre == 'Verde', 'is-warning' : color.nombre == 'Amarillo', 'is-danger' : color.nombre == 'Rojo'}">{{color.nombre}}</span><br>
+                    </a>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+
+

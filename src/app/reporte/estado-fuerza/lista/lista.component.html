@@ -21,24 +21,34 @@
                 
                         <div class="field is-grouped" style="position:absolute; top:0.5em; right:0em;">
                 
-                            <p class="control">
-                                <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"  (click)="imprimir_pdf(datos);">
-                                    <span class="icon ">
-                                        <i class="fa fa-print"></i>
-                                    </span>
-                                    <span class="tooltiptext">Imprimir</span>
-                                </a>
-                            </p>
-                
-                            <p class="control" *ngIf="busquedaActivada">
-                                <a class="button is-dark tooltip"  (click)="listarBusqueda(searchBox.value,1)" id="cargar_datos_actualizar">
-                                    <span class="icon ">
-                                        <i class="fa fa-refresh"></i>
-                                    </span>
-                                    <span class="tooltiptext">Actualizar</span>
-                                </a>
-                            </p>
-                
+                            <p class="navbar-item tooltip" *ngIf="!cargando">
+                                    <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"  (click)="generate();">
+                                        <span class="icon fa-2x">
+                                            <i class="fa fa-print"></i>
+                                        </span>
+                                        <span class="tooltiptext">Imprimir</span>
+                                    </a>
+                                </p>
+
+                                <p class="navbar-item tooltip" *ngIf="!cargando">
+                                    <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"
+                                    (click)="lista_incidencias(url, $event);">
+                                        <span class="icon fa-2x">
+                                            <i class="fa fa-filter"></i>
+                                        </span>
+                                        <span class="tooltiptext">Filtrar</span>
+                                    </a>
+                                </p>
+
+                                <p class="navbar-item tooltip" *ngIf="!cargando">
+                                    <button class="button is-primary is-medium tooltip" type="button"
+                                    (click)="limpiar_campos_busqueda();">
+                                    Limpiar</button>
+                                </p>
+
+                                <p class="navbar-item tooltip" *ngIf="cargando">
+                                    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span></span>
+                                </p>
                         </div>
                 
                         <div class="container is-fluid">

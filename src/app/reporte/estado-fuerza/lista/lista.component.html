@@ -32,7 +32,7 @@
 
                                 <p class="navbar-item tooltip" *ngIf="!cargando">
                                     <a class="button is-{{busquedaActivada ? 'dark' : 'primary'}} tooltip"
-                                    (click)="lista_incidencias(url, $event);">
+                                    (click)="lista_estados_fuerza($event);">
                                         <span class="icon fa-2x">
                                             <i class="fa fa-filter"></i>
                                         </span>
@@ -51,28 +51,43 @@
                                 </p>
                         </div>
                 
-                        <div class="container is-fluid">
+                        <div class="control">
 
                             <div class="columns">
+
                                 <div class="column is-2">
                                     <label>Desde:</label>
                                     <input class="input" ngui-datetime-picker [(ngModel)]="fecha_inicio" style="width:100%;" type="text" placeholder="2017-09-28">
                                 </div>
+
                                 <div class="column is-2">
                                     <label>Hasta:</label>
                                     <input class="input" ngui-datetime-picker [(ngModel)]="fecha_fin" style="width:100%;" type="text" placeholder="2017-09-29">
                                 </div>
-                                <div class="column is-4">
+
+                                <div class="column is-3">
                                     <label>Unidad Médica:</label>
                                     <input ngui-auto-complete
                                         [source]="clues_term"
                                         [list-formatter]="autocompleListFormatter"
                                         [value-formatter]="valorFormato_clue"
+                                        autocomplete="false"
+                                        [accept-user-input]="false"
                                         id="clues" name="clues" [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
                                         (valueChanged)="select_item_autocomplete(clues, 'clues', $event, false);"                                                         
-                                        min-chars="1" class="input" type="text"
-                                        placeholder="(Clues):">
+                                        min-chars="4" class="input" type="text"
+                                        placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Medica">
                                 
+                                </div>
+
+                                <div class="column is-5">
+                                    <label>Turno en que se Realizo:</label>
+                                    <div class="select">
+                                        <select class="select" [(ngModel)]="turno" name="turno" style="width:100%;" id="turno" >
+                                            <option value="">Todos</option>
+                                            <option *ngFor="let tur of turn" value="{{tur.id}}" >{{ tur.nombre }}</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -106,47 +121,7 @@
                                     </div>
 
                             </div> -->
-                
-                            <div class="control">
-            
-
-                                    <div class="columns">
-
-
-                                        <div class="column is-8">
-                                                <label>Turno en que se Realizo:</label>
-                                                <div class="select">
-                                                    <select class="select" [(ngModel)]="turno" name="turno" style="width:100%;" id="turno" >
-                                                        <option *ngFor="let tur of turn" value="{{tur.id}}" >{{ tur.nombre }}</option>
-                                                    </select>
-                                                </div>
-                                        </div>
-
-
-                        
-
-                                         
-                                    
-                        
-                                    
-                                    <div class="columns">
-
-                                        <div class="column is-4">
-                                            <button class="button is-success is-medium tooltip" type="button"
-                                            (click)="lista_incidencias(url);">
-                                            Filtrar</button>
-                                        </div>
-
-                                        <!-- <div class="column is-4">
-                                            <button class="button is-success is-medium tooltip" type="button">
-                                            Limpiar</button>
-                                        </div> -->
-
-                                    </div>
-
-                                
-                            </div>
-                        </div>
+ 
                 
                     </div>
                 </section>
@@ -167,17 +142,25 @@
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Fecha</th>
                             <th>Unidad Medica</th>
                             <th>Turno</th>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            
 
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of datos; let i=index">
-                            <th style="vertical-align: middle;">{{ item.id }}</th>
-                            <td style="vertical-align: middle;">{{item.clues}}</td>
+                        <tr *ngFor="let item of datos; let i=index">  
+                            <th style="vertical-align: middle;">{{ item.id }}</th>                          
+                            <td style="vertical-align: middle;">{{ item.created_at | date: ' dd/MM/yyyy '}}</td>                            
+                            <td style="vertical-align: middle;">({{item.clues.clues}}) - {{item.clues.nombre}}</td>
                             <td style="vertical-align: middle;">{{item.turnos.nombre}}</td>
+                            <td style="vertical-align: middle;">{{ item.sis_usuarios.nombre }}</td>                            
+                            <td style="vertical-align: middle;">{{ item.sis_usuarios.email }}</td>                                                        
+                            
                         </tr>
                          <tr *ngIf="datos.length == 0">
                             <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
@@ -186,6 +169,34 @@
 
                 </table>
             </div>
+
         </div>
     </div>
 </div>
+
+<table id="datosReporte" class="table is-striped is-fullwidth" *ngIf="!cargando">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Fecha</th>
+                <th>Unidad Medica</th>
+                <th>Turno</th>
+                <th>Usuario</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of datos; let i=index">  
+                <th style="vertical-align: middle;">{{ item.id }}</th>
+                <td style="vertical-align: middle;">{{ item.created_at | date: ' dd/MM/yyyy '}}</td>                            
+                <td style="vertical-align: middle;">({{item.clues.clues}}) - {{item.clues.nombre}}</td>
+                <td style="vertical-align: middle;">{{item.turnos.nombre}}</td>
+                <td style="vertical-align: middle;">{{ item.sis_usuarios.nombre }}</td>                            
+                <td style="vertical-align: middle;">{{ item.sis_usuarios.email }}</td>                                                        
+                
+            </tr>
+                <tr *ngIf="datos.length == 0">
+                <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+            </tr> 
+        </tbody>
+</table>

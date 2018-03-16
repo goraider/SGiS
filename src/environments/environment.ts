@@ -49,6 +49,18 @@
 
 
 
+//API PRUEBAS BID KARLA
+//http://api.pruebas.sgis.ismchiapas.org/
+
+// "production": false,
+// "API_URL": "http://api.pruebas.sgis.ismchiapas.org/api/v1",
+// "API_PATH": "http://api.pruebas.sgis.ismchiapas.org",
+// "OAUTH_CLIENTE": "http://api.pruebas.sgis.ismchiapas.org/api/sync",
+// "OAUTH_SERVER": "http://api.oa2.che",
+// "OAUTH_DISPONIBLE": false,
+
+
+
 export const environment = {
 
   "production": false,
@@ -357,12 +369,12 @@ export const environment = {
           "path": "/reporte/incidencia-referencias/lista",
           "icono": "fa fa-ambulance"
         },
-        // {
-        //   "titulo": "Reporte Estado de Fuerza",
-        //   "key": "ReporteController.estadoFuerza",
-        //   "path": "/reporte/estado-fuerza/lista",
-        //   "icono": "fa fa-volume-control-phone"
-        // }
+        {
+          "titulo": "Reporte Estado de Fuerza",
+          "key": "ReporteController.estadoFuerza",
+          "path": "/reporte/estado-fuerza/lista",
+          "icono": "fa fa-medkit"
+        }
       ]
     },
 

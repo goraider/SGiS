@@ -24,7 +24,7 @@ export class GraficaPastelComponent implements OnInit {
 
     public pieChartLabels:string[] = [];
     public pieChartData:number[] = [];
-    public pieChartColors:{}[] = [{backgroundColor: ["#669933", "#ffcc33", "#cc3300"]}];
+    public pieChartColors:{}[] = [{backgroundColor: ["#669933", "#0174DF", "#050409"]}];
     public pieChartType:string = 'pie';
     public nombreColor: any[] = [];
     public nombre:  any;

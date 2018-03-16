@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 import { environment } from '../../environments/environment';
 import { NotificationsService } from 'angular2-notifications';
+import { CrudService } from '../crud/crud.service';
+
 @Component({
   selector: 'sistema-menu',
   templateUrl: './menu.component.html',
@@ -17,14 +19,21 @@ export class MenuComponent implements OnInit {
   usuario_clues;
   API_PATH = environment.API_PATH;
   activar;
-  constructor(private fb: FormBuilder, private notificacion: NotificationsService) { }
+  cargando: boolean = false;
+
+  constructor(private fb: FormBuilder,
+              private notificacion: NotificationsService,
+              private crudService: CrudService) { }
 
   menuactual: string;
   menutitulo: string;
   menuicono: string;
   mostrar = [];
   @Input() ctrl: any;
+  @Output() datos: any[] = []; 
   mensaje_cambiar_clues:string = '';
+
+
   ngOnInit() {
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
     this.usuario_clues = JSON.parse(localStorage.getItem("usuario_clues"));
@@ -50,8 +59,9 @@ export class MenuComponent implements OnInit {
       this.mensaje_cambiar_clues = "No se ha seleccionado ninguna clues, Por favor seleccione una";
       this.toggleCambiarclues();
     }
-    
+    this.listar();
   }
+
   toggleMenuAside() {
     this.mostrarMenuAside = !this.mostrarMenuAside;
   }
@@ -70,5 +80,25 @@ export class MenuComponent implements OnInit {
     this.clues = JSON.parse(localStorage.getItem("clues"));
     this.mostrarCambiarclues = false;
   }
+
+  listar() {
+    
+    this.cargando = true;
+    this.crudService.lista_general('directorio-apoyos').subscribe(
+        resultado => {
+            this.cargando = false;
+            this.datos = resultado as any[];
+        },
+        error => {
+
+        }
+    );
+}
+abrirModalDirectorioApoyos(){
+  document.getElementById("directorio_apoyos").classList.add('is-active');
+}
+cerrarModalDirectorioApoyos() {
+  document.getElementById("directorio_apoyos").classList.remove('is-active');
+}
   
 }

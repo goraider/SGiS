@@ -47,6 +47,12 @@ export class ReporteIncidenciaComponent{
   //tipos_altas: any = "";
   url: any = "";
   e_incidencias: any = "";
+
+  nacimiento: any = '';
+  fecha_actual: any = moment().format('YYYY-MM-D h:mm');
+
+  edades: any [] = [];
+  anios: any = '';
   false;
   
 
@@ -74,6 +80,11 @@ export class ReporteIncidenciaComponent{
 
   ngOnInit(){
 
+    moment.locale('es');
+    this.fecha_fin = moment().format('YYYY-MM-D h:mm');
+    this.fecha_inicio =  moment().subtract(1, 'months').format('YYYY-MM-D h:mm');
+
+
     this.clues = this.ingresosClue;
 
 
@@ -99,15 +110,50 @@ export class ReporteIncidenciaComponent{
     this.cargando = true;
     this.crudService.lista_general(url).subscribe(
         resultado => {
-          //console.log(resultado);
             this.cargando = false;
             this.datos = resultado as any[];
+
+            //console.log(resultado);
+
+            // resultado.forEach(element => {
+
+              
+
+            //   //this.edades.push(element.pacientes[0].personas.fecha_nacimiento);
+
+
+            //   //this.nacimiento = moment(element.pacientes[0].personas.fecha_nacimiento).format('YYYY-MM-D');
+
+
+            //   //console.log(this.edades);
+
+
+
+            //   //tiempo transcurrido en un lapso de tiempo.
+
+            //   // var dateA = moment(this.nacimiento).subtract('years', moment().format('YYYY-MM-D h:mm'));
+            //   // dateA.fromNow();
+            //   // console.log(dateA.fromNow());
+
+            //   //tiempo transcurrido en un lapso de tiempo.
+            //   var dateB = moment(moment().format('YYYY-MM-D'));
+            //   var dateC = moment(this.nacimiento);
+            //   this.anios = dateB.diff(dateC, 'years');
+
+
+              
+              
+            // });
+
             
 
         },
+
+        
         error => {
 
         }
+        
     );
 }
 

@@ -69,6 +69,10 @@ export class ReporteAltaComponent{
 
   ngOnInit(){
 
+    moment.locale('es');
+    this.fecha_fin = moment().format('YYYY-MM-D h:mm');
+    this.fecha_inicio =  moment().subtract(1, 'months').format('YYYY-MM-D h:mm');
+
 
     document.getElementById("catalogos").click();
 

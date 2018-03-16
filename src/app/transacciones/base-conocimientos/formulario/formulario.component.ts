@@ -25,7 +25,6 @@ export class FormularioComponent {
       proceso: ['', [Validators.required]],
       triage_colores_id: ['', [Validators.required]],
       subcategorias_cie10_id: ['', [Validators.required]],
-      ubicaciones_pacientes_id: ['', [Validators.required]],
       estados_pacientes_id: ['', [Validators.required]],
     });
 

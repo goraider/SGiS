@@ -126,8 +126,6 @@ export class ListaComponent {
     
         this.crudService.ver(id, "incidencias").subscribe(
           resultado => {
-
-            console.log("data",resultado);
             
             var fechaIngreso = moment(resultado.data.created_at);
 

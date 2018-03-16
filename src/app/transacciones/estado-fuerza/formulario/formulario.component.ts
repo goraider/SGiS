@@ -7,6 +7,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { CrudService } from '../../../crud/crud.service';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'estado-fuerza-formulario',
   templateUrl: './formulario.component.html',
@@ -21,17 +23,23 @@ export class FormularioComponent {
 
    usuario = JSON.parse(localStorage.getItem("usuario"));
    clues_login = JSON.parse(localStorage.getItem("clues"));
+
+   public fechaEstadoFuerza: any = '';
+
    
   constructor(private crudService: CrudService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
   fecha = new Date();
 
   ngOnInit() {
+
+    this.fechaEstadoFuerza = moment().subtract(10, 'days').calendar();
+
     this.dato = this.fb.group({
       clues: [this.clues_login.clues, [Validators.required]],
       sis_usuarios_id: [this.usuario.id, [Validators.required]],
       usuario: [this.usuario.nombre],
       turnos_id: ['', [Validators.required]],
-      created_at: [this.fecha.getFullYear() + '-' + (this.fecha.getMonth() + 1) + '-' + this.fecha.getDate(), [Validators.required]],
+      created_at: [this.fechaEstadoFuerza, [Validators.required]],
       cartera_servicios: this.fb.array([
         this.fb.group({
           items: this.fb.array([

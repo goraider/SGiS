@@ -15,10 +15,19 @@
                     <span></span>
                     <span></span>
                 </span>
+
             </div>
 
             <div id="navbarMenuHeroA" class="navbar-menu " [ngClass]="{'is-active': activar}" >
                 <div class="navbar-end is-flex-desktop-only">
+
+                    <a class="navbar-item tooltip is-hidden-mobile" (click)="abrirModalDirectorioApoyos()">
+                        <span class="icon fa-2x">
+                            <i class="fa fa-handshake-o"></i>
+                        </span>
+                        <span class="tooltiptext">Directorio de Apoyos</span>
+                    </a>
+
                     <a class="navbar-item is-hidden-mobile">
                         <span class="nav-item"> 
                                 {{clues.clues}}   &nbsp;
@@ -122,3 +131,58 @@
   </div>
   <button class="modal-close" (click)="toggleCambiarclues()"></button>
 </div>
+
+<div class="modal" id="directorio_apoyos">
+    <div class="modal-background"></div>
+    <div class="modal-card" style="width: 70%; height: 70%">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Directorio de Apoyos</p>
+        <button class="delete" (click)="cerrarModalDirectorioApoyos()"></button>
+      </header>
+      <section class="modal-card-body">
+  
+        <div class="media-content">
+          <div class="content is-center">
+
+            <!--Tabla -->
+            <table class="table is-striped is-fullwidth" *ngIf="!cargando" style="overflow:auto;">
+                    <thead>
+                        <tr>
+                            <th>Institución</th>
+                            <th>Dirección</th>
+                            <th>Responsable</th>
+                            <th>Teléfono</th>                            
+                            <th>Apoyos</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of datos; let i=index">
+                            <td style="vertical-align: middle;">
+                                <span class="tag is-primary is-medium"><i class="fa fa-building-o"></i> &nbsp; {{item.institucion}}</span> 
+                            </td>
+                            <td style="vertical-align: middle;">{{item.direccion}}</td>
+                            <td style="vertical-align: middle;">{{item.responsable}}</td>
+                            <td style="vertical-align: middle;">
+                                <span class="tag is-medium"><i class="fa fa-phone"></i> &nbsp; {{item.telefono}}</span> 
+                            </td>
+                            
+                            <td style="vertical-align: middle;">
+                                <span *ngFor="let apoyos of item.apoyos" class="tag is-success is-medium"><i class="fa fa-check"></i> &nbsp; {{ apoyos.nombre }}</span>
+                            </td>
+
+                        </tr>
+                        <tr *ngIf="datos.length == 0">
+                            <td colspan="5" style="vertical-align: middle; color:#888;">El Directorio de Apoyos está vacío.</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+ 
+  
+          </div>
+        </div>
+  
+      </section>
+    </div>
+  </div>

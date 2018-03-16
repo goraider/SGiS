@@ -239,6 +239,7 @@
                             <th>N°</th>
                             <th>Folio de la Incidencia</th>
                             <th>Fecha de Ingreso</th>
+                            <th>Edad</th>
                             <th>Colores Triage</th>
                             <th>Estado del Paciente</th>
                             <th>Subcategoria CIE-10</th>
@@ -251,6 +252,7 @@
                             <th style="vertical-align: middle;">{{i + 1}}</th>
                             <td style="vertical-align: middle;">{{ item.id }}</td>
                             <td style="vertical-align: middle;">{{item.created_at | date: ' dd/MM/yyyy '}}</td>
+                           
                             <td style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre }}</strong></div></td>
                             <td style="vertical-align: middle;">{{item.movimientos_incidencias[item.movimientos_incidencias.length -1].estados_pacientes.nombre}}</td>
                             <td style="vertical-align: middle;">{{item.movimientos_incidencias[item.movimientos_incidencias.length -1].subcategorias_cie10.nombre}}</td>
@@ -262,7 +264,7 @@
                     </tbody>
                 </table>
             </div>
-
+            
         </div>
     </div>
 </div>

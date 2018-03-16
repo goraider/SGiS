@@ -10,6 +10,8 @@ import { BloquearPantallaModule } from '../bloquear-pantalla/bloquear-pantalla.m
 import { MenuComponent } from './menu.component';
 import { MenuAsideComponent } from './menu-aside/menu-aside.component';
 import { PipesModule }             from '../pipes/pipes.module';
+import { ParcialModule } from '../parcial/parcial.module';
+
 //notificaciones
 import { NotificacionPusherComponent } from '../notificacion/notificacion-pusher.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
@@ -21,6 +23,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
     PerfilModule,    
     BloquearPantallaModule,
     PipesModule,
+    ParcialModule,
     SimpleNotificationsModule.forRoot()
   ],
   declarations: [MenuComponent, MenuAsideComponent, NotificacionPusherComponent],

@@ -6,9 +6,9 @@
 export const environment = {
 
   "production": true,
-  "API_URL": "http://api.pruebas.sgis.ismchiapas.org/api/v1",
-  "API_PATH": "http://api.pruebas.sgis.ismchiapas.org",
-  "OAUTH_CLIENTE": "http://api.pruebas.sgis.ismchiapas.org/api/sync",
+  "API_URL": "http://api.sgis.ismchiapas.org/api/v1",
+  "API_PATH": "http://api.sgis.ismchiapas.org",
+  "OAUTH_CLIENTE": "http://api.sgis.ismchiapas.org/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
 

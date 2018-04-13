@@ -335,6 +335,12 @@ export const environment = {
         "path": "/transacciones/visita-puerperal/lista",
         "icono": "fa fa-calendar-check-o",
       },
+      {
+        "titulo": "Pantalla Informativa",
+        "key": "PantallaInformativaController.index",
+        "path": "/transacciones/pantalla-informativa/lista",
+        "icono": "fa fa-tv",
+      },
     ]
    },
     {

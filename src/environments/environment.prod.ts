@@ -6,9 +6,9 @@
 export const environment = {
 
   "production": true,
-  "API_URL": "http://api.sgis.ismchiapas.org/api/v1",
-  "API_PATH": "http://api.sgis.ismchiapas.org",
-  "OAUTH_CLIENTE": "http://api.sgis.ismchiapas.org/api/sync",
+  "API_URL": "http://api.ugus.bid/public/api/v1",
+  "API_PATH": "http://api.ugus.bid",
+  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
 
@@ -276,6 +276,12 @@ export const environment = {
         "key": "VisitaPuerperalController.index",
         "path": "/transacciones/visita-puerperal/lista",
         "icono": "fa fa-calendar-check-o",
+      },
+      {
+        "titulo": "Pantalla Informativa",
+        "key": "PantallaInformativaController.index",
+        "path": "/transacciones/pantalla-informativa/lista",
+        "icono": "fa fa-tv",
       },
     ]
    },

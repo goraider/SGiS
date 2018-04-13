@@ -10,11 +10,11 @@ import { Input } from '@angular/core/src/metadata/directives';
 
 
 @Component({
-  selector: 'app-dona',
-  templateUrl: './dona.component.html',
-  styleUrls: ['./dona.component.css']
+  selector: 'app-clasificacion-ingresos',
+  templateUrl: './clasificacion-ingresos.component.html',
+  styleUrls: ['./clasificacion-ingresos.component.css']
 })
-export class GraficaDonaComponent implements OnInit {
+export class ClasificacionIngresosComponent implements OnInit {
 
     @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -22,11 +22,22 @@ export class GraficaDonaComponent implements OnInit {
 
     public doughnutChartLabels:string[] = [];
     public doughnutChartData:number[] = [];
-    public doughnutChartColors:{}[] = [{backgroundColor: ["#669933", "#ffcc33", "#cc3300"]}];
+    
     public doughnutChartType:string = 'doughnut';
+
+    public barChartLabels:string[] = [];
+    public barChartType:string = 'bar';
+    public barChartLegend:boolean = true;
+   
+    public barChartData:any[] = [
+      {data: [], label: []},
+      {data: [], label: []}
+    ];
   
-    public color:  any;
-    public totales: any;
+    public nombre:  any;
+    public porcentaje: any;
+    public totalConReferencia: any;
+    public totalSinReferencia: any;
     public totalIncidencias: any = '';
     public nombreColor: any[] = [];
     public numeroColor: number[] = [];
@@ -42,6 +53,8 @@ export class GraficaDonaComponent implements OnInit {
     ngOnInit() {
 
       this.listar('dashboard');
+
+      //console.log("oninit",this.barChartData);
      
     }
 
@@ -57,22 +70,29 @@ export class GraficaDonaComponent implements OnInit {
               //this.datos.push(...resultado);
   
               
-             //console.log("datos grafica dona",this.datos);
+              //console.log("datos grafica barra",this.datos);
+
+              this.datos[5].clasificacionIngreso[0].total;
+              this.datos[5].clasificacionIngreso[1].total;
+              
+              this.barChartData[0].label.push('Ingresos Con Referencia'+' '+ '%'+this.datos[5].clasificacionIngreso[0].porcentaje);
+              this.barChartData[1].label.push('Ingresos Sin Referencia'+' '+ '%'+this.datos[5].clasificacionIngreso[1].porcentaje);
+
+              this.barChartData[0].data.push(this.datos[5].clasificacionIngreso[0].total);
+              this.barChartData[1].data.push(this.datos[5].clasificacionIngreso[1].total);
   
-  
-              this.datos[1].triage.forEach(dete => {
-                this.color = dete.nombre;             
-                this.totales = dete.total;
+              this.datos[5].clasificacionIngreso.forEach(clasificacion_ingresos => {
 
-                //console.log(dete);
+                this.nombre = clasificacion_ingresos.nombre; 
+                this.porcentaje = clasificacion_ingresos.porcentaje;          
 
-                this.doughnutChartLabels.push(this.color);
-                this.doughnutChartData.push(this.totales);
+                
 
-                this.totalIncidencias = this.datos[0].totalTriage;
+                this.barChartLabels.push(this.nombre);
+                
 
-                this.nombreColor.push(dete);
-                //this.numeroColor.push(dete.total);
+                //console.log("barras",clasificacion_ingresos);
+
 
             });
             
@@ -95,15 +115,6 @@ export class GraficaDonaComponent implements OnInit {
   
           }
       );
-    }
-
-    // events
-    public chartClicked(e:any):void {
-      console.log(e);
-    }
-    
-    public chartHovered(e:any):void {
-      console.log(e);
     }
   
 }

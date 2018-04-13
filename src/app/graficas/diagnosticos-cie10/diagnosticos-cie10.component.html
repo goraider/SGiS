@@ -1,0 +1,36 @@
+<div>
+    <div style="display: block">
+        <p class="title">
+            <strong>Diagnósticos CIE10 (Ingresos)</strong>
+        </p>
+        <br>
+        <table class="table is-striped is-fullwidth" style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Total</th>                    
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let item of top_cie10; let i=index">
+                    <th style="vertical-align: middle;">{{ i+1 }}</th>
+                    <td style="vertical-align: middle;">{{ item.codigo }}</td>
+                    <td style="vertical-align: middle;">{{ item.nombre }}</td>
+                    <td style="vertical-align: middle;">{{ item.total }} Incidencias</td>                    
+                </tr>
+                <tr *ngIf="top_cie10.length == 0">
+                    <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    
+</div>
+
+
+
+

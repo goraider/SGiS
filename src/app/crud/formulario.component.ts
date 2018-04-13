@@ -228,6 +228,7 @@ export class FormularioComponent implements OnInit {
                 this.mensajeResponse.clase = "success";
                 this.mensaje(2);
                 document.getElementById('cargar_datos_actualizar').click();
+                
             },
             error => {
                 this.cargando = false;
@@ -505,6 +506,7 @@ export class FormularioComponent implements OnInit {
      */
     cargarDatos() {
         if (this.reset_form()) {
+ 
             try {
                 this.cargando = true;
 
@@ -517,11 +519,13 @@ export class FormularioComponent implements OnInit {
                         this.dato.patchValue(this.cargarDatosRecursivo(resultado.data, this.dato));
                         if(document.getElementById("catalogos"))
                             document.getElementById("catalogos").click();
+
                         
                         this.mensajeResponse.titulo = "Modificar";
                         this.mensajeResponse.texto = "Los datos se cargaron";
                         this.mensajeResponse.clase = "success";
                         this.mensaje(2);
+
                     },
                     error => {
                         this.cargando = false;

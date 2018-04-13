@@ -1,22 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input} from '@angular/core';
 import { Title }     from '@angular/platform-browser';
 import { forEach } from '@angular/router/src/utils/collection';
 import { CrudService } from '../../crud/crud.service';
 import { Observable } from 'rxjs';
 
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
-import { Input } from '@angular/core/src/metadata/directives';
 import { observeOn } from 'rxjs/operator/observeOn';
+import { EventEmitter } from 'selenium-webdriver';
 
 
 
 
 @Component({
-  selector: 'app-pastel',
-  templateUrl: './pastel.component.html',
-  styleUrls: ['./pastel.component.css']
+  selector: 'app-total-altas',
+  templateUrl: './total-altas.component.html',
+  styleUrls: ['./total-altas.component.css']
 })
-export class GraficaPastelComponent implements OnInit {
+export class TotalAltasComponent implements OnInit {
+
+    cargando:boolean = false;
 
     @ViewChild(BaseChartDirective) chart: BaseChartDirective;
 
@@ -24,13 +26,12 @@ export class GraficaPastelComponent implements OnInit {
 
     public pieChartLabels:string[] = [];
     public pieChartData:number[] = [];
-    public pieChartColors:{}[] = [{backgroundColor: ["#669933", "#0174DF", "#050409"]}];
-    public pieChartType:string = 'pie';
+    public pieChartColors:{}[] = [{backgroundColor: ["#38be38", "#0174DF", "#050409"]}];
+    public pieChartType:string = 'pie';  
     public nombreColor: any[] = [];
     public nombre:  any;
     public total: any;
     public totalAltas: any = '';
-    cargando: boolean = false;
 
     
     
@@ -66,14 +67,14 @@ export class GraficaPastelComponent implements OnInit {
               //console.log("datos grafica pastel",this.datos);
   
   
-              this.datos[3].altas.forEach(dete => {
+              this.datos[4].altas.forEach(dete => {
                 this.nombre = dete.nombre;             
                 this.total = dete.total;
 
                 this.pieChartLabels.push(this.nombre);
                 this.pieChartData.push(this.total);
 
-                this.totalAltas = this.datos[2].totalAltas;
+                this.totalAltas = this.datos[3].totalAltas;
 
                 this.nombreColor.push(dete);
 

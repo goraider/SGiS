@@ -1,14 +1,17 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { Location } from '@angular/common';
 
 import { environment } from '../../environments/environment';
 import { NotificationsService } from 'angular2-notifications';
 import { CrudService } from '../crud/crud.service';
+import { Router, ActivationEnd } from '@angular/router';
+
 
 @Component({
   selector: 'sistema-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.css'],
 })
 export class MenuComponent implements OnInit {
   mostrarMenuAside: boolean = false;
@@ -20,10 +23,16 @@ export class MenuComponent implements OnInit {
   API_PATH = environment.API_PATH;
   activar;
   cargando: boolean = false;
+  rutaActual: any = '';
 
   constructor(private fb: FormBuilder,
               private notificacion: NotificationsService,
-              private crudService: CrudService) { }
+              private ubicacion: Location,
+              private crudService: CrudService,
+              private ruta: Router) {
+
+                this.obtenerLink();
+              }
 
   menuactual: string;
   menutitulo: string;
@@ -60,6 +69,23 @@ export class MenuComponent implements OnInit {
       this.toggleCambiarclues();
     }
     this.listar();
+    
+
+
+  }
+
+  obtenerLink(){
+
+    this.ruta.events
+    .filter( evento => evento instanceof ActivationEnd )
+    .filter( (evento: ActivationEnd) => evento.snapshot.firstChild === null)
+    .map( (evento: ActivationEnd) => evento.snapshot.root.children[0].routeConfig.path )
+    .subscribe(event => {
+
+      this.rutaActual = event;
+  
+    });
+
   }
 
   toggleMenuAside() {
@@ -72,11 +98,27 @@ export class MenuComponent implements OnInit {
 
   cambiar_clues(val){
 
+
     localStorage.setItem('clues', JSON.stringify(val));
 
-    if(document.getElementById("cargar_datos_actualizar"))
-      document.getElementById("cargar_datos_actualizar").click();
-    
+
+      if(this.rutaActual == 'transacciones/seguimiento'){
+  
+          //location.reload();
+          this.ruta.navigate(['/transacciones/incidencia/lista']);
+          //document.getElementById("cargar_datos_actualizar").click();
+
+
+      }
+      else{
+        document.getElementById("cargar_datos_actualizar").click();
+        
+      }
+
+      if(document.getElementById("graficas"))
+        document.getElementById("graficas").click();
+
+
     this.clues = JSON.parse(localStorage.getItem("clues"));
     this.mostrarCambiarclues = false;
   }
@@ -94,6 +136,8 @@ export class MenuComponent implements OnInit {
         }
     );
 }
+
+
 abrirModalDirectorioApoyos(){
   document.getElementById("directorio_apoyos").classList.add('is-active');
 }

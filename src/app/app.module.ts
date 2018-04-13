@@ -97,13 +97,12 @@ import { DirectorioModule } from './transacciones/directorio/directorio.module';
 import { DirectorioApoyosModule } from './transacciones/directorio-apoyos/directorio-apoyos.module';
 import { CensoPersonasModule } from './transacciones/censo-personas/censo-personas.module';
 import { BaseConocimientosModule } from './transacciones/base-conocimientos/base-conocimientos.module';
-//import { CajaModule } from './transaccion/caja/caja.module';
+import { PantallaInformativaModule } from './transacciones/pantalla-informativa/pantalla-informativa.module';
 
 //Inventario
 
 
 //reportes
-import { ReporteArticuloModule } from './reporte/inventario/reporte-articulo.module';
 
 import { ReporteIncidenciaModule } from './reporte/incidencias-ingresos/reporte-incidencia.module';
 import { ReporteAltaModule } from './reporte/incidencias-altas/reporte-altas.module';
@@ -202,8 +201,8 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     DirectorioApoyosModule,
     CensoPersonasModule,
     BaseConocimientosModule,
-    
-    ReporteArticuloModule,
+    PantallaInformativaModule,
+  
 
     ReporteIncidenciaModule,
     ReporteAltaModule,

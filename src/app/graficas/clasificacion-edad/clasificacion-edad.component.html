@@ -1,15 +1,20 @@
 <div>
+    <a id="graficas" (click)="listar('dashboard');"></a>
     <div style="display: block">
+        <p class="title">
+            <strong>Clasificación de ingresos</strong>
+        </p>
+        <br>
         <canvas baseChart
                 [datasets]="barChartData"
                 [labels]="barChartLabels"
-                
                 [legend]="barChartLegend"
                 [chartType]="barChartType"
                 (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)"></canvas>
+                (chartClick)="chartClicked($event)">
+        </canvas>
     </div>
-    <button (click)="randomize()">Update</button>
+    
 </div>
 
 

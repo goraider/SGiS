@@ -6,44 +6,48 @@
 
 </section>
 
-<div class="tabs is-toggle is-fullwidth">
-    <ul>
-        <li [ngClass]="{ 'is-active' : tab == 1}">
-        <a (click)="tab=1">
-            <span class="icon is-small">
-            <i class="fa fa-female"></i>
-            </span>
-            <span>Ingresos & Altas</span>
-        </a>
-        </li>
-        <!-- <li [ngClass]="{ 'is-active' : tab == 2}">
-            <a (click)="tab=2">
-                <span class="icon is-small">
-                <i class="fa fa-hospital-o"></i>
-                </span>
-                <span>Barras</span>
-            </a>
-        </li> -->
-    </ul>
-</div>
+<span id="cargar_datos_actualizar" style="overflow-y:auto; overflow-x: hidden; display:block;" [style.maxHeight.px]="tamano-285">
 
-<div class="columns" [ngClass]="{ 'is-hidden': tab != 1}">
-    <div class="column is-1"></div>
-    <div class="column is-5">
-        <app-dona></app-dona>
-    </div>
-    <div class="column is-5">
-        <app-pastel></app-pastel>
-    </div>
-</div>
+        <div class="columns">
+            <div class="column is-1"></div>
+            <div class="column is-5">
+                <app-total-ingresos></app-total-ingresos>
+            </div>
+            <div class="column is-5">
+                <app-total-altas></app-total-altas> 
+            </div>
+        </div>
 
-<!-- <div class="columns" [ngClass]="{ 'is-hidden': tab != 2}">
-    <div class="column is-1"></div>
-    <div class="column is-7">
-        <app-barra></app-barra>
-    </div>
-</div> -->
+        <div class="columns">
+            <div class="column is-1"></div>
+            <div class="column is-5">
+                <app-clasificacion-ingresos></app-clasificacion-ingresos>
+            </div>
+            <div class="column is-5">
+                <app-diagnosticos-cie10></app-diagnosticos-cie10>
+            </div>
+        </div>
+        <!-- <div class="columns">
+            <div class="column is-1"></div>
+            <div class="column is-5">
+                <app-clasificacion-edad></app-clasificacion-edad>
+            </div>
+            <div class="column is-5">
 
+            </div>
+        </div> -->
+
+        <div class="columns">
+            <div class="column is-1"></div>
+            <div class="column is-10">
+                <app-porcentajes></app-porcentajes>
+            </div>
+            <div class="column is-1"></div>
+        </div>
+
+        
+
+</span>
 
 
 <app-hub #hub></app-hub>

@@ -19,6 +19,11 @@ export class DashboardComponent implements OnInit {
   datos: any[] = [];
   public menu;
   tab: number = 1;
+  likes: any =  10;
+  public clues;
+
+  tamano = document.body.clientHeight;
+  mostrarCambiarclues: boolean = false;
 
   constructor(private title: Title, private crudService: CrudService,) {}
 
@@ -35,8 +40,7 @@ export class DashboardComponent implements OnInit {
 
     if(abrir)
       document.getElementById("cambiar_clues").click();
-
-    
   }
+
 
 }

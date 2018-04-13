@@ -44,7 +44,7 @@
                             
                             <div class="level-item" *ngIf="ctrl.dato.estados_incidencias != ''">
                                 <a (click)="ctrl.mostrarLista(1)" id="rebuscar"></a>
-                                <div class="control is-expanded" *ngIf="!ctrl.cargando && ctrl.dato && !ctrl.busquedaActivada" >
+                                <div class="control is-expanded" *ngIf="ctrl.dato && !ctrl.cargando" >
                                     <div class="field">
                                         <label>Filtrar por Estado de Incidencia:</label>
                                         <div class="select is-medium" >
@@ -128,6 +128,7 @@
                             <tr>
                                 <th>N° Folio</th>
                                 <th>Paciente</th>
+                                <th>Edad</th>
                                 <th>Triage</th>
                                 <th>Estado de Incidencia</th>
                                 <th>Antiguedad</th>
@@ -140,13 +141,14 @@
                             <tr *ngFor="let item of ctrl.dato; let i=index">
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.id }}</strong></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="is-medium" *ngFor="let edades of item.pacientes"><strong>{{ edades.personas.edad }} Años</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" disabled><strong>{{ item.estados_incidencias.nombre }}</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.antiguedad }}</strong></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"  class="has-text-centered no_pdf">
 
                                     <div class="level-left">
-                                        <a class="navbar-item tooltip"  (click)="download($event, item.id);">
+                                        <a class="navbar-item tooltip"  (click)="generate($event, item.id);">
                                             <span class="icon fa-2x  has-text-danger ">
                                                 <i class="fa fa-file-pdf-o"></i>
                                             </span>
@@ -186,37 +188,43 @@
                                 </figure>
                             </div>
                             <div *ngIf="(i+1)<ctrl.dato.length" class="media-content" >
-                                <div class="content" *ngIf="(i+1)<ctrl.dato.length">
-                                <p *ngIf="(i+1)<ctrl.dato.length">
+                                <div class="content">
+                                    <p *ngIf="(i+1)<ctrl.dato.length">
 
-                                    <a *ngIf="(i+1)<ctrl.dato.length" title="Paciente">
-                                        <div *ngFor="let val of item.pacientes" class="is-medium fa-2x">
-                                            <strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong>
-                                        </div>
-                                    </a>
-                                    <a *ngIf="(i+1)<ctrl.dato.length"  title="N° Folio">
-                                            <strong>{{item.id}}</strong>
-                                    </a>
-                                    <br>
-                                    <a *ngIf="(i+1)<ctrl.dato.length"  title="Antigüedad">
-                                        <small>
-                                            <i class="fa fa-clock-o"></i>
-                                            <strong>{{ item.antiguedad }}</strong>
-                                        </small>
-                                    </a>
-                                    <br>
-                                    <a *ngIf="(i+1)<ctrl.dato.length" class="tag is-medium fa-2x" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}" title="Triage">
-                                    
-                                        <strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong>
+                                        <a *ngIf="(i+1)<ctrl.dato.length" title="Paciente">
+                                            <div *ngFor="let val of item.pacientes" class="is-medium fa-2x">
+                                                <strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong>
+                                            </div>
+                                        </a>
+                                        <a *ngIf="(i+1)<ctrl.dato.length"  title="N° Folio">
+                                                <strong>{{item.id}}</strong>
+                                        </a>
+                                        <br>
+                                        <a *ngIf="(i+1)<ctrl.dato.length"  title="Antigüedad">
+                                            <small>
+                                                <i class="fa fa-clock-o"></i>
+                                                <strong>{{ item.antiguedad }}</strong>
+                                            </small>
+                                        </a>
+                                        <br>
+                                        <a *ngIf="(i+1)<ctrl.dato.length" title="Edad">
+                                            <div *ngFor="let edades of item.pacientes">
+                                                <strong>{{ edades.personas.edad }} Años</strong>
+                                            </div>
+                                        </a>
+                                        <a *ngIf="(i+1)<ctrl.dato.length" class="tag is-medium fa-2x" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}" title="Triage">
+                                        
+                                            <strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong>
 
-                                    </a>
-                                </p>
-                                </div> 
-                                <nav *ngIf="(i+1)<ctrl.dato.length" class="level is-mobile" style="float:right">
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                                <nav *ngIf="(i+1)<ctrl.dato.length" class="level" style="float:right">
 
-                                <div *ngIf="(i+1)<ctrl.dato.length" class="level-left no_pdf" >
+                                <div *ngIf="(i+1)<ctrl.dato.length" class="level-right no_pdf" >
 
-                                    <a class="navbar-item tooltip" (click)="download($event, item.id);">
+                                    <a class="navbar-item tooltip" (click)="generate($event, item.id);">
                                             <span class="icon fa-2x  has-text-danger ">
                                                 <i class="fa fa-file-pdf-o"></i>
                                             </span>
@@ -230,12 +238,11 @@
                                         <span class="tooltiptext">Seguimiento</span>
                                     </a>
                                     
-                                    <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
+                                    <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-right"></tabla-acciones>
 
                                 </div>
 
                                 </nav>           
-                            </div>
                         </article>
                     </div>
                 </span>
@@ -250,6 +257,119 @@
         </div>
     </div>
 </div>
+
+<table id="datosPaciente" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Teléfono</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Municipio</th>
+            <th>Localidad</th>
+            <th>Estado de Embarazo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let paciente of datosSeguimiento.pacientes; let i=index">
+            <td style="vertical-align: middle;">{{paciente.personas.nombre}} {{paciente.personas.paterno}} {{paciente.personas.materno}}</td>
+            <td style="vertical-align: middle;">{{paciente.personas.edad}} Años</td>
+            <td style="vertical-align: middle;">{{paciente.personas.telefono}}</td>
+            <td style="vertical-align: middle;">{{paciente.personas.fecha_nacimiento | date: ' dd/MM/yyyy '}}</td>
+            <td style="vertical-align: middle;">{{paciente.personas.municipios.nombre}}</td>
+            <td style="vertical-align: middle;">{{paciente.personas.localidades.nombre}}</td>
+            <td style="vertical-align: middle;">{{paciente.personas.estados_embarazos.nombre}}</td>
+        </tr>
+            <tr *ngIf="datosSeguimiento.length == 0">
+            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+            </tr> 
+    </tbody>
+</table>
+
+<table id="datosSeguimiento" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
+    <thead>
+        <tr>
+            <th>N°.</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Triage</th>
+            <th>CIE-10</th>
+            <th>Hubicación</th>
+            <th>Turno</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let val of datosSeguimiento.movimientos_incidencias; let i=index">
+            <td style="vertical-align: middle;">{{i + 1}}</td>
+            <td style="vertical-align: middle;">{{val.estados_pacientes.nombre}}</td>
+            <td style="vertical-align: middle;">{{val.created_at | date: ' dd/MM/yyyy h:mm:ss a '}}</td>
+            <td style="vertical-align: middle;">{{val.triage_colores.nombre}}</td>
+            <td style="vertical-align: middle;">{{val.subcategorias_cie10.nombre}}</td>
+            <td style="vertical-align: middle;">{{val.ubicaciones_pacientes.nombre}}</td>
+            <td style="vertical-align: middle;">{{val.turnos.nombre}}</td>
+        </tr>
+         <tr *ngIf="datosSeguimiento.movimientos_incidencias == ''">
+            <td colspan="5" style="vertical-align: middle; color:#888;">La Paciente no tiene Seguimientos.</td>
+         </tr> 
+    </tbody>
+</table>
+
+
+<table id="datosReferencias" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
+    <thead>
+        <tr>
+            <th>N°</th>
+            <th>Fecha</th>
+            <th>Unidad de Origen</th>
+            <th>Unidad de Destino</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let val of datosSeguimiento.referencias; let i=index">
+            <td style="vertical-align: middle;">{{i + 1}}</td>
+            <td style="vertical-align: middle;">{{val.created_at | date: ' dd/MM/yyyy h:mm:ss a '}}</td>
+            <td style="vertical-align: middle;">{{val.clues_origen}} - {{val.clues_origen_o.nombre}}</td>
+            <td style="vertical-align: middle;">{{val.clues_destino}} - {{val.clues_destino_o.nombre}}</td>
+
+        </tr>
+         <tr *ngIf="datosSeguimiento.referencias == ''">
+            <td colspan="5" style="vertical-align: middle; color:#888;">La Pciente no tiene Referencias.</td>
+         </tr> 
+    </tbody>
+</table>
+
+<table id="datosAlta" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
+    <thead>
+        <tr>
+            <th>N°</th>
+            <th>Fecha y Hora</th>
+            <th>Unidad Medica de Atención</th>
+            <th>Tipo de Alta</th>
+            <th>Turno</th>
+            <th>Metodo de Planificación</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let val of datosSeguimiento.altas_incidencias; let i=index">
+            <td style="vertical-align: middle;">{{i + 1}}</td>
+            <td style="vertical-align: middle;">{{val.created_at | date: ' dd/MM/yyyy h:mm:ss a '}}</td>
+            <td style="vertical-align: middle;">{{val.clues_regresa}} - {{val.clues_regresa_o.nombre}}</td>            
+            <td style="vertical-align: middle;">{{val.tipos_altas.nombre}}</td>
+            <td style="vertical-align: middle;">{{val.turnos.nombre}}</td>
+            <td style="vertical-align: middle;">{{val.metodos_planificacion.nombre}}</td>
+            
+
+        </tr>
+            <tr *ngIf="datosSeguimiento.altas_incidencias == ''">
+            <td colspan="5" style="vertical-align: middle; color:#888;">La Paciente aún no está dada de Alta.</td>
+            </tr> 
+    </tbody>
+</table>
+
+
+
 
 <!-- <div id="imprimir" style="display:none">
         

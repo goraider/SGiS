@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray, FormsModule
 import { CrudService } from '../../../../crud/crud.service';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
-import { ActivatedRoute, Params } from '@angular/router';
-import { Router } from '@angular/router';
+
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { concat } from 'rxjs/observable/concat';
 
@@ -19,7 +19,7 @@ declare var google: any;
   styleUrls: ["./formulario.component.css"]
 })
 
-export class FormularioComponent {
+export class FormularioComponent implements OnInit {
 
   @ViewChild('llevaControl') llevaControl: ElementRef;
   @ViewChild('nollevaControl') nollevaControl: ElementRef;
@@ -197,6 +197,8 @@ export class FormularioComponent {
 
     });
 
+
+
     this.dato = this.fb.group({
 
       id: [''],
@@ -308,10 +310,8 @@ export class FormularioComponent {
       ]),
 
     });
-
+ 
     
-    
-
 
       //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
 
@@ -322,6 +322,8 @@ export class FormularioComponent {
       setTimeout(() => {
         document.getElementById("catalogosAlta").click();
       }, 200);
+
+      //console.log("dato",this.dato.controls.referencias['controls'][0]['controls']['clues_destino']);
 
 
     

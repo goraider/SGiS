@@ -16,6 +16,8 @@ import { ChartsModule } from 'ng2-charts';
 import { GraficasModule } from '../graficas/graficas.module'
 import { DashboardComponent } from './dashboard.component';
 
+import { CambiarCluesComponent } from './dash-temporal.component';
+
 //servicios
 import { AuthService } from '../auth.service';
 
@@ -49,7 +51,8 @@ import { CKEditorModule } from 'ng2-ckeditor';
     CKEditorModule
   ],
   declarations: [
-    DashboardComponent, 
+    DashboardComponent,
+    CambiarCluesComponent,
   ],
   providers: [ AuthService, CrudService ],
 })

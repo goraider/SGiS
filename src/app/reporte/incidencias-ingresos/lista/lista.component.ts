@@ -68,7 +68,7 @@ export class ReporteIncidenciaComponent{
   ){}
 
   
-  tamano = document.body.clientHeight;
+   tamano = document.body.clientHeight;
    rangos_fecha;
    filtro;
    orden;

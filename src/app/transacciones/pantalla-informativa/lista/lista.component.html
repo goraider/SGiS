@@ -1,0 +1,230 @@
+<!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
+
+
+<!-- Menu principal "-->
+<sistema-menu></sistema-menu>
+
+<div class="contenedor columns " style="height:100%; ">
+
+    <div class="column" style="padding:1em;">
+        <div style="background: #FFF; border-radius: 1em; ">
+            
+            <!-- Opciones y busqueda -->
+            
+                
+            <span id="exportar_datos" style="overflow-y:auto; overflow-x: hidden; display:block;"[style.maxHeight.px]="tamano-285">
+                    
+                <!--Tabla -->
+                <table id="tabla_encabezado" class="table is-striped is-fullwidth" *ngIf="!cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Fecha de Ingreso</th>
+                            <th>Hora de Ingreso</th>
+                            <th>Edad</th>
+                            <th>Triage</th>
+                            <th>Ubicación</th>
+                            <th>Estado</th>
+
+                            
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of dato; let i=index">
+                            <td style="vertical-align: middle; font: 180% sans-serif;">{{ item.pacientes[0].personas.nombre}} {{ item.pacientes[0].personas.paterno}} {{ item.pacientes[0].personas.materno}}</td>
+                            <td style="vertical-align: middle; font: 180% sans-serif;">
+                                <strong>
+                                    {{ item.created_at | date: ' dd/LL/yyyy '}}
+                                </strong>
+                            </td>
+                            <td style="vertical-align: middle; font: 180% sans-serif;">
+                                <strong>
+                                    {{ item.created_at | date: ' h:mm a '}}
+                                </strong>
+                            </td>
+                            <td style="vertical-align: middle; font: 180% sans-serif;">{{ item.pacientes[0].personas.edad }} Años</td>
+                            <td style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong style="font: 180% sans-serif;">{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
+                            <td style="vertical-align: middle; font: 180% sans-serif;">{{ item.movimientos_incidencias[0].ubicaciones_pacientes.nombre}}</td>
+                            <td style="vertical-align: middle; font: 180% sans-serif;">
+
+                                <a *ngIf="item.estados_incidencias.id == 1">
+                                    En ingreso
+                                </a>
+
+                                <a *ngIf="item.estados_incidencias.id == 2">
+                                    En atención
+                                </a>
+
+                                <a *ngIf="item.estados_incidencias.id == 3">
+                                    Dada de Alta
+                                </a>
+
+                                <a *ngIf="item.estados_incidencias.id == 4">
+                                    En referencia
+                                </a>
+
+                                <a *ngIf="item.estados_incidencias.id == 5">
+                                    Dada de Alta
+                                </a>
+                            </td>
+
+
+                        </tr>
+                        <tr *ngIf="dato.length == 0">
+                            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <!--Lista -->
+            </span>
+            <!-- Paginación para la lista  -->
+            <div style="padding:1em;" >
+    
+                <p class="control" style="float:right; margin-left: 16px;">
+                    <span class="select">
+                    <select #totalPorPagina (change)="cambiar_filas_pagina(totalPorPagina)" >
+                        <option value="5">Filas por página: 5</option>
+                        <option value="10">Filas por página: 10</option>
+
+                        <option value="all">Ver Todo</option>
+                    </select>
+                    </span>
+                </p>
+                <nav class="pagination is-centered" >
+            
+                        <a id="anterior" class="pagination-previous" [ngClass]="{'is-disabled': 1 == paginaActual }" (click)="paginaAnterior()">Anterior</a>
+                        <a id="siguiente" class="pagination-next"  [ngClass]="{'is-disabled': paginasTotales <= paginaActual }" (click)="paginaSiguiente()">Siguiente</a>
+            
+                    <ul class="pagination-list" *ngIf="paginasTotales<=7">
+                        <li *ngFor="let i of indicePaginas">
+                        <a class="pagination-link" [ngClass]="{'is-current': i == paginaActual }" (click)="mostrarLista(i)">{{ i }}</a>
+                        </li>
+                    </ul>
+            
+                    <ul class="pagination-list" *ngIf="paginaActual < 4 && paginasTotales > 7">
+                        <li>
+                            <a class="pagination-link" [ngClass]="{'is-current': 1 == paginaActual }" (click)="mostrarLista(1)">1</a>
+                        </li>
+                        <li><a class="pagination-link" [ngClass]="{'is-current': 2== paginaActual }" (click)="mostrarLista(2)">2</a></li>
+                        <li><a class="pagination-link" [ngClass]="{'is-current': 3== paginaActual }" (click)="mostrarLista(3)">3</a></li>
+                        <li><a class="pagination-link" [ngClass]="{'is-current': 4== paginaActual }" (click)="mostrarLista(4)">4</a></li>
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <li >
+                        <a class="pagination-link" [ngClass]="{'is-current': paginasTotales == paginaActual }" (click)="mostrarLista(paginasTotales)">{{ paginasTotales }}</a>
+                        </li>
+                    </ul>
+            
+                    <ul class="pagination-list" *ngIf="paginaActual > paginasTotales - 4 && paginasTotales > 7">
+                        <li>
+                            <a class="pagination-link" [ngClass]="{'is-current': 1 == paginaActual }" (click)="mostrarLista(1)">1</a>
+                        </li>
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <li><a class="pagination-link" [ngClass]="{'is-current': paginasTotales - 3 == paginaActual }" (click)="mostrarLista(paginasTotales - 3)">{{ paginasTotales - 3 }}</a></li>
+                        <li><a class="pagination-link" [ngClass]="{'is-current': paginasTotales - 2 == paginaActual }" (click)="mostrarLista(paginasTotales - 2)">{{ paginasTotales - 2 }}</a></li>
+                        <li><a class="pagination-link" [ngClass]="{'is-current': paginasTotales - 1 == paginaActual }" (click)="mostrarLista(paginasTotales - 1)">{{ paginasTotales - 1 }}</a></li>
+                    
+                        <li >
+                        <a class="pagination-link" [ngClass]="{'is-current': paginasTotales == paginaActual }" (click)="mostrarLista(paginasTotales)">{{ paginasTotales }}</a>
+                        </li>
+                    </ul>
+            
+                    <ul class="pagination-list" *ngIf="paginaActual >= 4 && paginaActual <= paginasTotales - 4 && paginasTotales > 7">
+                        <li>
+                        <a class="pagination-link" [ngClass]="{'is-current': 1 == paginaActual }" (click)="mostrarLista(1)">1</a>
+                        </li>
+                        <li><span class="pagination-ellipsis">&hellip;</span>
+                        </li>
+                        <li>
+                        <a class="pagination-link" [ngClass]="{'is-current': paginaActual-1 == paginaActual }" (click)="mostrarLista(paginaActual-1)">{{ paginaActual-1 }}</a>
+                        </li>
+                        <li>
+                        <a class="pagination-link" [ngClass]="{'is-current': paginaActual == paginaActual }" (click)="mostrarLista(paginaActual)">{{ paginaActual }}</a>
+                        </li>
+                        <li >
+                        <a class="pagination-link" [ngClass]="{'is-current': paginaActual+1 == paginaActual }" (click)="mostrarLista(paginaActual+1)">{{ paginaActual+1 }}</a>
+                        </li>
+                        <li><span class="pagination-ellipsis">&hellip;</span></li>
+                        <li >
+                        <a class="pagination-link" [ngClass]="{'is-current': paginasTotales == paginaActual }" (click)="mostrarLista(paginasTotales)">{{ paginasTotales }}</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Datos de la clue y su directorio -->
+<div class="modal" id="detalle">
+    <div class="modal-background"></div>
+    <div class="modal-card" style="width: 80%; height: 80%;">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Datos de la Unidad Médica y Directorio</p>
+            <button class="delete" (click)="cerrarModal()"></button>
+        </header>
+        <section class="modal-card-body hero is-primary is-bold">
+            <div class="box">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>{{data_clues.nombre}}</strong>
+                                <br>
+                            </p>
+                            <p>
+                                <small><strong>CLUES: </strong>{{data_clues.clues}}</small> <small> <strong>DIRECCIÓN: </strong>{{ data_clues.domicilio }} C.P {{ data_clues.codigoPostal }} </small>
+                                <small> <strong> MUNICIPIO: </strong> {{ data_clues.municipios?.nombre }} - <strong> LOCALIDAD: </strong> {{ data_clues.localidad }}</small>
+                                <small> <strong>JURISDICCIÓN:</strong> </small> <small>{{data_clues.jurisdiccion?.nombre}}</small>
+                                
+                            </p>
+
+                            <figure>
+                                <div style="height: 400px; border-radius: 15px" id="map"></div>
+                            </figure>
+                            <br>
+                            <div>                                
+                                <blockquote *ngIf="data_clues.usuarios == ''">
+                                        <h1 style="vertical-align: middle; color:#888; text-align: center;">NO TIENE UN DIRECTORIO ASIGNADO</h1>
+                                </blockquote>
+                                <h2 *ngIf="data_clues.usuarios != ''">
+                                    DIRECTORIO
+                                </h2>
+                            </div>
+
+                            <blockquote class="content" *ngFor="let item of data_clues.usuarios">
+                                
+                                
+                                <strong>{{item.nombre}} {{item.paterno}} {{item.materno}}</strong>
+                                <br>
+                                <em> {{item.cargos.nombre}}</em>
+                                <br><br>
+                                <div *ngFor="let contacto of item.sis_usuarios_contactos; let con1=index">
+                                    <div *ngIf="contacto.tipos_medios_id == 2">
+                                        <i class="icon fa fa-mobile"></i>{{contacto.valor}}
+                                    </div>
+                                </div>
+
+                                <div *ngFor="let contacto of item.sis_usuarios_contactos; let con2=index">
+                                    <div *ngIf="contacto.tipos_medios_id == 1">
+                                        <i class="icon fa fa-envelope"></i>{{contacto.valor}}
+                                    </div>
+                                </div>
+            
+                            </blockquote>
+
+                        </div>
+                        
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </div>
+</div>

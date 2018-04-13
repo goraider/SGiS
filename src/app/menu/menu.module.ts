@@ -8,6 +8,7 @@ import { PerfilModule } from '../perfil/perfil.module';
 import { BloquearPantallaModule } from '../bloquear-pantalla/bloquear-pantalla.module';
 
 import { MenuComponent } from './menu.component';
+
 import { MenuAsideComponent } from './menu-aside/menu-aside.component';
 import { PipesModule }             from '../pipes/pipes.module';
 import { ParcialModule } from '../parcial/parcial.module';

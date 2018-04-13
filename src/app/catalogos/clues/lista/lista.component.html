@@ -129,20 +129,33 @@
                                 <div style="height: 400px; border-radius: 15px" id="map"></div>
                             </figure>
                             <br>
-                            <p>
-                                <strong>DIRECTORIO</strong>
-                                <br>
-                            </p>
+                            <div>                                
+                                <blockquote *ngIf="data_clues.usuarios == ''">
+                                        <h1 style="vertical-align: middle; color:#888; text-align: center;">NO TIENE UN DIRECTORIO ASIGNADO</h1>
+                                </blockquote>
+                                <h2 *ngIf="data_clues.usuarios != ''">
+                                    DIRECTORIO
+                                </h2>
+                            </div>
 
                             <blockquote class="content" *ngFor="let item of data_clues.usuarios">
+                                
                                 
                                 <strong>{{item.nombre}} {{item.paterno}} {{item.materno}}</strong>
                                 <br>
                                 <em> {{item.cargos.nombre}}</em>
                                 <br><br>
-                                <i class="icon fa fa-mobile"></i> {{item.celular}}
-                                <br>
-                                <i class="icon fa fa-envelope" href="mailto:ugus.sgis@gmail.com"></i> {{item.id}}
+                                <div *ngFor="let contacto of item.sis_usuarios_contactos; let con1=index">
+                                    <div *ngIf="contacto.tipos_medios_id == 2">
+                                        <i class="icon fa fa-mobile"></i>{{contacto.valor}}
+                                    </div>
+                                </div>
+
+                                <div *ngFor="let contacto of item.sis_usuarios_contactos; let con2=index">
+                                    <div *ngIf="contacto.tipos_medios_id == 1">
+                                        <i class="icon fa fa-envelope"></i>{{contacto.valor}}
+                                    </div>
+                                </div>
             
                             </blockquote>
 

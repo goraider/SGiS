@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Title }     from '@angular/platform-browser';
 import { forEach } from '@angular/router/src/utils/collection';
 import { CrudService } from '../../crud/crud.service';
 
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
-import { Input } from '@angular/core/src/metadata/directives';
 import { Router } from '@angular/router';
 
 
@@ -27,7 +26,7 @@ export class TotalIngresosComponent implements OnInit {
 
     public doughnutChartLabels:string[] = [];
     public doughnutChartData:number[] = [];
-    public doughnutChartColors:{}[] = [{backgroundColor: ["#669933", "#ffcc33", "#cc3300"]}];
+    public doughnutChartColors:{}[] = [{backgroundColor: ['rgb(102, 153, 51, 0.9)', 'rgb(255, 204, 51, 0.9)', 'rgb(204, 51, 0, 0.9)']}];
     public doughnutChartType:string = 'doughnut';
   
     public totalIncidencias: any = '';
@@ -41,7 +40,7 @@ export class TotalIngresosComponent implements OnInit {
                 private ruta: Router) { }
 
     ngOnInit() {
-      console.log("onninit",this.chart);
+
       this.listar('dashboard');
      
     }
@@ -52,7 +51,7 @@ export class TotalIngresosComponent implements OnInit {
       this.cargando = true;
       this.crudService.lista_general(url).subscribe(
           resultado => {
-              this.cargando = false;
+              
 
               this.datos = resultado as any[];
               //this.datos.push(...resultado);
@@ -67,12 +66,13 @@ export class TotalIngresosComponent implements OnInit {
 
                 //console.log(this.chart);
 
-            });
+              });
+
+              this.cargando = false;
 
          
             setTimeout(() => {
               if (this.chart && this.chart.chart && this.chart.chart.config) {
-                
                 this.chart.chart.update();
               }
             });
@@ -90,13 +90,5 @@ export class TotalIngresosComponent implements OnInit {
       this.ruta.navigate(['/cambiar-clues']);
     }
 
-    // events
-    public chartClicked(e:any):void {
-      console.log(e);
-    }
-    
-    public chartHovered(e:any):void {
-      console.log(e);
-    }
   
 }

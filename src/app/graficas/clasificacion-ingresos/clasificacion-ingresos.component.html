@@ -1,13 +1,22 @@
 <div>
-    <div style="display: block">
+
+    <div *ngIf="cargando" class="field is-grouped is-grouped-centered is-large">
+        <span class="tag is-large is-primary">
+            <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>&nbsp;Cargando...
+        </span>
+    </div>
+
+    <div *ngIf="!cargando">
         <p class="title">
-            <strong>Clasificación por edad</strong>
+            <strong>Clasificación por Ingresos</strong>
         </p>
         <br>
         <canvas baseChart
                 [datasets]="barChartData"
                 [labels]="barChartLabels"
+                [options]="barChartOptions"
                 [legend]="barChartLegend"
+                [colors]="colors"
                 [chartType]="barChartType">
         </canvas>
     </div>

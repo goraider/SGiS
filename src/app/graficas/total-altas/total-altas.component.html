@@ -1,22 +1,31 @@
 <div>
-    <canvas baseChart
-        [data]="pieChartData"
-        [labels]="pieChartLabels"
-        [chartType]="pieChartType"
-        [colors]="pieChartColors"
-        (chartHover)="chartHovered($event)"
-        (chartClick)="chartClicked($event)">
-    </canvas>
-    <br>
-    <div class="card center" style="border-radius: 25px;">
-        <div class="card-content">
-            <p class="subtitle">
-                <strong>Total de Altas: {{totalAltas}}</strong>
-            </p>
-            <div>
-                <a class="content" *ngFor="let color of nombreColor; let i=index">
-                    El <strong>{{color.total*100/totalAltas | number : '1.2-2'}} %</strong> del Total de Altas son por <strong>{{color.nombre}}</strong><br>
-                </a>
+
+    <div *ngIf="cargando" class="field is-grouped is-grouped-centered is-large">
+        <span class="tag is-large is-primary">
+            <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>&nbsp;Cargando...
+        </span>
+    </div>
+
+    <div *ngIf="!cargando">
+        <canvas baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [colors]="pieChartColors"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+        <br>
+        <div class="card center" style="border-radius: 25px;">
+            <div class="card-content">
+                <p class="subtitle">
+                    <strong>Total de Altas: {{totalAltas}}</strong>
+                </p>
+                <div>
+                    <a class="content" *ngFor="let color of nombreColor; let i=index">
+                        El <strong>{{color.total*100/totalAltas | number : '1.2-2'}} %</strong> del Total de Altas son por <strong>{{color.nombre}}</strong><br>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

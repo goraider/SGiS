@@ -1,90 +1,101 @@
-<div class="columns">
-    <div class="column is-4">
-        <div style="display: block">
-            <p class="title">
-                <strong>Embarazos</strong>
-            </p>
-            <div class="card center" style="border-radius: 25px;">
-                <div class="card-content">
-                    <div style="align-content: center">
-                        <a class="content" *ngFor="let embara of embarazos; let i=index">
-                            <strong>Embarazos Confirmados: {{embara.atendidosEmbarazos}} </strong><br>
-                            <strong>Embarazos Atendidos: {{embara.esperadoEmbarazos}}</strong><br><br>
-                            <p class="subtitle">
-                                <strong>Porcentaje: {{embara.porcentajeEmbarazos}} %</strong>
-                            </p>
-                        </a>
+<div>
+    <div *ngIf="cargando" class="field is-grouped is-grouped-centered is-large">
+        <span class="tag is-large is-primary">
+            <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>&nbsp;Cargando...
+        </span>
+    </div>
+
+    <div class="columns" *ngIf="!cargando">
+
+        <div class="column is-4">
+            <div style="display: block">
+                <p class="title">
+                    <strong>Embarazos</strong>
+                </p>
+                <div class="card center" style="border-radius: 25px;">
+                    <div class="card-content">
+                        <div style="align-content: center">
+                            <a class="content" *ngFor="let embara of embarazos; let i=index">
+                                <strong>Embarazos Confirmados: {{embara.atendidosEmbarazos}} </strong><br>
+                                <strong>Embarazos Atendidos: {{embara.esperadoEmbarazos}}</strong><br><br>
+                                <p class="subtitle">
+                                    <strong>Porcentaje: {{embara.porcentajeEmbarazos}} %</strong>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div style="display: block">
+                <p class="title">
+                    <strong>Partos</strong>
+                </p>
+                <div class="card center" style="border-radius: 25px;">
+                    <div class="card-content">
+                        <div style="align-content: center">
+                            <a class="content" *ngFor="let partos of partos; let i=index">
+                                <strong>Partos Esperados: {{partos.atendidosPartos}} </strong><br>
+                                <strong>Partos Realizados: {{partos.esperadoPartos}}</strong><br><br>
+                                <p class="subtitle">
+                                    <strong>Porcentaje: {{partos.porcentajePartos}} %</strong>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div style="display: block">
+                <p class="title">
+                    <strong>Puerperio</strong>
+                </p>
+                <div class="card center" style="border-radius: 25px;">
+                    <div class="card-content">
+                        <div style="align-content: center">
+                            <a class="content" *ngFor="let puer of puerperio; let i=index">
+                                <strong>Visitas programadas: {{puer.programadasPuerperio}} </strong><br>
+                                <strong>Visitas realizadas: {{puer.realizadasPuerperio}}</strong><br><br>
+                                <p class="subtitle">
+                                    <strong>Porcentaje: {{puer.porcentajePuerperio}} %</strong>
+                                </p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="column is-4">
-        <div style="display: block">
-            <p class="title">
-                <strong>Partos</strong>
-            </p>
-            <div class="card center" style="border-radius: 25px;">
-                <div class="card-content">
-                    <div style="align-content: center">
-                        <a class="content" *ngFor="let partos of partos; let i=index">
-                            <strong>Partos Esperados: {{partos.atendidosPartos}} </strong><br>
-                            <strong>Partos Realizados: {{partos.esperadoPartos}}</strong><br><br>
-                            <p class="subtitle">
-                                <strong>Porcentaje: {{partos.porcentajePartos}} %</strong>
-                            </p>
-                        </a>
+    <br>
+    <div class="columns" *ngIf="!cargando">
+        <div class="column is-4"></div>
+        
+        <div class="column is-4">
+            <div>
+                <p class="title">
+                    <strong >Porcentaje de éxito en la atención</strong>
+                </p>
+                <div class="card center" style="border-radius: 25px;">
+                    <div class="card-content">
+                        <div style="align-content: center">
+                            <a class="content">
+                                <p class="subtitle">
+                                    <strong>{{porcentajeExito}} %</strong>
+                                </p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="column is-4">
-        <div style="display: block">
-            <p class="title">
-                <strong>Puerperio</strong>
-            </p>
-            <div class="card center" style="border-radius: 25px;">
-                <div class="card-content">
-                    <div style="align-content: center">
-                        <a class="content" *ngFor="let puer of puerperio; let i=index">
-                            <strong>Visitas programadas: {{puer.programadasPuerperio}} </strong><br>
-                            <strong>Visitas realizadas: {{puer.realizadasPuerperio}}</strong><br><br>
-                            <p class="subtitle">
-                                <strong>Porcentaje: {{puer.porcentajePuerperio}} %</strong>
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
 
-<br>
 
-<div class="columns">
-    <div class="column is-4"></div>
-    
-    <div class="column is-4">
-        <div>
-            <p class="title">
-                <strong >Porcentaje de éxito en la atención</strong>
-            </p>
-            <div class="card center" style="border-radius: 25px;">
-                <div class="card-content">
-                    <div style="align-content: center">
-                        <a class="content">
-                            <p class="subtitle">
-                                <strong>{{porcentajeExito}} %</strong>
-                            </p>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 

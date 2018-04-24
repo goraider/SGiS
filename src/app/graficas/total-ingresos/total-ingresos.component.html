@@ -1,12 +1,19 @@
+<a id="graficas" (click)="cambiar_clues_dash($event);"></a>
+
 <div>
-    <a id="graficas" (click)="cambiar_clues_dash($event);"></a>
+
+    <div *ngIf="cargando" class="field is-grouped is-grouped-centered is-large">
+        <span class="tag is-large is-primary">
+            <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>&nbsp;Cargando...
+        </span>
+    </div>
+
+    <div *ngIf="!cargando">
         <canvas baseChart
             [data]="doughnutChartData"
             [labels]="doughnutChartLabels"
             [chartType]="doughnutChartType"
-            [colors]="doughnutChartColors"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)">
+            [colors]="doughnutChartColors">
         </canvas>
         <br>
         <div class="card center" style="border-radius: 25px;">
@@ -21,8 +28,5 @@
                 </div>
             </div>
         </div>
+    </div>
 </div>
-
-
-
-

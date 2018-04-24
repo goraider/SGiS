@@ -161,7 +161,7 @@ export class ListaComponent {
     this.crudService.lista(pagina, this.resultadosPorPagina, "pantalla-informativa").subscribe(
         resultado => {
 
-            console.log(resultado);
+            //console.log(resultado);
 
             this.cargando = false;
             this.dato = resultado.data as any[];
@@ -180,10 +180,10 @@ export class ListaComponent {
 
         
 
-            this.mensajeResponse.mostrar = true;
-            this.mensajeResponse.texto = "lista cargada";
-            this.mensajeResponse.clase = "success";
-            this.mensaje(2);
+            // this.mensajeResponse.mostrar = true;
+            // this.mensajeResponse.texto = "lista cargada";
+            // this.mensajeResponse.clase = "success";
+            // this.mensaje(2);
         },
         error => {
             this.cargando = false;

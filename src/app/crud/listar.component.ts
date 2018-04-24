@@ -511,7 +511,7 @@ export class ListarComponent implements OnInit {
 
         pdf.output('dataurlnewwindow')*/
         this.json = json;
-console.log(this.json);
+    //console.log(this.json);
         if (document.getElementById('funcion_secundaria' + contador)) {
             document.getElementById('funcion_secundaria' + contador).click();
         }
@@ -561,7 +561,7 @@ console.log(this.json);
 
             let iframe = document.createElement('iframe');
             iframe.setAttribute('id', 'printf');
-            iframe.setAttribute('style', 'display:none');
+            //iframe.setAttribute('style', 'display:none');
             document.body.appendChild(iframe);
 
             let mywindow = <HTMLSelectElement>document.getElementById('printf');

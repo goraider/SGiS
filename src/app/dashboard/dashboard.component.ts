@@ -16,12 +16,8 @@ import { Input } from '@angular/core/src/metadata/directives';
 export class DashboardComponent implements OnInit {
 
   usuario: any = {}
-  datos: any[] = [];
-  public menu;
-  tab: number = 1;
-  likes: any =  10;
   public clues;
-
+  public menu;
   tamano = document.body.clientHeight;
   mostrarCambiarclues: boolean = false;
 

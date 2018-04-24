@@ -20,19 +20,49 @@ export class ClasificacionIngresosComponent implements OnInit {
 
     datos: any[] = [];
 
-    public doughnutChartLabels:string[] = [];
-    public doughnutChartData:number[] = [];
-    
-    public doughnutChartType:string = 'doughnut';
-
     public barChartLabels:string[] = [];
     public barChartType:string = 'bar';
     public barChartLegend:boolean = true;
-   
-    public barChartData:any[] = [
-      {data: [], label: []},
-      {data: [], label: []}
+
+    public barChartOptions:any = {
+      scaleShowVerticalLines: false,
+      responsive: true,
+
+        scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero: true,
+                  maxTicksLimit: 5,
+                  // Create scientific notation labels
+                  callback: function(value, index, values) {
+                      return value + ' Ingresos';
+                  }
+              }
+          }],
+
+          xAxes: [{
+            categoryPercentage: 1.0,
+            barPercentage: 0.6
+          }],
+          
+        },
+
+        tooltips: {
+          callbacks: {
+              label: tooltipItem =>  `${tooltipItem.yLabel}: Ingresos`, 
+              title: () => null,
+          }
+        },
+    };
+
+    public colors:any = [
+
+      {backgroundColor:'rgba(54, 162, 235, 0.6)'},
+      {backgroundColor:'rgba(194, 27, 24, 0.6)'},
+
     ];
+   
+    public barChartData:any[] = [];
   
     public nombre:  any;
     public porcentaje: any;
@@ -44,17 +74,11 @@ export class ClasificacionIngresosComponent implements OnInit {
 
     cargando: boolean = false;
     
-    constructor(private title: Title, private crudService: CrudService) {
-      this.doughnutChartLabels.length = 0;
-      this.doughnutChartData.length = 0;
-      
-    }
+    constructor(private title: Title, private crudService: CrudService) {}
 
     ngOnInit() {
 
       this.listar('dashboard');
-
-      //console.log("oninit",this.barChartData);
      
     }
 
@@ -69,29 +93,23 @@ export class ClasificacionIngresosComponent implements OnInit {
               this.datos = resultado as any[];
               //this.datos.push(...resultado);
   
-              
-              //console.log("datos grafica barra",this.datos);
-
-              this.datos[5].clasificacionIngreso[0].total;
-              this.datos[5].clasificacionIngreso[1].total;
-              
-              this.barChartData[0].label.push('Ingresos Con Referencia'+' '+ '%'+this.datos[5].clasificacionIngreso[0].porcentaje);
-              this.barChartData[1].label.push('Ingresos Sin Referencia'+' '+ '%'+this.datos[5].clasificacionIngreso[1].porcentaje);
-
-              this.barChartData[0].data.push(this.datos[5].clasificacionIngreso[0].total);
-              this.barChartData[1].data.push(this.datos[5].clasificacionIngreso[1].total);
-  
               this.datos[5].clasificacionIngreso.forEach(clasificacion_ingresos => {
 
                 this.nombre = clasificacion_ingresos.nombre; 
                 this.porcentaje = clasificacion_ingresos.porcentaje;          
 
-                
-
                 this.barChartLabels.push(this.nombre);
-                
 
-                //console.log("barras",clasificacion_ingresos);
+                
+                let clone = JSON.parse(JSON.stringify(this.barChartData));
+
+                var objeto = { data  : [clasificacion_ingresos.total],
+                               label : clasificacion_ingresos.nombre +':'+ ' '+ clasificacion_ingresos.porcentaje + '%',
+                             };
+
+                this.barChartData.push(objeto);
+
+                clone.data = clasificacion_ingresos.total;
 
 
             });
@@ -101,14 +119,11 @@ export class ClasificacionIngresosComponent implements OnInit {
 
               setTimeout(() => {
                 if (this.chart && this.chart.chart && this.chart.chart.config) {
-                  
                   this.chart.chart.update();
                 }
               });
   
 
-  
-              
   
           },
           error => {

@@ -26,7 +26,7 @@ export class TotalAltasComponent implements OnInit {
 
     public pieChartLabels:string[] = [];
     public pieChartData:number[] = [];
-    public pieChartColors:{}[] = [{backgroundColor: ["#38be38", "#0174DF", "#050409"]}];
+    public pieChartColors:{}[] = [{backgroundColor: ['rgb(56, 190, 56, 0.9)', 'rgb(1, 116, 223, 0.9)', 'rgb(5, 4, 9, 0.9)']}];
     public pieChartType:string = 'pie';  
     public nombreColor: any[] = [];
     public nombre:  any;
@@ -57,8 +57,7 @@ export class TotalAltasComponent implements OnInit {
       this.cargando = true;
       this.crudService.lista_general(url).subscribe(
           resultado => {
-              this.cargando = false;
-  
+               
               //console.log("resultado");
               this.datos = resultado as any[];
               //this.datos.push(...resultado);
@@ -79,6 +78,8 @@ export class TotalAltasComponent implements OnInit {
                 this.nombreColor.push(dete);
 
             });
+
+                this.cargando = false;
 
               setTimeout(() => {
                 if (this.chart && this.chart.chart && this.chart.chart.config) {
@@ -140,16 +141,5 @@ export class TotalAltasComponent implements OnInit {
     //     return incidencias;
 
     // }
-
-    
-
-    // events
-    public chartClicked(e:any):void {
-      console.log(e);
-    }
-    
-    public chartHovered(e:any):void {
-      console.log(e);
-    }
   
 }

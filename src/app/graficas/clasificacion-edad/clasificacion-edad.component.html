@@ -1,20 +1,24 @@
 <div>
-    <a id="graficas" (click)="listar('dashboard');"></a>
-    <div style="display: block">
+    <div *ngIf="cargando" class="field is-grouped is-grouped-centered is-large">
+        <span class="tag is-large is-primary">
+            <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>&nbsp;Cargando...
+        </span>
+    </div>
+
+    <div style="display: block" *ngIf="!cargando">
         <p class="title">
-            <strong>Clasificación de ingresos</strong>
+            <strong>Clasificación por Edad</strong>
         </p>
         <br>
         <canvas baseChart
-                [datasets]="barChartData"
-                [labels]="barChartLabels"
-                [legend]="barChartLegend"
-                [chartType]="barChartType"
-                (chartHover)="chartHovered($event)"
-                (chartClick)="chartClicked($event)">
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            [colors]="colors"
+            [chartType]="barChartType">
         </canvas>
     </div>
-    
 </div>
 
 

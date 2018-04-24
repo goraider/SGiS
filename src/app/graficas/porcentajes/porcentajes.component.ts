@@ -35,18 +35,16 @@ export class PorcentajesComponent implements OnInit {
     
       this.cargando = true;
       this.crudService.lista_general(url).subscribe(
-          resultado => {
-              this.cargando = false;
-  
+          resultado => { 
 
               this.datos = resultado as any[];
-     
-
 
               this.embarazos.push(this.datos[8].embarazos[0]);
               this.partos.push(this.datos[9].partos[0]);
               this.puerperio.push(this.datos[10].puerperio[0]);
               this.porcentajeExito = this.datos[7].procentajeExitoAtencion;
+
+              this.cargando = false;
 
               
           },

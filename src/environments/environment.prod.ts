@@ -6,9 +6,9 @@
 export const environment = {
 
   "production": true,
-  "API_URL": "http://api.ugus.bid/public/api/v1",
-  "API_PATH": "http://api.ugus.bid",
-  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
+  "API_URL": "http://api.sgis.saludchiapas.gob.mx/api/v1",
+  "API_PATH": "http://api.sgis.saludchiapas.gob.mx",
+  "OAUTH_CLIENTE": "http://api.sgis.saludchiapas.gob.mx/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
 

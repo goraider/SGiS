@@ -3,12 +3,12 @@
 *<p>
 * El componente listar se encarga obtener una lista de elementos
 * de la api con los parametros y filtros que se especifiquen, 
-* interactua con el servicio crud
+* interactua con el archivo crud.service.ts
 * </p>
 *
-* @author  Javier Alejandro Gosain Díaz
+* @author  Eliecer Ramirez Esquinca
 * @version 2.0
-* @since   2017-05-08 
+* @since   2018-04-30 
 */
 
 import { Observable } from 'rxjs';
@@ -58,46 +58,193 @@ import { NotificationsService } from 'angular2-notifications';
 })
 
 export class ListarComponent implements OnInit {
-
+    /**
+    * bandera al terminar de cargar un servicio de la lista.
+    * @type {boolean}
+    */
     cargando: boolean = false;
+    
+    /**
+    * bandera determinar si se ha borrado el elemento o no.
+    * @type {boolean}
+    */
     borrarCargando: boolean = false;
     // # SECCION: Esta sección es para mostrar mensajes
-
+    
+    /**
+    * determina la ultima peticion.
+    * @type {any}
+    */
     ultimaPeticion: any;
     // # FIN SECCION
 
     // # SECCION: Lista de dato
 
     //dato es el modelo general que contiene los datos del formulario
-    dato: any[] = [];
-    respuesta: any[] = [];
-    mensajeResponse: Mensaje = new Mensaje(true);
 
+    /**
+    * Contiene el array de datos
+    * a cargar.
+    * @type {any}
+    */
+    dato: any[] = [];
+
+    /**
+    * Contiene el array de la respuesta
+    * de los datos.
+    * @type {any}
+    */
+    respuesta: any[] = [];
+
+    /**
+    * Contiene los mensajes a mostrar.
+    * @type {Mensaje}
+    */
+    mensajeResponse: Mensaje = new Mensaje(true);
+    
+    /**
+    * Contiene la pagina actual
+    * @type {number}
+    */
     paginaActual = 1;
+
+    /**
+    * Contiene los resultados por
+    * pagina a mostrar
+    * @type {number}
+    */
     resultadosPorPagina = 15;
+
+    /**
+    * Contiene el total de resultados
+    * de la consulta
+    * @type {number}
+    */
     total = 0;
+
+    /**
+    * Paginas totales que se calcula en la consulta de la lista.
+    * @type {number}
+    */
     paginasTotales = 0;
+    
+    /**
+    * Contiene los indices por pagina.
+    * @type {Array:number}
+    */
     indicePaginas: number[] = []
     // # FIN SECCION
 
     // # SECCION: Resultados de búsqueda
+    
+    /**
+    * Contiene el ultimo elemento
+    * por busqueda.
+    * @type {string}
+    */
     ultimoTerminoBuscado = "";
-    terminosBusqueda = new Subject<string>();
-    resultadosBusqueda: any[] = [];
-    busquedaActivada: boolean = false;
-    paginaActualBusqueda = 1;
-    resultadosPorPaginaBusqueda = 15;
-    totalBusqueda = 0;
-    paginasTotalesBusqueda = 0;
-    indicePaginasBusqueda: number[] = [];
-    tipo_grid;
-    // # FIN SECCION
-    API_PATH = environment.API_PATH;
 
+    /**
+    * Contiene lo que se va a buscar
+    * @type {Subject}
+    */
+    terminosBusqueda = new Subject<string>();
+    
+    /**
+    * Contiene los resultados de la busqueda.
+    * @type {Array:any}
+    */
+    resultadosBusqueda: any[] = [];
+
+    /**
+    * Contiene la bandera si esta activa o no
+    * la busqueda.
+    * @type {boolean}
+    */
+    busquedaActivada: boolean = false;
+
+    /**
+    * Contiene la pagina actual
+    * en la busqueda.
+    * @type {number}
+    */
+    paginaActualBusqueda = 1;
+
+    /**
+    * Contiene los resultados por pagina 
+    * en la busqueda.
+    * @type {number}
+    */
+    resultadosPorPaginaBusqueda = 15;
+
+    /**
+    * Contiene el total de los resultados
+    * en la busqueda.
+    * @type {number}
+    */
+    totalBusqueda = 0;
+
+    /**
+    * Contiene las paginas totales por resultados por pagina
+    * en la busqueda.
+    * @type {number}
+    */
+    paginasTotalesBusqueda = 0;
+
+    /**
+    * Contiene los indices por pagina
+    * en la busqueda.
+    * @type {number}
+    */
+    indicePaginasBusqueda: number[] = [];
+
+    /**
+    * Contiene el tipo de vista a mostrar
+    * en la lista.
+    * @type {number}
+    */
+    tipo_grid;
+
+    // # FIN SECCION
+
+    /**
+    * Contiene la ruta del environment
+    * de la API.
+    * @type {any}
+    */
+    API_PATH = environment.API_PATH;
+    
+    /**
+    * Contiene los permisos del usuario
+    * del LocalStorage.
+    * @type {Object}
+    */
     permisos = JSON.parse(localStorage.getItem("permisos"));
+
+    /**
+    * Contiene la configuracion del usuario
+    * en el LocalStorage.
+    * @type {Object}
+    */
     configuracion = JSON.parse(localStorage.getItem("configuracion"));
 
+
+    clues_lista = JSON.parse(localStorage.getItem("clues"));
+
+    /**
+    * Contiene la URL que tengan la vista
+    * en los diferentes componentes que se haga la instancia
+    * a buscar en los servicios.
+    * @type {string}
+    */
     @Input() URL: string;
+
+    /**
+    * Contiene el titulo del modulo que tengan la vista
+    * en los diferentes componentes que se haga la instancia
+    * a buscar en los servicios.
+    * @type {string}
+    */
     @Input() titulo: string;
 
     /**
@@ -109,10 +256,10 @@ export class ListarComponent implements OnInit {
     }
 
     /**
-     * Este método se dispara al iniciar la carga de la vista asociada
-     * en este caso se utiliza para cargar la lista inicial
-     * @return void
-     */
+    * Este método se dispara al iniciar la carga de la vista asociada
+    * en este caso se utiliza para cargar la lista inicial
+    * @return void
+    */
     ngOnInit() {
         this.listar(1);
 
@@ -176,17 +323,30 @@ export class ListarComponent implements OnInit {
 
         );
     }
-    cambiar_filas_pagina(totalPorPagina: HTMLInputElement){
+
+     /**
+    * Este método se cambia las filas
+    * por pagina cuando se realiza una busqueda.
+    * @return void
+    */   
+    cambiar_filas_pagina(totalPorPagina: any){
         if(this.busquedaActivada){
             this.resultadosPorPaginaBusqueda = parseInt(totalPorPagina.value);
             var term = <HTMLInputElement> document.getElementById("search-box");
             this.listarBusqueda(term.value, this.paginaActual);
+
         }else{
             this.resultadosPorPagina = parseInt(totalPorPagina.value);
             this.listar(this.paginaActual);
         }
     }
 
+    /**
+    * Este método cambia la
+    * vista de la lista, para tener otro orden y
+    * visualizacion.
+    * @return void
+    */
     cambiar_vista = function () {
         this.tipo_grid = !this.tipo_grid;
         localStorage.setItem('tipo_grid', this.tipo_grid);        
@@ -199,14 +359,17 @@ export class ListarComponent implements OnInit {
      * @param term contiene las palabras de busqueda     
      * @return void
      */
-    buscar(term: string): void {
+    buscar(term: string, pagina: number): void {
+        this.listarBusqueda(term, pagina);
         this.terminosBusqueda.next(term);
+            
     }
 
     cerrar_busqueda(buscar: HTMLInputElement) {
         this.busquedaActivada = false;        
         buscar.value = null;
         this.dato = this.resultadosBusqueda;
+        
         this.resultadosBusqueda = [];
         if(this.dato.length <= 0)
             this.listar(this.paginaActual);
@@ -230,6 +393,7 @@ export class ListarComponent implements OnInit {
                 this.dato = resultado.data as any[];
 
                 this.totalBusqueda = resultado.total | 0;
+
                 this.paginasTotalesBusqueda = Math.ceil(this.totalBusqueda / this.resultadosPorPaginaBusqueda);
 
                 this.indicePaginasBusqueda = [];
@@ -429,9 +593,9 @@ export class ListarComponent implements OnInit {
     }
 
     /**
-     * Este método es intermediario para el listado
-     * @return void
-     */
+    * Este método es intermediario para el listado
+    * @return void
+    */
     mostrarLista(pagina: number): void {
         if(this.busquedaActivada){
             var term = <HTMLInputElement> document.getElementById("search-box");
@@ -441,7 +605,11 @@ export class ListarComponent implements OnInit {
         }        
     }
 
-    //mostrar notificaciones
+    /**
+    * Este método muestra las opciones del
+    * mensaje a mostrar.
+    * @return void
+    */
     public options = {
         position: ["bottom", "left"],
         timeOut: 2000,
@@ -449,11 +617,11 @@ export class ListarComponent implements OnInit {
     };
 
     /**
-     * Este método muestra los mensajes resultantes de los llamados de la api
-     * @param cuentaAtras numero de segundo a esperar para que el mensaje desaparezca solo
-     * @param posicion  array de posicion [vertical, horizontal]
-     * @return void
-     */
+    * Este método muestra los mensajes resultantes de los llamados de la api
+    * @param cuentaAtras numero de segundo a esperar para que el mensaje desaparezca solo
+    * @param posicion  array de posicion [vertical, horizontal]
+    * @return void
+    */
     mensaje(cuentaAtras: number = 6, posicion: any[] = ["bottom", "left"]): void {
         var objeto = {
             showProgressBar: true,
@@ -490,6 +658,13 @@ export class ListarComponent implements OnInit {
     json;
     imprimir_cargando = false;
     contador;
+    /**
+    * Este método realiza la impresion en pantalla como reporte.
+    * @param json contiene el dato de la lista en objeto json.
+    * @param contador contiene la funcion secundaria con el id del elemento
+    * @param titulo titulo a enviar para generar la impresion del del reporte.
+    * @return void
+    */
     imprimir(json, contador, titulo = '') {
         /*let pdf = new jsPDF('p', 'pt', 'letter');
         pdf.setProperties({
@@ -511,7 +686,7 @@ export class ListarComponent implements OnInit {
 
         pdf.output('dataurlnewwindow')*/
         this.json = json;
-    //console.log(this.json);
+        console.log(this.json);
         if (document.getElementById('funcion_secundaria' + contador)) {
             document.getElementById('funcion_secundaria' + contador).click();
         }
@@ -579,6 +754,11 @@ export class ListarComponent implements OnInit {
 
     }
 
+    /**
+    * Este método descarga la lista de elementos en excel.
+    * @param titulo contiene el titulo a mostrar en el exel a imprimir.
+    * @return void
+    */
     excel(titulo) {
         let colspan = document.getElementsByTagName('table')[0].children[0].children[0].childElementCount;        
         let excelData = "<table><tr><th colspan='" + colspan + "'><h1>" + titulo + " <h1></th></tr></table>";

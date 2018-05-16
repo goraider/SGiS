@@ -1,3 +1,6 @@
+/**
+* dependencias a utilizar
+*/
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
@@ -7,42 +10,116 @@ import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { CrudService } from '../../../crud/crud.service';
 
-
+/**
+* selector si se desea ocupar en un HTML
+* y su archivo HTML
+*/
 @Component({
   selector: 'usuarios-formulario',
   templateUrl: './formulario.component.html'
 })
 
+ /**
+ * Esta clase inicializa lo valores 
+ * del formulario.
+ */
 export class FormularioComponent {
-  dato: FormGroup;
+   
+  /**
+   * Contiene los datos del formulario que comunican a la vista con el componente.
+   * @type {FormGroup}
+   */
+   dato: FormGroup;
+
+   /**
+   * Bandera donde se cambia el
+   * password.
+   * @type {boolean}
+   */
    cambiarPassword: boolean = false;
+
+   /**
+   * Bandera donde se muestra el cambio de
+   * password.
+   * @type {boolean}
+   */
    mostrarCambiarPassword: boolean = false;
+
+   /**
+   * Contiene las diferentes pestañas de acceso que puede tener la vista.
+   * @type {number}
+   */
    tab: number = 1;
+
+   /**
+   * Bandera si contiene o no
+   * su id.
+   * @type {boolean}
+   */
    tieneid: boolean = false;
-
-   estados_id: number = null;
-   municipios_id: number = null;
-   localidades_id: number = null;
-
-   temp_estados_id: number = null;
-   temp_municipios_id: number = null;
-   temp_localidades_id: number = null;
-
+   
+   /**
+   * Contiene el formulario
+   * de contactos del usuario.
+   * @type {any}
+   */
    form_sis_usuarios_contactos;
-   tamano;
-   usuario;
-   activar_super;
 
+   /**
+   * Contiene el tamaño del cuerpo de la seccion donde esten los controles en la vista.
+   * @type {any}
+   */
+   tamano;
+  
+   /**
+   * Contiene los datos del usuario.
+   * @type {any}
+   */
+   usuario;
+
+   /**
+   * Contiene los valores
+   * si es superusuario.
+   * @type {any}
+   */
+   activar_super;
+   
+   /**
+   * Contiene el array de clues
+   * @type {Array}
+   */
    clues_sel = [];
+
+   // Variables, por si se desea agregar permisos individuales
    sucursal_sel = [];
    permisos_all: any[] = [];
 
-  cargando: boolean = false;
+   /**
+   * Contiene la bandera
+   * si ha cargado o no la lista
+   * @type {boolean}
+   */
+   cargando: boolean = false;
+  
+   /**
+   * Variable que conecta con la URL de la API, para traer Unidades Medicas en un Autocomplet que tiene la Vista.
+   * @type {string}
+   */
+   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
-  public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
+  constructor(private crudService: CrudService,
+              private _sanitizer: DomSanitizer,
+              private fb: FormBuilder,
+              private route: ActivatedRoute) { }
 
-  constructor(private crudService: CrudService, private _sanitizer: DomSanitizer, private fb: FormBuilder, private route: ActivatedRoute) { }
-
+  /**
+  * Este método inicializa la carga de la vista asociada junto los datos del formulario
+  * @return void
+  */
   ngOnInit() {
     this.dato = this.fb.group({
       id: [''],
@@ -82,6 +159,8 @@ export class FormularioComponent {
 
     this.tamano = document.body.clientHeight;
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
+
+    console.log(this.usuario);
     this.activar_super = this.usuario.es_super;
 
     this.route.params.subscribe(params => {
@@ -105,12 +184,12 @@ export class FormularioComponent {
           sue++;
           setTimeout(() => {
             this.verificar_clues();
-          }, 1000);
+          }, 2000);
 
         }
       });
 
-    // permisos indi
+    // permisos individuales
     this.dato.controls.permisos_grupos.valueChanges.
     subscribe(val => {
       if (val) {
@@ -127,6 +206,11 @@ export class FormularioComponent {
 
   }
 
+  /**
+  * Este método modifica los permisos
+  * individuales, si es que se desean agregar, estan deshabilitados.
+  * @return void
+  */
   modificar_permisos_individuales() {
     if (this.dato.get('permisos').value != '') {
       this.dato.controls.permisos.patchValue('');
@@ -137,6 +221,10 @@ export class FormularioComponent {
     }
   }
 
+  /**
+  * Este método cambia el password.
+  * @return void
+  */
   toggleCambiarPassword() {
     this.cambiarPassword = !this.cambiarPassword
     this.dato.controls["password"].setValue('');
@@ -149,44 +237,43 @@ export class FormularioComponent {
     }
   }
 
-  limpiar_sucursales(clues, user) {
-    if (!this.clues_sel[clues.id]) {
-      clues.sucursales.forEach(element => {
-        var i = 0;
-        this.dato.get('sis_usuarios_sucursales').value.forEach(buscar => {
-          if (buscar == element.id) {
-            this.dato.get('sis_usuarios_sucursales').value.splice(i, 1);
-          }
-          i++;
-        });
-      });
-    }
-  }
+  /**
+  * Este método verifica las clues del usuario.
+  * @return void
+  */
   verificar_clues() {
     this.usuario.forEach(element => {
-      element.sucursales.forEach(item => {
-        if (JSON.stringify(this.dato.get('sis_usuarios_sucursales').value).indexOf(JSON.stringify({ sucursales_id: item.id, sis_usuarios_id: this.dato.get('id').value })) > -1)
-          this.sucursal_sel[item.id] = true;
-        else
-          this.sucursal_sel[item.id] = false;
-      });
       if (JSON.stringify(this.dato.get('sis_usuarios_clues').value).indexOf(JSON.stringify({ clues_id: element.id, sis_usuarios_id: this.dato.get('id').value })) > -1)
         this.clues_sel[element.id] = true;
       else
         this.clues_sel[element.id] = false;
     });
   }
-
-
+  
+  /**
+  * Método para listar Unidades Medicas en el Autocomplet
+  * @param data contiene los elementos que se escriban en el input del Autocomplet
+  */
   autocompleListFormatter = (data: any) => {
     let html = `<span>(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}</span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   }
   
+  /**
+  * Método para obtener el valor de la Unidad Medica
+  * @param data contiene el valor de la Unidad Medica
+  * @return void
+  */
   valorFormato_clue(data: any) {
     let html = `(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}`;
     return html;
   }
+  /**
+  * Método para obtener las Unidades Medicas
+  * @param modelo nombre del modelo donde se guarda el dato obtenido
+  * @param data obtiene el indice del elemento a comparar
+  * @return void
+  */
   select_clue_autocomplete(modelo, data) {
 
     const um =<FormArray> this.dato.controls.sis_usuarios_clues;
@@ -199,6 +286,12 @@ export class FormularioComponent {
     }
 
   }
+
+  /**
+  * Método para quitar elementos de las clues.
+  * @param modelo obtiene el formgroup
+  * @param i obtiene el indice del elemento a eliminar respecto a modelo
+  */
   quitar_form_array(modelo, i) {
     modelo.removeAt(i);
   }
@@ -224,6 +317,7 @@ export class FormularioComponent {
       }
     });
   }
+
   agregar_accion(clave) {
     if (this.dato.controls.permisos.value[clave])
       delete this.dato.controls.permisos.value[clave];

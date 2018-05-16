@@ -1,3 +1,16 @@
+/**
+* <h1>Grupos CIE 10 Module</h1>
+*<p>
+* El modulo Grupos CIE 10 es un catálogo para agregar los
+* diferentes diagnosticos y padecimientos que pueden tener las pacientes.
+* de acuerdo a su ingreso y/o seguimiento.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

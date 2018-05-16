@@ -14,35 +14,79 @@ import { CrudService } from '../../../crud/crud.service';
 })
 
 export class FormularioComponent {
-  dato: FormGroup;
-   cambiarPassword: boolean = false;
-   mostrarCambiarPassword: boolean = false;
+   
+  /**
+   * Contiene los datos del formulario que comunican a la vista con el componente.
+   * @type {FormGroup}
+   */
+   dato: FormGroup;
+   /**
+   * Contiene las diferentes pestañas de acceso que puede tener la vista.
+   * @type {number}
+   */
    tab: number = 1;
+   
+   /**
+   * Bandera para verificar si tiene o no id
+   * @type {boolean}
+   */
    tieneid: boolean = false;
-
-   estados_id: number = null;
-   municipios_id: number = null;
-   localidades_id: number = null;
-
-   temp_estados_id: number = null;
-   temp_municipios_id: number = null;
-   temp_localidades_id: number = null;
-
+   
+   /**
+   * variable que tiene los datos de los medios de contacto
+   * @type {object}
+   */
    form_sis_usuarios_contactos;
+    
+   /**
+   * Contiene el tamaño del cuerpo de la seccion donde esten los controles en la vista.
+   * @type {any}
+   */
    tamano;
+  
+   /**
+  * Variable que contiene los datos del usuario.
+  * @type {any}
+  */
    usuario;
+   
+   /**
+   * Contiene datos del usuario si es super usuario o no.
+   * @type {any}
+   */
    activar_super;
-
+   
+   /**
+   * Contiene datos de las clues.
+   * @type {Array:any}
+   */
    clues_sel = [];
-   sucursal_sel = [];
-   permisos_all: any[] = [];
+   
+   /**
+   * Contiene la bandera si se han
+   * cargado los elementos.
+   * @type {boolean}
+   */
+   cargando: boolean = false;
+   
+   /**
+   * Contiene los valores de la API para generar el Autocomplet.
+   * @type {boolean}
+   */
+   public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
-  cargando: boolean = false;
-
-  public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
-
-  constructor(private crudService: CrudService, private _sanitizer: DomSanitizer, private fb: FormBuilder, private route: ActivatedRoute) { }
-
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
+  constructor(private crudService: CrudService,
+              private _sanitizer: DomSanitizer,
+              private fb: FormBuilder,
+              private route: ActivatedRoute) { }
+  /**
+  * Este método inicializa la carga de la vista asociada junto los datos del formulario
+  * @return void
+  */
   ngOnInit() {
     this.dato = this.fb.group({
       id: [''],
@@ -107,16 +151,13 @@ export class FormularioComponent {
 
   }
 
-
-
+  /**
+  * Este método verifica las clues que tenga
+  * el usuario.
+  * @return void
+  */
   verificar_clues() {
     this.usuario.forEach(element => {
-      element.sucursales.forEach(item => {
-        if (JSON.stringify(this.dato.get('sis_usuarios_sucursales').value).indexOf(JSON.stringify({ sucursales_id: item.id, sis_usuarios_id: this.dato.get('id').value })) > -1)
-          this.sucursal_sel[item.id] = true;
-        else
-          this.sucursal_sel[item.id] = false;
-      });
       if (JSON.stringify(this.dato.get('sis_usuarios_clues').value).indexOf(JSON.stringify({ clues_id: element.id, sis_usuarios_id: this.dato.get('id').value })) > -1)
         this.clues_sel[element.id] = true;
       else
@@ -124,16 +165,31 @@ export class FormularioComponent {
     });
   }
 
-
+  /**
+  * Método para listar Unidades Medicas en el Autocomplet
+  * @param data contiene los elementos que se escriban en el input del Autocomplet
+  */
   autocompleListFormatter = (data: any) => {
     let html = `<span>(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}</span>`;
     return this._sanitizer.bypassSecurityTrustHtml(html);
   }
   
+  /**
+  * Método para obtener el valor de la Unidad Medica
+  * @param data contiene el valor de la Unidad Medica
+  * @return void
+  */
   valorFormato_clue(data: any) {
     let html = `(${data.clues}) - ${data.nombre} - ${data.jurisdicciones.nombre}`;
     return html;
   }
+
+  /**
+  * Método para obtener la seleccion de la Unidad Medica
+  * @param modelo nombre del modelo donde se guarda el dato obtenido
+  * @param data objeto donde se busca el elemento para su extraccion
+  * @return void
+  */
   select_clue_autocomplete(modelo, data) {
 
     const um =<FormArray> this.dato.controls.sis_usuarios_clues;
@@ -146,9 +202,14 @@ export class FormularioComponent {
     }
 
   }
+
+  /**
+  * Método para quitar elementos de la Unidad Medica.
+  * @param modelo obtiene el formgroup
+  * @param i obtiene el indice del elemento a eliminar respecto a modelo
+  */
   quitar_form_array(modelo, i) {
     modelo.removeAt(i);
   }
 
-  
 }

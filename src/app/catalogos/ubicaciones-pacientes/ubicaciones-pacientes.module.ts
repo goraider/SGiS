@@ -1,3 +1,15 @@
+/**
+* <h1>Ubicaciones Pacientes Module</h1>
+*<p>
+* El modulo Ubicaciones Pacientes es un catálogo que contiene
+* las diferentes ubicaciones que tiene el paciente dentro de la unidad medica.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

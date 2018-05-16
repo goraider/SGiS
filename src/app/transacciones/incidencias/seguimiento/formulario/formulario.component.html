@@ -139,8 +139,8 @@
 
           <div [ngClass]="{ 'is-hidden': tab != 1}">
 
-                <div>              
-                    <a class="button is-success" (click)="nuevo_seguimiento()">
+                <div *ngIf="ctrl.dato">              
+                    <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value}" class="button is-success" (click)="nuevo_seguimiento()">
                         <span class="icon">
                           <i class="fa fa-plus"></i>
                         </span>&nbsp; Agregar Nuevo Seguimiento
@@ -196,7 +196,7 @@
 
                 </tr>
                 <tr *ngIf="ctrl.dato.get('movimientos_incidencias').length == 0">
-                  <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                  <td colspan="5" style="vertical-align: middle; color:#888;">La Paciente no tiene Seguimientos.</td>
                 </tr>
               </tbody>
             </table>
@@ -204,10 +204,9 @@
 
           <div [ngClass]="{ 'is-hidden': tab != 2}">
 
-            <div *ngFor="let valor2 of ctrl.dato.get('referencias').value; let v2=index" >
+            <div *ngIf="ctrl.dato">
 
-
-              <a [ngClass]="{ 'is-hidden' : v2 != 0 || clues_origen_login.clues != valor2.clues_destino}" class="button is-success" (click)="nueva_referencia(); cargarMapa();">
+              <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value}" class="button is-success" (click)="nueva_referencia(); cargarMapa();">
                 <span class="icon">
                   <i class="fa fa-plus"></i>
                 </span>&nbsp; Agregar Nueva Referencia
@@ -275,13 +274,13 @@
 
                     <a *ngIf="item.value.esIngreso == '1'"
                         title="Viene de una Unidad Medica"
-                        class="button is-black is-rounded">
+                        class="button is-success is-rounded">
                       <i class="fa fa-arrow-circle-left"></i>
                     </a>
 
                     <a *ngIf="item.value.esIngreso == '0'"
                       title="Se encuentra en Referencia"
-                      class="button is-black is-rounded">
+                      class="button is-danger is-rounded">
                       <i class="fa fa-arrow-circle-right"></i>
                     </a>
 
@@ -291,7 +290,7 @@
 
                 </tr>
                 <tr *ngIf="ctrl.dato.get('referencias').length == 0">
-                  <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                  <td colspan="5" style="vertical-align: middle; color:#888;">La Paciente no tiene Referencias.</td>
                 </tr>
               </tbody>
             </table>
@@ -299,9 +298,9 @@
 
           <div [ngClass]="{ 'is-hidden': tab != 3}" >
 
-              <div>
+              <div *ngIf="ctrl.dato">
 
-                  <a class="button is-success" (click)="nueva_alta()">
+                  <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value}" class="button is-success" (click)="nueva_alta()">
                     <span class="icon">
                       <i class="fa fa-plus"></i>
                     </span>&nbsp; Generar Alta
@@ -354,7 +353,7 @@
 
                 </tr>
                 <tr *ngIf="ctrl.dato.get('altas_incidencias').length == 0">
-                  <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
+                  <td colspan="5" style="vertical-align: middle; color:#888;">La Paciente no ha sido dada de Alta.</td>
                 </tr>
               </tbody>
             </table>
@@ -490,7 +489,7 @@
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Subcategoria CIE10:</label>
             <input ngui-auto-complete [source]="cie10_term" autocomplete="false" [accept-user-input]="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
-              id="subcategorias_cie10_id" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, false);"
+              id="subcategorias_cie10_id" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, $event);"
               min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar el CIE10:" [(ngModel)]="subcategorias_cie10_id" [ngClass]="{'is-danger': subcategorias_cie10_id == '' }">
 
             <span class="help is-danger" *ngIf="subcategorias_cie10_id == ''">
@@ -648,7 +647,8 @@
         <div class="column is-16">
           <div class="file" >
             <label class="file-label">
-              <input class="file-input" multiple="multiple" name="img" (change)="seleccionarImagenBase64($event, img, true)" [(ngModel)]="img" autofocus type="file" accept="image/*">
+              <input class="file-input" multiple="multiple" name="img" (change)="seleccionarImagenBase64($event, img, true)"
+              [ngModel]="img" autofocus type="file" accept="image/*">
 
               <span class="file-cta">
                 <span class="file-icon">
@@ -751,7 +751,7 @@
                   [list-formatter]="autocompleListFormatter"
                   [value-formatter]="valorFormato_destino"
                   id="clues_destino" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                  (valueChanged)="select_item_autocomplete(clues_destino, 'clues', $event, false);
+                  (valueChanged)="select_destino_estado_fuerza_autocomplete(clues_destino, 'clues', $event, false);
                   select_destino_autocomplete($event, $event, $event);"
                   min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar la Unidad Medica:"
                   [(ngModel)]="clues_destino" [ngClass]="{'is-danger': clues_destino == '' }">
@@ -938,7 +938,8 @@
             <div class="column is-16">
               <div class="file" >
                 <label class="file-label">
-                  <input class="file-input" multiple="multiple" name="imgalta" (change)="seleccionarImagenBase64($event, imgalta, true)" [(ngModel)]="imgalta" autofocus type="file" accept="image/*">
+                  <input class="file-input" multiple="multiple" name="imgalta" (change)="seleccionarImagenBase64($event, imgalta, true)" 
+                  [ngModel]="imgalta" autofocus type="file" accept="image/*">
     
                   <span class="file-cta">
                     <span class="file-icon">

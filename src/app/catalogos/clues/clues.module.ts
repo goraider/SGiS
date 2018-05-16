@@ -1,3 +1,16 @@
+/**
+* <h1>Clues Module</h1>
+*<p>
+* El modulo Clues es un catálogo visualizar en el Mapa
+* en donde esta hubicada la Unidad Medica, asi como la Información a detalle:
+* Nombre, Dirección y el Directorio de trabajadores que tenga asignada dicha Unidad Medica.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

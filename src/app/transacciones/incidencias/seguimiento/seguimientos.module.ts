@@ -1,3 +1,16 @@
+/**
+* <h1>Seguimientos Module</h1>
+*<p>
+* El modulo Seguimientos se encarga de gestionar el seguimiento,
+* referencias y alta de pacientes.
+* de pacientes.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
@@ -14,7 +27,7 @@ import { PaginacionModule } from '../../../parcial/paginacion/paginacion.module'
 
 //componentes del catalogo
 import { PipesModule }             from '../../../pipes/pipes.module';
-import { ListaComponent } from './lista/lista.component';
+//import { ListaComponent } from './lista/lista.component';
 import { FormularioComponent } from './formulario/formulario.component';
 
 //servicios
@@ -50,7 +63,7 @@ import { CKEditorModule } from 'ng2-ckeditor';
     CKEditorModule
   ],
   declarations: [
-    ListaComponent,
+    //ListaComponent,
     FormularioComponent   
   ],
   providers: [ AuthService, CrudService ],

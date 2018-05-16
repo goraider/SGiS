@@ -1,3 +1,6 @@
+/**
+* dependencias a utilizar
+*/
 import { Component, OnInit, ElementRef} from '@angular/core';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
@@ -6,6 +9,10 @@ import { Router } from '@angular/router';
 import { ActivatedRoute, Params } from '@angular/router'
 import { environment } from '../../../../environments/environment';
 
+/**
+* selector si se desea ocupar en un HTML
+* y su archivo HTML
+*/
 @Component({
   selector: 'visita-puerperal-formulario',
   templateUrl: './formulario.component.html',
@@ -13,20 +20,49 @@ import { environment } from '../../../../environments/environment';
 })
 
 export class FormularioComponent {
-  
-  dato: FormGroup;
-  private c = JSON.parse(localStorage.getItem("clues"));
-    
-  tamano = document.body.clientHeight;
 
+  /**
+  * Contiene los datos del formulario que comunican a la vista con el componente.
+  * @type {FormGroup}
+  */
+  dato: FormGroup;
+
+  /**
+  * Contiene los datos de la Unidad Medica del LocalStorage
+  * @type {any}
+  */
+  private c = JSON.parse(localStorage.getItem("clues"));
+  
+  /**
+  * Contiene el tamaño del cuerpo de la seccion donde esten los controles en la vista.
+  * @type {any}
+  */
+  tamano = document.body.clientHeight;
+  
+  /**
+  * Contiene el tamaño del cuerpo del editor de texto para darle dormato al text area que esta en la vista.
+  * @type {any}
+  */
   CkeditorConfig = {
       height:document.body.clientHeight - 760
   }
 
-public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
-
-constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
-
+  /**
+  * Variable que conecta con la URL de la API, para traer Unidades Medicas en un Autocomplet que tiene la Vista.
+  * @type {string}
+  */
+  public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
+  
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
+  constructor(private fb: FormBuilder, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private _el: ElementRef) { }
+  
+  /**
+  * Este método inicializa la carga de la vista asociada junto los datos del formulario
+  * @return void
+  */
   ngOnInit() {
 
     this.dato = this.fb.group({
@@ -133,18 +169,28 @@ constructor(private fb: FormBuilder, private router: Router, private route: Acti
 
   }
 
-autocompleListFormatter = (data: any) => {
+  /**
+  * Método para listar Unidades Medicas en el Autocomplet
+  * @param data contiene los elementos que se escriban en el input del Autocomplet
+  */
+  autocompleListFormatter = (data: any) => {
 
-      let html = `<span>(${data.clues}) - ${data.nombre} </span>`;
-      return this._sanitizer.bypassSecurityTrustHtml(html);
+    let html = `<span>(${data.clues}) - ${data.nombre} </span>`;
+    return this._sanitizer.bypassSecurityTrustHtml(html);
 
-}
+  }
+  
+  /**
+  * Método para obtener el valor de la Unidad Medica
+  * @param data contiene el valor de la Unidad Medica
+  * @return void
+  */
+  valorFormato_clue_usuario(data: any)  {
+    
+    let html = `${data.nombre}`;
+    return html;
 
-valorFormato_clue_usuario(data: any)  {
-
-      let html = `${data.nombre}`;
-      return html;
-}
+  }
 
 
 }

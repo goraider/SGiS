@@ -1,3 +1,15 @@
+/**
+* <h1>Reporte de Estado de Fuerza Module</h1>
+*<p>
+* El modulo Altas se encarga
+* de consultar altas de pacientes.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

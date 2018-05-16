@@ -1,3 +1,15 @@
+/**
+* <h1>Indicencias Ingresos Module</h1>
+*<p>
+* El modulo Indicencias Ingresos se encarga
+* de consultar Incidencias de ingreso.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

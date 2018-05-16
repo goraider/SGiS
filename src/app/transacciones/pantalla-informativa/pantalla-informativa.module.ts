@@ -1,3 +1,15 @@
+/**
+* <h1>Pantalla Informativa Module</h1>
+*<p>
+* El modulo Pantalla Informativa se encarga de mostrar las incidecias
+* en un lapso de 24 horas.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

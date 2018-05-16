@@ -1,3 +1,15 @@
+/**
+* <h1>Graficas Module</h1>
+*<p>
+* El modulo Graficas contiene todo el tipo de graficas amostrar
+* en el dashboard
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';

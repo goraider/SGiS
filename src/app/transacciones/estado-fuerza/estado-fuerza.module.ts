@@ -1,3 +1,15 @@
+/**
+* <h1>Estado de Fuerza Module</h1>
+*<p>
+* El modulo Estado de Fuerza se encarga de gestionar los recursos
+* con los que cuenta la Unidad Medica, de acuerdo a su cartera de servicios.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

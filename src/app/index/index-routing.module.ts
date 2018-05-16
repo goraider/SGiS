@@ -1,3 +1,15 @@
+/**
+* <h1>Index Routing Module</h1>
+*<p>
+* Este modulo tiene cargados los titulos principales de secciones del sistema que contienen modulos
+* ayuda para acceder a una vista mas detallada de los modulos.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

@@ -1,3 +1,15 @@
+/**
+* <h1>Tipos Medios Module</h1>
+*<p>
+* El modulo Tipos Medios es un catálogo que contiene
+* los diferentes tipos de medios de contacto que puede tener un usuario.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

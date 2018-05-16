@@ -1,3 +1,15 @@
+/**
+* <h1>Grupos Module</h1>
+*<p>
+* Este modulo se encarga de obtener
+* los grupos de usuarios, para clasificarlos.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

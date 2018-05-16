@@ -1,3 +1,16 @@
+/**
+* <h1>Metodos de Planificación Module</h1>
+*<p>
+* El modulo Metodos de Planificación es un catálogo para agregar los
+* diferentes metodos de prevención al embarazo que pueden llevar las pacientes.
+* cuando se les genere una alta.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

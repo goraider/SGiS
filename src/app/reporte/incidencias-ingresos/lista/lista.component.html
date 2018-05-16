@@ -86,7 +86,7 @@
                                         [list-formatter]="autocompleListFormatter"
                                         [value-formatter]="valorFormato_clue"
                                         [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                        (valueChanged)="select_clue_autocomplete(clues, 'clues', $event, false);"                                                         
+                                        (valueChanged)="select_clue_autocomplete(clues, 'clues', $event, $event);"                                                         
                                         min-chars="4" class="input" type="text"
                                         placeholder="Escriba como mínimo 4 letras encontrar la Unidad Médica que está buscando:">
                                 

@@ -8,20 +8,40 @@ import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@ang
 })
 
 export class FormularioComponent {
+  /**
+  * Contiene los datos del formulario que comunican a la vista con el componente.
+  * @type {FormGroup}
+  */
   dato: FormGroup;
+  
+  /**
+  * Contiene el tamaño del cuerpo de la seccion donde esten los controles en la vista.
+  * @type {any}
+  */
   tamano = document.body.clientHeight;
 
-  municipios_id: number = null;
-  temp_municipios_id: number = null;
-
-  localidades_id: number = null;
-  temp_localidades_id: number = null;
-  selectedDeal;
+  /**
+  * Contiene el id del estado de embarazo.
+  * @type {any}
+  */
   estados_embarazos_id;
+
+  /**
+  * Contiene el id del ederechohabiente.
+  * @type {any}
+  */
   derechohabientes_id;
-
+  
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
   constructor(private fb: FormBuilder) { }
-
+ 
+  /**
+  * Este método inicializa la carga de la vista asociada junto los datos del formulario
+  * @return void
+  */
   ngOnInit() {
     this.dato = this.fb.group({
       id: ['', [Validators.required]],
@@ -41,41 +61,5 @@ export class FormularioComponent {
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     document.getElementById("catalogos").click();
 
-
-    var im = 0, il = 0;
-    
-    //        const pacientes = <FormArray>this.dato.controls.pacientes['controls']['personas']['controls']['municipios_id'];
-      this.dato.controls.municipios_id.valueChanges.
-      subscribe(val => {
-        if (val && im == 0) {
-          im++;
-          this.temp_municipios_id = val;
-        }
-      });
-
-      this.dato.controls.localidades_id.valueChanges.
-      subscribe(val => {
-        if (val && il == 0) {
-          il++;
-          this.temp_localidades_id = val;
-        }
-      });
-
-
   }
-
-
-  
-    autovalor_municipio() {
-      setTimeout(() => {
-        this.municipios_id = this.temp_municipios_id;
-      }, 3000);
-    }
-  
-    autovalor_localidad() {
-      setTimeout(() => {
-        this.localidades_id = this.temp_localidades_id;
-      }, 3000);
-    }
-  
 }

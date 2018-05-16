@@ -1,20 +1,51 @@
+/**
+* dependencias a utilizar
+*/
 import { Injectable, Compiler } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-
 import { environment } from '../environments/environment';
 
-
+/**
+* ocupa el inyectable a utiliazar para otros
+* componentes.
+*/
 @Injectable()
-export class AuthService {
-  clues = localStorage.getItem("clues") ? JSON.parse(localStorage.getItem("clues")) : {clues: "", nombre: ""};
-  private headers = new Headers({ 'Content-Type': 'application/json', 'Disponible':  environment.OAUTH_DISPONIBLE, 'clues': this.clues.clues});
 
+/**
+* Esta clase muestra los elementos a interactuar
+*/
+export class AuthService {
+  /**
+  * Contiene los valores
+  * de la Unidad Medica a Mostrar.
+  * @type {number}
+  */
+  clues = localStorage.getItem("clues") ? JSON.parse(localStorage.getItem("clues")) : {clues: "", nombre: ""};
+
+  /**
+  * Contiene los
+  * valores del ancabezado a mostrar en toda la aplicación
+  * @type {number}
+  */
+  private headers = new Headers({ 'Content-Type': 'application/json', 'Disponible':  environment.OAUTH_DISPONIBLE, 'clues': this.clues.clues});
+  
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
   constructor(private http: Http, private router: Router, private compiler: Compiler) { }
 
+  /**
+  * Este método evaluea el inicio de sesion, y varifica los datos
+  * para checar que es lo que enviara al LocalStorage de la aplicación.
+  * @param email contiene el correo electronico que ingrese el usuario.
+  * @param password contiene la contraseña del usuario
+  * @return void
+  */
   login(email: string, password: string) {
     const url: string = 'signin';
     return this.http.post(`${environment.API_URL}/${url}`, JSON.stringify({ email: email, password: password }), { headers: this.headers }).map((response: Response) => {
@@ -89,7 +120,10 @@ export class AuthService {
     }
     });
   }
-
+  /**
+  * Este método actualiza el token de la aplicación
+  * @return void
+  */
   refreshToken() {
     const url: string = 'refresh-token?token=' + localStorage.getItem('token');
     return this.http.post(`${environment.API_URL}/${url}`, {}, { headers: this.headers }).map((response: Response) => {
@@ -102,6 +136,11 @@ export class AuthService {
     });
   }
 
+  /**
+  * Este método contiene realiza el cierre de sesion del usuario.
+  * @param url contiene la url con la que se quedo al final.
+  * @return void
+  */
   logout(url: string = null) {
         localStorage.removeItem('token');
         localStorage.removeItem('usuario'); 

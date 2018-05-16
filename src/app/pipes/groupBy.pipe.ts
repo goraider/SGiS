@@ -1,8 +1,25 @@
+/**
+* dependencias a utilizar
+*/
 import { Pipe, PipeTransform } from '@angular/core';
 
+/**
+* selector del pipe a colocar.
+*/
 @Pipe({ name: 'groupBy'})
 
+/**
+* Esta clase inicializa lo que se vaya
+* a filtrar.
+*/
 export class GroupByPipe implements PipeTransform {
+    
+    /**
+    * Este método agrupa elementos.
+    * @param value arreglo de contenido si existe un valor
+    * @param field cadena escrita a agrupar.
+    * @return void
+    */
     transform(value: Array<any>, field: string): Array<any> {
         
         if (value) {

@@ -757,7 +757,8 @@
                       <div class="column is-6" formArrayName="img">
                         <label class="file-label">
 
-                          <input class="file-input" multiple="multiple" name="multimedias" (change)="seleccionarImagenBase64($event, ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls, true)"
+                          <input class="file-input" multiple="multiple" name="multimedias"
+                            (change)="seleccionarImagenBase64($event, ctrl.dato.controls.referencias.controls[ref].controls.multimedias.controls.img.controls, true)"
                             autofocus type="file" accept=".jpeg, .jpg, .gif, .bmp, .png">
                           <input type="hidden" placeholder="Imagen de la referencia">
                           <span class="file-cta">

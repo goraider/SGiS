@@ -1,3 +1,16 @@
+/**
+* <h1>Modulos Module</h1>
+*<p>
+* El modulo modulos, contiene la gestion de todos los modulos
+* con los que cuente el sistema para poder asignarles permisos
+* y acciones.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

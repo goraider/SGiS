@@ -74,7 +74,7 @@
                                         autocomplete="false"
                                         [accept-user-input]="false"
                                         id="clues" name="clues" [(ngModel)]="clues" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados."
-                                        (valueChanged)="select_item_autocomplete(clues, 'clues', $event, false);"                                                         
+                                        (valueChanged)="select_item_autocomplete(clues, 'clues', $event, $event);"                                                         
                                         min-chars="4" class="input" type="text"
                                         placeholder="Escriba como mínimo 4 letras para Buscar la Unidad Medica">
                                 

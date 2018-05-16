@@ -1,3 +1,18 @@
+/**
+* <h1>Modulos Routing Module</h1>
+*<p>
+* Este modulo contiene todos los estados de la republica
+* no se encuentra agregado en los permisos y modulos en la sección de sistema,
+* por si se necesitara habra que agregarlo
+* la carpeta asociada, tiene la funcionalidad de: agregar, editar, listar y/o eliminar
+* un nuevo elemento.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

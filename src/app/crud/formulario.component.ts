@@ -1,3 +1,19 @@
+/**
+* <h1>Formulario Component</h1>
+*<p>
+* El componente formulario contiene metodos funcionales
+* para usarlos en cualquier otro componente que tenga importado este archivo
+* su funcion es actualizar, guardar y eliminar datos entre otros metodos a utilizar.
+* </p>
+*
+* @author  Eliecer Ramirez Esquinca
+* @version 2.0
+* @since   2018-04-30 
+*/
+
+/**
+* dependencias a utilizar
+*/
 import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params } from '@angular/router'
@@ -14,6 +30,10 @@ import { Mensaje } from '../mensaje';
 import { NotificationsService } from 'angular2-notifications';
 import { Select2TemplateFunction, Select2OptionData } from 'ng2-select2';
 
+/**
+* selector si se desea ocupar en un HTML
+* y su archivo HTML
+*/
 @Component({
     selector: 'formulario',
     template: `<simple-notifications [options]="options"></simple-notifications>
@@ -58,35 +78,130 @@ import { Select2TemplateFunction, Select2OptionData } from 'ng2-select2';
     </div>
     `
 })
+
+/**
+* Esta clase inicializa el componente
+* con los datos que se requieran.
+*/
 export class FormularioComponent implements OnInit {
     
+    /**
+    * Variable para borar datos.
+    * @type {boolean}
+    */
      borrarCargando: boolean = false;
+
+    /**
+    * contiene el id.
+    * @type {string}
+    */
      id: string;
+
+    /**
+    * nombre del modulo.
+    * @type {string}
+    */
      moduloTitulo: string;
+
+    /**
+    * bandera de si los datos fueron cargados.
+    * @type {boolean}
+    */
      datosCargados: boolean = true;
+    
+    /**
+    * bandera de dato guardado.
+    * @type {boolean}
+    */
      guardado: boolean = false;
+    
+    /**
+    * bandera al terminar de cargar un servicio de la lista.
+    * @type {boolean}
+    */
      cargando: boolean = false;
+    
+    /**
+    * bandera para cambiar el password
+    * @type {boolean}
+    */
      cambiarPassword: boolean = false;
-     borrarIndex;
-
+    
+    /**
+    * bandera para borrar un indice.
+    * @type {boolean}
+    */
+    borrarIndex;
+    
+    /**
+    * variable para el select2.
+    * @type {Select2Options}
+    */
     public optionSelect: Select2Options;
+
+    /**
+    * variable si esta seleccionado un elemento o no.
+    * @type {string}
+    */
     public selected: string;
+    
+    /**
+    * array que contiene los elementos de la derecha
+    * @type {any}
+    */
+    derecha: any[] = [];
 
-     derecha: any[] = [];
-     izquierda: any[] = [];
+    /**
+    * array que contiene los elementos de la izquierda
+    * @type {any}
+    */
+    izquierda: any[] = [];
 
-     API_PATH = environment.API_PATH;
-     subir: any = [];
+    /**
+    * Variable que contiene la URL de la API.
+    * @type {any}
+    */
+    API_PATH = environment.API_PATH;
+    
+    /**
+    * array que contiene los archivos a subir como imagenes
+    * @type {any}
+    */
+    subir: any = [];
 
-     permisos = JSON.parse(localStorage.getItem("permisos"));
-     configuracion = JSON.parse(localStorage.getItem("configuracion"));
+    /**
+    * Variable que contiene los permisos del localStorage.
+    * @type {any}
+    */
+    permisos = JSON.parse(localStorage.getItem("permisos"));
+    
+    /**
+    * Variable que contiene la configuración del localStorage.
+    * @type {any}
+    */
+    configuracion = JSON.parse(localStorage.getItem("configuracion"));
 
     //Crear la variable que mustra las notificaciones
     mensajeResponse: Mensaje = new Mensaje()
 
     //Varaibles de entrada se pasan los valores desde la vista
+    /**
+    * Variable que contiene URL para realizar consultas al Service de la API.
+    * @type {any}
+    */
     @Input() URL: string;
+
+    /**
+    * Variable que contiene el titulo del modulo en el que estemos trabajando.
+    * @type {any}
+    */
     @Input() titulo: string;
+
+    /**
+    * Contiene los datos del formulario que comunican a la vista con el componente.
+    * y a su ves las consultas y/o operaciones al service.
+    * @type {FormGroup}
+    */
     @Input() dato: FormGroup;
 
     /**
@@ -207,11 +322,12 @@ export class FormularioComponent implements OnInit {
             }
         );
     }
+
     /**
-     * Este método envia los datos para actualizar un elemento con el id 
-     * que se envia por la url     
-     * @return void
-     */
+    * Este método envia los datos para actualizar un elemento con el id 
+    * que se envia por la url     
+    * @return void
+    */
     actualizarDatos() {
 
         this.cargando = true;
@@ -274,11 +390,11 @@ export class FormularioComponent implements OnInit {
     }
 
     /**
-     * Este método es recursivo y recorre todo el formulario reactivo para crear los que son de tipo array y agregar su respectivo valor
-     * @param resultado json con los datos del objecto resultado de la consulta a la base de datos
-     * @param data formulario reactivo donde se guardaran los valores resultantes 
-     * @return void
-     */
+    * Este método es recursivo y recorre todo el formulario reactivo para crear los que son de tipo array y agregar su respectivo valor
+    * @param resultado json con los datos del objecto resultado de la consulta a la base de datos
+    * @param data formulario reactivo donde se guardaran los valores resultantes 
+    * @return void
+    */
     cargarDatosRecursivo(resultado, data) {
         try {
             // validar si el resultado es un array para recorrer de manera unica
@@ -482,6 +598,11 @@ export class FormularioComponent implements OnInit {
         }
     }
 
+    /**
+    * Este método resetea el 
+    * formulario.
+    * @return void
+    */
     reset_form() {
         this.dato.reset();
         for (let item in this.dato.controls) {
@@ -644,7 +765,6 @@ export class FormularioComponent implements OnInit {
         );
     }
 
-
     /**
      * Este metodo se encarga de cargar los datos de un catalogo para crear un select, grupos de radios o check
      * @param item nombre del modelo donde se guardaron los resultados
@@ -775,9 +895,9 @@ export class FormularioComponent implements OnInit {
 
 
     /**
-     * Este método regresa a una pagina anterior
-     * @return void
-     */
+    * Este método regresa a una pagina anterior
+    * @return void
+    */
     regresar() {
         this.location.back();
     }
@@ -1249,22 +1369,40 @@ export class FormularioComponent implements OnInit {
             this.notificacion.error(this.mensajeResponse.titulo, this.mensajeResponse.texto, objeto);
 
     }
+
+    /**
+    * Este método cambia de Unidad Medica.
+    * @return void
+    */
     cambiar_clues() {
         this.configuracion.clues = this.dato.value.configuracion;
         localStorage.setItem('configuracion', JSON.stringify(this.configuracion));
     }
-    cambiar_sucursal() {
-        this.configuracion.sucursal = this.dato.value.configuracion;
-        localStorage.setItem('configuracion', JSON.stringify(this.configuracion));
-    }
 
+    /**
+    * Este método cambia los valores a la derecha 
+    * asignandolos.
+    * @param p elemento seleccionado.
+    * @return void
+    */
     iniciar_derecha(p) {
         this.derecha[p] = [];
     }
+
+    /**
+    * Este método cambia los valores a la izquierda 
+    * asignandolos.
+    * @param p elemento seleccionado.
+    * @return void
+    */
     iniciar_izquierda(p) {
         this.izquierda[p] = [];
     }
 
+    /**
+    * Este método imprime la vista seleccionada.
+    * @return void
+    */
     imprimir() {
         /*let pdf = new jsPDF('p', 'pt', 'letter');
         pdf.setProperties({
@@ -1307,4 +1445,5 @@ export class FormularioComponent implements OnInit {
             document.body.removeChild(iframe);
         }, 2000);
     }
+
 }

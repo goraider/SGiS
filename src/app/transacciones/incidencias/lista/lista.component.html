@@ -34,7 +34,8 @@
                                 <div class="field">
                                     <label>Buscar por Paciente:</label>
                                     <div class="control has-icons-left is-expanded">
-                                        <input type="text" class="input is-flat is-medium" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value)">
+                                        
+                                        <input type="text" class="input is-flat is-medium" placeholder="Buscar" #searchBox id="search-box" (keyup)="ctrl.buscar(searchBox.value, 1)">
                                         <span class="icon is-medium is-left">
                                             <i class="fa fa-search"></i>
                                         </span>

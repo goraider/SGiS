@@ -3,6 +3,13 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
+
+/**
+* constante que contiene el objeto JSON, respecto al menu de los modulos
+* y las rutas de la API que se conectan para obtener los datos.
+* archivo de producción.
+*/
+
 export const environment = {
 
   "production": true,
@@ -189,9 +196,9 @@ export const environment = {
               "icono": "fa fa-handshake-o"
             },
             {
-              "titulo": "Municipio",
+              "titulo": "Municipios",
               "key": "MunicipioController.index",
-              "path": "/catalogos/municipio/lista",
+              "path": "/catalogos/municipios/lista",
               "icono": "fa fa-map"
             },
             {

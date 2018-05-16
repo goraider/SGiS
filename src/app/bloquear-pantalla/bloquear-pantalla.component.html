@@ -4,8 +4,10 @@
     <div class="card" style=" border-radius:1em; overflow: hidden">
       <div class="card-image hero is-primary">
         <div class="banerLogin">
-          <img src="../assets/iconos/android-chrome-192x192.png" aria-hidden="true">
-          <span>UGUS - SGIS</span>
+          <span class="icon">
+            <i class="fa fa-lock"></i>
+          </span>
+          <span>Desbloquear Sistema</span>
         </div>
         <div class="banerLogin" *ngIf="configuracion">
           <figure class="image" style="float:left">
@@ -25,19 +27,40 @@
 
           <figure class="image is-16by9">
             <img [src]="usuario.foto ? API_PATH+'/adjunto/usuario/'+usuario.foto : usuario.avatar" alt="Image" class="profile">
-            <span class="icon is-large" style="position: absolute; top: 0px; right:0px;"><i class="fa fa-lock"></i></span>
+            <!-- <span class="icon is-large" style="position: absolute; top: 0px; right:0px;"><i class="fa fa-lock"></i></span> -->
           </figure>
 
           <h1 class="title">{{ usuario.nombre }} {{ usuario.apellidos }}</h1>
           <h2 class="subtitle"><span class="icon"><i class="fa fa-envelope"></i></span> ({{usuario.email}})</h2>
-          <p class="control has-icon">
-            <input class="input is-medium" [ngClass]="{'is-danger': mensaje}" type="password" name="password" id="password" placeholder="Contraseña"
-              [(ngModel)]="credenciales.password">
-            <span class="icon is-small">
-                <i class="fa fa-lock"></i>
+          
+          <div class="field">
+            <p class="control has-icons-left has-icons-right">
+              <input class="input is-medium" autofocus
+                [ngClass]="{'is-danger': mensaje}"
+                type="password" name="password" id="password"
+                placeholder="Ingrese su Contraseña para desbloquear el Sistema"
+                [(ngModel)]="credenciales.password">
+                
+                <span class="icon is-small is-left">
+                    <i class="fa fa-lock"></i>
                 </span>
-          </p>
-          <button class="button is-primary is-medium is-fullwidth" [ngClass]="{'is-loading': loading}"><span class="icon"><i class="fa fa-unlock"></i></span><span>Desbloquear</span></button>
+
+                <span class="icon is-small is-right">
+                    <i class="fa fa-check"></i>
+                </span>
+            </p>
+          </div>
+          <div class="field">
+              <p class="control">
+                <button class="button is-primary is-medium is-fullwidth" [ngClass]="{'is-loading': loading}">
+                  <span class="icon">
+                    <i class="fa fa-unlock"></i>
+                  </span>
+                  <span>Desbloquear</span>
+                </button>
+              </p>
+          </div>
+          
         </form>
       </div>
 

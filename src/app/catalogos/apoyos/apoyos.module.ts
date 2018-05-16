@@ -1,3 +1,16 @@
+/**
+* <h1>Apoyos Module</h1>
+*<p>
+* El modulo apoyos es un catálogo para agregar
+* Recursos que con los que otras instituciones pueden 
+* ayudar a la unidad médica correspondiente.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

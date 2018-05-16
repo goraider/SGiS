@@ -55,7 +55,13 @@
             <section class="section" style="padding: 2rem 1rem !important; overflow:auto;" [style.maxHeight.px]="tamano-175">               
                 
                 <!-- cargar los catalogos que se requieran parametro 1 modelo donde se guarda el catalogo, parametro 2 ruta de la api -->
-                <a id="catalogos" (click)="ctrl.cargarCatalogo('paises', 'paises'); ctrl.cargarCatalogo('grupos', 'sisGrupo'); ctrl.cargarCatalogo('tipos_medios', 'tipo-medio'); "></a>
+                <a id="catalogos" (click)="ctrl.cargarCatalogo('municipios', 'municipios', 'localidades');
+                                           ctrl.cargarCatalogo('grupos', 'sisGrupo');
+                                           ctrl.cargarCatalogo('tipos_medios', 'tipo-medio'); ">
+                </a>
+                <a id="localidades"
+                                  (click)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.municipios_id.value)">
+                </a>
                 <div class="contenedor columns ">
                     <div class="column is-one-quarter is-hidden-mobile menu-persona">
                         <div>
@@ -138,23 +144,65 @@
                             </div>
 
                             <div class="columns">
-                                <div class="column is-4">
-                                    <label class="label">País:</label>
-                                    <select2 name="paises_id" [options]="ctrl.optionSelect" [value]="paises_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.paises_id, 'estados', 'estados'); autovalor_pais();"
-                                        [data]="ctrl.paises"></select2>
 
+                                <div class="column is-6">
+                                  <label class="label">Municipio: </label>
+                                    <div class="control is-grouped has-icons-left">
+        
+                                        <span *ngIf="ctrl.cargando" class="tag is-primary is-large">Cargando Municipios...
+                                            <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+                                        </span>
+        
+                                        <div *ngIf="ctrl.municipios && !ctrl.cargando" class="control is-expanded has-icon-left">
+        
+                                          <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('municipios_id').hasError('required')}">
+                                            <select class="select" name="municipios_id" formControlName="municipios_id" (change)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.municipios_id.value)"> 
+                                                <option value="">Seleccione el Municipio de la Paciente</option>                                       
+                                                <option *ngFor="let item of ctrl.municipios" value="{{item.id}}">{{item.nombre}}</option>                                        
+                                            </select>
+                                          </span>
+        
+                                          <span class="icon is-small" *ngIf="!ctrl.cargando && ctrl.dato.get('municipios_id').hasError('required')">
+                                            <i class="fa fa-warning"></i>
+                                          </span>
+            
+                                          <span class="help is-danger" *ngIf="ctrl.dato.get('municipios_id').hasError('required')">
+                                            Este campo es requerido.
+                                          </span>
+            
+                                          <span class="icon is-small is-left" *ngIf="!ctrl.cargando && !ctrl.dato.get('municipios_id').hasError('required')">
+                                            <i class="fa fa-globe"></i>
+                                          </span>
+                                        </div>
+                                    </div>
                                 </div>
-
-                                <div class="column is-4">
-                                    <label class="label">Estado:</label>
-                                    <select2 name="estados_id" [options]="ctrl.optionSelect" [value]="estados_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.estados_id, 'municipios', 'municipios'); autovalor_estado()"
-                                        [data]="ctrl.estados"></select2>
-                                </div>
-
-                                <div class="column is-4">
-                                    <label class="label">Municipio:</label>
-                                    <select2 name="municipios_id" [options]="ctrl.optionSelect" [value]="municipios_id" (valueChanged)="ctrl.seleccionarValorSelect2($event, ctrl.dato.controls.municipios_id); autovalor_municipio();"
-                                        [data]="ctrl.municipios"></select2>
+        
+                                <div class="column is-6">
+                                  <label class="label">Localidad: </label>
+                                  <div class="control is-grouped has-icons-left">
+        
+                                    <div *ngIf="ctrl.localidades_o" class="control is-expanded has-icon-left">
+        
+                                      <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('localidades_id').hasError('required')}">
+                                        <select class="select" formControlName="localidades_id"> 
+                                            <option value="">Seleccione la Localidad de la Paciente</option>                                       
+                                            <option *ngFor="let item of ctrl.localidades_o" value="{{item.id}}">{{item.nombre}}</option>                                        
+                                        </select>
+                                      </span>
+        
+                                      <span class="icon is-small" *ngIf="ctrl.dato.get('localidades_id').hasError('required')">
+                                          <i class="fa fa-warning"></i>
+                                      </span>
+        
+                                      <span class="help is-danger" *ngIf="ctrl.dato.get('localidades_id').hasError('required')">
+                                          Este campo es requerido.
+                                      </span>
+        
+                                      <span class="icon is-small is-left" *ngIf="!ctrl.dato.get('localidades_id').hasError('required')">
+                                          <i class="fa fa-globe"></i>
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
                             </div>
 

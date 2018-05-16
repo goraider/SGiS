@@ -1,3 +1,15 @@
+/**
+* <h1>Tipos Altas Module</h1>
+*<p>
+* El modulo Tipos Altas es un catálogo para agregar los
+* las diferentes altas que puede tener una paciente.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

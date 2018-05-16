@@ -1,21 +1,72 @@
+/**
+* dependencias a utilizar
+*/
 import { Component, OnInit, Input } from '@angular/core';
 
+/**
+* selector si se desea ocupar en un HTML
+* y su archivo HTML
+*/
 @Component({
   selector: 'tabla-opciones',
   templateUrl: './opciones.component.html'
 })
 
 export class TablaOpcionesComponent{
+  
+  /**
+  * Contiene los elementos
+  * para acceder a los metodos del crud.
+  * @type {any}
+  */
   @Input() ctrl: any; 
-
+  
+  /**
+  * Contiene la nueva url cuando es un nuevo ingreso.
+  * @type {string}
+  */
    url_nuevo: string = '';
-   permisos = JSON.parse(localStorage.getItem("permisos"));
-   carpeta;
-   modulo;
-   controlador;
-   modulo_actual;
-   icono;
 
+  /**
+  * Contiene los permisos del usuario del LocalStorage.
+  * @type {string}
+  */
+   permisos = JSON.parse(localStorage.getItem("permisos"));
+  
+  /**
+  * se almacena la posicion de la url.
+  * @type {any}
+  */
+   carpeta;
+  
+   /**
+  * almacena la posicion de la url del modulo.
+  * @type {any}
+  */
+   modulo;
+
+   /**
+   * almacena el controlador que se este trabajando.
+   * @type {any}
+   */
+   controlador;
+  
+   /**
+   * almacena el modulo actual.
+   * @type {any}
+   */ 
+   modulo_actual;
+   
+   /**
+   * obtiene el icono del modulo.
+   * @type {any}
+   */ 
+   icono;
+  
+  /**
+  * Este método inicializa la carga de la vista asociada junto los datos del formulario
+  * @return void
+  */
   ngOnInit() {
     var url = location.href.split("/");
     this.carpeta = url[4];
@@ -40,7 +91,13 @@ export class TablaOpcionesComponent{
     this.icono = titulo_icono.icono;
     this.modulo_actual = titulo_icono.titulo;
   }
-
+  
+  /**
+  * Este método obtiene el icono del modulo con el que se este trabajando
+  * @param url de la ruta que se este trabajando
+  * @param controlador el controlador donde se obtiene el icono
+  * @param menu elemento donde se mapea los elementos del array de menu del archivo Environment
+  */
   obtener_icono(controlador, menu) {
     menu.map((element, key) => {
       if (typeof this.icono == 'undefined') {
@@ -58,4 +115,5 @@ export class TablaOpcionesComponent{
     });
     return this.icono;
   }  
+
 }

@@ -1,3 +1,15 @@
+/**
+* <h1>Cargos Module</h1>
+*<p>
+* El modulo cargos es un catálogo para agregar 
+* los diferentes puestos que puede haber en una unidad medica
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule, OnDestroy, AfterViewInit, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

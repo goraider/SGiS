@@ -1,3 +1,15 @@
+/**
+* <h1>Visitas Puerperales Module</h1>
+*<p>
+* El modulo Visitas Puerperales se encarga de listar las altas
+* de las pacientes.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

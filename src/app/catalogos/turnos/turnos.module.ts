@@ -1,3 +1,15 @@
+/**
+* <h1>Turnos Module</h1>
+*<p>
+* El modulo Turnos es un catálogo que contiene
+* los diferentes turnos laborales que pueden haber en las Unidades Medicas.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

@@ -1,9 +1,10 @@
 <!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
-<listar #ctrl URL="directorio-apoyos" titulo="Directorio de Apoyos / Transacciones" ></listar>
 
+<listar #ctrl URL="directorio-apoyos?municipio_id={{URLdirectorio_apoyos_clue}}" titulo="Directorio de Apoyos / Transacciones" ></listar>
+<a id="cargar_datos_actualizar" (click)="mostrarDirectorioMunicipio($event); ctrl.listar(1);"></a>
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
-
+<a (click)="mostrarDirectorioMunicipio();" id="cambiar_directorio"></a>
 <div class="contenedor columns " style="height:100%; ">
     <div class="column is-2 is-hidden-mobile menu-izquierda">
 
@@ -15,7 +16,6 @@
             
             <!-- Opciones y busqueda -->
             <tabla-opciones [ctrl]="ctrl"></tabla-opciones>
-                
             <span id="exportar_datos" style="overflow-y:auto; overflow-x: hidden; display:block;"[style.maxHeight.px]="tamano-285">
                     
                 <!--Tabla -->

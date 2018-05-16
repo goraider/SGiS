@@ -1,24 +1,83 @@
+/**
+* dependencias a utilizar
+*/
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 
 import { BuscarModuloPipe } from '../pipes/buscar-modulo.pipe';
 
+/**
+* selector si se desea ocupar en un HTML
+* y su archivo HTML
+*/
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
+
+/**
+* Esta clase muestra la lista de los elementos
+* compuestos por la vista index
+*/
 export class IndexComponent implements OnInit {
-
+  
+  /**
+  * Contiene los datos
+  * del usuario.
+  * @type {any}
+  */
   usuario: any = {};
-  busqueda: string;
-  tiene = 0;
-  menu: any[] = [];
-  modulo: string;
-  modulo_actual: string;
-  tamano = document.body.clientHeight;
-  constructor(private title: Title) { }
 
+  /**
+  * Contiene la bandera para activar
+  * la busqueda.
+  * @type {string}
+  */
+  busqueda: string;
+
+  /**
+  * Contiene la bandera para activar
+  * la busqueda.
+  * @type {string}
+  */
+  tiene = 0;
+
+  /**
+  * Contiene el array con el
+  * menu.
+  * @type {any}
+  */
+  menu: any[] = [];
+
+  /**
+  * Contiene el modulo.
+  * @type {string}
+  */
+  modulo: string;
+
+  /**
+  * almacena el modulo actual.
+  * @type {string}
+  */ 
+  modulo_actual: string;
+
+  /**
+  * Contiene el tamaño del cuerpo de la seccion donde esten los controles en la vista.
+  * @type {any}
+  */
+  tamano = document.body.clientHeight;
+
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
+  constructor(private title: Title) { }
+  
+  /**
+  * Este método inicializa la carga de la vista asociada
+  * @return void
+  */
   ngOnInit() {
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
     let menu = JSON.parse(localStorage.getItem('menu'));
@@ -35,7 +94,9 @@ export class IndexComponent implements OnInit {
       }
     }
   }
+
   tiene_hijos(){
     this.tiene++;
   }
+
 }

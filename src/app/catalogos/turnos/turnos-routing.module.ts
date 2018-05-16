@@ -1,3 +1,17 @@
+/**
+* <h1>Turnos Routing Module</h1>
+*<p>
+* Este modulo se encarga de tener acceso
+* a los diferentes componentes del catalogo Turnos
+* en la carpeta asociada, para poder editar, listar o
+* agregar un nuevo elemento.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

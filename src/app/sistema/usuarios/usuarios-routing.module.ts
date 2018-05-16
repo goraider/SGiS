@@ -1,3 +1,15 @@
+/**
+* <h1>Usuarios Routing Module</h1>
+*<p>
+* Este modulo se encarga de gestionar
+* los usuarios, listando, guardando y eliminando.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 

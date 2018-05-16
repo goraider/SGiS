@@ -6,9 +6,9 @@
 * para que esten disponibles en todos los modulos del sistema
 * </p>
 *
-* @author  Javier Alejandro Gosain Díaz
-* @version 1.0
-* @since   2017-05-08 
+* @author  Eliecer Ramirez Esquinca
+* @version 2.0
+* @since   2018-04-30 
 */
 
 import { NgModule } from '@angular/core';

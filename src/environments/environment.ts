@@ -18,16 +18,6 @@
 // "OAUTH_SERVER": "http://api.oa2.che",
 // "OAUTH_DISPONIBLE": false,
 
-
-// UCP ISM CHIAPAS
-
-// "production": false,
-// "API_URL": "http://api.sgis.ismchiapas.org/api/v1",
-// "API_PATH": "http://api.sgis.ismchiapas.org",
-// "OAUTH_CLIENTE": "http://api.sgis.ismchiapas.org/api/sync",
-// "OAUTH_SERVER": "http://api.oa2.che",
-// "OAUTH_DISPONIBLE": false,
-
 //API INSTITUTO DE SALUD
 
 // "production": false,
@@ -39,7 +29,6 @@
 
 //API INDEPENDIENTE
 
-
 // "production": false,
 // "API_URL": "http://api.ugus.bid/public/api/v1",
 // "API_PATH": "http://api.ugus.bid",
@@ -47,20 +36,11 @@
 // "OAUTH_SERVER": "http://api.oa2.che",
 // "OAUTH_DISPONIBLE": false,
 
-
-
-//API PRUEBAS BID KARLA
-//http://api.pruebas.sgis.ismchiapas.org/
-
-// "production": false,
-// "API_URL": "http://api.pruebas.sgis.ismchiapas.org/api/v1",
-// "API_PATH": "http://api.pruebas.sgis.ismchiapas.org",
-// "OAUTH_CLIENTE": "http://api.pruebas.sgis.ismchiapas.org/api/sync",
-// "OAUTH_SERVER": "http://api.oa2.che",
-// "OAUTH_DISPONIBLE": false,
-
-
-
+/**
+* constante que contiene el objeto JSON, respecto al menu de los modulos
+* y las rutas de la API que se conectan para obtener los datos.
+* archivo de pruebas.
+*/
 export const environment = {
 
   "production": false,
@@ -247,9 +227,9 @@ export const environment = {
               "icono": "fa fa-handshake-o"
             },
             {
-              "titulo": "Municipio",
+              "titulo": "Municipios",
               "key": "MunicipioController.index",
-              "path": "/catalogos/municipio/lista",
+              "path": "/catalogos/municipios/lista",
               "icono": "fa fa-map"
             },
             {

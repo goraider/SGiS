@@ -1,3 +1,15 @@
+/**
+* <h1>Estado Module</h1>
+*<p>
+* El modulo Estado es un catálogo para agregar los
+* estados de la republica mexicana.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

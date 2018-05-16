@@ -1,3 +1,16 @@
+/**
+* <h1>Menu Module</h1>
+*<p>
+* El modulo Menu, muestra los accesos
+* al hub entre otros elementos para su acceso
+* directo entre los demas componentes.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';

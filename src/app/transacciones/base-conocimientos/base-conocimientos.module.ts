@@ -1,3 +1,15 @@
+/**
+* <h1>Base de Conocimiento Module</h1>
+*<p>
+* El modulo Base de Conocimiento se encarga de gestionar las emergencias
+* resueltas, en base a casos de exito.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

@@ -1,3 +1,6 @@
+/**
+* dependencias a utilizar
+*/
 import './polyfills.ts';
 
 import 'zone.js/dist/long-stack-trace-zone';
@@ -13,20 +16,41 @@ import {
 } from '@angular/platform-browser-dynamic/testing';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
+
+/**
+* Variable requerida
+*/
 declare var __karma__: any;
+
+/**
+* Variable requerida
+*/
 declare var require: any;
 
-// Prevent Karma from running prematurely.
+/**
+* Prevent Karma from running prematurely.
+*/
 __karma__.loaded = function () {};
 
-// First, initialize the Angular testing environment.
+/**
+* First, initialize the Angular testing environment.
+*/
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );
-// Then we find all the tests.
+
+/**
+* Then we find all the tests.
+*/
 let context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
+
+/**
+* And load the modules.
+*/
 context.keys().map(context);
-// Finally, start Karma to run the tests.
+
+/**
+* Finally, start Karma to run the tests.
+*/
 __karma__.start();

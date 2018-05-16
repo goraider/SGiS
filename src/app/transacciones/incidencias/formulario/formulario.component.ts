@@ -1,3 +1,6 @@
+/**
+* dependencias a utilizar
+*/
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
@@ -12,7 +15,10 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { elementAt } from 'rxjs/operators/elementAt';
 
 
-
+/**
+* selector si se desea ocupar en un HTML
+* y su archivo HTML
+*/
 @Component({
     selector: 'incidencias-formulario',
     templateUrl: './formulario.component.html',
@@ -22,97 +28,191 @@ import { elementAt } from 'rxjs/operators/elementAt';
 
 export class FormularioComponent {
 
+    /**
+    * Contiene los datos del formulario que comunican a la vista con el componente.
+    * @type {FormGroup}
+    */
     dato: FormGroup;
-    private c = JSON.parse(localStorage.getItem("clues"));
     
-    tamano = document.body.clientHeight;
+    /**
+    * Contiene la Unidad Medica que esta en el LocalStorage.
+    * @type {any}
+    */
+    c = JSON.parse(localStorage.getItem("clues"));
 
+    /**
+    * Contiene el tamaño del cuerpo de la seccion donde esten los controles en la vista.
+    * @type {any}
+    */
+    tamano = document.body.clientHeight;
+    
+    /**
+    * Contiene el tamaño del cuerpo del editor de texto para darle dormato al text area que esta en la vista.
+    * @type {any}
+    */
     CkeditorConfig = {
         height:document.body.clientHeight - 760
-      }
-      
+    }
+    
+    /**
+    * Contiene las diferentes pestañas de acceso que puede tener la vista.
+    * @type {number}
+    */
     tab: number = 1;
-    tiene_referencia: number = 0;
+
+    /**
+    * Contiene la bandera para mostrar un campo al momento de editar.
+    * @type {boolean}
+    */    
     mostrar : boolean = false;
+
+    /**
+    * Contiene el valor de la unidad medica.
+    * @type {boolean}
+    */
     mostrar_clue : boolean = false;
-
-    form_responsable: any = {};
-    form_persona_responsable: any = {};
-    datos_persona: any;
-
-    nombre_origen: any = '';
-    nombre_destino: any = '';
-
-    latInicial: any = 16.7569;
-    longInicial: any = -93.1292;
-
-    origin: number;
-    destination: number;
-
-    latOrigen: any;
-    longOrigen: any;
-
-    latDestino: any;
-    longDestino: any;
-
-    distancia: any = '';
-    tiempo: any = '';
-    observaciones: any = '';
-
-    usuario_clue;
-
+    
+    /**
+    * Bandera para mostrar los datos cuando se edite.
+    * @type {boolean}
+    */
     cargando: boolean = false;
-
-    sub_CIE10_id: number = null;
-    temp_cie10_id: number = null;
     
+    /**
+    * Bandera para mostrar o no un campo cuando se edite.
+    * @type {boolean}
+    */
     mostrar_check = false;
+
+    /**
+    * Bandera para mostrar o no el boton de actualizar folio.
+    * @type {boolean}
+    */
     mostrar_folio = true;
+
+    /**
+    * Bandera para cambiar de Unidad Medica de donde viene el paciente de referencia.
+    * @type {boolean}
+    */
     mostrar_check_clue = false;
-    //ocultar_pregunta_referencia = false;
-
-    public curp_viejo:any = '';
-    public cie10_var_temp: any = '';
-    public clues_origen_temp: any = '';
     
+    /**
+    * Variable que almacena la Curp viaje de la paciente cuando se edita.
+    * @type {any}
+    */
+    curp_viejo:any = '';
 
-    selectedDeal;
+    /**
+    * Variable que almacena el diagnostico cie10 temporal de la paciente cuando se edita.
+    * @type {any}
+    */
+    cie10_var_temp: any = '';
 
+    /**
+    * Variable que almacena la Unidad Médica cuando se edita.
+    * @type {any}
+    */
+    clues_origen_temp: any = '';
+    
+    /**
+    * Variable el id del ingreso cuando se edita.
+    * @type {any}
+    */
     id;
 
+    /**
+    * Contiene la nueva url cuando es un nuevo ingreso.
+    * @type {string}
+    */
     url_nuevo: string = '';
+
+    /**
+    * Contiene la nueva url cuando se edita un ingreso.
+    * @type {string}
+    */
     url_editar: string = '';
+
+    /**
+    * Contiene los permisos del usuario del LocalStorage.
+    * @type {string}
+    */
     permisos = JSON.parse(localStorage.getItem("permisos"));
+
+    /**
+    * se almacena la posicion de la url.
+    * @type {any}
+    */
     carpeta;
+
+    /**
+    * almacena la posicion de la url del modulo.
+    * @type {any}
+    */
     modulo;
+    
+    /**
+    * almacena el controlador que se este trabajando.
+    * @type {any}
+    */
     controlador;
+
+    /**
+    * almacena el modulo actual.
+    * @type {any}
+    */ 
     modulo_actual;
+
+    /**
+    * obtiene el icono del modulo.
+    * @type {any}
+    */ 
     icono;
-    activarOp = false;
 
+    /**
+    * almacena la busqueda de la Unidad Medica que se obtenga del Autocomplet en la vista.
+    * @type {any}
+    */
     public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
-
+    
+    /**
+    * almacena la busqueda de la paicente en el censo de mujeres que se obtenga del Autocomplet en la vista.
+    * @type {any}
+    */
     public personas_term: string = `${environment.API_URL}/personas-auto?term=:keyword`;
-
+    
+    /**
+    * almacena la busqueda del diagnostico cie-10 que se obtenga del Autocomplet en la vista.
+    * @type {any}
+    */
     public cie10_term: string = `${environment.API_URL}/subcategoriascie10-auto?term=:keyword`;
-
+    
+    /**
+    * almacena las imagenes cargadas de acuerdo a una incidencia nueva.
+    * @type {any}
+    */
     public url_img_referencia: string = `${environment.API_PATH}/adjunto/referencias/`;
-
+  
+    /**
+    * Este método inicializa la carga de las dependencias 
+    * que se necesitan para el funcionamiento del catalogo
+    */
     constructor(private fb: FormBuilder,
         private router: Router,
         private route: ActivatedRoute,
         private _sanitizer: DomSanitizer,
         private _el: ElementRef,
         private crudService: CrudService, ) { }
-
+    
+    /**
+    * Este método inicializa la carga de la vista asociada junto los datos del formulario
+    * @return void
+    */
     ngOnInit() {
 
         this.url_img_referencia;
 
 
         this.iniciarFormulario();
-
-
 
         var url = location.href.split("/");
         this.carpeta = url[4];
@@ -141,52 +241,10 @@ export class FormularioComponent {
         this.icono = titulo_icono.icono;
         this.modulo_actual = titulo_icono.titulo;
 
-        //hacer igual al Json de responsable del formulario reactivo.
-
-        this.form_responsable =
-            this.fb.group({
-                //indice 0;
-                id: [''],
-                personas_id: [''],
-                parentescos_id: ['', [Validators.required]],
-                esResponsable: [1],
-            }),
-
-
-            this.form_persona_responsable =
-            this.fb.group({
-                id: [''],
-                nombre: ['', [Validators.required]],
-                paterno: ['', [Validators.required]],
-                materno: ['', [Validators.required]],
-                telefono: ['', [Validators.required, Validators.pattern("[0-9]*")]],
-                domicilio: ['', [Validators.required]],
-                fecha_nacimiento: [null],
-            }),
-
             this.generar_folio(this.dato.controls.id, true);
 
-            //const municipioPaciente = <FormGroup>personas.controls.derechohabientes_id;
-
-
-                                     //this.dato.controls.pacientes['controls']['0']['controls']['personas']['controls']['localidades_id']
-
-
-        /*
-            this.dato.controls.clues.valueChanges.subscribe(val => {
-              (<HTMLInputElement>document.getElementById('clues')).value = this.dato.controls.clues.value;
-            });
-        */
         //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
-
-  
-            document.getElementById("catalogos").click();
-
-
-        // setTimeout(() => {
-        //     document.getElementById("catalogosIngreso").click();
-        // }, 200);
-
+        document.getElementById("catalogos").click();
 
 
         this.route.params.subscribe(params => {
@@ -196,12 +254,14 @@ export class FormularioComponent {
                 this.cargarDatos();
             }
         });
-
-        
-
-
     }
 
+    /**
+    * Este método obtiene el icono del modulo con el que se este trabajando
+    * @param url de la ruta que se este trabajando
+    * @param controlador el controlador donde se obtiene el icono
+    * @param menu elemento donde se mapea los elementos del array de menu del archivo Environment
+    */
     obtener_icono(url, controlador, menu) {
         menu.map((element, key) => {
             if (typeof this.icono == 'undefined') {
@@ -225,6 +285,10 @@ export class FormularioComponent {
         return this.icono;
     }
 
+    /**
+    * Este método carga todos los datos del formulario reactivo que se comunica con la vista
+    * @return void
+    */
     iniciarFormulario() {
         
 
@@ -321,7 +385,10 @@ export class FormularioComponent {
     }
 
 
-
+    /**
+    * Este método asigna una curp en la relación del JSON de personas
+    * @return void
+    */
     //this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['id'].patchValue(this.dato.controls.pacientes['controls'][0]['controls']['acompaniantes']['controls'][0]['controls']['personas_id'].value);
     asignar_curp() {
         //asigna curp al id que tiene referenciado de la curp del acompañante/paciente.
@@ -342,6 +409,10 @@ export class FormularioComponent {
 
     }
 
+    /**
+    * Este método resetea el formulario reactivo
+    * @return void
+    */
     reset_form() {
         this.dato.reset();
         for (let item in this.dato.controls) {
@@ -357,6 +428,12 @@ export class FormularioComponent {
         }
         return true;
     }
+    
+    /**
+    * Este método selecciona una imagen, la convierte el base64
+    * y la envia al dato del formulario reactivo, cuando es nuevo o se edite.
+    * @return void
+    */
     error_archivo = false;
     seleccionarImagenBase64(evt, modelo, multiple: boolean = false, index: number = 0) {
         const imagenes = <FormArray>this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'];
@@ -391,44 +468,34 @@ export class FormularioComponent {
                     return function (e) {
                         try {
                             modelo.push(este.fb.group(
-                                
                                     {
                                         foto: [btoa(e.target.result)],
                                         es_url:false
                                     }
                                 )
                             );
-
                             imagenes.patchValue(modelo);
-                            
                         } catch (ex) {
                             esto.error_archivo = true;
                         }
                     }
-
                 })(f);
             }
         }
-
-        //console.log(this.dato.value);
-
         
     }
 
+    /**
+    * Este método carga los datos del formulario en la vista
+    * @return void
+    */
     cargarDatos() {
         if (this.reset_form()) {
             try {
                 this.cargando = true;
-                
-
-
                 this.crudService.ver(this.id, "incidencias").subscribe(
                     resultado => {
-
-                        //console.log("datos del editar",resultado);
-
-                                            
-                                            
+            
                         this.cargando = false;
                         this.mostrar_check = true;
                         this.mostrar_check_clue = true;
@@ -437,11 +504,8 @@ export class FormularioComponent {
                         
                         this.iniciarFormulario();
                         
-
-                        
                         //validar todos los key que tengan el array                          
                         if (document.getElementById("catalogos"))
-
                             document.getElementById("catalogos").click();
 
                         if(resultado.data.movimientos_incidencias[0]['subcategorias_cie10']['nombre']){
@@ -454,13 +518,7 @@ export class FormularioComponent {
 
                         }
 
-
-
-                            this.curp_viejo = resultado.data.pacientes[0]['personas_id'];
-
-
-                        
-                        
+                        this.curp_viejo = resultado.data.pacientes[0]['personas_id'];
 
                         this.dato.controls.id.patchValue(resultado.data.id);
                         this.dato.controls.clues.patchValue(resultado.data.clues);
@@ -544,16 +602,12 @@ export class FormularioComponent {
                         
 
                         resultado.data.referencias[resultado.data.referencias.length -1].multimedias.forEach(element => {
-
                             //this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'] = this.fb.array([]);
-
                             this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'].push(this.fb.group({foto: element.url, es_url:true}));
 
-            
                         });
 
                         this.dato.controls.referencias['controls'][0]['controls']['esIngreso'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['esIngreso']);
-
 
                     },
                     error => {
@@ -565,72 +619,72 @@ export class FormularioComponent {
         }
     }
 
-      checked_cambiar_cie10(value){
+    /**
+    * Este método muestra un campo para cambiar el diagnostico cie10 cuando se edite el ingreso
+    * @param value obtiene el id del elemento del HTML
+    */
+    checked_cambiar_cie10(value){
         if( (<HTMLInputElement>document.getElementById('mostrar_cambiar_CIE10')).checked == true ){
           this.mostrar= true;
         }
-        else{ ( (<HTMLInputElement>document.getElementById('mostrar_cambiar_CIE10')).checked == false)
-          this.mostrar= false;       
-          
+        else{ ((<HTMLInputElement>document.getElementById('mostrar_cambiar_CIE10')).checked == false)
+          this.mostrar= false;
         }
           
     }
 
+    /**
+    * Este método muestra si el campo para buscar otra Unidad Medica cuando se edite un ingreso
+    * @param value obtiene el id del elemento del HTML
+    */
     checked_cambiar_clue_referencia(value){
+        
         if( (<HTMLInputElement>document.getElementById('mostrar_cambiar_clue_origen')).checked == true ){
           this.mostrar_clue= true;
         }
         else{ ( (<HTMLInputElement>document.getElementById('mostrar_cambiar_clue_origen')).checked == false)
           this.mostrar_clue= false;       
           
-        }
-          
+        } 
     }
 
-
-    // agregar_responsable_array() {
-
-    //     let pac = <FormArray>this.dato.controls.pacientes;
-    //     let aco = <FormGroup>pac.controls[0];
-
-    //     let pos = <FormArray>aco.controls.acompaniantes;
-
-
-    //     if (!pos.controls[1]) {
-
-    //         pos.controls.push(this.form_responsable);
-
-    //         let po1 = <FormGroup>pos.controls[1];
-
-    //         po1.addControl("personas", this.form_persona_responsable);
-
-    //         //signacion para mandar al control si es responsable.
-    //         let po0 = <FormGroup>pos.controls[0];
-    //         po0.controls.esResponsable.patchValue(0);
-    //     }
-
-    //     console.log("dato",this.dato.value);
-
-
-    // }
-    private dateChanged(newDate) {
-        this.selectedDeal.EndDate = new Date(newDate);
-        console.log(this.selectedDeal.EndDate); // <-- for testing
-    }
-
-
+    /**
+    * Este método quita o elimina un elemento de un array
+    * @param modelo Nombre del modelo donde se guarda el dato obtenido
+    * @param i Posicion del elemento a eliminar
+    * @return void
+    */
     quitar_form_array(modelo, i: number) {
         modelo.splice(i, 1);
         //modelo.removeAt(i);
     }
 
+    /**
+    * Este método quita o elimina un elemento de un array del responsable
+    * @param modelo Nombre del modelo donde se guarda el dato obtenido
+    * @param i Posicion del elemento a eliminar
+    * @return void
+    */
     quitar_form_array_responsable(modelo, i: number) {
         modelo.removeAt(i);
     }
+    
+    /**
+    * Este método quita o elimina un elemento de un array de la pestaña de referencia
+    * @param modelo Nombre del modelo donde se guarda el dato obtenido
+    * @param i Posicion del elemento a eliminar
+    * @return void
+    */
     quitar_form_array_tieneReferencia(modelo, i: number) {
         modelo.removeAt(i);
     }
-
+    
+    /**
+    * Este método para generar un folio del ingreso
+    * @param modelo Nombre del modelo donde se guarda el dato obtenido
+    * @param esmodelo bandera para verificar si es modelo o no
+    * @return void
+    */
     generar_folio(modelo, esmodelo: boolean = false) {
 
         let fecha: any = new Date();
@@ -650,22 +704,36 @@ export class FormularioComponent {
             modelo = cadena;
         else
             modelo.patchValue(cadena);
-
-
     }
 
+    /**
+    * Este método autocomplet donde se obtienen los datos de un paciente de acuerdo a la curp
+    * @param data donde se obtienes los datos de la busqueda
+    * @return void
+    */
     autocompleFormatoCurp = (data: any) => {
 
         let html = `<span>${data.id}</span>`;
         return this._sanitizer.bypassSecurityTrustHtml(html);
     }
 
+    /**
+    * Método para obtener el valor de la curp
+    * @param data contiene el valor de la curp
+    * @return void
+    */
     valorFormato_curp(data: any) {
 
         let html = `${data.id}`;
         return html;
     }
 
+    /**
+    * Método para obtener el valor de la curp
+    * @param data contiene el valor de la Unidad Medica
+    * @param value contiene el valor que se este buscando
+    * @return void
+    */
     select_datosPaciente_autocomplete(data: any, value) {
 
         if (data.id) {
@@ -674,10 +742,8 @@ export class FormularioComponent {
             this.dato.controls.pacientes['controls'][0]['controls']['personas_id_viejo'].patchValue(data.id);
 
             if (document.getElementById("catalogos"))
+                document.getElementById("catalogos").click();
 
-            document.getElementById("catalogos").click();
-
-            
             
             //Se asigna en variables el formulario formulario reactivo, respecto si es un FormArray o un FormGroup
             const pacientes = <FormArray>this.dato.controls.pacientes;
@@ -721,68 +787,94 @@ export class FormularioComponent {
 
             const municipios = <FormGroup>personas.controls.municipios_id;
             municipios.patchValue(data.municipios_id);
-            
-
         }
 
     }
 
-
-
+    /**
+    * Este método autocomplet donde se obtienen los datos del diagnostico CIE-10 que se este buscando
+    * @param data donde se obtienes los datos de la busqueda
+    * @return void
+    */
     autocompleFormatoSubcategoriasCIE10 = (data: any) => {
 
         let html = `<span> ${data.codigo} - ${data.nombre}</span>`;
         return this._sanitizer.bypassSecurityTrustHtml(html);
     }
 
+    /**
+    * Método para obtener el valor del diagnostico CIE-10
+    * @param data contiene el valor deL diagnostico CIE-10
+    * @return void
+    */
     valorFormato_SubcategoriasCIE10(data: any) {
 
         let html = `${data.nombre}`;
         return html;
     }
 
-
+    /**
+    * Este método autocomplet sirve para buscar una Unidad Medica de donde venga el paciente
+    * en la pestaña de referencia.
+    * @param data donde se obtienes los datos de la busqueda
+    * @return void
+    */
     autocompleListFormatter = (data: any) => {
 
         let html = `<span>(${data.clues}) - ${data.nombre} </span>`;
         return this._sanitizer.bypassSecurityTrustHtml(html);
-
-
     }
 
-
-
     /////pestaña referencia//////
-
-
+    /**
+    * Este método autocomplet obtiene el valor que se este buscando de la Unidad Medica
+    * @param data donde se obtienes los datos de la busqueda
+    * @return void
+    */
     valorFormato_origen(data: any) {
 
         let html = `${data.nombre}`;
         return html;
     }
 
+    /**
+    * Este método autocomplet sirve para buscar un medico de la Unidad Medica logeada
+    * @param data donde se obtienes los datos de la busqueda
+    * @return void
+    */
     autocompleMedicos = (data: any) => {
 
         let html = `<span>${data.nombre}</span>`;
         return this._sanitizer.bypassSecurityTrustHtml(html);
     }
 
+    /**
+    * Este método autocomplet obtiene el valor que se este buscando del medico
+    * @param data donde se obtienes los datos de la busqueda
+    * @return void
+    */
     valorFormato_medico(data: any) {
 
         let html = `(${data.id}) - ${data.nombre}`;
         return html;
     }
 
+    /**
+    * Este método cierra la ventana modal
+    * @param id obtiene el id del elemento a cerrar
+    * @return void
+    */
     cancelarModal(id) {
         document.getElementById(id).classList.remove('is-active');
     }
 
+    /**
+    * Este método abre la ventana modal
+    * @param id obtiene el id del elemento para abrir
+    * @return void
+    */
     abrirModal(id) {
         document.getElementById(id).classList.add('is-active');
     }
-
-
-
-
 
 }

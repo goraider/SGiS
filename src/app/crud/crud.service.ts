@@ -6,9 +6,9 @@
 * con la api envia y obtiene valores para las vistas
 * </p>
 *
-* @author  Javier Alejandro Gosain Díaz
+* @author  Eliecer Ramirez Esquinca
 * @version 2.0
-* @since   2017-05-08 
+* @since   2018-04-30 
 */
 
 import { Injectable } from '@angular/core';

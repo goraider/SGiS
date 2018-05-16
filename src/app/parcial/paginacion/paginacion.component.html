@@ -1,4 +1,4 @@
-<div style="padding:1em;" >
+<div style="padding:1em;" *ngIf="!ctrl.busquedaActivada">
     
     <p class="control" style="float:right; margin-left: 16px;">
         <span class="select">
@@ -68,6 +68,80 @@
             <li><span class="pagination-ellipsis">&hellip;</span></li>
             <li >
             <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotales == ctrl.paginaActual }" (click)="ctrl.mostrarLista(ctrl.paginasTotales)">{{ ctrl.paginasTotales }}</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div style="padding:1em;" *ngIf="ctrl.totalBusqueda > 0 && ctrl.totalBusqueda > ctrl.resultadosPorPaginaBusqueda && ctrl.busquedaActivada">
+    <p class="control" style="float:right; margin-left: 16px;">
+        <span class="select">
+        <select #totalPorPagina (change)="ctrl.cambiar_filas_pagina(totalPorPagina)" >
+            <option value="15">Filas por página: 15</option>
+            <option value="30">Filas por página: 30</option>
+            <option value="50">Filas por página: 50</option>
+            <option value="100">Filas por página: 100</option>
+            <option value="500">Filas por página: 500</option>
+            <option value="all">Ver Todo</option>
+        </select>
+        </span>
+    </p>
+    <nav class="pagination is-centered" >
+
+            <a class="pagination-previous" [ngClass]="{'is-disabled': 1 == ctrl.paginaActualBusqueda }" (click)="ctrl.paginaAnterior()">Anterior</a>
+            <a class="pagination-next"  [ngClass]="{'is-disabled': ctrl.paginasTotalesBusqueda <= ctrl.paginaActualBusqueda }" (click)="ctrl.paginaSiguiente()">Siguiente</a>
+
+        <ul class="pagination-list" *ngIf="ctrl.paginasTotalesBusqueda<=7">
+            <li *ngFor="let i of ctrl.indicePaginasBusqueda">
+            <a class="pagination-link" [ngClass]="{'is-current': i == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(i)">{{ i }}</a>
+            </li>
+        </ul>
+
+        <ul class="pagination-list" *ngIf="ctrl.paginaActualBusqueda < 4 && ctrl.paginasTotalesBusqueda > 7">
+            <li>
+                <a class="pagination-link" [ngClass]="{'is-current': 1 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(1)">1</a>
+            </li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': 2== ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(2)">2</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': 3== ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(3)">3</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': 4== ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(4)">4</a></li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotalesBusqueda == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginasTotalesBusqueda)">{{ ctrl.paginasTotalesBusqueda }}</a>
+            </li>
+        </ul>
+
+        <ul class="pagination-list" *ngIf="ctrl.paginaActualBusqueda > ctrl.paginasTotalesBusqueda - 4 && ctrl.paginasTotalesBusqueda > 7">
+            <li>
+                <a class="pagination-link" [ngClass]="{'is-current': 1 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(1)">1</a>
+            </li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotalesBusqueda - 3 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginasTotalesBusqueda - 3)">{{ ctrl.paginasTotalesBusqueda - 3 }}</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotalesBusqueda - 2 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginasTotalesBusqueda - 2)">{{ ctrl.paginasTotalesBusqueda - 2 }}</a></li>
+            <li><a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotalesBusqueda - 1 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginasTotalesBusqueda - 1)">{{ ctrl.paginasTotalesBusqueda - 1 }}</a></li>
+        
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotalesBusqueda == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginasTotalesBusqueda)">{{ ctrl.paginasTotalesBusqueda }}</a>
+            </li>
+        </ul>
+
+        <ul class="pagination-list" *ngIf="ctrl.paginaActualBusqueda >= 4 && ctrl.paginaActualBusqueda <= ctrl.paginasTotalesBusqueda - 4 && ctrl.paginasTotalesBusqueda > 7">
+            <li>
+            <a class="pagination-link" [ngClass]="{'is-current': 1 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(1)">1</a>
+            </li>
+            <li><span class="pagination-ellipsis">&hellip;</span>
+            </li>
+            <li>
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginaActualBusqueda-1 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginaActualBusqueda-1)">{{ ctrl.paginaActualBusqueda-1 }}</a>
+            </li>
+            <li>
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginaActualBusqueda == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginaActualBusqueda)">{{ ctrl.paginaActualBusqueda }}</a>
+            </li>
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginaActualBusqueda+1 == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginaActualBusqueda+1)">{{ ctrl.paginaActualBusqueda+1 }}</a>
+            </li>
+            <li><span class="pagination-ellipsis">&hellip;</span></li>
+            <li >
+            <a class="pagination-link" [ngClass]="{'is-current': ctrl.paginasTotalesBusqueda == ctrl.paginaActualBusqueda }" (click)="ctrl.mostrarLista(ctrl.paginasTotales)">{{ ctrl.paginasTotalesBusqueda }}</a>
             </li>
         </ul>
     </nav>

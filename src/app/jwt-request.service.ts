@@ -1,3 +1,6 @@
+/**
+* dependencias a utilizar
+*/
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response, URLSearchParams } from '@angular/http';
 import { Router } from '@angular/router';
@@ -9,10 +12,21 @@ import { BloquearPantallaService } from './bloquear-pantalla/bloquear-pantalla.s
 
 import { environment } from '../environments/environment';
 
+/**
+* ocupa el inyectable a utiliazar para otros
+* componentes.
+*/
 @Injectable()
 
+/**
+* Esta clase muestra los elementos a interactuar
+*/
 export class JwtRequestService {
-
+  
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
   constructor(private http: Http, private authService: AuthService, private bloquearPantallaService: BloquearPantallaService, private router: Router, private jwtHelper: JwtHelper) {
     var token = localStorage.getItem('token');
 
@@ -21,6 +35,13 @@ export class JwtRequestService {
     }
   }
 
+  /**
+  * Este método get que obtiene los datos de la ruta que conecta con la API
+  * @param url contiene la url que mandamos a la API, para recibir datos.
+  * @param id contiene el id a obtener.
+  * @param params contiene los parametros a obtener.
+  * @return void
+  */
   get(url: string, id: any = null, params: any = null): Observable<any> {
 
     var data = this.request('get', url, id, params);
@@ -31,21 +52,48 @@ export class JwtRequestService {
     }
   }
 
+  /**
+  * Este método post que envia datos a la API
+  * @param url contiene la url que mandamos a la API, para recibir datos.
+  * @param params contiene los parametros a mandar.
+  * @return void
+  */
   post(url: string, params: any = null): Observable<any> {
     var data = this.request('post', url, null, params);
     return data as Observable<any>;
   }
 
+  /**
+  * Este método put que envia datos a la API
+  * @param url contiene la url que mandamos a la API.
+  * @param id contiene el id a obtener.
+  * @param params contiene los parametros a mandar.
+  * @return void
+  */
   put(url: string, id: any = null, params: any = null): Observable<any> {
     var data = this.request('put', url, id, params);
     return data as Observable<any>;
   }
-
+  /**
+  * Este método delete que elimina datos a la API
+  * @param url contiene la url que mandamos a la API.
+  * @param id contiene el id a obtener.
+  * @param params contiene los parametros a mandar.
+  * @return void
+  */
   delete(url: string, id: any = null, params: any = null): Observable<any> {
     var data = this.request('delete', url, id);
     return data as Observable<any>;
   }
 
+  /**
+  * Este método valida los datos de la API.
+  * @param method contiene los diversos metodos.
+  * @param url contiene la ruta a obtener.
+  * @param id contiene el id a enviar.
+  * @param params contiene el objeto con los parametros definidos.
+  * @return void
+  */
   private request(method: string, url: string, id: any = null, params: any = {}): Observable<any> {
 
     var usuario = JSON.parse(localStorage.getItem("usuario"));
@@ -236,4 +284,5 @@ export class JwtRequestService {
     });
     return data;
   }
+
 }

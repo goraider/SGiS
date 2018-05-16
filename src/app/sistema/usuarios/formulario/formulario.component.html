@@ -40,9 +40,11 @@
                                               ctrl.cargarCatalogo('tipo_notificacion', 'tipos-notificaciones', 'initMoverNotificacion');
                                               ctrl.cargarCatalogo('tipos_medios', 'tipo-medio'); ">
                     </a>
+
                     <a id="localidades"
                         (click)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.municipios_id.value)">
                     </a>
+                    
                     <div class="contenedor columns">
                         <div class="column is-one-quarter menu-persona is-hidden-touch">
                             <div>
@@ -115,14 +117,14 @@
                                         </a>
                                     </li>
 
-                                    <li [ngClass]="{ 'is-active' : tab == 7}">
+                                    <!-- <li [ngClass]="{ 'is-active' : tab == 7}">
                                         <a (click)="tab=7">
                                             <span class="icon">
                                                 <i class="fa fa-lock"></i>
                                             </span>
                                             <span class="is-hidden-touch">Permisos individuales</span>
                                         </a>
-                                    </li>
+                                    </li> -->
 
                                 </ul>
                             </div>
@@ -616,7 +618,7 @@
                             </div>
 
                             <!--permisos individuales -->
-                            <div [ngClass]="{ 'is-hidden': tab != 7}">
+                            <!-- <div [ngClass]="{ 'is-hidden': tab != 7}">
                                 <div class="field">
                                     <div class="b-checkbox">
                                         <input id="modificar_permiso" class="styled" [checked]="this.dato.get('permisos').value != '' ? true : false" 
@@ -688,7 +690,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
                     </div>

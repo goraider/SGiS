@@ -1,3 +1,15 @@
+/**
+* <h1>App Module</h1>
+*<p>
+* El modulo app contiene todos los componente o modulos de toda la aplicaciones
+* aqui se importan para que puedan funcionar en sus respectivas carpetas
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -34,15 +46,10 @@ import { IndexModule } from './index/index.module';
 import { UsuariosModule } from './sistema/usuarios/usuarios.module';
 import { GruposModule } from './sistema/grupos/grupos.module';
 import { ModulosModule } from './sistema/modulos/modulos.module';
-//import { SisDashboardModule } from './sistema/dashboard/sis-dashboard.module';
-//import { SisReporteModule } from './sistema/reporte/sis-reporte.module';
-//import { SucursalModule } from './sistema/sucursal/sucursal.module';
-//import { ConfiguracionSucursalModule } from './sistema/configuracion-sucursal/sucursal.module';
-
 
 //catalogos
 
-import { TipoRedSocialModule } from './catalogos/tipo-red-social/tipo-red-social.module';
+//import { TipoRedSocialModule } from './catalogos/tipo-red-social/tipo-red-social.module';
 import { TipoMedioModule } from './catalogos/tipo-medio/tipo-medio.module';
 
 //unidades medicas
@@ -63,8 +70,7 @@ import { EstadosEmbarazosModule } from './catalogos/estados-embarazos/estados-em
 import { DerechohabientesModule } from './catalogos/derechohabientes/derechohabientes.module';
 
 //Modelo de Reaccion
-import { MunicipioModule } from './catalogos/municipio/municipio.module';
-import { PaisModule } from './catalogos/pais/pais.module';
+//import { PaisModule } from './catalogos/pais/pais.module';
 import { EstadoModule } from './catalogos/estado/estado.module';
 import { ApoyosModule } from './catalogos/apoyos/apoyos.module';
 
@@ -99,11 +105,8 @@ import { CensoPersonasModule } from './transacciones/censo-personas/censo-person
 import { BaseConocimientosModule } from './transacciones/base-conocimientos/base-conocimientos.module';
 import { PantallaInformativaModule } from './transacciones/pantalla-informativa/pantalla-informativa.module';
 
-//Inventario
-
 
 //reportes
-
 import { ReporteIncidenciaModule } from './reporte/incidencias-ingresos/reporte-incidencia.module';
 import { ReporteAltaModule } from './reporte/incidencias-altas/reporte-altas.module';
 import { ReporteReferenciaModule } from './reporte/incidencias-referencias/reporte-referencias.module';
@@ -154,12 +157,8 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     UsuariosModule,
     GruposModule,
     ModulosModule,
-    // SisDashboardModule,
-    // SisReporteModule,
-    // SucursalModule,
-    //ConfiguracionSucursalModule,
     
-    TipoRedSocialModule,
+    //TipoRedSocialModule,
     TipoMedioModule,
 
     CluesModule,
@@ -177,9 +176,8 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     EstadosEmbarazosModule,
     DerechohabientesModule,
     
-    PaisModule,
+    //PaisModule,
     EstadoModule,
-    MunicipioModule,
     ApoyosModule,
 
     MunicipiosModule,

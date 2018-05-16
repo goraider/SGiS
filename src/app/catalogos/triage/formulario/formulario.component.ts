@@ -8,13 +8,47 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@ang
 })
 
 export class FormularioComponent {
+
+  /**
+  * Contiene los datos del formulario que comunican a la vista con el componente.
+  * @type {FormGroup}
+  */
   dato: FormGroup;
+
+  /**
+  * Contiene el tamaño del cuerpo de la seccion donde esten los controles en la vista.
+  * @type {any}
+  */
   tamano = document.body.clientHeight;
+
+  /**
+  * Contiene los elementos del formulario donde se agregaran los sintomas del codigo triage.
+  * @type {any}
+  */
   form_sintomas: any;
+
+  /**
+  * Contiene los elementos del formulario donde se agregaran los resultados del codigo triage.
+  * @type {any}
+  */
   form_resultado: any;
+
+  /**
+  * Contiene las diferentes pestañas de acceso que puede tener la vista.
+  * @type {number}
+  */
   tab:number = 1;
+
+  /**
+  * Este método inicializa la carga de las dependencias 
+  * que se necesitan para el funcionamiento del catalogo
+  */
   constructor(private fb: FormBuilder) { }
 
+  /**
+  * Este método inicializa la carga de la vista asociada junto los datos del formulario
+  * @return void
+  */
   ngOnInit() {
     this.dato = this.fb.group({
       nombre: ['', [Validators.required]],
@@ -35,6 +69,11 @@ export class FormularioComponent {
     //Solo si se va a cargar catalogos poner un <a id="catalogos" (click)="ctl.cargarCatalogo('modelo','ruta')">refresh</a>
     document.getElementById("catalogos").click();
   }
+  
+  /**
+  * Método que genera los sintomas del Codigo Tiage
+  * @returns un grupo de datos que tiene unos Sintomas
+  */
   initSintomas() {
     return this.fb.group({
       nombre: ['', [Validators.required]],
@@ -45,6 +84,10 @@ export class FormularioComponent {
     })
   }
 
+  /**
+  * Método que genera los resultados de los sintomas del Codigo Tiage
+  * @returns un grupo de datos que tienen un Resultado
+  */
   initResultado() {
     return this.fb.group({
       nombre: ['', [Validators.required]],
@@ -52,11 +95,19 @@ export class FormularioComponent {
     })
   }
 
+  /**
+  * Método que agrega un sintoma
+  * @returns un grupo de datos que tiene un sintoma
+  */
   addSintoma() {
     const a: FormArray = <FormArray> this.dato.controls.triage_sintomas;
     a.controls.push(this.initSintomas());
   }
 
+  /**
+  * Método que agrega un resultado
+  * @returns un grupo de datos que tiene un resultado de acuerdo a un sintoma
+  */
   addResultado(i?: number, t?: number) {
     const a: FormArray = <FormArray> this.dato.controls.triage_sintomas;
     const control: FormArray = <FormArray> a.at(i).get('triage_color_triage_sintoma');

@@ -1,3 +1,15 @@
+/**
+* <h1>Cartera de Servicios Module</h1>
+*<p>
+* El modulo Cartera de Servicios es un catálogo para agregar los
+* Recursos que tiene una unidad medica, como lo son medicamentos y personal.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

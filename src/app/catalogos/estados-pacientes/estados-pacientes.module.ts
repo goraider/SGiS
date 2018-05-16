@@ -1,3 +1,15 @@
+/**
+* <h1>Estados del Paciente Module</h1>
+*<p>
+* El modulo Estados del Paciente es un catálogo para agregar los
+* Recursos que tiene una unidad medica, como lo son medicamentos y personal.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';

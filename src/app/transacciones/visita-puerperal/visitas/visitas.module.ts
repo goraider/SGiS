@@ -1,3 +1,15 @@
+/**
+* <h1>Visitas Module</h1>
+*<p>
+* El modulo Visitas se encarga de gestionar y agregar las visitas
+* de la paciente despues del alta.
+* </p>
+*
+* @author  Javier Alejandro Gosain Díaz
+* @version 2.0
+* @since   2018-04-30 
+*/
+
 import { NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
@@ -14,7 +26,7 @@ import { PaginacionModule } from '../../../parcial/paginacion/paginacion.module'
 
 //componentes del catalogo
 import { PipesModule }             from '../../../pipes/pipes.module';
-import { ListaComponent } from './lista/lista.component';
+//import { ListaComponent } from './lista/lista.component';
 import { FormularioComponent } from './formulario/formulario.component';
 
 //servicios
@@ -53,7 +65,7 @@ import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 
   ],
   declarations: [
-    ListaComponent,
+    //ListaComponent,
     FormularioComponent   
   ],
   providers: [ AuthService, CrudService ],

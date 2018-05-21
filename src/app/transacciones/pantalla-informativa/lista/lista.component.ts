@@ -145,7 +145,7 @@ export class ListaComponent {
 
   fecha_temporal:any = '2018-05-10 8:20:34';
 
-  horaReal:any[] = [];
+  horaReal:any = '';
 
   fechasIncidencia:any = '';
 
@@ -270,64 +270,23 @@ export class ListaComponent {
 
                 var res = parseInt(horaFecha) - 6 + 1;
     
-                this.horaReal.push (moment(element.created_at).format('YYYY-MM-D'+" "+res+':mm:ss'));
+                this.horaReal = moment(element.created_at).format('YYYY-MM-D'+" "+res+':mm:ss A');
 
+
+                element.created_at = this.horaReal;
     
                 
             });
 
+
+
+
             this.dato = resultado.data as any[];
 
-            //console.log("los datos",resultado.data);
-
-            let clone = JSON.parse(JSON.stringify(resultado.data));
-
-            
-            //let regexAMPM = /([ap])\. m\./;
-
-            Object.keys(clone).map(  //recorrer todo el objeto
-                clave => {
-
-                    console.log(clone[clave]);
-    
-                    clone[clave] = clone[clave].replace(
-                        this.horaReal,
-                        (match, grupo1) => grupo1 != ""
-                    );
-                }
-            );
-
-            console.log("segundo",clone);
-
-
-            
-            
-
-
-            // let clone = JSON.parse(JSON.stringify(resultado.data));
-
-            // var objeto = [  
-            //     {
-            //         created_at: this.horaReal,
-
-            //     }
-            // ];
-
-            // console.log("aki",objeto);
-
-            //console.log(clone);
-
-
-
-            
 
             // console.log(moment(this.fecha_actual).diff(fecha, 'hours'));
-
             // moment(fecha).subtract('days', 1).hours(6).calendar();
-
             // console.log(fecha);
-
-            
 
             
 

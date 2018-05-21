@@ -140,7 +140,7 @@
           <div [ngClass]="{ 'is-hidden': tab != 1}">
 
                 <div *ngIf="ctrl.dato">              
-                    <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value}" class="button is-success" (click)="nuevo_seguimiento()">
+                    <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value }" class="button is-success" (click)="nuevo_seguimiento()">
                         <span class="icon">
                           <i class="fa fa-plus"></i>
                         </span>&nbsp; Agregar Nuevo Seguimiento

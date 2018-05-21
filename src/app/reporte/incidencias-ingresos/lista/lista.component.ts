@@ -319,6 +319,8 @@ export class ReporteIncidenciaComponent{
     if (!esmodelo)
       modelo = datos[item];
       this.clues = datos[item];
+
+      console.log(this.clues);
   }
 
   /**

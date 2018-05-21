@@ -19,7 +19,7 @@
         </p>
     </div>
 </section>
-<section style="padding: 1em; overflow:auto;" [style.maxHeight.px]="tamano-130">
+<section id="cargar_datos_actualizar" style="padding: 1em; overflow:auto;" [style.maxHeight.px]="tamano-130">
     <section class="contenedor columns is-multiline is-mobile" *ngFor="let val of menu;">
         <div *ngFor="let item of val.lista | buscarModulo: busqueda; let i = index" [ngClass]="item.lista ? 'column is-12' : val.lista.length-tiene < 6 ? 'column' : 'column is-2-desktop is-4-tablet is-6-mobile'">
             <a *ngIf="!item.lista" href="#" title="{{ item.titulo}}" style="position: relative;" class="item menu-index menu-index-a "

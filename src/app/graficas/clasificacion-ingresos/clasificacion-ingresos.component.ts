@@ -10,6 +10,9 @@ import { CrudService } from '../../crud/crud.service';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { Input } from '@angular/core/src/metadata/directives';
 
+import { Mensaje } from '../../mensaje';
+import { NotificationsService } from 'angular2-notifications';
+
 /**
 * selector si se desea ocupar en un HTML
 * y su archivo HTML
@@ -26,12 +29,34 @@ import { Input } from '@angular/core/src/metadata/directives';
 */
 export class ClasificacionIngresosComponent implements OnInit {
     
-  /**
+    /**
     * Contiene los cambios y propiedades de la
     * libreria ng2-charts.
     * @type {BaseChartDirective}
     */
     @ViewChild(BaseChartDirective) chart: BaseChartDirective;
+
+    /**
+    * Contiene las propiedades del mensaje a mostrar
+    * @type {object}
+    */
+    public options = {
+      position: ["bottom", "left"],
+      timeOut: 1000,
+      lastOnBottom: true
+    };
+
+    /**
+    * Contiene el titulo de la grafica en el mensaje.
+    * @type {any}
+    */
+    titulo:any = "Clasificación por Ingresos"
+
+    /**
+    * Contiene el mensaje a mostrar.
+    * @type {string}
+    */
+    mensajeResponse: Mensaje = new Mensaje(true);
     
     /**
     * Contiene array con los valores de la lista
@@ -152,7 +177,8 @@ export class ClasificacionIngresosComponent implements OnInit {
     * que se necesitan para el funcionamiento del catalogo
     */
     constructor(private title: Title,
-                private crudService: CrudService) { }
+                private crudService: CrudService,
+                private notificacion: NotificationsService,) { }
     
     /**
     * Este método inicializa la carga de la vista asociada junto los datos del formulario
@@ -201,6 +227,11 @@ export class ClasificacionIngresosComponent implements OnInit {
 
 
             });
+
+            this.mensajeResponse.mostrar = true;
+            this.mensajeResponse.texto = "Lista Cargada";
+            this.mensajeResponse.clase = "success";
+            this.mensaje(2);
             
 
             
@@ -215,9 +246,69 @@ export class ClasificacionIngresosComponent implements OnInit {
   
           },
           error => {
+
+            this.cargando = false;
+            this.mensajeResponse.mostrar = true;
+            
+            try {
+                let e = error.json();
+                if (error.status == 401) {
+                    this.mensajeResponse.texto = "No tiene permiso para hacer esta operación.";
+                    this.mensajeResponse.clase = "danger";
+                    this.mensaje(2);
+                }
+            } catch (e) {
+                if (error.status == 500) {
+                    this.mensajeResponse.texto = "500 (Error interno del servidor)";
+                } else {
+                    this.mensajeResponse.texto = "pretar el error. Por favor contacte con soporte técnico si esto vuelve a ocurrir. 7";
+                }
+                this.mensajeResponse.clase = "danger";
+                this.mensaje(2);
+              }
   
           }
       );
     }
-  
+
+   /**
+   * Este método muestra los mensajes resultantes de los llamados de la api
+   * @param cuentaAtras numero de segundo a esperar para que el mensaje desaparezca solo
+   * @param posicion  array de posicion [vertical, horizontal]
+   * @return void
+   */
+    mensaje(cuentaAtras: number = 6, posicion: any[] = ["bottom", "left"]): void {
+
+      var objeto = {
+          showProgressBar: true,
+          pauseOnHover: false,
+          clickToClose: true,
+          maxLength: this.mensajeResponse.texto.length
+      };
+
+      this.options = {
+          position: posicion,
+          timeOut: cuentaAtras * 1000,
+          lastOnBottom: true
+      };
+      if (this.mensajeResponse.titulo == '')
+          this.mensajeResponse.titulo = this.titulo;
+
+      if (this.mensajeResponse.clase == 'alert')
+          this.notificacion.alert(this.mensajeResponse.titulo, this.mensajeResponse.texto, objeto);
+
+      if (this.mensajeResponse.clase == 'success')
+          this.notificacion.success(this.mensajeResponse.titulo, this.mensajeResponse.texto, objeto);
+
+      if (this.mensajeResponse.clase == 'info')
+          this.notificacion.info(this.mensajeResponse.titulo, this.mensajeResponse.texto, objeto);
+
+      if (this.mensajeResponse.clase == 'warning' || this.mensajeResponse.clase == 'warn')
+          this.notificacion.warn(this.mensajeResponse.titulo, this.mensajeResponse.texto, objeto);
+
+      if (this.mensajeResponse.clase == 'error' || this.mensajeResponse.clase == 'danger')
+          this.notificacion.error(this.mensajeResponse.titulo, this.mensajeResponse.texto, objeto);
+
+   }
+
 }

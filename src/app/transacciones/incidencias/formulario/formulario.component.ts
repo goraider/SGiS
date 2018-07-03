@@ -350,10 +350,11 @@ export class FormularioComponent {
                 this.fb.group({
                     id: [''],
                     turnos_id: ['', [Validators.required]],
+                    top_cie10_id:[''],
                     ubicaciones_pacientes_id: ['', [Validators.required]],
                     estados_pacientes_id: ['', Validators.required],
                     triage_colores_id: ['', [Validators.required]],
-                    subcategorias_cie10_id: ['',[Validators.required]],
+                    subcategorias_cie10_id: [''],
                     medico_reporta_id: [null],
                     indicaciones: [null],
                     reporte_medico: [null],
@@ -382,9 +383,11 @@ export class FormularioComponent {
         });
 
 
+
     }
+    
 
-
+    
     /**
     * Este método asigna una curp en la relación del JSON de personas
     * @return void
@@ -495,6 +498,7 @@ export class FormularioComponent {
                 this.cargando = true;
                 this.crudService.ver(this.id, "incidencias").subscribe(
                     resultado => {
+
             
                         this.cargando = false;
                         this.mostrar_check = true;
@@ -508,8 +512,8 @@ export class FormularioComponent {
                         if (document.getElementById("catalogos"))
                             document.getElementById("catalogos").click();
 
-                        if(resultado.data.movimientos_incidencias[0]['subcategorias_cie10']['nombre']){
-                            this.cie10_var_temp = resultado.data.movimientos_incidencias[0]['subcategorias_cie10']['nombre'];
+                        if(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['subcategorias_cie10']['nombre']){
+                            this.cie10_var_temp = resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['subcategorias_cie10']['nombre'];
                         }
 
                         if(resultado.data.referencias.length > 0){
@@ -585,14 +589,15 @@ export class FormularioComponent {
 
                         
                         
-                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['id'].patchValue(resultado.data.movimientos_incidencias[0]['id']);
-                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['subcategorias_cie10_id'].patchValue(resultado.data.movimientos_incidencias[0]['subcategorias_cie10_id']);
-                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['ubicaciones_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[0]['ubicaciones_pacientes_id']);
-                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['estados_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[0]['estados_pacientes_id']);
-                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['triage_colores_id'].patchValue(resultado.data.movimientos_incidencias[0]['triage_colores_id']);
-                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['turnos_id'].patchValue(resultado.data.movimientos_incidencias[0]['turnos_id']);
-                        
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['id'].patchValue(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['subcategorias_cie10_id'].patchValue(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['subcategorias_cie10_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['ubicaciones_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['ubicaciones_pacientes_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['estados_pacientes_id'].patchValue(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['estados_pacientes_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['triage_colores_id'].patchValue(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['triage_colores_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['turnos_id'].patchValue(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1]['turnos_id']);
+                        this.dato.controls.movimientos_incidencias['controls'][0]['controls']['top_cie10_id'].patchValue(resultado.data.movimientos_incidencias[resultado.data.movimientos_incidencias.length -1].top_cie10_id);
                        
+
                         this.dato.controls.referencias['controls'][0]['controls']['id'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['id']);
                         this.dato.controls.referencias['controls'][0]['controls']['medico_refiere_id'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['medico_refiere_id']);
                         this.dato.controls.referencias['controls'][0]['controls']['diagnostico'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['diagnostico']);
@@ -608,7 +613,6 @@ export class FormularioComponent {
                         });
 
                         this.dato.controls.referencias['controls'][0]['controls']['esIngreso'].patchValue(resultado.data.referencias[resultado.data.referencias.length -1]['esIngreso']);
-
                     },
                     error => {
                     }

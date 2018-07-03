@@ -10,6 +10,8 @@ import { formatoHtmlPipe } from '../../../pipes/formatoHtml.pipe';
 import { SecurityContext} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
+import { environment } from '../../../../environments/environment';
+
 
 import * as jsPDF from 'jspdf';
 import * as autoTable from 'jspdf-autotable';
@@ -28,6 +30,7 @@ import { concat } from 'rxjs/operators/concat';
   selector: 'incidencias-lista',
   templateUrl: './lista.component.html',
   //template: `[innerHTML]='texto'`,
+  styleUrls: ['./lista.component.css'],
   providers: [formatoHtmlPipe]
 })
 
@@ -109,6 +112,19 @@ export class ListaComponent {
     * @type {any}
     */ 
     datosSeguimiento:any = [];
+
+    /**
+    * almacena las imagenes cargadas de acuerdo a una referencia nueva.
+    * @type {any}
+    */
+    public url_img_referencias: string = `${environment.API_PATH}/public/adjunto/referencias/`;
+
+
+    /**
+    * almacena las imagenes cargadas de acuerdo a una alta nueva.
+    * @type {any}
+    */
+    public url_img_altas: string = `${environment.API_PATH}/adjunto/contrareferencias/`;
 
   
   /**

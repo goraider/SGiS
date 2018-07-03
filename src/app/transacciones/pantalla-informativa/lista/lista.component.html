@@ -33,21 +33,21 @@
 
                     <tbody>
                         <tr *ngFor="let item of dato; let i=index">
-                            <td style="vertical-align: middle; font: 180% sans-serif;">{{ item.pacientes[0].personas.nombre}} {{ item.pacientes[0].personas.paterno}} {{ item.pacientes[0].personas.materno}}</td>
-                            <td style="vertical-align: middle; font: 180% sans-serif;">
+                            <td style="vertical-align: middle; font: 170% sans-serif;">{{ item.pacientes[0].personas.nombre}} {{ item.pacientes[0].personas.paterno}} {{ item.pacientes[0].personas.materno}}</td>
+                            <td style="vertical-align: middle; font: 170% sans-serif;">
                                 <strong>
                                     {{ item.created_at | date: ' dd/LL/yyyy '}}
                                 </strong>
                             </td>
-                            <td style="vertical-align: middle; font: 180% sans-serif;">
+                            <td style="vertical-align: middle; font: 170% sans-serif;">
                                 <strong>
                                     {{ item.created_at | date: ' hh:mm: a '}}
                                 </strong>
                             </td>
-                            <td style="vertical-align: middle; font: 180% sans-serif;">{{ item.pacientes[0].personas.edad }} Años</td>
+                            <td style="vertical-align: middle; font: 170% sans-serif;">{{ item.pacientes[0].personas.edad }} Años</td>
                             <td style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong style="font: 180% sans-serif;">{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
-                            <td style="vertical-align: middle; font: 180% sans-serif;">{{ item.movimientos_incidencias[0].ubicaciones_pacientes.nombre}}</td>
-                            <td style="vertical-align: middle; font: 180% sans-serif;">
+                            <td style="vertical-align: middle; font: 170% sans-serif;">{{ item.movimientos_incidencias[0].ubicaciones_pacientes.nombre}}</td>
+                            <td style="vertical-align: middle; font: 170% sans-serif;">
 
                                 <a *ngIf="item.estados_incidencias.id == 1">
                                     En ingreso

@@ -112,7 +112,13 @@
                                     Servicios
                                 </p>
                             </header>
+
                             <div class="card-content">
+
+                                <blockquote *ngIf="dato.controls.cartera_servicios.value.length == 0">
+                                        <h1 style="vertical-align: middle; color:#888; text-align: center;">NO TIENE UNA CARTERA DE SERVICIOS ASIGNADA</h1>
+                                </blockquote>
+
                                 <div class="content" formArrayName="cartera_servicios">
                                     <!-- cartera -->
     

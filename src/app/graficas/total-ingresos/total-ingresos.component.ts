@@ -113,6 +113,8 @@ export class TotalIngresosComponent implements OnInit {
     * @type {boolean}
     */
     cargando: boolean = false;
+
+    @Input() control: any;
     
     /**
     * Este método inicializa la carga de las dependencias 
@@ -242,6 +244,5 @@ export class TotalIngresosComponent implements OnInit {
     cambiar_clues_dash(e){
       this.ruta.navigate(['/cambiar-clues']);
     }
-
   
 }

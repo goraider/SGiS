@@ -141,10 +141,10 @@
                         <tbody>
                             <tr *ngFor="let item of ctrl.dato; let i=index">
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.id }}</strong></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="is-medium" *ngFor="let edades of item.pacientes"><strong>{{ edades.personas.edad }} Años</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" disabled><strong>{{ item.estados_incidencias.nombre }}</strong></div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div><strong>{{ item.estados_incidencias.nombre }}</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.antiguedad }}</strong></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"  class="has-text-centered no_pdf">
 
@@ -380,36 +380,303 @@
 </div> -->
 
 
-
-<!-- <div id="imprimir" style="display:none">
         
-    <span *ngIf="ctrl.json">
-        <a>
-            {{ctrl.json.turnos.nombre}}
-        </a>
+<div id="imprimir" style="display:none">
+    <div *ngIf="ctrl.json" style="width: 100%;">
+        <img src="../assets/iconos/salud.png">
+        <div style="text-align: center;">
+            <h1 style="font-size:30px;">Historial del Paciente</h1>
+        </div>
+        <br>
+
+        <div class="box">
+            <div class="card-content">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img src="../assets/iconos/persona.jpg" alt="Placeholder image">
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <p class="title is-size-3">
+                      {{ ctrl.json.pacientes[0].personas.nombre }} {{ ctrl.json.pacientes[0].personas.paterno }} {{ ctrl.json.pacientes[0].personas.materno }} 
+                  </p>
+                  &nbsp;
+                  <p class="subtitle is-size-6"><strong>Curp:</strong>&nbsp;{{ ctrl.json.pacientes[0].personas.id }}</p>
+                  &nbsp;
+                  <div class="columns">
+                        <div class="column is-5">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-6"><strong>Fecha de Nacimiento:</strong>{{ ctrl.json.pacientes[0].personas.fecha_nacimiento | date: ' dd/MM/yyyy ' }}</p>
+                            </div>
+                        </div>
+                        <div class="column is-3">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-6"><strong>Edad:</strong>&nbsp;{{ ctrl.json.pacientes[0].personas.edad  }} Años</p>
+                            </div>
+                        </div>
+                        <div class="column is-4">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-6"><strong>Télefono:</strong> {{ ctrl.json.pacientes[0].personas.telefono }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="colum is-12">
+                            <p class="subtitle is-size-6"><strong>Domicilio:</strong> {{ ctrl.json.pacientes[0].personas.domicilio }}</p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="colum is-6">
+                            <p class="subtitle is-size-6"><strong>Municipio:</strong> {{ ctrl.json.pacientes[0].personas.domicilio }}</p>
+                        </div>
+                        &nbsp;
+                        <div class="colum is-6">
+                            <p class="subtitle is-size-6"><strong>Localidad:</strong> {{ ctrl.json.pacientes[0].personas.localidades.nombre }}</p>
+                        </div>
+                    </div>
+                </div>
+
+
+              </div>
+
+            </div>
+          </div>
+          
+          <div class="box">
+            <div class="card-content">
+                <div class="media-content">
+                    <p class="subtitle is-size-6">Motivo del Ingreso:</p>
+                    <p [innerHTML]='ctrl.json.motivo_ingreso | formatoHtml'></p>
+                </div>
+            </div>
+          </div>
+
+         <div class="box">
+            <div class="card-content">
+                <div class="media-content">
+                    <p class="subtitle is-size-6">Impresión Diagnostica:</p>
+                    <p [innerHTML]='ctrl.json.impresion_diagnostica | formatoHtml'></p>
+                </div>
+            </div>
+         </div>
+        
+         <br><br><br>
+        
+        <p class="title is-size-3">Seguimientos</p>
+        <!--Tabla -->
+        <table class="table is-striped">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Fecha</th>
+                    <th>Estado de Paciente</th>
+                    <th>Triage</th>
+                    <th  colspan="4">Diagnóstico CIE-10</th>
+                    <th>Turno</th>
+
+                </tr>
+            </thead>
+
+            <tbody *ngFor="let seg of ctrl.json.movimientos_incidencias; let s=index">
+                <tr>
+                    <td>{{ s+1 }}</td>
+                    <td>{{ seg.created_at | date: ' dd/MM/yyyy ' }}</td>
+                    <td>{{ seg.estados_pacientes.nombre }}</td>
+                    <td><div class="tag is-medium" [ngClass]="{'is-success' : seg.triage_colores.nombre == 'Verde', 'is-warning' : seg.triage_colores.nombre == 'Amarillo', 'is-danger' : seg.triage_colores.nombre == 'Rojo'}"><strong>{{ seg.triage_colores.nombre }}</strong></div></td>
+                    <td colspan="4">{{ seg.subcategorias_cie10.nombre}}</td>
+                    <td>{{ seg.turnos.nombre}}</td>
+                </tr>
+                <tr *ngIf="ctrl.json.movimientos_incidencias.length == 0">
+                    <td colspan="5" style="vertical-align: middle; color:#888;">No tiene Seguimientos asignados el paciente.</td>
+                </tr>
+            </tbody>
+
+        </table>
+        <br>
+        <p class="title is-size-3">Referencias</p>
+        <div *ngFor="let ref of ctrl.json.referencias; let r=index">
+            <div class="card-content">
+                <div class="media-content" >
+                    <div class="columns">
+                        <div class="column is-6">
+                                <p class="subtitle is-size-6">
+                                    <strong>N° de Referencia:</strong> {{ r+1 }}
+                                </p>
+                        </div>
+
+                        <div class="column is-6">
+                                <p class="subtitle is-size-6">
+                                    <strong>Tipo:</strong>
+                                    <a *ngIf="ref.esIngreso == 0">
+                                            Se encuentra en Referencia
+                                    </a>
+                
+                                    <a *ngIf="ref.esIngreso == 1">
+                                            Es una referencia de Ingreso
+                                    </a>
+                                </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-12">
+                            <p class="subtitle is-size-6">
+                                <strong>Medico que Refiere:</strong>&nbsp;{{ref.medico_refiere_id}}
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <p class="subtitle is-size-6">
+                                <strong>Unidad Medica de Origen:</strong> ({{ref.clues_origen_o.clues}}) - {{ ref.clues_origen_o.nombre }}
+                            </p>
+                        </div>
+
+                        <div class="column is-6">
+                            <p class="subtitle is-size-6">
+                                <strong>Unidad Medica de Destino:</strong> ({{ref.clues_destino_o.clues}}) - {{ ref.clues_destino_o.nombre }}
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-5"><strong>Diagnóstico:</strong></p>
+                                <i [innerHTML]='ref.diagnostico | formatoHtml'></i>
+                            </div>
+                        </div>
+                        <div class="column is-12">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-5"><strong>Resumen Clínico:</strong></p>
+                                <i [innerHTML]='ref.resumen_clinico | formatoHtml'></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <p class="subtitle is-size-5"><strong>Imagenes de la Referencia:</strong></p>
+                <div *ngFor="let mult of ref.multimedias; let m=index">
+                    <div *ngIf="mult.length == 0">
+                        <blockquote>
+                            <h1 style="vertical-align: middle; color:#888; text-align: center;">No tiene imágenes cargadas</h1>
+                        </blockquote>
+                    </div>
+                    <img [src]="url_img_referencias+mult.url" alt="" />
+                </div>
+
+
+            </div>
+        </div>
+
+        <br>
+        <p class="title is-size-3">Alta del Paciente</p>
+        <div *ngFor="let alta of ctrl.json.altas_incidencias; let a=index">
+            <div class="card-content">
+                <div class="media-content" >
+                    <div class="columns">
+                        <div class="column is-4">
+                            <p class="subtitle is-size-6">
+                                <strong>N° Folio de la Incidencia:</strong> {{ alta.incidencias_id }}
+                            </p>
+                        </div>
+
+                        <div class="column is-4">
+                            <p class="subtitle is-size-6">
+                                <strong>Tipo de Alta:</strong>
+                                <a>{{alta.tipos_altas.nombre}}</a>
+                            </p>
+                        </div>
+                        <div class="column is-4">
+                            <p class="subtitle is-size-6">
+                                <strong>Turno del Alta:</strong>
+                                <a>{{alta.turnos.nombre}}</a>
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-12">
+                            <p class="subtitle is-size-6">
+                                <strong>Medico que Contra-refiere (Autoriza el Alta):</strong>&nbsp;{{alta.medico_reporta_id}}
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <p class="subtitle is-size-6">
+                                <strong>Unidad Medica que Contra-refiere:</strong> ({{alta.clues_contrarefiere_o.clues}}) - {{ alta.clues_contrarefiere_o.nombre }}
+                            </p>
+                        </div>
+
+                        <div class="column is-6">
+                            <p class="subtitle is-size-6">
+                                <strong>Unidad Medica a donde Regresa:</strong> ({{alta.clues_regresa_o.clues}}) - {{ alta.clues_regresa_o.nombre }}
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-5"><strong>Diagnóstico de Egreso:</strong></p>
+                                <i [innerHTML]='alta.diagnostico_egreso | formatoHtml'></i>
+                            </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-5"><strong>Resumen Clinico:</strong></p>
+                                <i [innerHTML]='alta.resumen_clinico | formatoHtml'></i>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="columns">
+                        <div class="column is-6">
+                                <div class="subtitle is-size-6">
+                                    <p class="subtitle is-size-5"><strong>Observación de Trabajo Social:</strong></p>
+                                    <i [innerHTML]='alta.observacion_trabajo_social | formatoHtml'></i>
+                                </div>
+                        </div>
+                        <div class="column is-6">
+                            <div class="subtitle is-size-6">
+                                <p class="subtitle is-size-5"><strong>Instrucciones y Recomendaciones:</strong></p>
+                                <i [innerHTML]='alta.instrucciones_recomendaciones | formatoHtml'></i>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                </div>
+                <br>
+                <p class="subtitle is-size-5"><strong>Imagenes del Alta:</strong></p>
+                <div *ngFor="let mult of alta.multimedias; let m=index">
+                    <div *ngIf="mult.length == 0">
+                        <blockquote>
+                            <h1 style="vertical-align: middle; color:#888; text-align: center;">No tiene imágenes cargadas</h1>
+                        </blockquote>
+                    </div>
+                    <img [src]="url_img_altas+mult.url" alt="" />
+                    <br>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 
-            <table class="table is-striped is-fullwidth"style="overflow:auto;" [style.maxHeight.px]="tamano-285">
-                    <thead>
-                        <tr>
-                            <th>Servicio</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <tr *ngFor="let item of ctrl.json.respuesta_estados_fuerza; let i=index">
-                            <td *ngIf="item.respuesta == 1" style="vertical-align: middle;">{{item.items.nombre}}</td>
-                        </tr>
-                    </tbody>
-
-                </table>
-
-
-    </span>
-</div> -->
 
 <!-- <div class="modal" id="confirmarPDF">
+        *ngFor="let item of ctrl.json.pacientes; let i=index"
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">

@@ -49,8 +49,7 @@
         </div>
         <br>
         <div *ngIf="ctrl.dato.get('pacientes').value.length">
-          <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index"
-            style="margin-top:10px">
+          <div class="card" style="border-radius:3%" *ngFor="let val of ctrl.dato.get('pacientes').value[0].acompaniantes; let i=index">
             <div class="card-content">
               <div class="media">
                 <div class="media-left">

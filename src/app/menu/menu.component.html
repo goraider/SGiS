@@ -55,13 +55,18 @@
                         </span>
                         <span class="tooltiptext">Menú Opciones</span>
                     </a>
+                    <a class="navbar-item tooltip" href="../assets/Manual de Usuario para SGiS.pdf">
+                        <span class="icon fa-2x">
+                            <i class="fa fa-book"></i>
+                        </span>
+                        <span class="tooltiptext">Manual de Usuario</span>
+                    </a>
                     <a class="navbar-item tooltip" (click)="hub.toggle()">
                         <span class="icon fa-2x">
                             <i class="fa fa-th"></i>
                         </span>
                         <span class="tooltiptext">Menú Modulos</span>
                     </a>                
-
                     <a class="navbar-item is-hidden-mobile tooltip" (click)="perfil.toggle()">
                         
                         <figure class="image" style="width:26px;">
@@ -77,7 +82,7 @@
                             <img src="{{ usuario.avatar }}" alt="Image" class="profile">
                         </figure>
                         <span class="tooltiptext">Perfil</span>
-                    </a>
+                    </a>  
                 </div>
             </div>
         </nav>

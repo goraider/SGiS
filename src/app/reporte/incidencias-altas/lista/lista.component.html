@@ -146,6 +146,7 @@
                             <th>Fecha de Egreso</th>
                             <th>Método de Planificación</th>
                             <th>Tipo de Alta</th>
+                            <th>Resumen Clinico</th>
 
                         </tr>
                     </thead>
@@ -156,6 +157,7 @@
                             <td style="vertical-align: middle;">{{item.altas_incidencias[item.altas_incidencias.length -1].created_at | date: ' dd/MM/yyyy '}}</td>
                             <td style="vertical-align: middle;">{{item.altas_incidencias[item.altas_incidencias.length -1].metodos_planificacion.nombre}}</td>
                             <td style="vertical-align: middle;">{{item.altas_incidencias[item.altas_incidencias.length -1].tipos_altas.nombre}}</td>
+                            <td style="vertical-align: middle;" [innerHTML]='item.altas_incidencias[item.altas_incidencias.length -1].resumen_clinico | formatoHtml'></td>
                         </tr>
                          <tr *ngIf="datos.length == 0">
                             <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
@@ -177,6 +179,7 @@
             <th>Método de Planificación</th>
             <th>Tipo de Alta</th>
             <th>Turno del alta</th>
+            <th>Resumen Clinico</th>
 
         </tr>
     </thead>
@@ -188,6 +191,7 @@
             <td style="vertical-align: middle;">{{item.altas_incidencias[item.altas_incidencias.length -1].metodos_planificacion.nombre}}</td>
             <td style="vertical-align: middle;">{{item.altas_incidencias[item.altas_incidencias.length -1].tipos_altas.nombre}}</td>
             <td style="vertical-align: middle;">{{item.altas_incidencias[item.altas_incidencias.length -1].turnos.nombre}}</td>
+            <td style="vertical-align: middle;" [innerHTML]='item.altas_incidencias[item.altas_incidencias.length -1].resumen_clinico | formatoHtml'></td>
             
         </tr>
             <tr *ngIf="datos.length == 0">

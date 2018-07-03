@@ -107,6 +107,12 @@ export class FormularioComponent {
    */
    public clues_term: string = `${environment.API_URL}/clues-auto?term=:keyword`;
 
+   /**
+   * Variable que conecta con la URL de la API, para traer una persona del Directorio en un Autocomplet que tiene la Vista.
+   * @type {string}
+   */
+  public usuarios_auto: string = `${environment.API_URL}/usuarios-auto?term=:keyword`;
+
   /**
   * Este método inicializa la carga de las dependencias 
   * que se necesitan para el funcionamiento del catalogo
@@ -160,7 +166,6 @@ export class FormularioComponent {
     this.tamano = document.body.clientHeight;
     this.usuario = JSON.parse(localStorage.getItem("usuario"));
 
-    console.log(this.usuario);
     this.activar_super = this.usuario.es_super;
 
     this.route.params.subscribe(params => {
@@ -286,6 +291,79 @@ export class FormularioComponent {
     }
 
   }
+  /**
+  * Este método autocomplet donde se obtienen los datos del Usuario de acuerdo a su nombre o corre que este
+  * registrado en el directorio
+  * @param data donde se obtienes los datos de la busqueda
+  * @return void
+  */
+  autocompleFormatoUsuario = (data: any) => {
+
+    let html = `<span>${data.email} - ${data.nombre}</span>`;
+    return this._sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  /**
+  * Método para obtener el valor de la curp
+  * @param data contiene el valor de la curp
+  * @return void
+  */
+  valorFormato_Usuario(data: any) {
+
+      let html = `${data.email}`;
+      return html;
+  }
+
+    /**
+    * Método para obtener el valor los datos del Usuario
+    * @param data contiene el valor de la Unidad Medica
+    * @param value contiene el valor que se este buscando
+    * @return void
+    */
+   select_datosUsuario_autocomplete(data: any, value) {
+
+    if (data.id) {
+        //asgina el valor viejo de la curp para que no se duplique
+        //this.dato.controls.pacientes['controls'][0]['controls']['personas_id_viejo'].patchValue(data.id);
+
+        if (document.getElementById("catalogos"))
+            document.getElementById("catalogos").click();
+
+        
+        //Se asigna en variables el formulario formulario reactivo, respecto si es un FormArray o un FormGroup
+        
+        const pacientes = <FormGroup>this.dato.controls.nombre;
+        pacientes.patchValue(data.nombre);
+
+        const municipio = <FormGroup>this.dato.controls.municipios_id;
+        municipio.patchValue(data.municipios_id);
+
+        const localidad = <FormGroup>this.dato.controls.localidades_id;
+        localidad.patchValue(data.localidades_id);  
+
+        const direccion = <FormGroup>this.dato.controls.direccion;
+        direccion.patchValue(data.direccion);
+
+        //medios de contacto
+
+        
+        data.sis_usuarios_contactos.forEach(element => {
+
+        const medios = <FormArray>this.dato.controls.sis_usuarios_contactos;
+
+        this.agregar_form_array(medios, this.form_sis_usuarios_contactos = {
+          tipos_medios_id: [element.tipos_medios.id],
+          valor: [element.valor, [Validators.required]]
+        })
+
+
+        });
+
+
+        //se le colocan los datos a los controles del html que estan asociados con el formulario reactivo, respecto a lo que traiga el parametro data.
+
+    }
+  }
 
   /**
   * Método para quitar elementos de las clues.
@@ -294,6 +372,10 @@ export class FormularioComponent {
   */
   quitar_form_array(modelo, i) {
     modelo.removeAt(i);
+  }
+
+  agregar_form_array(modelo: FormArray, formulario) {
+    (<FormArray>modelo).push(this.fb.group(formulario));
   }
 
     // permisos individuales

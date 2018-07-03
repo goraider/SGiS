@@ -131,6 +131,32 @@
                             <!--general -->
                             <div [ngClass]="{ 'is-hidden': tab != 1}">
                                 <div class="columns">
+
+                                </div>
+
+                                <div class="columns">
+                                    <div class="column is-6">
+
+                                        <p class="control is-expanded  has-icon has-icon-right">
+                                        <label class="label">Correo eléctronico:</label>
+                                        <input ngui-auto-complete autocomplete="false"
+                                            [source]="usuarios_auto"
+                                            [list-formatter]="autocompleFormatoUsuario"
+                                            [value-formatter]="valorFormato_Usuario"
+                                            [tab-to-select]="false"
+                                            path-to-data="" loading-text="Cargando..."
+                                            no-match-found-text="No hay resultados."
+                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.email, 'email', $event, false);
+                                            select_datosUsuario_autocomplete($event, 'id');
+                                            " min-chars="4" class="input" type="text"
+                                            placeholder="Escriba 4 letras para buscar el correo o continúe capturando los datos para registrar al Usuario."
+                                            [ngClass]="{'is-danger': ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')}" formControlName="email">
+                
+                                            <span class="help is-danger" *ngIf="ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')">Este campo es requerido.</span>
+                
+                                        </p>
+                                    </div>
+                                    
                                     <div class="column is-6">
                                         <label class="label">Nombre:</label>
                                         <p class="control is-expanded  has-icon has-icon-right">
@@ -140,14 +166,16 @@
                                         </p>
                                     </div>
 
-                                    <div class="column is-6">
+                                    <!-- <div class="column is-6">
                                         <label class="label">Correo eléctronico:</label>
                                         <p class="control is-expanded  has-icon has-icon-right">
                                             <input class="input" type="text" [ngClass]="{'is-danger': ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')}" placeholder="Correo eléctronico" formControlName="email">
                                             <span class="icon" *ngIf="ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')"> <i class="fa fa-warning"></i></span>
                                             <span class="help is-danger" *ngIf="ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')">Este campo es requerido.</span>
                                         </p>
-                                    </div>
+
+                                        select_datosPaciente_autocomplete($event, 'id');
+                                    </div> -->
                                 </div>
 
                                 <div class="columns">
@@ -406,14 +434,14 @@
 
                                             </td>
                                             <td align="right">
-                                                <button type="button" class="button is-danger" (click)="ctrl.quitar_form_array(ctrl.dato.controls.sis_usuarios_contactos, clu)"><i class="fa fa-trash-o"></i></button>
+                                                <button type="button" class="button is-danger" (click)="quitar_form_array(ctrl.dato.controls.sis_usuarios_contactos, clu)"><i class="fa fa-trash-o"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <div style="background: rgba(127, 220, 42, 0.62); width:100%; padding: 10px; margin-top: -20px;">
-                                    <button type="button" class="button is-default" (click)="ctrl.agregar_form_array(ctrl.dato.controls.sis_usuarios_contactos, form_sis_usuarios_contactos)"><i class="fa fa-plus"></i></button>
+                                    <button type="button" class="button is-default" (click)="agregar_form_array(ctrl.dato.controls.sis_usuarios_contactos, form_sis_usuarios_contactos)"><i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
 

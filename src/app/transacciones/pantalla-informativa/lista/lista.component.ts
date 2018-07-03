@@ -262,21 +262,21 @@ export class ListaComponent {
 
 
             
-            resultado.data.forEach(element => {
+            // resultado.data.forEach(element => {
 
-                //console.log(resultado.data);
+            //     //console.log(resultado.data);
 
-                var horaFecha = moment(element.created_at).format('h');
+            //     var horaFecha = moment(element.created_at).format('h');
 
-                var res = parseInt(horaFecha) - 6 + 1;
+            //     var res = parseInt(horaFecha) - 6 + 1;
     
-                this.horaReal = moment(element.created_at).format('YYYY-MM-D'+" "+res+':mm:ss A');
+            //     this.horaReal = moment(element.created_at).format('YYYY-MM-D'+" "+res+':mm:ss A');
 
 
-                element.created_at = this.horaReal;
+            //     element.created_at = this.horaReal;
     
                 
-            });
+            // });
 
 
 

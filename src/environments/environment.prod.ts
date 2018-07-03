@@ -261,11 +261,17 @@ export const environment = {
         "icono": "fa fa-address-book",
       },
       {
-        "titulo": "Censo de Mujeres",
+        "titulo": "Censo de Personas",
         "key": "CensoPersonaController.index",
         "path": "/transacciones/censo-persona/lista",
         "icono": "fa fa-odnoklassniki",
       },
+      // {
+      //   "titulo": "Censo de Pacientes",
+      //   "key": "CensoPersonaController.index",
+      //   "path": "/transacciones/censo-pacientes/lista",
+      //   "icono": "fa fa-address-card",
+      // },
       {
         "titulo": "Directorio de Apoyos",
         "key": "DirectorioApoyoController.index",
@@ -273,13 +279,13 @@ export const environment = {
         "icono": "fa fa-book",
       },
       {
-        "titulo": "Base de Conocimiento",
+        "titulo": "Casos de Éxito",
         "key": "BaseConocimientoController.index",
         "path": "/transacciones/base-conocimiento/lista",
         "icono": "fa fa-wheelchair-alt",
       },
       {
-        "titulo": "Visita Puerperal",
+        "titulo": "Seguimiento de Casos",
         "key": "VisitaPuerperalController.index",
         "path": "/transacciones/visita-puerperal/lista",
         "icono": "fa fa-calendar-check-o",
@@ -331,6 +337,13 @@ export const environment = {
           "icono": "fa fa-medkit"
         }
       ]
+    },
+    {
+      "titulo": "Descargar Manual de Usuario",
+      "key": "",
+      "path": "../assets/manual-usuario",
+      "icono": "fa fa-android",
+      "lista": []
     },
 
   ]

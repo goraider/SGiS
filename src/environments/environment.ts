@@ -44,7 +44,7 @@
 export const environment = {
 
   "production": false,
-  "API_URL": "http://api.ugus.bid/public/api/v1",
+  "API_URL": "http://api.ugus.bid/api/v1",
   "API_PATH": "http://api.ugus.bid",
   "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
@@ -292,11 +292,17 @@ export const environment = {
         "icono": "fa fa-address-book",
       },
       {
-        "titulo": "Censo de Mujeres",
+        "titulo": "Censo de Personas",
         "key": "CensoPersonaController.index",
         "path": "/transacciones/censo-persona/lista",
         "icono": "fa fa-odnoklassniki",
       },
+      // {
+      //   "titulo": "Censo de Pacientes",
+      //   "key": "CensoPersonaController.index",
+      //   "path": "/transacciones/censo-pacientes/lista",
+      //   "icono": "fa fa-address-card",
+      // },
       {
         "titulo": "Directorio de Apoyos",
         "key": "DirectorioApoyoController.index",
@@ -304,13 +310,13 @@ export const environment = {
         "icono": "fa fa-book",
       },
       {
-        "titulo": "Base de Conocimiento",
+        "titulo": "Casos de Éxito",
         "key": "BaseConocimientoController.index",
         "path": "/transacciones/base-conocimiento/lista",
         "icono": "fa fa-wheelchair-alt",
       },
       {
-        "titulo": "Visita Puerperal",
+        "titulo": "Seguimiento de Casos",
         "key": "VisitaPuerperalController.index",
         "path": "/transacciones/visita-puerperal/lista",
         "icono": "fa fa-calendar-check-o",

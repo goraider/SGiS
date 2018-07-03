@@ -357,7 +357,8 @@ export class ReporteAltaComponent{
 
         startY: 31,
         margin: {top: 30, horizontal: 7},
-        styles: {columnWidth: 'wrap', fontSize: 8},
+        bodyStyles: {valign: 'top'},
+        styles: {overflow: 'linebreak', columnWidth: 'wrap'},
         columnStyles: {text: {columnWidth: 'auto'}},
         addPageContent: pageContent
       });

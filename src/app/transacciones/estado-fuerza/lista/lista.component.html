@@ -22,7 +22,7 @@
                 <table class="table is-striped is-fullwidth" *ngIf="ctrl.tipo_grid && !ctrl.cargando " style="overflow:auto;" [style.maxHeight.px]="tamano-285">
                     <thead>
                         <tr>
-                            <th>Unidad Médica</th>
+ 
                             <th>Turno Laboral</th>
                             <th>Nombre del Usuario</th>
                             <th>Fecha</th>
@@ -32,7 +32,6 @@
 
                     <tbody>
                         <tr *ngFor="let item of ctrl.dato; let i=index">
-                            <td style="vertical-align: middle;">{{ item.clues.nombre }}</td>
                             <td style="vertical-align: middle;">{{ item.turnos.nombre }}</td>
                             <td style="vertical-align: middle;">{{ item.sis_usuarios.nombre}}</td>
                             <td style="vertical-align: middle;">{{ item.created_at | date: ' dd/MM/yyyy h:mm:ss a'}}</td>
@@ -62,8 +61,6 @@
                             <div class="media-content">
                                 <div class="content">
                                     <p>
-                                        <strong class="tag is-medium"> Unidad Medica (Clue): {{item.clues.nombre}}  </strong>
-                                        <br>
                                         <strong class="tag"> Nombre del Usuario: {{item.sis_usuarios.nombre}}</strong>
                                         <br>
                                         <strong class="tag" > Turno: {{item.turnos.nombre}} Fecha de Registro: {{ item.created_at }}</strong>

@@ -844,6 +844,7 @@ export class FormularioComponent implements OnInit {
           observacion_trabajo_social: [''],
           reporte_medico: [''],
           subcategorias_cie10_id: [''],
+          top_cie10_id: [''],
           triage_colores_id: [''],
           ubicaciones_pacientes_id: [''],
           turnos_id: [''],
@@ -891,6 +892,8 @@ export class FormularioComponent implements OnInit {
       ]),
 
     });
+
+    
  
     
 
@@ -1074,6 +1077,8 @@ export class FormularioComponent implements OnInit {
       
             subcategorias_cie10_id: [this.subcategorias_cie10_id.id, [Validators.required]],
             subcategorias_cie10: [this.subcategorias_cie10[sci10], [Validators.required]],
+
+            top_cie10_id:[this.subcategorias_cie10_id.id],
       
             indicaciones: [this.indicaciones, [Validators.required]],
             reporte_medico: [this.reporte_medico, [Validators.required]],
@@ -1249,7 +1254,6 @@ export class FormularioComponent implements OnInit {
   */
   error_archivo = false;
   seleccionarImagenBase64(evt, modelo, multiple: boolean = false, index: number = 0) {
-
     var files = evt.target.files;
     var esto = this;
     esto.error_archivo = false;
@@ -1337,8 +1341,6 @@ export class FormularioComponent implements OnInit {
           validar: [true]
 
         };
-
-        console.log(datoReferencia);
     
     
     
@@ -1369,6 +1371,7 @@ export class FormularioComponent implements OnInit {
         this.validar_referencia();
       }
   }
+  
 
   /**
   * Método que cierra una ventana modal para validar la referencia
@@ -1377,6 +1380,7 @@ export class FormularioComponent implements OnInit {
   cerrarModalValidacionReferencia() {
     document.getElementById("referencia_datos_vacios").classList.remove('is-active');
   }
+
 
   /**
   * Método que carga el mapa para realizar una referencia

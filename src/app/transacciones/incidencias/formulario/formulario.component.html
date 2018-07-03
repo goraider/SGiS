@@ -50,6 +50,7 @@
                     ctrl.cargarCatalogo('derechohabientes', 'derechohabientes');
                     ctrl.cargarCatalogo('parentescos', 'parentescos');
                     ctrl.cargarCatalogo('municipios_e', 'municipios', 'localidades');
+                    ctrl.cargarCatalogo('top_cie10', 'top-cie10');
                     ctrl.cargarCatalogo('estados_pacientes', 'estados-pacientes');
                     ctrl.cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
                     ctrl.cargarCatalogo('triage_colores', 'triage-colores');
@@ -520,43 +521,69 @@
                 <div formArrayName="movimientos_incidencias">
                   <div *ngFor="let movimiento of ctrl.dato.controls.movimientos_incidencias?.controls; let im=index" [formGroupName]="im">
 
+                    <div class="columns" *ngIf='mostrar==true || !mostrar_check'>
+                      <div class="column is-12">
+                        <label class="label">Diagnósticos CIE-10 más Frecuentes: </label>
+                        <div class="control is-grouped has-icons-left">
+
+                          <span *ngIf="ctrl.cargando" class="tag is-primary is-large">Cargando Diagnósticos CIE-10...
+                            <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
+                          </span>
+
+                          <div *ngIf="ctrl.top_cie10 && !ctrl.cargando" class="control is-expanded has-icon-left">
+
+                            <span class="select is-multiple" [ngClass]="{'is-danger': movimiento.controls.top_cie10_id.value == ''}">
+                              <select style="width: 100%; height:70%;" size="11" name="top_cie10_id" formControlName="top_cie10_id">
+                                <option value="" selected>SELECCIONE UN DIAGNÓSTICO CIE-10:</option>
+                                <option *ngFor="let val of ctrl.top_cie10" value="{{val.id}}">{{ val.nombre }}</option>
+                              </select>
+                            </span>
+
+                            <span class="help is-danger" *ngIf="movimiento.controls.top_cie10_id.value == ''">
+                              Debe seleccionar un Diagnóstico CIE-10 mas Frecuente ó Buscarlo y seleccionarlo en el campo de abajo.
+                            </span>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+<!--[ngClass]="{ 'is-hidden': movimiento.controls.top_cie10_id.value !=''}"-->
                     <div class="columns">
                       <div class="column is-12">
 
                         <div *ngIf="mostrar_check">
                           <input class="styled" type="checkbox" 
-                            value="true" id="mostrar_cambiar_CIE10" (change)="checked_cambiar_cie10('mostrar_cambiar_CIE10')"> &nbsp;¿Desea cambiar la Subcategoria CIE10?
+                            value="true" id="mostrar_cambiar_CIE10" (change)="checked_cambiar_cie10('mostrar_cambiar_CIE10')"> &nbsp;¿Desea cambiar el Diagnósticos CIE-10?
                         </div>
 
                         <div *ngIf='mostrar==true || !mostrar_check' class="control is-expanded  has-icon has-icon-right">
            
-                          <label class="label">Subcategoria CIE-10:</label>
+                          <label class="label">Diagnóstico CIE-10:</label>
                           <input  ngui-auto-complete
                           [source]="cie10_term"
                           autocomplete="false"
-                          [accept-user-input]="false"
+                          [accept-user-input]="true"
                           [list-formatter]="autocompleFormatoSubcategoriasCIE10"
                           [value-formatter]="valorFormato_SubcategoriasCIE10"
                           id="cie10" path-to-data=""
                           loading-text="Cargando..."
                           no-match-found-text="No hay resultados."
                           (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.movimientos_incidencias.controls[im].controls.subcategorias_cie10_id, 'id', $event, true);"
-                          min-chars="4" class="input" type="text" [ngClass]="{'is-danger': movimiento.controls.subcategorias_cie10_id.hasError('required')}"
-                          placeholder="Escriba como mínimo 4 letras para Buscar la Subcategoria CIE-10:">
+                          min-chars="4" class="input" type="text" [ngClass]="{'is-success': movimiento.controls.subcategorias_cie10_id.value == ''}"
+                          placeholder="Escriba como mínimo 4 letras para Buscar el Diagnostico CIE-10:">
                           
-                          <span class="help is-danger" *ngIf="movimiento.controls.subcategorias_cie10_id.hasError('required')">Este campo es requerido.</span>
+                          <span class="help is-success" *ngIf="movimiento.controls.subcategorias_cie10_id.value == ''">Campo opcional si no ha Selecciona un Diagnósticos CIE-10 más Frecuentes.</span>
                         </div>
 
                         <div *ngIf='mostrar==false && mostrar_check'>
-        
-                            <span class="input" type="text">
-                              {{cie10_var_temp}}
-                            </span>
+                          <span class="input" type="text">
+                            {{cie10_var_temp}}
+                          </span>
                         </div>
 
                       </div>
                     </div>
-
 
                     <div class="columns">
                       <div class="column is-6">

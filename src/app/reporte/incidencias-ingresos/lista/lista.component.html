@@ -273,8 +273,9 @@
             <th>N°.</th>
             <th>Folio de Incidencia</th>
             <th>Fecha de Ingreso</th>
-            <th>Colores Triage</th>
+            <th>Color Triage</th>
             <th>E.Paciente</th>
+            <th>Diagnostico CIE-10</th>
             <th>Motivo del Ingreso</th>
 
         </tr>
@@ -286,6 +287,7 @@
             <td style="vertical-align: middle;">{{item.created_at | date: ' dd/MM/yyyy '}}</td>
             <td style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[item.movimientos_incidencias.length -1].triage_colores.nombre }}</strong></div></td>
             <td style="vertical-align: middle;">{{item.movimientos_incidencias[item.movimientos_incidencias.length -1].estados_pacientes.nombre}}</td>
+            <td style="vertical-align: middle;" [innerHTML]='item.movimientos_incidencias[item.movimientos_incidencias.length -1].subcategorias_cie10.nombre | formatoHtml'></td>
             <td style="vertical-align: middle;" [innerHTML]='item.motivo_ingreso | formatoHtml'></td>
         </tr>
          <tr *ngIf="datos.length == 0">

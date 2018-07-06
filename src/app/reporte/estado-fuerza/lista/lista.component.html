@@ -141,9 +141,8 @@
                 <table  class="table is-striped is-fullwidth" *ngIf="!cargando " >
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>N°</th>
                             <th>Fecha</th>
-                            <th>Unidad Medica</th>
                             <th>Turno</th>
                             <th>Usuario</th>
                             <th>Email</th>
@@ -156,7 +155,6 @@
                         <tr *ngFor="let item of datos; let i=index">  
                             <th style="vertical-align: middle;">{{ item.id }}</th>                          
                             <td style="vertical-align: middle;">{{ item.created_at | date: ' dd/MM/yyyy '}}</td>                            
-                            <td style="vertical-align: middle;">({{item.clues.clues}}) - {{item.clues.nombre}}</td>
                             <td style="vertical-align: middle;">{{item.turnos.nombre}}</td>
                             <td style="vertical-align: middle;">{{ item.sis_usuarios.nombre }}</td>                            
                             <td style="vertical-align: middle;">{{ item.sis_usuarios.email }}</td>                                                        
@@ -177,9 +175,8 @@
 <table id="datosReporte" class="table is-striped is-fullwidth" *ngIf="!cargando">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>N°</th>
                 <th>Fecha</th>
-                <th>Unidad Medica</th>
                 <th>Turno</th>
                 <th>Usuario</th>
                 <th>Email</th>
@@ -189,7 +186,6 @@
             <tr *ngFor="let item of datos; let i=index">  
                 <th style="vertical-align: middle;">{{ item.id }}</th>
                 <td style="vertical-align: middle;">{{ item.created_at | date: ' dd/MM/yyyy '}}</td>                            
-                <td style="vertical-align: middle;">({{item.clues.clues}}) - {{item.clues.nombre}}</td>
                 <td style="vertical-align: middle;">{{item.turnos.nombre}}</td>
                 <td style="vertical-align: middle;">{{ item.sis_usuarios.nombre }}</td>                            
                 <td style="vertical-align: middle;">{{ item.sis_usuarios.email }}</td>                                                        

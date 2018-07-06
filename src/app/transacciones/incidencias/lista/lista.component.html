@@ -148,21 +148,15 @@
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.antiguedad }}</strong></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"  class="has-text-centered no_pdf">
 
-                                    <div class="level-left">
-                                        <a class="navbar-item tooltip"  (click)="generate($event, item.id);">
-                                            <span class="icon fa-2x  has-text-danger ">
-                                                <i class="fa fa-file-pdf-o"></i>
-                                            </span>
-                                            <span class="tooltiptext">PDF</span>
-                                        </a>
-                                        
+                                    <div align="center">
                                         <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
                                             <span class="icon fa-2x has-text-info">
                                                 <i class="fa fa-exchange"></i>
                                             </span>
-                                            <span class="tooltiptext">Seguimiento</span>
+                                            <span class="tooltiptext">Seguimientos, Referencias y Alta</span>
                                         </a>
                                     </div>
+
                                 </td>
 
                                 <td *ngIf="(i+1)<ctrl.dato.length"  style="vertical-align: middle;" class="has-text-centered no_pdf">
@@ -225,18 +219,18 @@
 
                                 <div *ngIf="(i+1)<ctrl.dato.length" class="level-right no_pdf" >
 
-                                    <a class="navbar-item tooltip" (click)="generate($event, item.id);">
+                                    <!-- <a class="navbar-item tooltip" (click)="generate($event, item.id);">
                                             <span class="icon fa-2x  has-text-danger ">
                                                 <i class="fa fa-file-pdf-o"></i>
                                             </span>
                                             <span class="tooltiptext">PDF</span>
-                                    </a>
+                                    </a> -->
 
                                     <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
                                         <span class="icon fa-2x has-text-info">
                                                 <i class="fa fa-exchange"></i>
                                         </span>
-                                        <span class="tooltiptext">Seguimiento</span>
+                                        <span class="tooltiptext">Seguimiento, Referencias y Alta</span>
                                     </a>
                                     
                                     <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-right"></tabla-acciones>

@@ -113,7 +113,7 @@
                   <span class="icon is-small">
                     <i class="fa fa-list-ol"></i>
                   </span>
-                  <span>Seguimiento</span>
+                  <span>Seguimientos</span>
                 </a>
               </li>
               <li [ngClass]="{ 'is-active' : tab == 2}">
@@ -121,7 +121,7 @@
                   <span class="icon is-small">
                     <i class="fa fa-ambulance"></i>
                   </span>
-                  <span>Referencia</span>
+                  <span>Referencias</span>
                 </a>
               </li>
 
@@ -162,24 +162,23 @@
               <tbody *ngIf="ctrl.dato">
                 <tr *ngFor="let item of ctrl.dato.controls.movimientos_incidencias.controls; let i=index">
                   
-                  <th style="vertical-align: middle;"><a>{{ i+1 }}</a>
+                  <th style="vertical-align: middle;">
+                    {{ i+1 }}
                   </th>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.estados_pacientes.nombre }}</a>
+                    {{ item.value.estados_pacientes.nombre }}
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.turnos.nombre }}</a>
+                    {{ item.value.turnos.nombre }}
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.antiguedad }}</a>
+                    {{ item.value.antiguedad }}
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>
                       <div class="tag is-medium" [ngClass]="{'is-success' : item.value.triage_colores.nombre == 'Verde', 'is-warning' : item.value.triage_colores.nombre == 'Amarillo', 'is-danger' : item.value.triage_colores.nombre == 'Rojo'}"><strong>{{ item.value.triage_colores.nombre }}</strong></div>
-                    </a>
                   </td>
                   <td style="vertical-align: middle;">
-                    <a>{{ item.value.ubicaciones_pacientes.nombre }}</a>
+                    {{ item.value.ubicaciones_pacientes.nombre }}
                   </td>
                   <td style="vertical-align: middle;">
                     
@@ -541,14 +540,14 @@
 <!--DETALLE SEGUIMIENTO-->
 <div class="modal" id="detalle_seguimiento">
   <div class="modal-background"></div>
-  <div class="modal-card" style="width: 70%; height: 70%">
+  <div class="modal-card" style="width: 80%; height: 80%">
     <header class="modal-card-head">
       <p class="modal-card-title">Detalle del Seguimiento</p>
       <button class="delete" (click)="cerrarModalDetalleSeguimiento()"></button>
     </header>
     <section class="modal-card-body">
 
-      <div class="media-content">
+      <div>
         <div class="content is-center">
 
           <div class="columns">
@@ -670,16 +669,17 @@
               </span> &nbsp; Ver Imagenes
             </a>
           </div>
-          <div class="modal" id="verFoto" (click)="cancelarModal('verFoto')">
+          <div class="modal" id="verFoto" >
             <div class="modal-background"></div>
             <div class="modal-content">
 
-              <p class="image is-4by3" *ngFor="let im of img; let ix = index;">
+              <div class="image is-4by3" *ngFor="let im of img; let ix = index;">
                 <img [src]="'data:image/jpg;base64,'+im.foto" alt="" />
-              </p>
+              </div>
+
 
             </div>
-            <button type="button" class="modal-close" (click)="cancelarModal('verFoto')"></button>
+            <button type="button" class="modal-close fa-2x" (click)="cancelarModal('verFoto')"></button>
           </div>
 
         </div>
@@ -811,7 +811,7 @@
 <!--DETALLE REFERENCIA-->
 <div class="modal" id="detalle_referencia">
   <div class="modal-background"></div>
-  <div class="modal-card" style="width: 70%;">
+  <div class="modal-card" style="width: 80%; height: 80%">
 
     <header class="modal-card-head">
       <p class="modal-card-title">Detalle de la Referencia</p>
@@ -820,7 +820,7 @@
 
     <section class="modal-card-body">
 
-      <div class="media-content">
+      <div>
 
         <div class="content is-center">
 
@@ -1175,7 +1175,7 @@
 <div class="modal" id="detalle_alta">
 
     <div class="modal-background"></div>
-    <div class="modal-card" style="width: 60%; height:80%">
+    <div class="modal-card" style="width: 80%; height:80%">
       <header class="modal-card-head">
         <p class="modal-card-title">Detalle del Alta</p>
         <button class="delete" (click)="cerrarModalDetalleAlta()"></button>
@@ -1188,7 +1188,7 @@
           </figure>
         </div> --> 
   
-        <div class="media-content">
+        <div>
   
           <div class="content is-center">
           

@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { environment } from '../../../../environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'base-conocimientos-formulario',

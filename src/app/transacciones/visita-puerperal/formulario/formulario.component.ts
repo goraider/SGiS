@@ -7,7 +7,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@ang
 import { Router } from '@angular/router';
 
 import { ActivatedRoute, Params } from '@angular/router'
-import { environment } from '../../../../environments/environment';
+import { environment } from 'environments/environment';
 
 /**
 * selector si se desea ocupar en un HTML

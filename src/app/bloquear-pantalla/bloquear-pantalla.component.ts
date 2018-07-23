@@ -5,7 +5,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription }   from 'rxjs/Subscription';
 
-import { AuthService } from 'app/auth.service';
+import { AuthService } from '../auth.service';
 import { BloquearPantallaService }     from './bloquear-pantalla.service';
 import { environment } from '../../environments/environment';
 

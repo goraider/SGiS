@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@ang
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
-import { environment } from 'environments/environment';
+import { environment } from '../../../../environments/environment';
 import { CrudService } from '../../../crud/crud.service';
 import { concat } from 'rxjs/observable/concat';
 import { FormArrayName, FormGroupName } from '@angular/forms/src/directives/reactive_directives/form_group_name';
@@ -20,7 +20,7 @@ import { elementAt } from 'rxjs/operators/elementAt';
 * y su archivo HTML
 */
 @Component({
-    selector: 'incidencias-formulario',
+    selector: 'incidencias-transito-formulario',
     templateUrl: './formulario.component.html',
     styleUrls: ["./formulario.component.css"]
 })
@@ -301,6 +301,7 @@ export class FormularioComponent {
             clues: [this.c.clues],
             estados_incidencias_id: [1],
             tieneReferencia: [''],
+            en_transito:[0],
 
             pacientes: this.fb.array([
                 this.fb.group({
@@ -317,7 +318,6 @@ export class FormularioComponent {
                         domicilio: ['', [Validators.required]],
                         fecha_nacimiento: ['', [Validators.required]],
                         telefono: ['', [Validators.required, Validators.pattern("[0-9]*")]],
-
                         estados_embarazos_id: ['', [Validators.required]],
                         derechohabientes_id: ['', [Validators.required]],
                         municipios_id: ['', [Validators.required]],
@@ -498,6 +498,8 @@ export class FormularioComponent {
                 this.cargando = true;
                 this.crudService.ver(this.id, "incidencias").subscribe(
                     resultado => {
+
+                        console.log("lo que trae el formulario editar",resultado);
 
             
                         this.cargando = false;

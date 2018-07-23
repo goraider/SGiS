@@ -8,7 +8,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { environment } from '../../../../../environments/environment';
+import { environment } from 'environments/environment';
 import { concat } from 'rxjs/observable/concat';
 
 /**
@@ -237,6 +237,13 @@ export class FormularioComponent implements OnInit {
   subcategorias_cie10_id:  any = '';
   
   /**
+  * variable que contiene el id del Top CIE-10 mas frecuente seleccionado
+  * al realizar el push en la vista respecto a su ngModel
+  * @type {any}
+  */ 
+  top_cie10_id: any = '';
+  
+  /**
   * variable que contiene el id del Turno seleccionado
   * al realizar el push en la vista respecto a su ngModel
   * @type {any}
@@ -284,6 +291,13 @@ export class FormularioComponent implements OnInit {
   * @type {any}
   */
   subcategorias_cie10:  any = '';
+
+  /**
+  * variable que contiene top_cie10 CIE-10 seleccionado
+  * al realizar el push en la vista respecto a su ngModel
+  * @type {any}
+  */
+  top_cie10: any = '';
 
   /**
   * variable que contiene el Turno seleccionado
@@ -788,6 +802,7 @@ export class FormularioComponent implements OnInit {
       clues: [''],
       clues_actual: [''],
       tieneReferencia: [''],
+      enTransito: [''],
 
       pacientes: this.fb.array([
         this.fb.group({
@@ -926,7 +941,9 @@ export class FormularioComponent implements OnInit {
     this.reporte_medico = '';
     this.medico_reporta_id = '';
     this.turnos_id = '';
-    this.subcategorias_cie10_id = "";
+    this.subcategorias_cie10_id = '';
+    this.top_cie10_id = '';
+
     document.getElementById("nuevo_seguimiento").classList.remove('is-active');
   }
   /**
@@ -1002,13 +1019,13 @@ export class FormularioComponent implements OnInit {
   * hace la asginacion de los catalogos que se carguen respecto a su id.
   * @return void
   */
-  agregarSeguimiento() {
+  agregarSeguimiento() { 
 
     this.esDetalle = false;
 
     if(this.turnos_id != "" && this.ubicaciones_pacientes_id != ""
     && this.estados_pacientes_id != "" && this.triage_colores_id != ""
-    && this.medico_reporta_id != "" && this.subcategorias_cie10_id !=""
+    && this.medico_reporta_id != ""
     && this.indicaciones != "" && this.reporte_medico != ""){
 
 
@@ -1050,6 +1067,14 @@ export class FormularioComponent implements OnInit {
                 break;
               sci10++;
             };
+
+          var topcie10 = 0;
+          if (this.top_cie10_id)
+            for (let item of this.top_cie10_id) {
+              if (this.top_cie10_id == item.id)
+                break;
+              topcie10++;
+            };
       
       
       
@@ -1077,8 +1102,9 @@ export class FormularioComponent implements OnInit {
       
             subcategorias_cie10_id: [this.subcategorias_cie10_id.id, [Validators.required]],
             subcategorias_cie10: [this.subcategorias_cie10[sci10], [Validators.required]],
-
-            top_cie10_id:[this.subcategorias_cie10_id.id],
+          
+            top_cie10_id:[this.top_cie10_id.id],
+            top_cie10: [this.top_cie10[topcie10], [Validators.required]],
       
             indicaciones: [this.indicaciones, [Validators.required]],
             reporte_medico: [this.reporte_medico, [Validators.required]],
@@ -1101,6 +1127,9 @@ export class FormularioComponent implements OnInit {
           const mv: FormArray = <FormArray>this.dato.controls.movimientos_incidencias;
       
           mv.push(this.fb.group(datomodal));
+
+          console.log(datomodal);
+          console.log(this.dato.value);
       
           //asigna el estado de incidencia en proceso con numero 2
           this.dato.controls['estados_incidencias_id'].setValue(2);
@@ -1116,6 +1145,7 @@ export class FormularioComponent implements OnInit {
           this.medico_reporta_id = '';
           this.turnos_id = '';
           this.subcategorias_cie10_id = '';
+          this.top_cie10_id = '';
           this.cerrarModal();
 
     }else

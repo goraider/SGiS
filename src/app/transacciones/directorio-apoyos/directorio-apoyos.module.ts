@@ -20,7 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { DirectorioApoyosRoutingModule } from '../directorio-apoyos/directorio-apoyos-routing.module';
+import { DirectorioApoyosRoutingModule } from './directorio-apoyos-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
 
 

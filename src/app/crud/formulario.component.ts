@@ -335,8 +335,12 @@ export class FormularioComponent implements OnInit {
         if (!this.cambiarPassword) {
             delete dato.cambiarPassword;
         }
+        console.log(this.dato.value);
+
+        console.log(this.URL);
         this.crudService.editar(this.id, this.dato.value, this.URL).subscribe(
             resultado => {
+
                 this.cargando = false;
 
                 this.mensajeResponse.texto = "Se han guardado los cambios.";

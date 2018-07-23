@@ -9,7 +9,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 import { ActivatedRoute, Params } from '@angular/router';
 import { Router } from '@angular/router';
-import { environment } from '../../../../../environments/environment';
+import { environment } from 'environments/environment';
 import { concat } from 'rxjs/observable/concat';
 
 

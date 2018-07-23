@@ -49,7 +49,7 @@ export class AuthService {
   login(email: string, password: string) {
     const url: string = 'signin';
     return this.http.post(`${environment.API_URL}/${url}`, JSON.stringify({ email: email, password: password }), { headers: this.headers }).map((response: Response) => {
-
+      //this.compiler.clearCache();
       try{
 
       let json = response.json();

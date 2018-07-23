@@ -1,5 +1,5 @@
 <!-- crud asignar url de la api URL="url de la api" titulo="un titulo para la pestaña de la pagina" [dato]="variable que contiene el formulario]-->
-<listar #ctrl URL="incidencias?en_transito=0?edo_incidencia={{edo_incidencia}}" titulo="Incidencias / Transacciones" ></listar>
+<listar #ctrl URL="incidencias-transito?en_transito=1" titulo="Incidencias en Transito / Transacciones" ></listar>
 
 <!-- Menu principal "-->
 <sistema-menu></sistema-menu>
@@ -13,10 +13,12 @@
     <div class="column" style="padding:0.5em;">
         <div style="background: #FFF; border-radius: 1em; ">
             
-            <!-- Opciones y busqueda -->
+            <!-- Opciones y busqueda-->
+
             <section class="hero" [ngClass]=" {'is-dark': ctrl.busquedaActivada, 'is-primary': !ctrl.busquedaActivada } ">
                 <div class="hero-body">
                     <nav class="level ">
+
                         <!-- Left side -->
                         <div class="level-left ">
                             <div class="level-item">
@@ -43,20 +45,7 @@
                                 </div>
                             </div>
                             
-                            <div class="level-item" *ngIf="ctrl.dato.estados_incidencias != ''">
-                                <a (click)="ctrl.mostrarLista(1)" id="rebuscar"></a>
-                                <div class="control is-expanded" *ngIf="ctrl.dato && !ctrl.cargando" >
-                                    <div class="field">
-                                        <label>Filtrar por Estado de Incidencia:</label>
-                                        <div class="select is-medium" >
-                                            <select class="select is-medium" [(ngModel)]="edo_incidencia" #searchBox id="search-box" (change)="cambiar_busqueda()">
-                                                <option  value="">Todos</option>
-                                                <option *ngFor="let val of ctrl.dato[ctrl.dato.length-1].estados_incidencias" value="{{val.id}}"  >{{ val.nombre }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
+
                             <a class="navbar-item tooltip" (click)="ctrl.listar(1)" id="cargar_datos_actualizar" *ngIf="!ctrl.busquedaActivada">
                                 <span class="icon fa-2x">
                                     <i class="fa fa-refresh"></i>
@@ -69,13 +58,6 @@
                                     <i class="fa fa-refresh"></i>
                                 </span>
                                 <span class="tooltiptext">Actualizar</span>
-                            </a>
-            
-                            <a class="navbar-item tooltip" routerLink="{{url_nuevo}}" *ngIf="permisos.indexOf(controlador + '.store') > -1 || permisos.indexOf( 'Sis' + controlador + '.store') > -1">
-                                <span class="icon fa-2x">
-                                    <i class="fa fa-file"></i>
-                                </span>
-                                <span class="tooltiptext">Nuevo</span>
                             </a>
 
                             <a class="navbar-item tooltip" (click)="ctrl.excel(modulo_actual);">
@@ -113,13 +95,15 @@
                 </div>
             </section>
                 
-                <div class="is-fullwidth has-text-centered" *ngIf="ctrl.cargando">
-                    <br>
-                    <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
-                    <br>
-                    <br>
-                </div>
+            <div class="is-fullwidth has-text-centered" *ngIf="ctrl.cargando">
+                <br>
+                <span class="tag is-primary is-large "><span class="icon"><i class="fa fa-refresh fa-spin"></i></span> &nbsp;<span>Cargando...</span></span>
+                <br>
+                <br>
+            </div>
 
+            
+            <!-- <tabla-opciones [ctrl]="ctrl"></tabla-opciones> -->
 
             <span id="exportar_datos" style="overflow-y:auto; overflow-x: hidden; display:block;" [style.maxHeight.px]="tamano-285">
 
@@ -130,11 +114,8 @@
                                 <th>N° Folio</th>
                                 <th>Paciente</th>
                                 <th>Edad</th>
-                                <th>Fecha de Ingreso</th>
                                 <th>Triage</th>
-                                <th>Estado de Incidencia</th>
                                 <th>Antiguedad</th>
-                                <th width="1%" class="no_pdf">Seguimientos</th>
                                 <th width="1%" class="no_pdf">Opciones</th>
                             </tr>
                         </thead>
@@ -144,26 +125,13 @@
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.id }}</strong></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="is-medium" *ngFor="let edades of item.pacientes"><strong>{{ edades.personas.edad }} Años</strong></div></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.created_at | date: ' dd/MM/yyyy, h:mm a ' }}</strong></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div><strong>{{ item.estados_incidencias.nombre }}</strong></div></td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.antiguedad }}</strong></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"  class="has-text-centered no_pdf">
-
-                                    <div align="center">
-                                        <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
-                                            <span class="icon fa-2x has-text-info">
-                                                <i class="fa fa-exchange"></i>
-                                            </span>
-                                            <span class="tooltiptext">Seguimientos, Referencias y Alta</span>
-                                        </a>
-                                    </div>
-
-                                </td>
 
                                 <td *ngIf="(i+1)<ctrl.dato.length"  style="vertical-align: middle;" class="has-text-centered no_pdf">
                                     <!-- acciones -->
                                     <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-left"></tabla-acciones>
+
                                 </td>
 
                             </tr>
@@ -199,13 +167,6 @@
                                         <br>
                                         <a *ngIf="(i+1)<ctrl.dato.length"  title="Antigüedad">
                                             <small>
-                                                <i class="fa fa-sign-in"></i>
-                                                <strong>{{ item.created_at | date: ' dd/MM/yyyy, h:mm a ' }}</strong>
-                                            </small>
-                                        </a>
-                                        <br>
-                                        <a *ngIf="(i+1)<ctrl.dato.length"  title="Antigüedad">
-                                            <small>
                                                 <i class="fa fa-clock-o"></i>
                                                 <strong>{{ item.antiguedad }}</strong>
                                             </small>
@@ -228,19 +189,6 @@
 
                                 <div *ngIf="(i+1)<ctrl.dato.length" class="level-right no_pdf" >
 
-                                    <!-- <a class="navbar-item tooltip" (click)="generate($event, item.id);">
-                                            <span class="icon fa-2x  has-text-danger ">
-                                                <i class="fa fa-file-pdf-o"></i>
-                                            </span>
-                                            <span class="tooltiptext">PDF</span>
-                                    </a> -->
-
-                                    <a class="navbar-item tooltip" routerLink="/transacciones/seguimiento/editar/{{item.id}}">
-                                        <span class="icon fa-2x has-text-info">
-                                                <i class="fa fa-exchange"></i>
-                                        </span>
-                                        <span class="tooltiptext">Seguimiento, Referencias y Alta</span>
-                                    </a>
                                     
                                     <tabla-acciones [item]="item" [index]="i" [ctrl]="ctrl" class="level-right"></tabla-acciones>
 
@@ -261,119 +209,6 @@
         </div>
     </div>
 </div>
-
-<table id="datosPaciente" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Edad</th>
-            <th>Teléfono</th>
-            <th>Fecha de Nacimiento</th>
-            <th>Municipio</th>
-            <th>Localidad</th>
-            <th>Estado de Embarazo</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let paciente of datosSeguimiento.pacientes; let i=index">
-            <td style="vertical-align: middle;">{{paciente.personas.nombre}} {{paciente.personas.paterno}} {{paciente.personas.materno}}</td>
-            <td style="vertical-align: middle;">{{paciente.personas.edad}} Años</td>
-            <td style="vertical-align: middle;">{{paciente.personas.telefono}}</td>
-            <td style="vertical-align: middle;">{{paciente.personas.fecha_nacimiento | date: ' dd/MM/yyyy '}}</td>
-            <td style="vertical-align: middle;">{{paciente.personas.municipios.nombre}}</td>
-            <td style="vertical-align: middle;">{{paciente.personas.localidades.nombre}}</td>
-            <td style="vertical-align: middle;">{{paciente.personas.estados_embarazos.nombre}}</td>
-        </tr>
-            <tr *ngIf="datosSeguimiento.length == 0">
-            <td colspan="5" style="vertical-align: middle; color:#888;">Esta lista está vacía.</td>
-            </tr> 
-    </tbody>
-</table>
-
-<table id="datosSeguimiento" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
-    <thead>
-        <tr>
-            <th>N°.</th>
-            <th>Estado</th>
-            <th>Fecha</th>
-            <th>Triage</th>
-            <th>CIE-10</th>
-            <th>Ubicación</th>
-            <th>Turno</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let val of datosSeguimiento.movimientos_incidencias; let i=index">
-            <td style="vertical-align: middle;">{{i + 1}}</td>
-            <td style="vertical-align: middle;">{{val.estados_pacientes.nombre}}</td>
-            <td style="vertical-align: middle;">{{val.created_at | date: ' dd/MM/yyyy h:mm:ss a '}}</td>
-            <td style="vertical-align: middle;">{{val.triage_colores.nombre}}</td>
-            <td style="vertical-align: middle;">{{val.subcategorias_cie10.nombre}}</td>
-            <td style="vertical-align: middle;">{{val.ubicaciones_pacientes.nombre}}</td>
-            <td style="vertical-align: middle;">{{val.turnos.nombre}}</td>
-        </tr>
-         <tr *ngIf="datosSeguimiento.movimientos_incidencias == ''">
-            <td colspan="5" style="vertical-align: middle; color:#888;">La Paciente no tiene Seguimientos.</td>
-         </tr> 
-    </tbody>
-</table>
-
-
-<table id="datosReferencias" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
-    <thead>
-        <tr>
-            <th>N°</th>
-            <th>Fecha</th>
-            <th>Unidad de Origen</th>
-            <th>Unidad de Destino</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let val of datosSeguimiento.referencias; let i=index">
-            <td style="vertical-align: middle;">{{i + 1}}</td>
-            <td style="vertical-align: middle;">{{val.created_at | date: ' dd/MM/yyyy h:mm:ss a '}}</td>
-            <td style="vertical-align: middle;">{{val.clues_origen}} - {{val.clues_origen_o.nombre}}</td>
-            <td style="vertical-align: middle;">{{val.clues_destino}} - {{val.clues_destino_o.nombre}}</td>
-
-        </tr>
-         <tr *ngIf="datosSeguimiento.referencias == ''">
-            <td colspan="5" style="vertical-align: middle; color:#888;">La Pciente no tiene Referencias.</td>
-         </tr> 
-    </tbody>
-</table>
-
-<table id="datosAlta" class="table is-striped is-fullwidth" *ngIf="!ctrl.cargando">
-    <thead>
-        <tr>
-            <th>N°</th>
-            <th>Fecha y Hora</th>
-            <th>Unidad Medica de Atención</th>
-            <th>Tipo de Alta</th>
-            <th>Turno</th>
-            <th>Metodo de Planificación</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let val of datosSeguimiento.altas_incidencias; let i=index">
-            <td style="vertical-align: middle;">{{i + 1}}</td>
-            <td style="vertical-align: middle;">{{val.created_at | date: ' dd/MM/yyyy h:mm:ss a '}}</td>
-            <td style="vertical-align: middle;">{{val.clues_regresa}} - {{val.clues_regresa_o.nombre}}</td>            
-            <td style="vertical-align: middle;">{{val.tipos_altas.nombre}}</td>
-            <td style="vertical-align: middle;">{{val.turnos.nombre}}</td>
-            <td style="vertical-align: middle;">{{val.metodos_planificacion.nombre}}</td>
-            
-
-        </tr>
-            <tr *ngIf="datosSeguimiento.altas_incidencias == ''">
-            <td colspan="5" style="vertical-align: middle; color:#888;">La Paciente aún no está dada de Alta.</td>
-            </tr> 
-    </tbody>
-</table>
-
-
-
 
 <!-- <div id="imprimir" style="display:none">
         
@@ -674,27 +509,3 @@
 
     </div>
 </div>
-
-
-
-
-<!-- <div class="modal" id="confirmarPDF">
-        *ngFor="let item of ctrl.json.pacientes; let i=index"
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-            <p class="modal-card-title"><i class="fa fa-warning"></i> Alerta</p>
-            <button class="delete" (click)="cancelarModal('confirmarPDF')"></button>
-            </header>
-            <section class="modal-card-body">
-                <div class="content">
-                    <h1>¿Desea generar el Archivo PDF?</h1>
-                    <p>Se guardara el archivo PDF en su Computadora</p>
-                </div>
-            </section>
-            <footer class="modal-card-foot">
-            <a class="button is-success" (click)="download($event, item.id)" >Continuar</a>
-            <a class="button" (click)="cancelarModal('confirmarPDF')">Cancelar</a>
-            </footer>
-        </div>
-</div> -->

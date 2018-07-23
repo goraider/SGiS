@@ -94,6 +94,7 @@ import { TiposNotificacionesModule } from './catalogos/tipos-notificaciones/tipo
 import { EstadosIncidenciasModule } from './catalogos/estados-incidencias/estados-incidencias.module';
 
 //transacciones
+import { IncidenciasTransitoModule } from './transacciones/incidencias-transito/incidencias-transito.module';
 import { IncidenciasModule } from './transacciones/incidencias/incidencias.module';
 import { SeguimientosModule } from './transacciones/incidencias/seguimiento/seguimientos.module';
 import { VisitasModule } from './transacciones/visita-puerperal/visitas/visitas.module';
@@ -193,6 +194,7 @@ import { NotificacionPusherModule } from './notificacion/notificacion-pusher.mod
     SeguimientosModule,
     VisitaPuerperalModule,
     VisitasModule,
+    IncidenciasTransitoModule,
     IncidenciasModule,
     EstadoFuerzaModule,
     DirectorioModule,

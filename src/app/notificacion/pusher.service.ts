@@ -80,7 +80,6 @@ export class PusherService {
         channel.bind(`${environment.pusher_event}`,  (data) => {
             this._messages.next(data);
 
-            console.log(this._messages.next(data));
 
         }); 
     }

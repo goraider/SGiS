@@ -377,6 +377,7 @@
           cargarCatalogo('ubicaciones_pacientes', 'ubicaciones-pacientes');
           cargarCatalogo('subcategorias_cie10','grupos-cie10');
           cargarCatalogo('grupos_cie10', 'grupos-cie10');
+          cargarCatalogo('top_cie10', 'top-cie10');
           cargarCatalogo('estados_pacientes', 'estados-pacientes');
           cargarCatalogo('triage_colores', 'triage-colores');">
 
@@ -452,7 +453,7 @@
           </p>
         </div>
         <div class="column is-4">
-          <label class="label">Triage Obstetrico:</label>
+          <label class="label">Triage:</label>
           <p class="control has-icons-left">
             <span class="select" [ngClass]="{'is-danger': triage_colores_id == '' }">
               <select class="select" [(ngModel)]="triage_colores_id" name="triage_colores_id" [ngClass]="{'is-danger': triage_colores_id?.length == 0 }">
@@ -472,7 +473,7 @@
 
       <div class="columns">
 
-        <div class="column is-6">
+        <div class="column is-12">
           <p class="control is-expanded  has-icon has-icon-right">
             <label class="label">Medico que Reporta:</label>
             <input name="medico_reporta_id" class="input" type="text" placeholder="Medico que reporta" [(ngModel)]="medico_reporta_id" [ngClass]="{'is-danger': medico_reporta_id == '' }">
@@ -483,19 +484,46 @@
           </p>
         </div>
 
-        <div class="column is-6">
-          <p class="control is-expanded  has-icon has-icon-right">
-            <label class="label">Subcategoria CIE10:</label>
-            <input ngui-auto-complete [source]="cie10_term" autocomplete="false" [accept-user-input]="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
-              id="subcategorias_cie10_id" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, $event);"
-              min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar el CIE10:" [(ngModel)]="subcategorias_cie10_id" [ngClass]="{'is-danger': subcategorias_cie10_id == '' }">
 
-            <span class="help is-danger" *ngIf="subcategorias_cie10_id == ''">
-              Este campo es requerido.
+
+      </div>
+
+      <div class="columns">
+
+        <div class="column is-12">
+          <label class="label">Diagnóstico CIE-10 más Frecuente:</label>
+          <p class="control has-icons-left">
+            <span class="select" [ngClass]="{'is-danger': top_cie10_id == '' }">
+              <select class="select" [(ngModel)]="top_cie10_id" name="top_cie10_id" [ngClass]="{'is-success': top_cie10_id?.length == 0 }">
+                <option value="">Elija un Diagnostico CIE-10 más Frecuente</option>
+                <option *ngFor="let val of top_cie10" value="{{val.id}}">{{ val.nombre }}</option>
+              </select>
+            </span>
+            <span class="icon is-small is-left">
+                <i class="fa fa-tasks"></i>
+            </span>
+            <span class="help is-danger" *ngIf="top_cie10_id == ''">
+                Debe seleccionar un Diagnóstico CIE-10 mas Frecuente ó Buscarlo y seleccionarlo en el campo de abajo.
             </span>
           </p>
         </div>
 
+      </div>
+
+      <div class="columns">
+
+        <div class="column is-12" [ngClass]="{ 'is-hidden': top_cie10_id != '' }">
+            <p class="control is-expanded  has-icon has-icon-right">
+              <label class="label">Diagnóstico CIE-10:</label>
+              <input ngui-auto-complete [source]="cie10_term" autocomplete="false" [accept-user-input]="false" [list-formatter]="autocompleFormatoSubcategoriasCIE10" [value-formatter]="valorFormato_SubcategoriasCIE10"
+                id="subcategorias_cie10_id" path-to-data="" loading-text="Cargando..." no-match-found-text="No hay resultados." (valueChanged)="ctrl.select_item_autocomplete(subcategorias_cie10_id, 'id', $event, $event);"
+                min-chars="4" class="input" type="text" placeholder="Escriba como mínimo 4 letras para encontrar el Diagnóstico CIE10:" [(ngModel)]="subcategorias_cie10_id" [ngClass]="{'is-success': subcategorias_cie10_id == '' }">
+
+              <span class="help is-success" *ngIf="subcategorias_cie10_id == ''">
+                  Campo opcional si no ha Selecciona un Diagnósticos CIE-10 más Frecuentes.
+              </span>
+            </p>
+        </div>
 
       </div>
 
@@ -585,7 +613,7 @@
 
           <div class="columns">
             <div class="column is-12">
-              <h3>Subcategorias CIE10:</h3>
+              <h3>Diagnóstico CIE10:</h3>
               <blockquote>{{cie10_codigo}} : {{cie10}}</blockquote>
             </div>
           </div>

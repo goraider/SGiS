@@ -5,7 +5,7 @@ import { Component, OnInit, Input, ElementRef} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { CrudService } from '../../../crud/crud.service';
-import { environment } from '../../../../environments/environment';
+import { environment } from 'environments/environment';
 
 import * as jsPDF from 'jspdf';
 import * as autoTable from 'jspdf-autotable';

@@ -20,7 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { GruposCie10RoutingModule } from '../grupos-cie10/grupos-cie10-routing.module';
+import { GruposCie10RoutingModule } from './grupos-cie10-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
 
 import { PipesModule }             from '../../pipes/pipes.module';

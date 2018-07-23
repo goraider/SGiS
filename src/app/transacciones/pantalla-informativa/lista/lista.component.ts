@@ -2,7 +2,7 @@
 * dependencias a utilizar
 */
 import { Component, OnInit } from '@angular/core';
-import { NotificationsService } from 'angular2-notifications';
+import { NotificationsService } from 'angular2-notifications/dist';
 
 import { Location } from '@angular/common';
 import { ActivatedRoute, Params } from '@angular/router'

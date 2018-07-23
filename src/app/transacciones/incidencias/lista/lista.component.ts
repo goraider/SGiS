@@ -10,7 +10,7 @@ import { formatoHtmlPipe } from '../../../pipes/formatoHtml.pipe';
 import { SecurityContext} from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from 'environments/environment';
 
 
 import * as jsPDF from 'jspdf';

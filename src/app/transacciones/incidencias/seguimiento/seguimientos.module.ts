@@ -21,7 +21,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { HubModule } from '../../../hub/hub.module';
 import { PerfilModule } from '../../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../../bloquear-pantalla/bloquear-pantalla.module';
-import { SeguimientosRoutingModule } from '../seguimiento/seguimientos-routing.module';
+import { SeguimientosRoutingModule } from './seguimientos-routing.module';
 import { PaginacionModule } from '../../../parcial/paginacion/paginacion.module';
 
 

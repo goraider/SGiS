@@ -13,9 +13,9 @@
 export const environment = {
 
   "production": true,
-  "API_URL": "http://api.sgis.saludchiapas.gob.mx/api/v1",
-  "API_PATH": "http://api.sgis.saludchiapas.gob.mx",
-  "OAUTH_CLIENTE": "http://api.sgis.saludchiapas.gob.mx/api/sync",
+  "API_URL": "http://api.ugus.bid/api/v1",
+  "API_PATH": "http://api.ugus.bid",
+  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
 
@@ -243,10 +243,16 @@ export const environment = {
     "icono": "fa fa-user-md",
     "lista": [
       {
-        "titulo": "Incidencias",
+        "titulo": "Incidencias Hospitalarias",
         "key": "IncidenciaController.index",
         "path": "/transacciones/incidencia/lista",
         "icono": "fa fa-volume-control-phone",
+      },
+      {
+        "titulo": "Incidencias en Transito",
+        "key": "IncidenciaTransitoController.index",
+        "path": "/transacciones/incidencia-transito/lista",
+        "icono": "fa fa-map-signs",
       },
       {
         "titulo": "Estado de Fuerza",

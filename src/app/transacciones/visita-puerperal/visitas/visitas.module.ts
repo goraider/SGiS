@@ -20,7 +20,7 @@ import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { HubModule } from '../../../hub/hub.module';
 import { PerfilModule } from '../../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../../bloquear-pantalla/bloquear-pantalla.module';
-import { VisitasRoutingModule } from '../visitas/visitas-routing.module';
+import { VisitasRoutingModule } from './visitas-routing.module';
 import { PaginacionModule } from '../../../parcial/paginacion/paginacion.module';
 
 

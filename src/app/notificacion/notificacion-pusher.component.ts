@@ -90,13 +90,10 @@ export class NotificacionPusherComponent {
             this.ruta_notificacion += "../";
         }
         this.ruta_notificacion += "notificacion/lista";
-
-        console.log("pusher", pusher );
         
         this.lista_notificaciones();
         pusher.messages.subscribe(data => {
 
-console.log("mensaje", data["mensaje"] );
             
             if (data["mensaje"]) {
 

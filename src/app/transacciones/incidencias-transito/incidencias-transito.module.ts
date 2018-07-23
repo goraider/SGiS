@@ -1,9 +1,8 @@
 /**
-* <h1>Apoyos Module</h1>
+* <h1>Incidencias Module</h1>
 *<p>
-* El modulo apoyos es un catálogo para agregar
-* Recursos que con los que otras instituciones pueden 
-* ayudar a la unidad médica correspondiente.
+* El modulo Incidencias se encarga de gestionar el ingresos
+* de pacientes.
 * </p>
 *
 * @author  Javier Alejandro Gosain Díaz
@@ -15,13 +14,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 //modulos
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { ApoyosRoutingModule } from './apoyos-routing.module';
+import { IncidenciasTransitoRoutingModule } from '../incidencias-transito/incidencias-transito-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
+
 
 
 //componentes del catalogo
@@ -49,7 +52,9 @@ import { CKEditorModule } from 'ng2-ckeditor';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ApoyosRoutingModule,
+    HttpModule,
+    HttpClientModule,
+    IncidenciasTransitoRoutingModule,
     HubModule,
     PerfilModule,
     BloquearPantallaModule,
@@ -58,7 +63,8 @@ import { CKEditorModule } from 'ng2-ckeditor';
     MenuModule,
     ParcialModule,
     CrudModule,
-    CKEditorModule
+    CKEditorModule,
+    NguiAutoCompleteModule
   ],
   declarations: [
     ListaComponent,
@@ -66,4 +72,4 @@ import { CKEditorModule } from 'ng2-ckeditor';
   ],
   providers: [ AuthService, CrudService ],
 })
-export class ApoyosModule { }
+export class IncidenciasTransitoModule { }

@@ -19,7 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { EstadosEmbarazosRoutingModule } from '../estados-embarazos/estados-embarazos-routing.module';
+import { EstadosEmbarazosRoutingModule } from './estados-embarazos-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
 
 import { PipesModule }             from '../../pipes/pipes.module';

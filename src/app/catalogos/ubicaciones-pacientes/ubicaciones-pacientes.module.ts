@@ -19,7 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { UbicacionesPacientesRoutingModule } from '../ubicaciones-pacientes/ubicaciones-pacientes-routing.module';
+import { UbicacionesPacientesRoutingModule } from './ubicaciones-pacientes-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
 
 import { PipesModule }             from '../../pipes/pipes.module';

@@ -22,7 +22,7 @@ import { HttpModule } from '@angular/http';
 import { HubModule } from '../../hub/hub.module';
 import { PerfilModule } from '../../perfil/perfil.module';
 import { BloquearPantallaModule } from '../../bloquear-pantalla/bloquear-pantalla.module';
-import { IncidenciasRoutingModule } from '../incidencias/incidencias-routing.module';
+import { IncidenciasRoutingModule } from './incidencias-routing.module';
 import { PaginacionModule } from '../../parcial/paginacion/paginacion.module';
 
 

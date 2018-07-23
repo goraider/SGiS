@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@ang
 import { ActivatedRoute, Params } from '@angular/router'
 import { Router } from '@angular/router';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from 'environments/environment';
 import { CrudService } from '../../../crud/crud.service';
 
 

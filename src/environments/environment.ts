@@ -274,10 +274,16 @@ export const environment = {
     "icono": "fa fa-user-md",
     "lista": [
       {
-        "titulo": "Incidencias",
+        "titulo": "Incidencias Hospitalarias",
         "key": "IncidenciaController.index",
         "path": "/transacciones/incidencia/lista",
         "icono": "fa fa-volume-control-phone",
+      },
+      {
+        "titulo": "Incidencias en Transito",
+        "key": "IncidenciaTransitoController.index",
+        "path": "/transacciones/incidencia-transito/lista",
+        "icono": "fa fa-map-signs",
       },
       {
         "titulo": "Estado de Fuerza",

@@ -139,7 +139,7 @@
           <div [ngClass]="{ 'is-hidden': tab != 1}">
 
                 <div *ngIf="ctrl.dato">              
-                    <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value }" class="button is-success" (click)="nuevo_seguimiento()">
+                    <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value || ctrl.dato.get('altas_incidencias').length > 0}" class="button is-success" (click)="nuevo_seguimiento()">
                         <span class="icon">
                           <i class="fa fa-plus"></i>
                         </span>&nbsp; Agregar Nuevo Seguimiento
@@ -204,7 +204,7 @@
 
             <div *ngIf="ctrl.dato">
 
-              <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value}" class="button is-success" (click)="nueva_referencia(); cargarMapa();">
+              <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value || ctrl.dato.get('altas_incidencias').length > 0}" class="button is-success" (click)="nueva_referencia(); cargarMapa();">
                 <span class="icon">
                   <i class="fa fa-plus"></i>
                 </span>&nbsp; Agregar Nueva Referencia
@@ -298,7 +298,7 @@
 
               <div *ngIf="ctrl.dato">
 
-                  <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value}" class="button is-success" (click)="nueva_alta()">
+                  <a [ngClass]="{ 'is-hidden' : clues_origen_login.clues != ctrl.dato.controls.clues_actual.value || ctrl.dato.get('altas_incidencias').length > 0}" class="button is-success" (click)="nueva_alta()">
                     <span class="icon">
                       <i class="fa fa-plus"></i>
                     </span>&nbsp; Generar Alta

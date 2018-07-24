@@ -141,13 +141,13 @@
 
                         <tbody>
                             <tr *ngFor="let item of ctrl.dato; let i=index">
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.id }}</strong></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div *ngFor="let val of item.pacientes"><strong>{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</strong></div></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="is-medium" *ngFor="let edades of item.pacientes"><strong>{{ edades.personas.edad }} Años</strong></div></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.created_at | date: ' dd/MM/yyyy, h:mm a ' }}</strong></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}"><strong>{{ item.movimientos_incidencias[0].triage_colores.nombre }}</strong></div></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div><strong>{{ item.estados_incidencias.nombre }}</strong></div></td>
-                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><strong>{{ item.antiguedad }}</strong></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;">{{ item.id }}</td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div *ngFor="let val of item.pacientes">{{ val.personas.nombre }} {{ val.personas.paterno }} {{ val.personas.materno }}</div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="is-medium" *ngFor="let edades of item.pacientes">{{ edades.personas.edad }} Años</div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;">{{ item.created_at | date: ' dd/MM/yyyy, h:mm a ' }}</td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div class="tag is-medium" [ngClass]="{'is-success' : item.movimientos_incidencias[0].triage_colores.nombre == 'Verde', 'is-warning' : item.movimientos_incidencias[0].triage_colores.nombre == 'Amarillo', 'is-danger' : item.movimientos_incidencias[0].triage_colores.nombre == 'Rojo'}">{{ item.movimientos_incidencias[0].triage_colores.nombre }}</div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"><div>{{ item.estados_incidencias.nombre }}</div></td>
+                                <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;">{{ item.antiguedad }}</td>
                                 <td *ngIf="(i+1)<ctrl.dato.length" style="vertical-align: middle;"  class="has-text-centered no_pdf">
 
                                     <div align="center">

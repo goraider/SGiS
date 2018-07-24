@@ -1100,11 +1100,11 @@ export class FormularioComponent implements OnInit {
       
             medico_reporta_id: [this.medico_reporta_id, [Validators.required]],
       
-            subcategorias_cie10_id: [this.subcategorias_cie10_id.id, [Validators.required]],
-            subcategorias_cie10: [this.subcategorias_cie10[sci10], [Validators.required]],
+            subcategorias_cie10_id: [this.subcategorias_cie10_id.id],
+            subcategorias_cie10: [this.subcategorias_cie10[sci10]],
           
             top_cie10_id:[this.top_cie10_id.id],
-            top_cie10: [this.top_cie10[topcie10], [Validators.required]],
+            top_cie10: [this.top_cie10[topcie10]],
       
             indicaciones: [this.indicaciones, [Validators.required]],
             reporte_medico: [this.reporte_medico, [Validators.required]],

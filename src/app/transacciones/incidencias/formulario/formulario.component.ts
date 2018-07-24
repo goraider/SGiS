@@ -301,6 +301,7 @@ export class FormularioComponent {
             clues: [this.c.clues],
             estados_incidencias_id: [1],
             tieneReferencia: [''],
+            enTransito: [0],
 
             pacientes: this.fb.array([
                 this.fb.group({

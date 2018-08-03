@@ -24,7 +24,7 @@ Para contribuir a mejorar la calidad y eficacia de los servicios de salud deber�
 ### Guía de usuario
 ---
 ##### Manual de Usuario:
-Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://angular.io/).
+Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://github.com/goraider/cliente_SGiS/blob/master/src/assets/Manual%20de%20Usuario%20para%20SGiS.pdf).
 
   
 ##### Manual Técnico:

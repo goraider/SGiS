@@ -3,7 +3,6 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
-
 /**
 * constante que contiene el objeto JSON, respecto al menu de los modulos
 * y las rutas de la API que se conectan para obtener los datos.
@@ -13,9 +12,9 @@
 export const environment = {
 
   "production": true,
-  "API_URL": "http://api.ugus.bid/api/v1",
-  "API_PATH": "http://api.ugus.bid",
-  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
+  "API_URL": "http://localhost:8000/api/v1",
+  "API_PATH": "http://localhost:8000",
+  "OAUTH_CLIENTE": "http://localhost:8000/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
 

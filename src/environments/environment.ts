@@ -1,52 +1,20 @@
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `angular-cli.json`. 
-// http://api.sgis.ismchiapas.org http://192.168.1.24:8000
-
-// "production": false,
-// "API_URL": "http://192.168.1.29:8000/api/v1",
-// "API_PATH": "http://192.168.1.29:8000",
-// "OAUTH_CLIENTE": "http://192.168.1.29:8000/api/sync",
-// "OAUTH_SERVER": "http://api.oa2.che",
-// "OAUTH_DISPONIBLE": false,
-
-// "production": false,
-// "API_URL": "http://25.63.138.82:8000/api/v1",
-// "API_PATH": "http://25.63.138.82:8000",
-// "OAUTH_CLIENTE": "http://25.63.138.82:8000/api/sync",
-// "OAUTH_SERVER": "http://api.oa2.che",
-// "OAUTH_DISPONIBLE": false,
-
-//API INSTITUTO DE SALUD
-
-// "production": false,
-// "API_URL": "http://api.sgis.saludchiapas.gob.mx/api/v1",
-// "API_PATH": "http://api.sgis.saludchiapas.gob.mx",
-// "OAUTH_CLIENTE": "http://api.sgis.saludchiapas.gob.mx/api/sync",
-// "OAUTH_SERVER": "http://api.oa2.che",
-// "OAUTH_DISPONIBLE": false,
-
-//API INDEPENDIENTE
-
-// "production": false,
-// "API_URL": "http://api.ugus.bid/public/api/v1",
-// "API_PATH": "http://api.ugus.bid",
-// "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
-// "OAUTH_SERVER": "http://api.oa2.che",
-// "OAUTH_DISPONIBLE": false,
+// The list of which env maps to which file can be found in `angular-cli.json`.
 
 /**
 * constante que contiene el objeto JSON, respecto al menu de los modulos
 * y las rutas de la API que se conectan para obtener los datos.
 * archivo de pruebas.
 */
+
 export const environment = {
 
   "production": false,
-  "API_URL": "http://api.ugus.bid/api/v1",
-  "API_PATH": "http://api.ugus.bid",
-  "OAUTH_CLIENTE": "http://api.ugus.bid/public/api/sync",
+  "API_URL": "http://localhost:8000/api/v1",
+  "API_PATH": "http://localhost:8000",
+  "OAUTH_CLIENTE": "http://localhost:8000/public/api/sync",
   "OAUTH_SERVER": "http://api.oa2.che",
   "OAUTH_DISPONIBLE": false,
   

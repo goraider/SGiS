@@ -28,7 +28,7 @@ Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con S
 
   
 ##### Manual Técnico:
-Para la continuidad en el desarrollo de SGiS se brinda un [Manual Técnico](https://angular.io/) donde se explica la estructura del sistema, en base a la funcionalidad de cada uno de los componentes de SGiS.
+Para la continuidad en el desarrollo de SGiS se brinda un [Manual Técnico](https://github.com/goraider/cliente_SGiS/tree/master/documentation/index.html) donde se explica la estructura del sistema, en base a la funcionalidad de cada uno de los componentes de SGiS.
 
 ### Guía de instalación
 

@@ -5,7 +5,7 @@ Esta herramienta digital forma parte del catálogo de herramientas del **Banco I
 ## Cliente Web SGiS (Sistema de Gestión de Incidencias en Salud).
 
   
-  
+![SGiS](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/iconos/android-chrome-192x192.png)
   
 
 ### Descripción y contexto
@@ -24,11 +24,20 @@ Para contribuir a mejorar la calidad y eficacia de los servicios de salud deber�
 ### Guía de usuario
 ---
 ##### Manual de Usuario:
-Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://github.com/goraider/cliente_SGiS/blob/master/src/assets/Manual%20de%20Usuario%20para%20SGiS.pdf).
+Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/Manual%20de%20Usuario%20para%20SGiS.pdf).
 
   
 ##### Manual Técnico:
-Para la continuidad en el desarrollo de SGiS se brinda un [Manual Técnico](https://github.com/goraider/cliente_SGiS/tree/master/documentation/index.html) donde se explica la estructura del sistema, en base a la funcionalidad de cada uno de los componentes de SGiS.
+
+Para la continuidad en el desarrollo de SGiS se brinda un Manual Técnico; después de instalar el proyecto, dependencias y paquetes, pueden generarlo de la siguiente manera:
+
+1. Ingresar a la carpeta raíz del proyecto.
+2. Abrir una consola de comandos dentro de la carpeta.
+3. y ejecutar el siguiente comando:
+```
+npm run compodoc
+```
+Se creara una carpeta dentro del proyecto llamada **documentation**, basta con abrir la carpeta y a su ves el archivo **index.html** y listo visualizara todos los componentes de SGiS de acuerdo a su código fuente y como funciona cada parte.
 
 ### Guía de instalación
 
@@ -46,24 +55,24 @@ Para poder instalar y utilizar el Cliente web, deberá asegurarse que su servido
 
   
 
-*  [Angular CLI](https://cli.angular.io/) Hace que sea fácil crear una aplicación que ya funciona.
+1. [Node.js](https://nodejs.org/es/) Descargar: "Recomendado para la mayoría"
 
-*  [Node.js](https://nodejs.org/es/) Descargar: "Recomendado para la mayoría"
+2. [Npm](https://www.npmjs.com/get-npm) es un manejador de paquetes para el proyecto de Angular 4
 
-*  [Npm](https://www.npmjs.com/get-npm) es un manejador de paquetes para el proyecto de Angular 4
+3. [Git](https://git-scm.com/) es un sistema de control de versiones distribuidas de [código abierto y gratuito](https://git-scm.com/about/free-and-open-source).
 
-*  [Git](https://git-scm.com/) es un sistema de control de versiones distribuidas de [código abierto y gratuito](https://git-scm.com/about/free-and-open-source).
+4. [Angular CLI](https://cli.angular.io/) Hace que sea fácil crear una aplicación que ya funciona.
 
-* [Google Chrome](https://www.google.com.mx/intl/es_ALL/chrome/) El navegador optimo para acceder a SGiS.
+5. [Google Chrome](https://www.google.com.mx/intl/es_ALL/chrome/) El navegador optimo para acceder a SGiS.
 
-* [Visual Studio Code](https://code.visualstudio.com/download) El procesador de texto recomendado para codificar y explorar las carpetas de acuerdo a la estructura del proyecto SGiS.
+6. [Visual Studio Code](https://code.visualstudio.com/download) El procesador de texto recomendado para codificar y explorar las carpetas de acuerdo a la estructura del proyecto SGiS.
 
 *Si algo de lo anterior mencionado no se instalara correctamente, podrá consultar la documentación oficial de cada paquete de instalación*
   
 
 #### Instalación y Configuración:
 
-Una ves instalado todo lo anterior, abrimos una consola en nuestro servidor para clonar el proyecto en base al [Repositorio](https://github.com/goraider/SGiS_angular).
+Una ves instalado todo lo anterior, abrimos una consola en nuestro servidor para clonar el proyecto en base al [Repositorio](https://github.com/goraider/CLIENTE-SGiS.git).
 
   
 
@@ -71,7 +80,7 @@ Ejecutamos el siguiente comando en nuestra consola:
 
 ```
 
-git clone https://github.com/goraider/SGiS_angular
+git clone https://github.com/goraider/CLIENTE-SGiS.git
 
 ```
 
@@ -86,7 +95,7 @@ npm install
 ```
 Una ves instaladas nuestras las dependencias con el comando anterior, inicializamos nuestro proyecto, existen 2 formas de hacerlo:
 
-- Este comando inicializa todas las dependencias que node instalo de nuestro archivo [package.json](https://github.com/goraider/SGiS_angular) y a su ves inicia el servidor del cliente web en el puerto 4200.
+- Este comando inicializa todas las dependencias que node instalo de nuestro archivo [package.json](https://github.com/goraider/CLIENTE-SGiS/blob/master/package.json) y a su ves inicia el servidor del cliente web en el puerto 4200.
 
 ```
 npm start
@@ -107,17 +116,17 @@ ng serve --port 4201
 
 #### Dependencias:
 
-Todas la dependencias que requiere SGiS para funcionar, están en el archivo [package.json](https://github.com/goraider/SGiS_angular):
+Todas la dependencias que requiere SGiS para funcionar, están en el archivo [package.json](https://github.com/goraider/CLIENTE-SGiS/blob/master/package.json):
 
 El desarrollo de SGiS esta construido en 2 partes:
 
-* La API que se conecta la arquitectura de Base de Datos. (Seguir los pasos de instalación y configuración de la API).
+1.  La [API](https://github.com/Luisvl13/API-SGiS) que se conecta la arquitectura de Base de Datos. (Seguir los pasos de instalación y configuración de la API).
 
-* El Cliente Web que solicita y envía datos a la API antes mencionada.
+2. El [Cliente Web](https://github.com/goraider/CLIENTE-SGiS) que solicita y envía datos a la API antes mencionada.
 
   
 
-Para tener este vinculo y conexión entre API y CLIENTE, debe asegurarse que los archivos [environment.prod.ts](https://www.google.com.mx/intl/es_ALL/chrome/) (Producción) y [environment.ts](https://www.google.com.mx/intl/es_ALL/chrome/) (Pruebas) tengan las cadenas de conexión correspondientes
+Para tener este vinculo y conexión entre API y CLIENTE, debe asegurarse que los archivos [environment.prod.ts](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/environments/environment.prod.ts) (Producción) y [environment.ts](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/environments/environment.ts) (Pruebas) tengan las cadenas de conexión correspondientes
 
   
 
@@ -142,12 +151,12 @@ Para tener este vinculo y conexión entre API y CLIENTE, debe asegurarse que los
 		"OAUTH_DISPONIBLE": false,
 
 ```
-¡En hora buena!, si todo esta correcto, podrá abrir una pestaña del navegador [Google Chrome](https://www.google.com.mx/intl/es_ALL/chrome/) y acceder al puerto donde se hayan levantado los servicios del Cliente Web, *por ejemplo: http://localhost:4200*
+¡En hora buena!, si todo esta correcto, podrá abrir una pestaña del navegador [Google Chrome](https://www.google.com.mx) y acceder al puerto donde se hayan levantado los servicios del Cliente Web, *por ejemplo: http://localhost:4200*
 
 
 #### Compilar y Poner en un servidor de producción:
 
-Para compilar y subir a producción SGiS es necesario que el archivo  [environment.prod.ts](https://www.google.com.mx/intl/es_ALL/chrome/) tenga los módulos del archivo JSON de la variable "MENU": al del del archivo [environment.ts](https://www.google.com.mx/intl/es_ALL/chrome/) (Siempre y cuando se encuentren listos para producción) y tener la variable "production":true.
+Para compilar y subir a producción SGiS es necesario que el archivo [environment.prod.ts](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/environments/environment.prod.ts) tenga los módulos del archivo JSON de la variable "MENU": al del del archivo [environment.ts](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/environments/environment.ts) (Siempre y cuando se encuentren listos para producción) y tener la variable "production":true.
 
 Basta con abrir una consola de comandos en nuestro servidor y escribir el siguiente comando:
   
@@ -214,10 +223,11 @@ Puedes ver el código de conducta para este proyecto en el siguiente archivo [CO
   
 
 ---
-*  *Javier Alejandro Gosain Díaz* - [GitHub](https://github.com/goraider) [Email](alejandro_gosain@hotmail.com)
-*  *Luis Alberto Valdez Lescieur* - [GitHub](https://github.com/Luisvl13) [Email](luisvl13@gmail.com)
-*  *Eliecer Ramirez Esquinca* - [GitHub](https://github.com/checherman) [Email](ramirez.esquinca@gmail.com)
-* Ramiro Gabriel Alférez Chavez [Email](ramiro.alferez@gmail.com)
+* **[Javier Alejandro Gosain Díaz](https://github.com/goraider "Github")** - [Email](alejandro_gosain@hotmail.com)
+* **[Ramiro Gabriel Alférez Chavez](mailto:ramiro.alferez@gmail.com "Correo electrónico")**
+* **[Eliecer Ramirez Esquinca](https://github.com/checherman "Github")**
+* **[Luis Alberto Valdez Lescieur](https://github.com/Luisvl13  "Github")**
+
 
   
 
@@ -232,7 +242,7 @@ Para hacer el correcto uso del Cliente Web para SGiS, previamente tienen que ins
 ### Licencia
 ---
 
-Los detalles de licencia para este código fuente se encuentran en el archivo [LICENCIA.md](https://github.com/EL-BID/Plantilla-de-repositorio/blob/master/LICENSE.md)
+Los detalles de licencia para este código fuente se encuentran en el archivo [LICENCIA.md](https://github.com/goraider/CLIENTE-SGiS/blob/master/LICENSE.md)
 
   
 

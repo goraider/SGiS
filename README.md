@@ -24,7 +24,7 @@ Para contribuir a mejorar la calidad y eficacia de los servicios de salud deber�
 ### Guía de usuario
 ---
 ##### Manual de Usuario:
-Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/Manual%20de%20Usuario%20para%20SGiS.pdf).
+Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/Manual-Usuario-SGiS.pdf).
 
   
 ##### Manual Técnico:
@@ -151,7 +151,15 @@ Para tener este vinculo y conexión entre API y CLIENTE, debe asegurarse que los
 		"OAUTH_DISPONIBLE": false,
 
 ```
-¡En hora buena!, si todo esta correcto, podrá abrir una pestaña del navegador [Google Chrome](https://www.google.com.mx) y acceder al puerto donde se hayan levantado los servicios del Cliente Web, *por ejemplo: http://localhost:4200*
+¡En hora buena!, si todo esta correcto, podrá abrir una pestaña del navegador [Google Chrome](https://www.google.com.mx) y acceder al puerto donde se hayan levantado los servicios del Cliente Web, *por ejemplo: http://localhost:4200* de la siguiente manera:
+
+![cargando](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/cargando.png)
+
+
+Procedemos a escribir nuestro usuario y contraseña de acuerdo a la configuración de la [API](https://github.com/Luisvl13),
+probar con root 123456
+
+![login](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/login.jpg)
 
 
 #### Compilar y Poner en un servidor de producción:

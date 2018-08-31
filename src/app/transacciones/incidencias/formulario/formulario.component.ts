@@ -68,9 +68,9 @@ export class FormularioComponent {
 
     /**
     * Contiene el valor de la unidad medica.
-    * @type {boolean}
+    * @type {number}
     */
-    mostrar_clue : boolean = false;
+    mostrar_clue : number = 0;
     
     /**
     * Bandera para mostrar los datos cuando se edite.
@@ -92,9 +92,16 @@ export class FormularioComponent {
 
     /**
     * Bandera para cambiar de Unidad Medica de donde viene el paciente de referencia.
-    * @type {boolean}
+    * @type {number}
     */
-    mostrar_check_clue = false;
+    mostrar_check_clue:number = 0;
+
+    /**
+    * Bandera para mostrar u ocultar la pregunta si la paciente tiene o no referencia al editar
+    * un ingreso.
+    * @type {number}
+    */
+    mostrarPreguntaReferencia: number = 0;
     
     /**
     * Variable que almacena la Curp viaje de la paciente cuando se edita.
@@ -214,6 +221,8 @@ export class FormularioComponent {
 
         this.iniciarFormulario();
 
+        this.validar_referencia();
+
         var url = location.href.split("/");
         this.carpeta = url[4];
         this.modulo = url[5];
@@ -300,14 +309,14 @@ export class FormularioComponent {
             impresion_diagnostica: ['', [Validators.required]],
             clues: [this.c.clues],
             estados_incidencias_id: [1],
-            tieneReferencia: [''],
+            tieneReferencia: [0],
             enTransito: [0],
 
             pacientes: this.fb.array([
                 this.fb.group({
                     //pacientes[0] indice 0;
                     id: [''],
-                    personas_id: [''],
+                    personas_id: ['', [Validators.required]],
                     personas_id_viejo:[''],
                     //personas objeto
                     personas: this.fb.group({
@@ -328,7 +337,7 @@ export class FormularioComponent {
                         this.fb.group({
                             //indice 0;
                             id: [''],
-                            personas_id: [''],
+                            personas_id: ['', [Validators.required]],
                             parentescos_id: ['', [Validators.required]],
                             esResponsable: [1],
                             //objeto
@@ -368,10 +377,10 @@ export class FormularioComponent {
             referencias: this.fb.array([
                 this.fb.group({
                     id: [''],
-                    medico_refiere_id: [''],
-                    diagnostico: [''],
-                    resumen_clinico: [''],
-                    clues_origen: [''],
+                    medico_refiere_id: ['', [Validators.required]],
+                    diagnostico: ['', [Validators.required]],
+                    resumen_clinico: ['', [Validators.required]],
+                    clues_origen: ['', [Validators.required]],
                     clues_destino: [this.c.clues],
                     //multimedias:[''],
                     multimedias: this.fb.group({
@@ -503,11 +512,17 @@ export class FormularioComponent {
             
                         this.cargando = false;
                         this.mostrar_check = true;
-                        this.mostrar_check_clue = true;
+                        this.mostrar_check_clue = 1;
                         this.mostrar_folio = false;
                         //this.ocultar_pregunta_referencia = true;
                         
                         this.iniciarFormulario();
+
+                        this.validar_referencia();
+
+                        if(resultado.data.referencias.length > 0){
+                            this.mostrarPreguntaReferencia = 1;
+                        }
                         
                         //validar todos los key que tengan el array                          
                         if (document.getElementById("catalogos"))
@@ -645,12 +660,79 @@ export class FormularioComponent {
     checked_cambiar_clue_referencia(value){
         
         if( (<HTMLInputElement>document.getElementById('mostrar_cambiar_clue_origen')).checked == true ){
-          this.mostrar_clue= true;
+          this.mostrar_clue = 1;
         }
         else{ ( (<HTMLInputElement>document.getElementById('mostrar_cambiar_clue_origen')).checked == false)
-          this.mostrar_clue= false;       
+          this.mostrar_clue = 0;       
           
         } 
+    }
+
+    /**
+    * Este método valida si la paciente tiene una referencia de
+    * otra unidad medica que no tiene el sistema o una unidad medica que si la tiene
+    * asignandole sus valores de acuerdo a que si tiene o no una referencia asignada
+    * @return void
+    */
+    validar_referencia(){
+
+        if(this.dato.controls.tieneReferencia.value == 1){
+
+                const referencias = <FormArray>this.dato.controls.referencias;
+                const posicion = <FormGroup>referencias.controls[0];
+
+                const medico_refiere_id = <FormControl>posicion.controls.medico_refiere_id;
+                const diagnostico = <FormControl>posicion.controls.diagnostico; 
+                const resumen_clinico = <FormControl>posicion.controls.resumen_clinico;
+                const clues_origen = <FormControl>posicion.controls.clues_origen;
+                
+                medico_refiere_id.setValidators([Validators.required]);
+                medico_refiere_id.updateValueAndValidity();
+
+                diagnostico.setValidators([Validators.required]);
+                diagnostico.updateValueAndValidity();
+
+                resumen_clinico.setValidators([Validators.required]);
+                resumen_clinico.updateValueAndValidity();
+
+                clues_origen.setValidators([Validators.required]);
+                clues_origen.updateValueAndValidity();
+
+
+        }
+
+        if(this.dato.controls.tieneReferencia.value == 0){
+
+                const referencias = <FormArray>this.dato.controls.referencias;
+                const posicion = <FormGroup>referencias.controls[0];
+
+                const medico_refiere_id = <FormControl>posicion.controls.medico_refiere_id;
+                const diagnostico = <FormControl>posicion.controls.diagnostico; 
+                const resumen_clinico = <FormControl>posicion.controls.resumen_clinico;
+                const clues_origen = <FormControl>posicion.controls.clues_origen;
+
+
+                this.dato.controls.referencias['controls'][0]['controls']['medico_refiere_id'].patchValue('');
+                medico_refiere_id.setValidators(null);
+                medico_refiere_id.updateValueAndValidity();
+
+                this.dato.controls.referencias['controls'][0]['controls']['diagnostico'].patchValue('');
+                diagnostico.setValidators(null);
+                diagnostico.updateValueAndValidity();
+
+                this.dato.controls.referencias['controls'][0]['controls']['resumen_clinico'].patchValue('');
+                resumen_clinico.setValidators(null);
+                resumen_clinico.updateValueAndValidity();
+                
+                this.dato.controls.referencias['controls'][0]['controls']['clues_origen'].patchValue('');
+                clues_origen.setValidators(null);
+                clues_origen.updateValueAndValidity();
+
+                this.dato.controls.referencias['controls'][0]['controls']['multimedias']['controls']['img'] = new FormArray([]);
+
+
+        }
+ 
     }
 
     /**

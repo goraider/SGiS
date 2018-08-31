@@ -192,7 +192,7 @@
             
                                               <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('municipios_id').hasError('required')}">
                                                 <select class="select" name="municipios_id" formControlName="municipios_id" (change)="ctrl.catalogoDependiente('localidades', 'localidades_o', ctrl.dato.controls.municipios_id.value)"> 
-                                                    <option value="">Seleccione el Municipio de la Paciente</option>                                       
+                                                    <option value="">Seleccione el Municipio del Usuario</option>                                       
                                                     <option *ngFor="let item of ctrl.municipios" value="{{item.id}}">{{item.nombre}}</option>                                        
                                                 </select>
                                               </span>
@@ -220,7 +220,7 @@
             
                                           <span class="select" [ngClass]="{'is-danger': ctrl.dato.get('localidades_id').hasError('required')}">
                                             <select class="select" formControlName="localidades_id"> 
-                                                <option value="">Seleccione la Localidad de la Paciente</option>                                       
+                                                <option value="">Seleccione la Localidad del Usuario</option>                                       
                                                 <option *ngFor="let item of ctrl.localidades_o" value="{{item.id}}">{{item.nombre}}</option>                                        
                                             </select>
                                           </span>
@@ -321,7 +321,7 @@
                                             <div class="b-checkbox is-info">
                                                 <input id="activo" class="styled" type="checkbox" formControlName="activo">
                                                 <label for="activo">
-                                                    Esta activo?
+                                                    ¿Esta activo el Usuario?
                                                 </label>
                                             </div>
                                         </div>
@@ -334,7 +334,7 @@
                                             <div class="b-checkbox is-info">
                                                 <input id="es_super" class="styled" type="checkbox" formControlName="es_super">
                                                 <label for="es_super">
-                                                    Es super?
+                                                    ¿Es super Usuario?
                                                 </label>
                                             </div>
                                         </div>

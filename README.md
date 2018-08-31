@@ -10,11 +10,9 @@ Esta herramienta digital forma parte del catálogo de herramientas del **Banco I
 
 ### Descripción y contexto
 
-  
+Salud Mesoamérica, ME-G1001 & ME-G1004
 
 Una de las prioridades de la Secretaría de Salud del Estado de Chiapas es tener herramientas para implementar acciones que permitan el acceso de las mujeres a los servicios obstétricos, a fin de reducir la muerte materna y neonatal; Por lo tanto, la creación de SGiS, es una estrategia para fortalecer la sistematización en atención de referencias, respuesta de urgencias, emergencias obstétricas y neonatales; cada unidad hospitalaria será la central de información; encargada de gestionar a pacientes en salud maternal, desde el monitoreo, registro y seguimiento de las incidencias; los procesos serán controlados a través de SGiS, estos para coordinar la red de servicios a fin de brindar una atención resolutiva a los usuarios dentro del menor tiempo posible.
-
-  
 
 Para contribuir a mejorar la calidad y eficacia de los servicios de salud deberá existir un sistema de referencia y respuesta que “constituya el enlace entre las unidades hospitalarias operativas de los niveles de atención que conforman la red de servicios, con el propósito de brindar a los usuarios atención médica integral y oportuna en las unidades, conforme al padecimiento de la paciente y la capacidad resolutiva de la unidad hospitalaria que resulten más convenientes”.
 
@@ -250,7 +248,8 @@ Para hacer el correcto uso del Cliente Web para SGiS, previamente tienen que ins
 ### Licencia
 ---
 
-Los detalles de licencia para este código fuente se encuentran en el archivo [LICENCIA.md](https://github.com/goraider/CLIENTE-SGiS/blob/master/LICENSE.md)
+
+La Documentación de Soporte y Uso del software se encuentra licenciada bajo Creative Commons IGO 3.0 Atribución-NoComercial-SinObraDerivada (CC-IGO 3.0 BY-NC-ND) [LICENCIA.md](https://github.com/goraider/CLIENTE-SGiS/blob/master/LICENSE.md)
 
   
 

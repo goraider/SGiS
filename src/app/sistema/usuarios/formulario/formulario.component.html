@@ -146,9 +146,8 @@
                                             [tab-to-select]="false"
                                             path-to-data="" loading-text="Cargando..."
                                             no-match-found-text="No hay resultados."
-                                            (valueChanged)="ctrl.select_item_autocomplete(ctrl.dato.controls.email, 'email', $event, false);
-                                            select_datosUsuario_autocomplete($event, 'id');
-                                            " min-chars="4" class="input" type="text"
+                                            (valueChanged)="
+                                            select_datosUsuario_autocomplete($event, 'id');" min-chars="4" class="input" type="text"
                                             placeholder="Escriba 4 letras para buscar el correo o continúe capturando los datos para registrar al Usuario."
                                             [ngClass]="{'is-danger': ctrl.dato.get('email').hasError('required') && ctrl.dato.get('email').hasError('required')}" formControlName="email">
                 

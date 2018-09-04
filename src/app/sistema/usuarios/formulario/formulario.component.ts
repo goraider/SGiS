@@ -248,6 +248,7 @@ export class FormularioComponent {
   */
   verificar_clues() {
     this.usuario.forEach(element => {
+
       if (JSON.stringify(this.dato.get('sis_usuarios_clues').value).indexOf(JSON.stringify({ clues_id: element.id, sis_usuarios_id: this.dato.get('id').value })) > -1)
         this.clues_sel[element.id] = true;
       else
@@ -323,6 +324,11 @@ export class FormularioComponent {
    select_datosUsuario_autocomplete(data: any, value) {
 
     if (data.id) {
+        
+        this.dato.controls.sis_usuarios_clues = new FormArray([]);
+        this.dato.controls.sis_usuarios_notificaciones = new FormArray([]);
+        this.dato.controls. sis_usuarios_contactos = new FormArray([]);
+
         //asgina el valor viejo de la curp para que no se duplique
         //this.dato.controls.pacientes['controls'][0]['controls']['personas_id_viejo'].patchValue(data.id);
 
@@ -331,6 +337,9 @@ export class FormularioComponent {
 
         
         //Se asigna en variables el formulario formulario reactivo, respecto si es un FormArray o un FormGroup
+
+        const email = <FormGroup>this.dato.controls.email;
+        email.patchValue(data.email);
         
         const pacientes = <FormGroup>this.dato.controls.nombre;
         pacientes.patchValue(data.nombre);
@@ -344,18 +353,33 @@ export class FormularioComponent {
         const direccion = <FormGroup>this.dato.controls.direccion;
         direccion.patchValue(data.direccion);
 
-        //medios de contacto
 
-        
+
+        data.sis_usuarios_clues.forEach(element => {
+
+          const clues = <FormArray>this.dato.controls.sis_usuarios_clues;
+
+          (<FormArray>clues).push(this.fb.group(element));
+
+        });
+
+        data.sis_usuarios_notificaciones.forEach(element => {
+
+          const notificaciones = <FormArray>this.dato.controls.sis_usuarios_notificaciones;
+
+          (<FormArray>notificaciones).push(this.fb.group(element));
+
+        });
+
+
         data.sis_usuarios_contactos.forEach(element => {
 
-        const medios = <FormArray>this.dato.controls.sis_usuarios_contactos;
+          const medios = <FormArray>this.dato.controls.sis_usuarios_contactos;
 
-        this.agregar_form_array(medios, this.form_sis_usuarios_contactos = {
-          tipos_medios_id: [element.tipos_medios.id],
-          valor: [element.valor, [Validators.required]]
-        })
-
+          this.agregar_form_array(medios, this.form_sis_usuarios_contactos = {
+            tipos_medios_id: [element.tipos_medios.id],
+            valor: [element.valor, [Validators.required]]
+          })
 
         });
 

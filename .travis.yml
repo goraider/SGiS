@@ -22,3 +22,7 @@ cache:
 
 script:
   - ng build --aot --env prod
+
+deploy:
+  on:
+    all_branches: true

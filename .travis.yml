@@ -4,7 +4,7 @@ node_js:
 
 branches:
   only:
-    -master
+    - master
 
 addons:
   chrome: stable
@@ -24,5 +24,9 @@ script:
   - ng build --aot --env prod
 
 deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  local-dir: ./tmp/dist
   on:
-    all_branches: true

@@ -542,6 +542,7 @@ export class FormularioComponent {
 
                         this.dato.controls.id.patchValue(resultado.data.id);
                         this.dato.controls.clues.patchValue(resultado.data.clues);
+                        this.dato.controls.estados_incidencias_id.patchValue(resultado.data.estados_incidencias_id);
                         this.dato.controls.motivo_ingreso.patchValue(resultado.data.motivo_ingreso);
                         this.dato.controls.impresion_diagnostica.patchValue(resultado.data.impresion_diagnostica);
                         this.dato.controls.tieneReferencia.patchValue(resultado.data.tieneReferencia);                        

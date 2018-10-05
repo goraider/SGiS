@@ -4,10 +4,10 @@ Esta herramienta digital forma parte del catálogo de herramientas del **Banco I
 
 ## Cliente Web SGiS (Sistema de Gestión de Incidencias en Salud).
 
-[![Build Status](https://travis-ci.com/goraider/CLIENTE-SGiS.svg?branch=master)](https://travis-ci.com/goraider/CLIENTE-SGiS)
+[![Build Status](https://travis-ci.com/EL-BID/CLIENTE-SGiS.svg?branch=master)](https://travis-ci.com/EL-BID/CLIENTE-SGiS)
 
   
-![SGiS](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/iconos/android-chrome-192x192.png)
+![SGiS](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/src/assets/iconos/android-chrome-192x192.png)
   
 
 ### Descripción y contexto
@@ -24,7 +24,7 @@ Para contribuir a mejorar la calidad y eficacia de los servicios de salud deber�
 ### Guía de usuario
 ---
 ##### Manual de Usuario:
-Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/assets/Manual-Usuario-SGiS.pdf).
+Para guiar y ser mas explicito a cualquier usuario encargado para trabajar con SGiS se brinda un [Manual de Usuario](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/src/assets/Manual-Usuario-SGiS.pdf).
 
   
 ##### Manual Técnico:
@@ -72,7 +72,7 @@ Para poder instalar y utilizar el Cliente web, deberá asegurarse que su servido
 
 #### Instalación y Configuración:
 
-Una ves instalado todo lo anterior, abrimos una consola en nuestro servidor para clonar el proyecto en base al [Repositorio](https://github.com/goraider/CLIENTE-SGiS.git).
+Una ves instalado todo lo anterior, abrimos una consola en nuestro servidor para clonar el proyecto en base al [Repositorio](https://github.com/EL-BID/CLIENTE-SGiS.git).
 
   
 
@@ -80,7 +80,7 @@ Ejecutamos el siguiente comando en nuestra consola:
 
 ```
 
-git clone https://github.com/goraider/CLIENTE-SGiS.git
+git clone https://github.com/EL-BID/CLIENTE-SGiS.git
 
 ```
 
@@ -95,7 +95,7 @@ npm install
 ```
 Una ves instaladas nuestras las dependencias con el comando anterior, inicializamos nuestro proyecto, existen 2 formas de hacerlo:
 
-- Este comando inicializa todas las dependencias que node instalo de nuestro archivo [package.json](https://github.com/goraider/CLIENTE-SGiS/blob/master/package.json) y a su ves inicia el servidor del cliente web en el puerto 4200.
+- Este comando inicializa todas las dependencias que node instalo de nuestro archivo [package.json](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/package.json) y a su ves inicia el servidor del cliente web en el puerto 4200.
 
 ```
 npm start
@@ -116,17 +116,17 @@ ng serve --port 4201
 
 #### Dependencias:
 
-Todas la dependencias que requiere SGiS para funcionar, están en el archivo [package.json](https://github.com/goraider/CLIENTE-SGiS/blob/master/package.json):
+Todas la dependencias que requiere SGiS para funcionar, están en el archivo [package.json](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/package.json):
 
 El desarrollo de SGiS esta construido en 2 partes:
 
 1.  La [API](https://github.com/Luisvl13/API-SGiS) que se conecta la arquitectura de Base de Datos. (Seguir los pasos de instalación y configuración de la API).
 
-2. El [Cliente Web](https://github.com/goraider/CLIENTE-SGiS) que solicita y envía datos a la API antes mencionada.
+2. El [Cliente Web](https://github.com/EL-BID/CLIENTE-SGiS) que solicita y envía datos a la API antes mencionada.
 
   
 
-Para tener este vinculo y conexión entre API y CLIENTE, debe asegurarse que los archivos [environment.prod.ts](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/environments/environment.prod.ts) (Producción) y [environment.ts](https://github.com/goraider/CLIENTE-SGiS/blob/master/src/environments/environment.ts) (Pruebas) tengan las cadenas de conexión correspondientes
+Para tener este vinculo y conexión entre API y CLIENTE, debe asegurarse que los archivos [environment.prod.ts](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/src/environments/environment.prod.ts) (Producción) y [environment.ts](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/src/environments/environment.ts) (Pruebas) tengan las cadenas de conexión correspondientes
 
   
 
@@ -251,7 +251,7 @@ Para hacer el correcto uso del Cliente Web para SGiS, previamente tienen que ins
 ---
 
 
-La Documentación de Soporte y Uso del software se encuentra licenciada bajo Creative Commons IGO 3.0 Atribución-NoComercial-SinObraDerivada (CC-IGO 3.0 BY-NC-ND) [LICENCIA.md](https://github.com/goraider/CLIENTE-SGiS/blob/master/LICENSE.md)
+La Documentación de Soporte y Uso del software se encuentra licenciada bajo Creative Commons IGO 3.0 Atribución-NoComercial-SinObraDerivada (CC-IGO 3.0 BY-NC-ND) [LICENCIA.md](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/LICENSE.md)
 
   
 

@@ -26,7 +26,6 @@ script:
 deploy:
   provider: pages
   skip-cleanup: true
-  github-token: $SGiS
   keep-history: true
   local-dir: ./tmp/dist
   on:

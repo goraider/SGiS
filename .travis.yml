@@ -23,6 +23,4 @@ cache:
 script:
   - ng build --aot --env prod
 
-deploy:
-  local-dir: ./tmp/dist
-  on:
+local-dir: ./tmp/dist

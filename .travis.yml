@@ -24,8 +24,5 @@ script:
   - ng build --aot --env prod
 
 deploy:
-  provider: pages
-  skip-cleanup: true
-  keep-history: true
   local-dir: ./tmp/dist
   on:

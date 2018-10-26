@@ -4,7 +4,7 @@ Esta herramienta digital forma parte del catálogo de herramientas del **Banco I
 
 ## Cliente Web SGiS (Sistema de Gestión de Incidencias en Salud).
 
-[![Build Status](https://travis-ci.org/goraider/prueba-sgis.svg?branch=master)](https://travis-ci.org/goraider/prueba-sgis)
+[![Build Status](https://travis-ci.org/goraider/SGiS-Sistema-de-Gestion-de-Incidencias-en-Salud-.svg?branch=master)](https://travis-ci.org/goraider/SGiS-Sistema-de-Gestion-de-Incidencias-en-Salud-)
 
   
 ![SGiS](https://github.com/EL-BID/CLIENTE-SGiS/blob/master/src/assets/iconos/android-chrome-192x192.png)
